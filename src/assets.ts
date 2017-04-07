@@ -36,6 +36,11 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/House_Tyrell.png'); };
     }
+    export class ImagesMap {
+        static getName(): string { return 'map'; };
+
+        static getPNG(): string { return require('assets/images/map.png'); };
+    }
 }
 
 export namespace Spritesheets {
