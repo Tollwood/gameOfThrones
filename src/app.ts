@@ -18,7 +18,7 @@ class App extends Phaser.Game {
         this.state.add('boot', Boot);
         this.state.add('preloader', Preloader);
         this.state.add('title', Title);
-        this.state.add('game',Game);
+        this.state.add('game', Game);
 
         this.state.start('boot');
     }

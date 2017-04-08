@@ -1,71 +1,80 @@
 import * as Assets from '../assets';
+import game = PIXI.game;
 
 export default class Game extends Phaser.State {
-    private card: Phaser.Sprite;
-    private cursors: Phaser.CursorKeys;
-    private scrollSpeed: number;
+    
+    private ORDER_TOKEN_WIDTH: number = 90;
+    private ORDER_TOKEN_HEIGHT: number = 90;
 
+    private SCROLL_SPEED: number = 8;
 
-    private zoom: number;
-    private zoomIncrement: number;
-    private zoomInKey: Phaser.Key;
-    private zoomOutKey: Phaser.Key;
+    private zoom: number = 1;
+    private zoomIncrement: number = 0.01;
 
     public preload() {
         this.game.load.image('gameboard', Assets.Images.ImagesMap.getPNG());
         this.game.load.image('card', Assets.Images.ImagesHouseStark.getPNG());
-
+        this.game.load.spritesheet("orderTokens",Assets.Images.ImagesOrdertokens.getPNG(),this.ORDER_TOKEN_WIDTH,this.ORDER_TOKEN_HEIGHT,11);
     }
 
     public create(): void {
-        this.scrollSpeed = 8;
-        this.zoom = 1;
-        this.zoomIncrement = 0.01;
+        this.createBoard(this.game);
+        this.creatOrderTokens(this.game);
+        this.game.input.enabled = true;
+    }
 
-        const gameboard = this.game.add.sprite(0, 0, 'gameboard');
+    private creatOrderTokens(game :Phaser.Game) {
+        const
+            ORDER_TOKEN_SPACING: number = 10,
+            START_HEIGHT :number = 5,
+            START_WIDTH : number = 0;
 
-        this.game.world.setBounds(gameboard.x, gameboard.y, gameboard.width, gameboard.height );
+        game.add.sprite(START_WIDTH,START_HEIGHT ,"orderTokens",0);
+        game.add.sprite(START_WIDTH + (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 1, START_HEIGHT,"orderTokens",1);
+        game.add.sprite(START_WIDTH + (ORDER_TOKEN_SPACING + this.ORDER_TOKEN_WIDTH)* 2, START_HEIGHT,"orderTokens",2);
 
-        this.card = this.game.add.sprite(200, 200, 'card');
+        game.add.sprite(START_WIDTH,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 1),"orderTokens",3);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 1, START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 1),"orderTokens",3);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 2,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 1),"orderTokens",4);
 
-        this.cursors = this.game.input.keyboard.createCursorKeys();
+        game.add.sprite(START_WIDTH,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 2),"orderTokens",5);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 1, START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 2),"orderTokens",5);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 2,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 2),"orderTokens",6);
 
-        this.zoomInKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Q);
-        this.zoomInKey.onDown.add(this.zoomIn, this);
+        game.add.sprite(START_WIDTH,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",7);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 1, START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",7);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 2,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",8);
 
-        this.zoomOutKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
-        this.zoomOutKey.onDown.add(this.zoomOut, this);
+        game.add.sprite(START_WIDTH,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",9);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 1, START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",9);
+        game.add.sprite(START_WIDTH+ (ORDER_TOKEN_SPACING +  this.ORDER_TOKEN_WIDTH) * 2,START_HEIGHT + (this.ORDER_TOKEN_WIDTH * 3),"orderTokens",10);
 
     }
 
     public update() {
-        this.game.input.enabled = true;
-        if (this.cursors.up.isDown) {
-            this.game.camera.y -= this.scrollSpeed;
+        this.handleNavigationOnMap(this.game);
+        this.handleZoom(this.game);
+
+    }
+
+    private handleNavigationOnMap(game: Phaser.Game) {
+        const cursors = game.input.keyboard.createCursorKeys();
+        if (cursors.up.isDown) {
+            game.camera.y -= this.SCROLL_SPEED;
         }
-        else if (this.cursors.down.isDown) {
-            this.game.camera.y += this.scrollSpeed;
+        else if (cursors.down.isDown) {
+            game.camera.y += this.SCROLL_SPEED;
         }
 
-        if (this.cursors.left.isDown) {
-            this.game.camera.x -= this.scrollSpeed;
+        if (cursors.left.isDown) {
+            game.camera.x -= this.SCROLL_SPEED;
         }
-        else if (this.cursors.right.isDown) {
-            this.game.camera.x += this.scrollSpeed;
-        }
-        if(this.zoomInKey.isDown){
-            this.zoomIn();
-        }
-        else if (this.zoomOutKey.isDown){
-            this.zoomOut();
+        else if (cursors.right.isDown) {
+            game.camera.x += this.SCROLL_SPEED;
         }
     }
 
     public render() {
-        this.game.debug.cameraInfo(this.game.camera, 500, 32);
-        this.game.debug.spriteInfo(this.card, 32, 32);
-        this.game.debug.text('Click to toggle sprite / camera movement with cursors', 32, 550);
-
     }
 
     private zoomIn() {
@@ -75,5 +84,20 @@ export default class Game extends Phaser.State {
     private zoomOut() {
         this.zoom -= this.zoomIncrement;
         this.camera.scale.setTo(this.zoom);
+    }
+
+    private createBoard(game: Phaser.Game) {
+        const gameboard = game.add.sprite(0, 0, 'gameboard');
+        game.world.setBounds(gameboard.x, gameboard.y, gameboard.width, gameboard.height );
+
+    }
+
+    private handleZoom(game: Phaser.Game) {
+        if (game.input.keyboard.isDown(Phaser.KeyCode.Q)) {
+            this.zoomIn();
+        }
+        else if (game.input.keyboard.isDown(Phaser.KeyCode.Y)) {
+            this.zoomOut();
+        }
     }
 }

@@ -1,11 +1,6 @@
 /* AUTO GENERATED FILE. DO NOT MODIFY. YOU WILL LOSE YOUR CHANGES ON BUILD. */
 
 export namespace Images {
-    export class ImagesBackgroundTemplate {
-        static getName(): string { return 'background_template'; };
-
-        static getPNG(): string { return require('assets/images/background_template.png'); };
-    }
     export class ImagesHouseBaratheon {
         static getName(): string { return 'House_Baratheon'; };
 
@@ -40,6 +35,11 @@ export namespace Images {
         static getName(): string { return 'map'; };
 
         static getPNG(): string { return require('assets/images/map.png'); };
+    }
+    export class ImagesOrdertokens {
+        static getName(): string { return 'ordertokens'; };
+
+        static getPNG(): string { return require('assets/images/ordertokens.png'); };
     }
 }
 
@@ -110,7 +110,11 @@ export namespace BitmapFonts {
 }
 
 export namespace JSON {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class TilemapGameOfThrones {
+        static getName(): string { return 'gameOfThrones'; };
+
+        static getJSON(): string { return require('assets/tilemap/gameOfThrones.json'); };
+    }
 }
 
 export namespace XML {

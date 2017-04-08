@@ -13,3 +13,6 @@ builds
 
 # Visual Studio
 .vs
+
+src/**/*.js
+src/**/*.map

@@ -8,7 +8,7 @@ export default class Title extends Phaser.State {
         this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY - 100, Assets.Images.ImagesHouseBaratheon.getName());
         this.backgroundTemplateSprite.anchor.setTo(0.5);
 
-        this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX- 100 , this.game.world.centerY - 100, Assets.Images.ImagesHouseGreyjoy.getName());
+        this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX - 100 , this.game.world.centerY - 100, Assets.Images.ImagesHouseGreyjoy.getName());
         this.backgroundTemplateSprite.anchor.setTo(0.5);
 
         this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX + 100 , this.game.world.centerY - 100, Assets.Images.ImagesHouseTyrell.getName());
@@ -17,7 +17,7 @@ export default class Title extends Phaser.State {
         this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY + 100, Assets.Images.ImagesHouseLannister.getName());
         this.backgroundTemplateSprite.anchor.setTo(0.5);
 
-        this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX- 100 , this.game.world.centerY + 100, Assets.Images.ImagesHouseMartell.getName());
+        this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX - 100 , this.game.world.centerY + 100, Assets.Images.ImagesHouseMartell.getName());
         this.backgroundTemplateSprite.anchor.setTo(0.5);
 
         this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX + 100 , this.game.world.centerY + 100, Assets.Images.ImagesHouseStark.getName());
