@@ -36,6 +36,15 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/map.png'); };
     }
+    export class ImagesOrderTokenFront {
+        static getName(): string {
+            return 'orderTokenFront';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/orderTokenFront.png');
+        };
+    }
     export class ImagesOrdertokens {
         static getName(): string { return 'ordertokens'; };
 
