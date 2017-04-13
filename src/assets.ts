@@ -1,36 +1,6 @@
 /* AUTO GENERATED FILE. DO NOT MODIFY. YOU WILL LOSE YOUR CHANGES ON BUILD. */
 
 export namespace Images {
-    export class ImagesHouseBaratheon {
-        static getName(): string { return 'House_Baratheon'; };
-
-        static getPNG(): string { return require('assets/images/House_Baratheon.png'); };
-    }
-    export class ImagesHouseGreyjoy {
-        static getName(): string { return 'House_greyjoy'; };
-
-        static getPNG(): string { return require('assets/images/House_greyjoy.png'); };
-    }
-    export class ImagesHouseLannister {
-        static getName(): string { return 'House_Lannister'; };
-
-        static getPNG(): string { return require('assets/images/House_Lannister.png'); };
-    }
-    export class ImagesHouseMartell {
-        static getName(): string { return 'House_Martell'; };
-
-        static getPNG(): string { return require('assets/images/House_Martell.png'); };
-    }
-    export class ImagesHouseStark {
-        static getName(): string { return 'House_Stark'; };
-
-        static getPNG(): string { return require('assets/images/House_Stark.png'); };
-    }
-    export class ImagesHouseTyrell {
-        static getName(): string { return 'House_Tyrell'; };
-
-        static getPNG(): string { return require('assets/images/House_Tyrell.png'); };
-    }
     export class ImagesMap {
         static getName(): string { return 'map'; };
 

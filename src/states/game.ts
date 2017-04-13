@@ -21,17 +21,14 @@ export default class Game extends Phaser.State {
     public create(): void {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         BoardService.createBoard(this.game);
-        this.orderTokenService.creatOrderTokens(this.game);
         this.orderTokenService.addPlanningLayer(this.game);
+        this.orderTokenService.creatOrderTokens(this.game);
         this.game.input.enabled = true;
     }
-
-
 
     public update() {
         this.boardService.handleNavigationOnMap(this.game);
         this.boardService.handleZoom(this.game);
     }
-
 
 }

@@ -4,6 +4,7 @@ export class OrderTokenService {
 
     private ORDER_TOKEN_WIDTH: number = 90;
     private ORDER_TOKEN_HEIGHT: number = 90;
+    private map: Phaser.Tilemap;
 
     public loadAssets(game: Phaser.Game) {
         game.load.spritesheet("orderTokens", Assets.Images.ImagesOrdertokens.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
@@ -41,26 +42,41 @@ export class OrderTokenService {
         game.add.sprite(START_WIDTH + (ORDER_TOKEN_SPACING + this.ORDER_TOKEN_WIDTH) * 2, START_HEIGHT + (this.ORDER_TOKEN_HEIGHT * 4), "orderTokens", 10, orderTokens);
 
         orderTokens.forEach((orderToken) => {
-            OrderTokenService.creatDragAndDrop(game, orderToken);
+            this.creatDragAndDrop(game, orderToken);
         }, this, false);
     }
 
     public addPlanningLayer(game: Phaser.Game) {
-        const map: Phaser.Tilemap = game.add.tilemap("gotTileMap", 32, 32, 53, 94);
-        map.objects["planninglayer"].forEach(field => {
-            const fieldFront = game.add.sprite(field.x, field.y, "orderTokenFront", 0);
-            game.physics.arcade.enable(fieldFront);
+        this.map = game.add.tilemap("gotTileMap", 32, 32, 53, 94);
+        let areas: Phaser.Group = game.add.group();
+        this.map.objects["planninglayer"].forEach(field => {
+            const fieldFront = game.add.sprite(field.x, field.y, "orderTokenFront", 0, areas);
         });
     }
 
-    private static creatDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
-        game.physics.arcade.enable(orderToken);
-        OrderTokenService.enableDrag(orderToken);
+    private creatDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
+        orderToken.inputEnabled = true;
+        orderToken.input.enableDrag();
+        OrderTokenService.fixDragWhileZooming(orderToken);
+        orderToken.events.onInputDown.add(function (currentSprite) {
+            currentSprite.originalx = currentSprite.x;
+            currentSprite.originaly = currentSprite.y;
+        }, this);
+
+        orderToken.events.onDragStop.add(function (currentSprite) {
+            let matchingPosition: Phaser.Point = this.getPositionOfOverlappingArea(currentSprite);
+            if (matchingPosition) {
+                currentSprite.x = matchingPosition.x;
+                currentSprite.y = matchingPosition.y;
+            } else {
+                currentSprite.x = currentSprite.originalx;
+                currentSprite.y = currentSprite.originaly;
+            }
+        }, this);
     }
 
-    private static enableDrag(sprite) {
-        sprite.inputEnabled = true;
-        sprite.input.enableDrag();
+    private static fixDragWhileZooming(sprite) {
+
         sprite.events.onDragUpdate.add(function (sprite, pointer) {
             const pos = sprite.game.input.getLocalPosition(sprite.parent, pointer);
             if (sprite.hitArea) {
@@ -72,6 +88,21 @@ export class OrderTokenService {
             }
         }, sprite);
         return sprite;
+    }
+
+    public getPositionOfOverlappingArea(currentSprite): Phaser.Point {
+        let matchingBounds: Phaser.Point = null;
+        this.map.objects["planninglayer"].forEach((area) => {
+            const scale: Phaser.Point = currentSprite.game.camera.scale;
+            var boundsA = new Phaser.Rectangle(currentSprite.position.x * scale.x, currentSprite.position.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
+            var boundsB = new Phaser.Rectangle(area.x * scale.x, area.y * scale.y, area.width * scale.x, area.height * scale.y);
+
+            if (Phaser.Rectangle.intersects(boundsA, boundsB)) {
+                matchingBounds = new Phaser.Point(area.x, area.y);
+            }
+
+        }, this, false);
+        return matchingBounds;
     }
 
 
