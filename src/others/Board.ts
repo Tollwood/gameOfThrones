@@ -17,36 +17,12 @@ export class BoardService {
     }
 
     public handleNavigationOnMap(game: Phaser.Game) {
-
-        if (game.input.pointer2.isDown) {
-            if (this.origDragPoint) {
-                // move the camera by the amount the mouse has moved since last update
-                game.camera.x += this.origDragPoint.x - game.input.pointer2.position.x;
-                game.camera.y += this.origDragPoint.y - game.input.pointer2.position.y;
-            }
-            // set new drag origin to current position
-            this.origDragPoint = game.input.pointer2.position.clone();
-        } else {
-            this.origDragPoint = null;
-        }
-
-        const cursors = game.input.keyboard.createCursorKeys();
-        if (cursors.up.isDown) {
-            game.camera.y -= this.SCROLL_SPEED;
-        }
-        else if (cursors.down.isDown) {
-            game.camera.y += this.SCROLL_SPEED;
-        }
-
-        if (cursors.left.isDown) {
-            game.camera.x -= this.SCROLL_SPEED;
-        }
-        else if (cursors.right.isDown) {
-            game.camera.x += this.SCROLL_SPEED;
-        }
+        this.navigateUsingTwoFingersTouch(game);
+        this.navigateUsingKeyboard(game);
     }
 
     public handleZoom(game: Phaser.Game) {
+
         if (game.input.keyboard.isDown(Phaser.KeyCode.Q)) {
             this.zoomIn(game.camera);
         }
@@ -65,5 +41,36 @@ export class BoardService {
         camera.scale.setTo(this.zoom);
     }
 
+
+    private navigateUsingKeyboard(game: Phaser.Game) {
+        const cursors = game.input.keyboard.createCursorKeys();
+        if (cursors.up.isDown) {
+            game.camera.y -= this.SCROLL_SPEED;
+        }
+        else if (cursors.down.isDown) {
+            game.camera.y += this.SCROLL_SPEED;
+        }
+
+        if (cursors.left.isDown) {
+            game.camera.x -= this.SCROLL_SPEED;
+        }
+        else if (cursors.right.isDown) {
+            game.camera.x += this.SCROLL_SPEED;
+        }
+    }
+
+    private navigateUsingTwoFingersTouch(game: Phaser.Game) {
+        if (game.input.pointer2.isDown) {
+            if (this.origDragPoint) {
+                // move the camera by the amount the mouse has moved since last update
+                game.camera.x += this.origDragPoint.x - game.input.pointer2.position.x;
+                game.camera.y += this.origDragPoint.y - game.input.pointer2.position.y;
+            }
+            // set new drag origin to current position
+            this.origDragPoint = game.input.pointer2.position.clone();
+        } else {
+            this.origDragPoint = null;
+        }
+    }
 
 }
