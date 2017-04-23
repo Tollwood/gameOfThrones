@@ -5,6 +5,7 @@ export class BoardService {
     private SCROLL_SPEED: number = 8;
     private zoom: number = 1;
     private zoomIncrement: number = 0.01;
+    private origDragPoint: Phaser.Point = null;
 
     public static loadAssets(game: Phaser.Game) {
         game.load.image('gameboard', Assets.Images.ImagesMap.getPNG());
@@ -16,6 +17,19 @@ export class BoardService {
     }
 
     public handleNavigationOnMap(game: Phaser.Game) {
+
+        if (game.input.pointer2.isDown) {
+            if (this.origDragPoint) {
+                // move the camera by the amount the mouse has moved since last update
+                game.camera.x += this.origDragPoint.x - game.input.pointer2.position.x;
+                game.camera.y += this.origDragPoint.y - game.input.pointer2.position.y;
+            }
+            // set new drag origin to current position
+            this.origDragPoint = game.input.pointer2.position.clone();
+        } else {
+            this.origDragPoint = null;
+        }
+
         const cursors = game.input.keyboard.createCursorKeys();
         if (cursors.up.isDown) {
             game.camera.y -= this.SCROLL_SPEED;

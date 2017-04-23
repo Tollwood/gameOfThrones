@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /Users/taamato1/pdev/gameOfThrones
+webpack --config webpack.dist.config.js
+aws s3 cp dist/game.min.js s3://aws-website-got-257fg
