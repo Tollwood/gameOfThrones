@@ -53,7 +53,7 @@ module.exports = {
             screw_ie8: true
         }),
         new HtmlWebpackPlugin({
-            title: 'Phaser NPM Webpack TypeScript Starter Project!',
+            title: 'Game of Thrones - Board Game',
             template: path.join(__dirname, 'templates/index.ejs')
         })
     ],

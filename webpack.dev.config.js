@@ -47,7 +47,7 @@ module.exports = {
             path.join(__dirname, 'dist')
         ]),
         new HtmlWebpackPlugin({
-            title: 'DEV MODE: Phaser NPM Webpack TypeScript Starter Project!',
+            title: 'DEV MODE: Game of Thrones - Board Game',
             template: path.join(__dirname, 'templates/index.ejs')
         })
     ],
