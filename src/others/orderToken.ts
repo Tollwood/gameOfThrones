@@ -6,6 +6,7 @@ export class OrderTokenService {
     private ORDER_TOKEN_HEIGHT: number = 90;
     private map: Phaser.Tilemap;
     private orderTokens: Phaser.Group;
+    private placedTokens: Phaser.Group;
 
     public loadAssets(game: Phaser.Game) {
         game.load.spritesheet("orderTokens", Assets.Images.ImagesOrdertokens.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
@@ -20,6 +21,7 @@ export class OrderTokenService {
             START_WIDTH: number = 0;
 
         this.orderTokens = game.add.group();
+        this.placedTokens = game.add.group();
         this.orderTokens.fixedToCamera = true;
 
         game.add.sprite(START_WIDTH, START_HEIGHT, "orderTokens", 0, this.orderTokens);
@@ -63,14 +65,14 @@ export class OrderTokenService {
             currentSprite.originalx = currentSprite.x;
             currentSprite.originaly = currentSprite.y;
         }, this);
-
+        let placedTokenGroup = this.placedTokens;
         orderToken.events.onDragStop.add(function (currentSprite) {
             let matchingPosition: Phaser.Point = this.getPositionOfOverlappingArea(currentSprite);
             if (matchingPosition) {
                 currentSprite.x = matchingPosition.x;
                 currentSprite.y = matchingPosition.y;
                 this.orderTokens.remove(currentSprite);
-                currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame);
+                currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
             } else {
                 currentSprite.x = currentSprite.originalx;
                 currentSprite.y = currentSprite.originaly;
@@ -106,7 +108,10 @@ export class OrderTokenService {
             }
 
         }, this, false);
-        return matchingBounds;
+        let isAlreadyPlaced = this.placedTokens.filter((token: Phaser.Sprite) => {
+                return token.x === matchingBounds.x && token.y === matchingBounds.y;
+            }).list.length > 0;
+        return isAlreadyPlaced ? null : matchingBounds;
     }
 
 
