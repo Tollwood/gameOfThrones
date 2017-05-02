@@ -1,6 +1,6 @@
 import {OrderTokenService} from "../ui/orderToken";
 import {Board} from "../ui/board";
-import {TopMenu} from "../ui/topMenu";
+import {TopMenu} from "../ui/topMenu/topMenu";
 
 import game = PIXI.game;
 

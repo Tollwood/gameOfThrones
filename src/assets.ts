@@ -1,6 +1,15 @@
 /* AUTO GENERATED FILE. DO NOT MODIFY. YOU WILL LOSE YOUR CHANGES ON BUILD. */
 
 export namespace Images {
+    export class ImagesGameRoundMarker {
+        static getName(): string {
+            return 'gameRoundMarker';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/gameRoundMarker.png');
+        };
+    }
     export class ImagesGamerounds {
         static getName(): string {
             return 'Gamerounds';
@@ -126,6 +135,42 @@ export namespace Images {
 
         static getPNG(): string {
             return require('assets/images/Supply.png');
+        };
+    }
+    export class ImagesUnitsStarkFootman {
+        static getName(): string {
+            return 'starkFootman';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/starkFootman.png');
+        };
+    }
+    export class ImagesUnitsStarkHorse {
+        static getName(): string {
+            return 'starkHorse';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/starkHorse.png');
+        };
+    }
+    export class ImagesUnitsStarkShip {
+        static getName(): string {
+            return 'starkShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/starkShip.png');
+        };
+    }
+    export class ImagesUnitsStarkSiege {
+        static getName(): string {
+            return 'starkSiege';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/starkSiege.png');
         };
     }
     export class ImagesVictory {
