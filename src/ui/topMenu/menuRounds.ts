@@ -1,8 +1,10 @@
 import * as Assets from "../../assets";
 import {topMenuItem} from "./topMenuItem";
+import {GameState} from "../../logic/gameStati";
 
 const MENU = 'menu',
-    OVERLAY = 'overlay';
+    OVERLAY = 'overlay',
+    POSITION_X = [20, 63, 104, 145, 187, 229, 271, 312, 354, 396];
 
 export class menuRounds extends topMenuItem {
 
@@ -20,7 +22,7 @@ export class menuRounds extends topMenuItem {
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === OVERLAY + 'Rounds') {
-            this.gameRoundMarker = overlay.game.add.sprite(overlay.x + 20, overlay.y + 45, 'gameRoundMarker');
+            this.gameRoundMarker = overlay.game.add.sprite(overlay.x + this.getPositionForGameMarker(), overlay.y + 45, 'gameRoundMarker');
         }
     }
 
@@ -28,5 +30,10 @@ export class menuRounds extends topMenuItem {
         if (overlay.key === OVERLAY + 'Rounds' && this.gameRoundMarker) {
             this.gameRoundMarker.destroy()
         }
+    }
+
+    private getPositionForGameMarker() {
+        let currentRound = GameState.getInstance().getCurrentRound();
+        return POSITION_X[currentRound - 1];
     }
 }

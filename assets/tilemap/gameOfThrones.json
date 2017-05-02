@@ -1,38 +1,246 @@
-{ "height":95,
+{
+ "height": 85,
  "layers":[
         {
+         "height": 95,
+         "image": "..\/images\/mapSmall.png",
+         "name": "Background",
+         "opacity": 1,
+         "type": "imagelayer",
+         "visible": true,
+         "width": 54,
+         "x": 0,
+         "y": 0
+        },
+  {
          "draworder":"topdown",
-         "height":0,
-         "name":"MapLayer",
+   "height": 85,
+   "name": "units",
          "objects":[
                 {
-                 "gid":2,
-                 "height":2975,
-                 "id":39,
-                 "name":"map",
+                 "height": 90,
+                 "id": 46,
+                 "name": "CastleBlack",
                  "rotation":0,
                  "type":"",
-                 "visible":false,
-                 "width":1499,
-                 "x":0,
-                 "y":2976
+                 "visible": true,
+                 "width": 90,
+                 "x": 660.522273425499,
+                 "y": 116.304586350669
+                },
+          {
+           "height": 90,
+           "id": 50,
+           "name": "IronmansBay",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 66.9157340355497,
+           "y": 1387.96028088655
+          },
+          {
+           "height": 90,
+           "id": 51,
+           "name": "SunsetSea",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 5.47180162387542,
+           "y": 1063.1852095677
+          },
+          {
+           "height": 90,
+           "id": 52,
+           "name": "TheEyrie",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 1172.90651744569,
+           "y": 1260.68356374808
+          },
+          {
+           "height": 90,
+           "id": 53,
+           "name": "TheShiveringSea",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 1223.37831906956,
+           "y": 617.716699583059
+          },
+          {
+           "height": 90,
+           "id": 54,
+           "name": "BayOfIce",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 42.7770463023919,
+           "y": 339.024577572965
+          },
+          {
+           "height": 90,
+           "id": 55,
+           "name": "TheStonyShore",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 266.608514373491,
+           "y": 687.938336624973
+          },
+          {
+           "height": 90,
+           "id": 56,
+           "name": "Winterfell",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 783.410138248848,
+           "y": 341.219003730525
+          },
+          {
+           "height": 90,
+           "id": 57,
+           "name": "Karhold",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 1095.14865262234,
+           "y": 336.830151415405
+          },
+          {
+           "height": 90,
+           "id": 58,
+           "name": "WhiteHarbor",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 859.103576914637,
+           "y": 549.689488698705
+          },
+          {
+           "height": 90,
+           "id": 60,
+           "name": "GrayWaterWatch",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 433.384902348036,
+           "y": 940.29734474435
+          },
+          {
+           "height": 90,
+           "id": 61,
+           "name": "MoatCailin",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 617.716699583059,
+           "y": 984.185867895545
+          },
+          {
+           "height": 90,
+           "id": 62,
+           "name": "TheFingers",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 872.270133859996,
+           "y": 1080.74061882818
+          },
+          {
+           "height": 90,
+           "id": 63,
+           "name": "TheMountainsOfTheMoon",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 1034.65766951942,
+           "y": 1186.07307439105
+          },
+          {
+           "height": 90,
+           "id": 64,
+           "name": "Pyke",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 246.858678955453,
+           "y": 1129.01799429449
+          },
+          {
+           "height": 90,
+           "id": 65,
+           "name": "TheNarrowSea",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 1221.183892912,
+           "y": 852.520298441958
+          },
+          {
+           "height": 90,
+           "id": 66,
+           "name": "WidowsWatch",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 981.991441737985,
+           "y": 661.605222734255
+          },
+          {
+           "height": 90,
+           "id": 67,
+           "name": "FlintsFinger",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 319.274742154926,
+           "y": 951.269475532148
+          },
+          {
+           "height": 90,
+           "id": 68,
+           "name": "TheTwins",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 687.938336624973,
+           "y": 1161.93438665789
+          },
+          {
+           "height": 90,
+           "id": 69,
+           "name": "Seagard",
+           "rotation": 0,
+           "type": "",
+           "visible": true,
+           "width": 90,
+           "x": 536.522931753346,
+           "y": 1153.15668202765
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
-         "width":0,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "height":0,
-         "name":"borders",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":false,
-         "width":0,
+   "visible": true,
+   "width": 46,
          "x":0,
          "y":0
         }, 
@@ -50,8 +258,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":376,
-                 "y":874
+                 "x": 385.110233829335,
+                 "y": 615.876708168843
                 }, 
                 {
                  "ellipse":true,
@@ -62,8 +270,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":600,
-                 "y":874
+                 "x": 660.734892195566,
+                 "y": 294.994027735601
                 }, 
                 {
                  "ellipse":true,
@@ -74,8 +282,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":846,
-                 "y":803
+                 "x": 911.832784726794,
+                 "y": 429.947553214834
                 }, 
                 {
                  "ellipse":true,
@@ -86,8 +294,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":682,
-                 "y":332
+                 "x": 850.033201741067,
+                 "y": 49.5827512906164
                 }, 
                 {
                  "ellipse":true,
@@ -98,8 +306,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1186,
-                 "y":420
+                 "x": 1170.63901689708,
+                 "y": 209.335088874259
                 }, 
                 {
                  "ellipse":true,
@@ -110,8 +318,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1019,
-                 "y":784
+                 "x": 1032.16655694536,
+                 "y": 540.418696510862
                 }, 
                 {
                  "ellipse":true,
@@ -122,8 +330,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":314,
-                 "y":1117
+                 "x": 326.146978439113,
+                 "y": 829.521510274319
                 }, 
                 {
                  "ellipse":true,
@@ -134,8 +342,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":484,
-                 "y":1079
+                 "x": 517.404190707561,
+                 "y": 817.839963559065
                 }, 
                 {
                  "ellipse":true,
@@ -146,8 +354,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":607,
-                 "y":1168
+                 "x": 644.239271951642,
+                 "y": 866.563946997645
                 }, 
                 {
                  "ellipse":true,
@@ -158,8 +366,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":535,
-                 "y":1348
+                 "x": 490.461079056585,
+                 "y": 1033.19080878631
                 }, 
                 {
                  "ellipse":true,
@@ -170,8 +378,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":756,
-                 "y":1275
+                 "x": 737.77953234133,
+                 "y": 1070.52586294159
                 }, 
                 {
                  "ellipse":true,
@@ -182,8 +390,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":992,
-                 "y":1284
+                 "x": 997.061241016297,
+                 "y": 995.50926207106
                 }, 
                 {
                  "ellipse":true,
@@ -194,8 +402,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1082,
-                 "y":1376
+                 "x": 1133.62465836623,
+                 "y": 1119.90120457536
                 }, 
                 {
                  "ellipse":true,
@@ -206,8 +414,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1070,
-                 "y":1550
+                 "x": 1080.32173299558,
+                 "y": 1341.49886103751
                 }, 
                 {
                  "ellipse":true,
@@ -218,8 +426,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1336,
-                 "y":1081
+                 "x": 1333.80557384244,
+                 "y": 879.112793504499
                 }, 
                 {
                  "ellipse":true,
@@ -230,8 +438,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":37,
-                 "y":424
+                 "x": 35.9877517967406,
+                 "y": 203.329891689442
                 }, 
                 {
                  "ellipse":true,
@@ -242,8 +450,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":1329,
-                 "y":790
+                 "x": 1331.19442615756,
+                 "y": 557.390827298661
                 }, 
                 {
                  "ellipse":true,
@@ -254,8 +462,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":4,
-                 "y":1153
+                 "x": -0.0489928130377564,
+                 "y": 935.36663629922
                 }, 
                 {
                  "ellipse":true,
@@ -266,8 +474,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":79,
-                 "y":1521
+                 "x": 65.8407733576273,
+                 "y": 1260.85221176232
                 }, 
                 {
                  "ellipse":true,
@@ -278,8 +486,8 @@
                  "type":"",
                  "visible":true,
                  "width":96,
-                 "x":210,
-                 "y":1378
+                 "x": 110.799676080575,
+                 "y": 1158.3421398927
                 }],
          "offsetx":0,
          "offsety":21,
@@ -289,110 +497,8 @@
          "width":0,
          "x":0,
          "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "height":0,
-         "name":"Wildlings",
-         "objects":[
-                {
-                 "height":64,
-                 "id":8,
-                 "name":"Wildlings 12",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":1036,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":11,
-                 "name":"Wildlings 10",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":934,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":12,
-                 "name":"Wildlings 8",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":829,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":13,
-                 "name":"Wildlings 6",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":729,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":14,
-                 "name":"Wildlings 4",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":628,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":15,
-                 "name":"Wildlings 2",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":525,
-                 "y":94
-                }, 
-                {
-                 "height":64,
-                 "id":16,
-                 "name":"Wildlings 0",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":64,
-                 "x":422,
-                 "y":94
-                }, 
-                {
-                 "height":202.79,
-                 "id":38,
-                 "name":"Wildcards",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":320.11,
-                 "x":1183.66,
-                 "y":22.75
-                }],
-         "offsetx":-32,
-         "offsety":0,
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":false,
-         "width":0,
-         "x":0,
-         "y":0
         }],
- "nextobjectid":42,
+ "nextobjectid": 70,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
@@ -401,24 +507,20 @@
          "columns":0,
          "firstgid":1,
          "margin":0,
-         "name":"ka ge",
+         "name": "board",
          "spacing":0,
-         "tilecount":2,
-         "tileheight":2975,
+         "tilecount": 1,
+         "tileheight": 2722,
          "tiles":
             {
              "0":
                 {
-                 "image":"..\/..\/..\/..\/Documents\/gameOfThrones\/images\/map.png"
-                },
-             "1":
-                {
-                 "image":"..\/images\/map.png"
+                 "image": "..\/images\/mapSmall.png"
                 }
             },
-         "tilewidth":1499
+         "tilewidth": 1482
         }],
  "tilewidth":32,
  "version":1,
- "width":54
+ "width": 46
 }

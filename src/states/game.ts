@@ -1,6 +1,8 @@
 import {OrderTokenService} from "../ui/orderToken";
 import {Board} from "../ui/board";
 import {TopMenu} from "../ui/topMenu/topMenu";
+import {GameState} from "../logic/gameStati";
+import {UnitRenderer} from "../ui/unitRenderer";
 
 import game = PIXI.game;
 
@@ -9,24 +11,28 @@ export default class Game extends Phaser.State {
     private boardService: Board;
     private topMenu: TopMenu;
     private currentGameWidth: number;
+    private unitRenderer: UnitRenderer;
 
     constructor() {
         super();
         this.orderTokenService = new OrderTokenService();
         this.boardService = new Board();
         this.topMenu = new TopMenu();
+        this.unitRenderer = new UnitRenderer();
     }
 
     public preload() {
         Board.loadAssets(this.game);
         this.orderTokenService.loadAssets(this.game);
         this.topMenu.loadAssets(this.game);
+        this.unitRenderer.loadAssets(this.game);
 
     }
 
     public create(): void {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         Board.createBoard(this.game);
+        this.unitRenderer.renderUnits(this.game);
         this.orderTokenService.addPlanningLayer(this.game);
         this.topMenu.draw(this.game);
         this.orderTokenService.creatOrderTokens(this.game);
@@ -42,6 +48,9 @@ export default class Game extends Phaser.State {
             this.currentGameWidth = window.innerWidth;
         }
 
+        if (this.game.input.keyboard.isDown(Phaser.KeyCode.N)) {
+            GameState.getInstance().nextRound();
+        }
     }
 
 }

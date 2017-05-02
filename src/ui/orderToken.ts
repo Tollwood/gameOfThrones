@@ -101,5 +101,4 @@ export class OrderTokenService {
         return isAlreadyPlaced ? null : matchingBounds;
     }
 
-
 }

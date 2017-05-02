@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="46" height="85" tilewidth="32" tileheight="32" nextobjectid="70">
+ <tileset firstgid="1" name="board" tilewidth="1482" tileheight="2722" tilecount="1" columns="0">
+  <tile id="0">
+   <image width="1482" height="2722" source="../assets/images/mapSmall.png"/>
+  </tile>
+ </tileset>
+ <imagelayer name="Background">
+  <image source="../assets/images/mapSmall.png" width="1482" height="2722"/>
+ </imagelayer>
+ <objectgroup name="units">
+  <object id="46" name="CastleBlack" x="660.522" y="116.305" width="90" height="90"/>
+  <object id="50" name="IronmansBay" x="66.9157" y="1387.96" width="90" height="90"/>
+  <object id="51" name="SunsetSea" x="5.4718" y="1063.19" width="90" height="90"/>
+  <object id="52" name="TheEyrie" x="1172.91" y="1260.68" width="90" height="90"/>
+  <object id="53" name="TheShiveringSea" x="1223.38" y="617.717" width="90" height="90"/>
+  <object id="54" name="BayOfIce" x="42.777" y="339.025" width="90" height="90"/>
+  <object id="55" name="TheStonyShore" x="266.609" y="687.938" width="90" height="90"/>
+  <object id="56" name="Winterfell" x="783.41" y="341.219" width="90" height="90"/>
+  <object id="57" name="Karhold" x="1095.15" y="336.83" width="90" height="90"/>
+  <object id="58" name="WhiteHarbor" x="859.104" y="549.689" width="90" height="90"/>
+  <object id="60" name="GrayWaterWatch" x="433.385" y="940.297" width="90" height="90"/>
+  <object id="61" name="MoatCailin" x="617.717" y="984.186" width="90" height="90"/>
+  <object id="62" name="TheFingers" x="872.27" y="1080.74" width="90" height="90"/>
+  <object id="63" name="TheMountainsOfTheMoon" x="1034.66" y="1186.07" width="90" height="90"/>
+  <object id="64" name="Pyke" x="246.859" y="1129.02" width="90" height="90"/>
+  <object id="65" name="TheNarrowSea" x="1221.18" y="852.52" width="90" height="90"/>
+  <object id="66" name="WidowsWatch" x="981.991" y="661.605" width="90" height="90"/>
+  <object id="67" name="FlintsFinger" x="319.275" y="951.269" width="90" height="90"/>
+  <object id="68" name="TheTwins" x="687.938" y="1161.93" width="90" height="90"/>
+  <object id="69" name="Seagard" x="536.523" y="1153.16" width="90" height="90"/>
+ </objectgroup>
+ <objectgroup name="planninglayer" offsetx="0" offsety="21">
+  <object id="17" name="TheStonyShore" x="385.11" y="615.877" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="18" name="Winterfell" x="660.735" y="294.994" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="19" name="WhiteHarbor" x="911.833" y="429.948" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="20" name="CastleBlack" x="850.033" y="49.5828" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="21" name="Karhold" x="1170.64" y="209.335" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="23" name="WidowsWatch" x="1032.17" y="540.419" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="24" name="FlintsFinger" x="326.147" y="829.522" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="25" name="GrayWaterWatch" x="517.404" y="817.84" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="26" name="MoatCailin" x="644.239" y="866.564" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="27" name="Seagard" x="490.461" y="1033.19" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="28" name="TheTwins" x="737.78" y="1070.53" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="29" name="TheFingers" x="997.061" y="995.509" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="30" name="TheMountainsOfTheMoon" x="1133.62" y="1119.9" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="31" name="TheEyrie" x="1080.32" y="1341.5" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="32" name="TheNarrowSea" x="1333.81" y="879.113" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="33" name="BayOfIce" x="35.9878" y="203.33" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="34" name="TheShiveringSea" x="1331.19" y="557.391" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="35" name="SunsetSea" x="-0.0489928" y="935.367" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="36" name="IronmansBay" x="65.8408" y="1260.85" width="96" height="96">
+   <ellipse/>
+  </object>
+  <object id="37" name="Pyke" x="110.8" y="1158.34" width="96" height="96">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
