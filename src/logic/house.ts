@@ -1,4 +1,3 @@
-export class House {
-
-    private
+export enum House {
+    stark
 }

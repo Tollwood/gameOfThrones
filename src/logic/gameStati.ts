@@ -31,4 +31,8 @@ export class GameState {
     public getAreas(): Array<Area> {
         return this.areas;
     }
+
+    public setAreas(areas: Array<Area>) {
+        this.areas = areas;
+    }
 }

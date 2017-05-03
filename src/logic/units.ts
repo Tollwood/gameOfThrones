@@ -1,11 +1,9 @@
+import {House} from "./house";
 export enum UnitType {
     Footman = 1,
     Horse,
     Ship,
     Siege
-}
-export enum House {
-    stark
 }
 export class Unit {
     private type: UnitType;

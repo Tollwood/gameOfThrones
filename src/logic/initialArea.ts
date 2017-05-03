@@ -1,5 +1,6 @@
 import {Area} from "./area";
-import {Unit, UnitType, House} from "./units";
+import {Unit, UnitType} from "./units";
+import {House} from "./house";
 
 export class AreaInitiator {
 

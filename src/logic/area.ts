@@ -1,4 +1,5 @@
 import {Unit} from "./units";
+import {OrderToken} from "./orderToken";
 
 export class Area {
     private key: string;
@@ -7,8 +8,10 @@ export class Area {
     private castle: boolean;
     private stronghold: boolean;
     private supply: number;
-    borders: Area[];
-    units: Array<Unit>;
+    private borders: Area[];
+    private units: Array<Unit>;
+    private orderToken: OrderToken;
+
 
 
     constructor(key: string, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
@@ -30,4 +33,11 @@ export class Area {
         return this.key;
     }
 
+    public getOrderToken() {
+        return this.orderToken;
+    }
+
+    public setOrderToken(orderToken: OrderToken) {
+        this.orderToken = orderToken;
+    }
 }

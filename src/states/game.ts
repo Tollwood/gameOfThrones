@@ -3,6 +3,7 @@ import {Board} from "../ui/board";
 import {TopMenu} from "../ui/topMenu/topMenu";
 import {GameState} from "../logic/gameStati";
 import {UnitRenderer} from "../ui/unitRenderer";
+import {GameRules} from "../logic/gameRules";
 
 import game = PIXI.game;
 
@@ -50,6 +51,10 @@ export default class Game extends Phaser.State {
 
         if (this.game.input.keyboard.isDown(Phaser.KeyCode.N)) {
             GameState.getInstance().nextRound();
+        }
+        if (GameRules.allOrderTokenPlaced()) {
+            GameRules.nextRound();
+            this.orderTokenService.resetOrderTokens(this.game);
         }
     }
 

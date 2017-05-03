@@ -1,4 +1,8 @@
 import * as Assets from "../assets";
+import {GameRules} from "../logic/gameRules";
+import {House} from "../logic/house";
+import {OrderToken, OrderTokenType} from "../logic/orderToken";
+import game = PIXI.game;
 
 export class OrderTokenService {
 
@@ -7,6 +11,11 @@ export class OrderTokenService {
     private map: Phaser.Tilemap;
     private orderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
+    private gameRules: GameRules;
+
+    constructor() {
+        this.gameRules = new GameRules();
+    }
 
     public loadAssets(game: Phaser.Game) {
         game.load.spritesheet("orderTokens", Assets.Images.ImagesOrdertokens45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
@@ -54,13 +63,14 @@ export class OrderTokenService {
         }, this);
         let placedTokenGroup = this.placedTokens;
         orderToken.events.onDragStop.add(function (currentSprite) {
-            let matchingPosition: Phaser.Point = this.getPositionOfOverlappingArea(currentSprite);
+            let matchingPosition: Phaser.Point = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
             if (matchingPosition) {
                 currentSprite.x = matchingPosition.x;
                 currentSprite.y = matchingPosition.y;
                 this.orderTokens.remove(currentSprite);
                 currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
             } else {
+                //move back to orignalPosition
                 currentSprite.x = currentSprite.originalx;
                 currentSprite.y = currentSprite.originaly;
             }
@@ -82,7 +92,7 @@ export class OrderTokenService {
         return sprite;
     }
 
-    public getPositionOfOverlappingArea(currentSprite): Phaser.Point {
+    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): Phaser.Point {
         let matchingBounds: Phaser.Point = null;
         this.map.objects["planninglayer"].forEach((area) => {
             const scale: Phaser.Point = currentSprite.game.camera.scale;
@@ -90,15 +100,18 @@ export class OrderTokenService {
             var relativeX = area.x - currentSprite.game.camera.x;
             var relativeY = area.y - currentSprite.game.camera.y;
             var boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-            if (Phaser.Rectangle.intersects(boundsA, boundsB)) {
+            if (Phaser.Rectangle.intersects(boundsA, boundsB) && this.gameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
+                this.gameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
                 matchingBounds = new Phaser.Point(area.x, area.y);
             }
 
         }, this, false);
-        let isAlreadyPlaced = this.placedTokens.filter((token: Phaser.Sprite) => {
-                return token.x === matchingBounds.x && token.y === matchingBounds.y;
-            }).list.length > 0;
-        return isAlreadyPlaced ? null : matchingBounds;
+        return matchingBounds;
     }
 
+    public resetOrderTokens(game: Phaser.Game) {
+        this.placedTokens.destroy(true);
+        this.orderTokens.destroy(true);
+        this.creatOrderTokens(game);
+    }
 }

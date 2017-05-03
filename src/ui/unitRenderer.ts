@@ -1,7 +1,8 @@
 import * as Assets from "../assets";
 import {GameState} from "../logic/gameStati";
 import {Area} from "../logic/area";
-import {Unit, UnitType, House} from "../logic/units";
+import {Unit, UnitType} from "../logic/units";
+import {House} from "../logic/house";
 
 
 export class UnitRenderer {
@@ -37,7 +38,7 @@ export class UnitRenderer {
                     return areaField.name === area.getKey();
                 });
                 let nextX = field.x;
-                area.units.map((unit: Unit) => {
+                area.getUnits().map((unit: Unit) => {
                     this.units.add(new Phaser.Sprite(game, nextX, field.y, House[unit.getHouse()] + UnitType[unit.getType()]));
                     nextX += 20;
                 });
