@@ -1,33 +1,37 @@
-import {topMenuItem} from "./topMenuItem";
-import {menuRounds} from "./menuRounds";
-import {menuWildlings} from "./menuWildlings";
-import {menuSupply} from "./menuSupply";
-import {menuInvluence} from "./menuInvluence";
-import {menuVictory} from "./menuVictory";
+import {TopMenuItem} from "./topMenuItem";
+import {MenuRounds} from "./menuRounds";
+import {MenuWildlings} from "./menuWildlings";
+import {MenuSupply} from "./menuSupply";
+import {MenuInvluence} from "./menuInvluence";
+import {MenuVictory} from "./menuVictory";
 
 const MENU = 'menu',
-    MENU_ITEMS = [menuRounds, menuWildlings, menuSupply, menuInvluence, menuVictory];
+    MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
 export class TopMenu {
-    private menu: Array<topMenuItem> = new Array();
+    private menu: Array<TopMenuItem> = new Array();
 
-     public loadAssets(game: Phaser.Game){
-         menuRounds.loadAssets(game);
-         menuWildlings.loadAssets(game);
-         menuSupply.loadAssets(game);
-         menuInvluence.loadAssets(game);
-         menuVictory.loadAssets(game);
+    public loadAssets(game: Phaser.Game) {
+        MenuRounds.loadAssets(game);
+        MenuWildlings.loadAssets(game);
+        MenuSupply.loadAssets(game);
+        MenuInvluence.loadAssets(game);
+        MenuVictory.loadAssets(game);
      }
 
-    public draw(game: Phaser.Game){
-        this.menu.map((menuItem: topMenuItem) => {
+    public draw(game: Phaser.Game) {
+        this.menu.map((menuItem: TopMenuItem) => {
             menuItem.getOverlay().destroy();
             menuItem.destroy();
         });
-        let totalWidth : number =  MENU_ITEMS
-             .map((menuItem) => {return game.cache.getImage(MENU+ menuItem).width; })
-             .reduce((acc, val)=>{return acc + val },0);
+        let totalWidth: number = MENU_ITEMS
+            .map((menuItem) => {
+                return game.cache.getImage(MENU + menuItem).width;
+            })
+            .reduce((acc, val) => {
+                return acc + val;
+            }, 0);
          let nextX = (window.innerWidth - totalWidth) / 2;
-        this.menu = MENU_ITEMS.map((menuItem): topMenuItem => {
+        this.menu = MENU_ITEMS.map((menuItem): TopMenuItem => {
             const item = new menuItem(game, nextX, 0);
             game.world.add(item);
              nextX += item.width;

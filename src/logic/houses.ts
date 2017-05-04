@@ -1,27 +1,27 @@
 export const HOUSES = [
     {
-        name: "Stark",
+        name: 'Stark',
         id: 0,
         startfields: {}
     },
     {
-        name: "Greyjoy",
+        name: 'Greyjoy',
         id: 1
     },
     {
-        name: "Tyrell",
+        name: 'Tyrell',
         id: 2
     },
     {
-        name: "Baratheon",
+        name: 'Baratheon',
         id: 3
     },
     {
-        name: "Lannister",
+        name: 'Lannister',
         id: 4
     },
     {
-        name: "Martell",
+        name: 'Martell',
         id: 5
     }
 ];

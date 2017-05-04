@@ -2,7 +2,7 @@ const MENU = 'menu',
     OVERLAY = 'overlay',
     FADE_DURATION: number = 200;
 
-export abstract class topMenuItem extends Phaser.Sprite {
+export abstract class TopMenuItem extends Phaser.Sprite {
     private overlay: Phaser.Sprite;
 
     constructor(game: Phaser.Game, x: number, y: number, menuItem: string) {
@@ -11,7 +11,7 @@ export abstract class topMenuItem extends Phaser.Sprite {
         this.inputEnabled = true;
         this.overlay = this.createOverlay(game, OVERLAY + menuItem, this.height);
         this.events.onInputDown.add(function () {
-            this.fadeInOrOut(this.overlay)
+            this.fadeInOrOut(this.overlay);
         }.bind(this));
     }
 
@@ -35,7 +35,7 @@ export abstract class topMenuItem extends Phaser.Sprite {
     }
 
     public tween(sprite: Phaser.Sprite, alpha: number) {
-        sprite.game.add.tween(sprite).to({alpha: alpha}, FADE_DURATION, "Linear", true);
+        sprite.game.add.tween(sprite).to({alpha: alpha}, FADE_DURATION, 'Linear', true);
     }
 
 

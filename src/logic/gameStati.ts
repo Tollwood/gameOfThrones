@@ -1,38 +1,39 @@
 import {Area} from "./area";
 import {AreaInitiator} from "./initialArea";
+import {GamePhase} from "./gamePhase";
 export class GameState {
 
     private static gameState: GameState;
-
-
-    private constructor() {
-
-    }
-
-    private round: number = 1;
-    private areas: Array<Area> = new Array<Area>();
+    private _gamePhase: GamePhase = GamePhase.PLANNING;
+    private _round: number = 1;
+    private _areas: Array<Area> = new Array<Area>();
 
     public static getInstance(): GameState {
         if (!this.gameState) {
             this.gameState = new GameState();
-            this.gameState.areas = AreaInitiator.getInitalState();
+            this.gameState._areas = AreaInitiator.getInitalState();
         }
         return this.gameState;
     }
 
-    public getCurrentRound() {
-        return this.round;
-    }
-
     public nextRound(): void {
-        this.round++;
+        this._round++;
     }
 
-    public getAreas(): Array<Area> {
-        return this.areas;
+    get gamePhase(): GamePhase {
+        return this._gamePhase;
     }
 
-    public setAreas(areas: Array<Area>) {
-        this.areas = areas;
+    get areas(): Array<Area> {
+        return this._areas;
     }
+
+    set areas(value: Array<Area>) {
+        this._areas = value;
+    }
+
+    get round(): number {
+        return this._round;
+    }
+
 }

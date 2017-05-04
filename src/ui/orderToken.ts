@@ -18,10 +18,10 @@ export class OrderTokenService {
     }
 
     public loadAssets(game: Phaser.Game) {
-        game.load.spritesheet("orderTokens", Assets.Images.ImagesOrdertokens45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
-        game.load.spritesheet("orderTokenFront", Assets.Images.ImagesOrderTokenFront45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
-        game.load.tilemap("gotTileMap", Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('menubackground',Assets.Images.ImagesMenubackground.getPNG());
+        game.load.spritesheet('orderTokens', Assets.Images.ImagesOrdertokens45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
+        game.load.spritesheet('orderTokenFront', Assets.Images.ImagesOrderTokenFront45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
+        game.load.tilemap('gotTileMap', Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
+        game.load.image('menubackground', Assets.Images.ImagesMenubackground.getPNG());
 
     }
 
@@ -29,7 +29,7 @@ export class OrderTokenService {
 
         this.placedTokens = game.add.group();
 
-        let menu = game.add.tileSprite(0, window.innerHeight-60, 50 * 15 + 10, window.innerHeight, 'menubackground');
+        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground');
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
         this.orderTokens = game.add.group();
@@ -46,10 +46,10 @@ export class OrderTokenService {
     }
 
     public addPlanningLayer(game: Phaser.Game) {
-        this.map = game.add.tilemap("gotTileMap", 32, 32, 53, 94);
+        this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
         let areas: Phaser.Group = game.add.group();
-        this.map.objects["planninglayer"].forEach(field => {
-            const fieldFront = game.add.sprite(field.x, field.y, "orderTokenFront", 0, areas);
+        this.map.objects['planninglayer'].forEach(field => {
+            const fieldFront = game.add.sprite(field.x, field.y, 'orderTokenFront', 0, areas);
         });
     }
 
@@ -70,7 +70,7 @@ export class OrderTokenService {
                 this.orderTokens.remove(currentSprite);
                 currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
             } else {
-                //move back to orignalPosition
+                // move back to orignalPosition
                 currentSprite.x = currentSprite.originalx;
                 currentSprite.y = currentSprite.originaly;
             }
@@ -94,12 +94,12 @@ export class OrderTokenService {
 
     public getPositionOfValidAreaToPlaceOrderToken(currentSprite): Phaser.Point {
         let matchingBounds: Phaser.Point = null;
-        this.map.objects["planninglayer"].forEach((area) => {
+        this.map.objects['planninglayer'].forEach((area) => {
             const scale: Phaser.Point = currentSprite.game.camera.scale;
-            var boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
-            var relativeX = area.x - currentSprite.game.camera.x;
-            var relativeY = area.y - currentSprite.game.camera.y;
-            var boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
+            let boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
+            let relativeX = area.x - currentSprite.game.camera.x;
+            let relativeY = area.y - currentSprite.game.camera.y;
+            let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && this.gameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
                 this.gameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
                 matchingBounds = new Phaser.Point(area.x, area.y);

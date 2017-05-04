@@ -1,10 +1,10 @@
 import * as Assets from "../../assets";
-import {topMenuItem} from "./topMenuItem";
+import {TopMenuItem} from "./topMenuItem";
 
 const MENU = 'menu',
     OVERLAY = 'overlay';
 
-export class menuSupply extends topMenuItem {
+export class MenuSupply extends TopMenuItem {
 
     constructor(game: Phaser.Game, x: number, y: number) {
         super(game, x, y, 'Supply');

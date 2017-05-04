@@ -1,10 +1,10 @@
 import * as Assets from "../../assets";
-import {topMenuItem} from "./topMenuItem";
+import {TopMenuItem} from "./topMenuItem";
 
 const MENU = 'menu',
     OVERLAY = 'overlay';
 
-export class menuWildlings extends topMenuItem {
+export class MenuWildlings extends TopMenuItem {
 
     private gameRoundMarker: Phaser.Sprite;
 

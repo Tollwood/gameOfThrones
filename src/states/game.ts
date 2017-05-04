@@ -39,12 +39,13 @@ export default class Game extends Phaser.State {
         this.orderTokenService.creatOrderTokens(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
+        this.game.add.text(0, 0, GameState.getInstance().gamePhase + '', 'Arial');
     }
 
     public update() {
         this.boardService.handleNavigationOnMap(this.game);
         this.boardService.handleZoom(this.game);
-        if (this.currentGameWidth != window.innerWidth) {
+        if (this.currentGameWidth !== window.innerWidth) {
             this.topMenu.draw(this.game);
             this.currentGameWidth = window.innerWidth;
         }
