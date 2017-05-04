@@ -20,6 +20,7 @@ module.exports = {
             assets: path.join(__dirname, 'assets/')
         }
     },
+    devtool: 'inline-source-map',
     plugins: [
         new WebpackShellPlugin({
             onBuildStart: ['npm run assets:dev']
@@ -70,7 +71,9 @@ module.exports = {
             { test: /pixi\.js$/, loader: 'expose-loader?PIXI' },
             { test: /phaser-split\.js$/, loader: 'expose-loader?Phaser' },
             { test: /p2\.js$/, loader: 'expose-loader?p2' },
-            { test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/' }
-        ]
+            {test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/'},
+            {enforce: 'pre', test: /\.js$/, loader: "source-map-loader"}
+
+        ],
     }
 };
