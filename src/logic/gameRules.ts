@@ -3,6 +3,7 @@ import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken} from './orderToken';
 import {isUndefined} from 'util';
+import {GamePhase} from './gamePhase';
 export default class GameRules {
 
     public static isAllowedToPlaceOrderToken(house: House, areaKey: string): boolean {
@@ -32,9 +33,11 @@ export default class GameRules {
     public static nextRound() {
         const gameState = GameState.getInstance();
         gameState.nextRound();
-        gameState.gamePhase = gameState.gamePhase + 1;
     }
 
+    public static switchToActionPhase() {
+        GameState.getInstance().gamePhase = GamePhase.ACTION;
+    }
     private resetOrderToken() {
         GameState.getInstance().areas.map((area) => {
             area.setOrderToken(undefined);

@@ -1,8 +1,8 @@
-import {OrderTokenService} from '../ui/orderToken';
-import {Board} from '../ui/board';
-import {TopMenu} from '../ui/topMenu/topMenu';
+import OrderTokenService from '../ui/orderToken';
+import Board from '../ui/board';
+import TopMenu from '../ui/topMenu/topMenu';
 import GameState from '../logic/gameStati';
-import {UnitRenderer} from '../ui/unitRenderer';
+import UnitRenderer from '../ui/unitRenderer';
 import GameRules from '../logic/gameRules';
 import {GamePhase} from '../logic/gamePhase';
 
@@ -55,11 +55,10 @@ export default class Game extends Phaser.State {
         }
 
         if (this.game.input.keyboard.isDown(Phaser.KeyCode.N)) {
-            GameState.getInstance().nextRound();
+            GameRules.switchToActionPhase();
         }
-        if (GameRules.allOrderTokenPlaced()) {
-            GameRules.nextRound();
-            this.orderTokenService.resetOrderTokens(this.game);
+        if (GameState.getInstance().gamePhase === GamePhase.PLANNING && GameRules.allOrderTokenPlaced()) {
+            GameRules.switchToActionPhase();
             this.currentPhase.text = GamePhase[GameState.getInstance().gamePhase];
         }
     }

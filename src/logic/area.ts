@@ -1,6 +1,16 @@
 import {Unit} from './units';
 import {OrderToken} from './orderToken';
 
+export type AreaKey =
+    'Winterfell' |
+    'Karhold' |
+    'TheShiveringSea' |
+    'BayOfIce' |
+    'TheStonyShore' |
+    'WhiteHarbor' |
+    'CastleBlack';
+
+
 export class Area {
     private key: string;
     private consolidatePower: number;

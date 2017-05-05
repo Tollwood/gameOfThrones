@@ -5,7 +5,7 @@ import {Unit, UnitType} from '../logic/units';
 import {House} from '../logic/house';
 
 
-export class UnitRenderer {
+export default class UnitRenderer {
     private map: Phaser.Tilemap;
 
     constructor() {

@@ -7,7 +7,7 @@ import {MenuVictory} from './menuVictory';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
-export class TopMenu {
+export default class TopMenu {
     private menu: Array<TopMenuItem> = new Array();
 
     public loadAssets(game: Phaser.Game) {

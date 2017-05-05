@@ -1,6 +1,6 @@
 import * as Assets from '../assets';
 
-export class Board {
+export default class Board {
 
     private SCROLL_SPEED: number = 8;
     private zoom: number = 1;

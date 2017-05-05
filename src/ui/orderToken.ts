@@ -2,13 +2,16 @@ import * as Assets from '../assets';
 import GameRules from '../logic/gameRules';
 import {House} from '../logic/house';
 import {OrderToken, OrderTokenType} from '../logic/orderToken';
+import GameState from '../logic/gameStati';
+import {GamePhase} from '../logic/gamePhase';
 import game = PIXI.game;
 
-export class OrderTokenService {
+export default class OrderTokenService {
 
     private ORDER_TOKEN_WIDTH: number = 45;
     private ORDER_TOKEN_HEIGHT: number = 45;
     private map: Phaser.Tilemap;
+    private selectedTokenMarker: Phaser.Group;
     private orderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
 
@@ -24,7 +27,7 @@ export class OrderTokenService {
     }
 
     public creatOrderTokens(game: Phaser.Game) {
-
+        this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
 
         let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground');
@@ -61,12 +64,20 @@ export class OrderTokenService {
         }, this);
         let placedTokenGroup = this.placedTokens;
         orderToken.events.onDragStop.add(function (currentSprite) {
-            let matchingPosition: Phaser.Point = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
-            if (matchingPosition) {
-                currentSprite.x = matchingPosition.x;
-                currentSprite.y = matchingPosition.y;
+            let matchingArea: any = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
+            if (matchingArea) {
+                currentSprite.x = matchingArea.x;
+                currentSprite.y = matchingArea.y;
                 this.orderTokens.remove(currentSprite);
-                currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
+                let placedToken = currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
+                placedToken.inputEnabled = true;
+                placedToken.events.onInputDown.add((currentSprite) => {
+                    if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
+                        this.selectedTokenMarker.removeChildren();
+                        this.highlightToken(currentSprite.game, matchingArea);
+                    }
+                });
+
             } else {
                 // move back to orignalPosition
                 currentSprite.x = currentSprite.originalx;
@@ -90,8 +101,8 @@ export class OrderTokenService {
         return sprite;
     }
 
-    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): Phaser.Point {
-        let matchingBounds: Phaser.Point = null;
+    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): any {
+        let matchingBounds: any = null;
         this.map.objects['planninglayer'].forEach((area) => {
             const scale: Phaser.Point = currentSprite.game.camera.scale;
             let boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
@@ -100,7 +111,7 @@ export class OrderTokenService {
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
                 GameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
-                matchingBounds = new Phaser.Point(area.x, area.y);
+                matchingBounds = area;
             }
 
         }, this, false);
@@ -111,5 +122,11 @@ export class OrderTokenService {
         this.placedTokens.destroy(true);
         this.orderTokens.destroy(true);
         this.creatOrderTokens(game);
+    }
+
+    public highlightToken(game: Phaser.Game, area: any) {
+        let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
+        graphics.beginFill(0x00FF00, 1);
+        graphics.drawCircle(area.x + (45 / 2), area.y + (45 / 2), 50);
     }
 }
