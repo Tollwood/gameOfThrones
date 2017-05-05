@@ -1,23 +1,23 @@
-import {Area} from "./area";
-import {GameState} from "./gameStati";
-import {House} from "./house";
-import {OrderToken} from "./orderToken";
-import {isUndefined} from "util";
-export class GameRules {
+import {Area} from './area';
+import GameState from './gameStati';
+import {House} from './house';
+import {OrderToken} from './orderToken';
+import {isUndefined} from 'util';
+export default class GameRules {
 
-    public isAllowedToPlaceOrderToken(house: House, areaKey: string): boolean {
+    public static isAllowedToPlaceOrderToken(house: House, areaKey: string): boolean {
         const area = this.getAreaByKey(areaKey);
-        return area.getUnits().length > 0
+        return !isUndefined(area) && area.getUnits().length > 0
             && area.getUnits()[0].getHouse() === house
             && area.getOrderToken() === undefined;
     }
 
-    public addOrderToken(ordertoken: OrderToken, areaKey: string) {
+    public static addOrderToken(ordertoken: OrderToken, areaKey: string) {
         const area = this.getAreaByKey(areaKey);
         area.setOrderToken(ordertoken);
     }
 
-    private getAreaByKey(areaKey: string): Area {
+    private static  getAreaByKey(areaKey: string): Area {
         return GameState.getInstance().areas.filter((area: Area) => {
             return area.getKey() === areaKey;
         })[0];
@@ -32,7 +32,11 @@ export class GameRules {
     public static nextRound() {
         const gameState = GameState.getInstance();
         gameState.nextRound();
-        gameState.areas.map((area) => {
+        gameState.gamePhase = gameState.gamePhase + 1;
+    }
+
+    private resetOrderToken() {
+        GameState.getInstance().areas.map((area) => {
             area.setOrderToken(undefined);
         });
     }

@@ -1,7 +1,7 @@
-import * as Assets from "../assets";
-import {GameRules} from "../logic/gameRules";
-import {House} from "../logic/house";
-import {OrderToken, OrderTokenType} from "../logic/orderToken";
+import * as Assets from '../assets';
+import GameRules from '../logic/gameRules';
+import {House} from '../logic/house';
+import {OrderToken, OrderTokenType} from '../logic/orderToken';
 import game = PIXI.game;
 
 export class OrderTokenService {
@@ -11,10 +11,8 @@ export class OrderTokenService {
     private map: Phaser.Tilemap;
     private orderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
-    private gameRules: GameRules;
 
     constructor() {
-        this.gameRules = new GameRules();
     }
 
     public loadAssets(game: Phaser.Game) {
@@ -100,8 +98,8 @@ export class OrderTokenService {
             let relativeX = area.x - currentSprite.game.camera.x;
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-            if (Phaser.Rectangle.intersects(boundsA, boundsB) && this.gameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                this.gameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
+            if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
+                GameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
                 matchingBounds = new Phaser.Point(area.x, area.y);
             }
 

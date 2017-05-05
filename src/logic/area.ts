@@ -1,5 +1,5 @@
-import {Unit} from "./units";
-import {OrderToken} from "./orderToken";
+import {Unit} from './units';
+import {OrderToken} from './orderToken';
 
 export class Area {
     private key: string;

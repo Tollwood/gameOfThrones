@@ -1,6 +1,6 @@
-import * as Assets from "../../assets";
-import {TopMenuItem} from "./topMenuItem";
-import {GameState} from "../../logic/gameStati";
+import * as Assets from '../../assets';
+import {TopMenuItem} from './topMenuItem';
+import GameState from '../../logic/gameStati';
 
 const MENU = 'menu',
     OVERLAY = 'overlay',

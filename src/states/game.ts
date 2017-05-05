@@ -1,9 +1,10 @@
-import {OrderTokenService} from "../ui/orderToken";
-import {Board} from "../ui/board";
-import {TopMenu} from "../ui/topMenu/topMenu";
-import {GameState} from "../logic/gameStati";
-import {UnitRenderer} from "../ui/unitRenderer";
-import {GameRules} from "../logic/gameRules";
+import {OrderTokenService} from '../ui/orderToken';
+import {Board} from '../ui/board';
+import {TopMenu} from '../ui/topMenu/topMenu';
+import GameState from '../logic/gameStati';
+import {UnitRenderer} from '../ui/unitRenderer';
+import GameRules from '../logic/gameRules';
+import {GamePhase} from '../logic/gamePhase';
 
 import game = PIXI.game;
 
@@ -13,6 +14,7 @@ export default class Game extends Phaser.State {
     private topMenu: TopMenu;
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
+    private currentPhase: Phaser.Text;
 
     constructor() {
         super();
@@ -39,7 +41,9 @@ export default class Game extends Phaser.State {
         this.orderTokenService.creatOrderTokens(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
-        this.game.add.text(0, 0, GameState.getInstance().gamePhase + '', 'Arial');
+        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
+
+        this.currentPhase = this.game.add.text(0, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
     }
 
     public update() {
@@ -56,6 +60,7 @@ export default class Game extends Phaser.State {
         if (GameRules.allOrderTokenPlaced()) {
             GameRules.nextRound();
             this.orderTokenService.resetOrderTokens(this.game);
+            this.currentPhase.text = GamePhase[GameState.getInstance().gamePhase];
         }
     }
 

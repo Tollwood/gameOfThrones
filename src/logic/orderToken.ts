@@ -1,4 +1,4 @@
-import {House} from "./house";
+import {House} from './house';
 export enum OrderTokenType {
     march = 1
 }

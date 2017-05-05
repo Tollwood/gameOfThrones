@@ -1,4 +1,4 @@
-import {House} from "./house";
+import {House} from './house';
 export enum UnitType {
     Footman = 1,
     Horse,

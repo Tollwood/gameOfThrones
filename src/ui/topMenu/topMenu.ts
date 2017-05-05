@@ -1,9 +1,9 @@
-import {TopMenuItem} from "./topMenuItem";
-import {MenuRounds} from "./menuRounds";
-import {MenuWildlings} from "./menuWildlings";
-import {MenuSupply} from "./menuSupply";
-import {MenuInvluence} from "./menuInvluence";
-import {MenuVictory} from "./menuVictory";
+import {TopMenuItem} from './topMenuItem';
+import {MenuRounds} from './menuRounds';
+import {MenuWildlings} from './menuWildlings';
+import {MenuSupply} from './menuSupply';
+import {MenuInvluence} from './menuInvluence';
+import {MenuVictory} from './menuVictory';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];

@@ -1,7 +1,7 @@
-import {Area} from "./area";
-import {AreaInitiator} from "./initialArea";
-import {GamePhase} from "./gamePhase";
-export class GameState {
+import {Area} from './area';
+import {AreaInitiator} from './initialArea';
+import {GamePhase} from './gamePhase';
+export default class GameState {
 
     private static gameState: GameState;
     private _gamePhase: GamePhase = GamePhase.PLANNING;
@@ -22,6 +22,10 @@ export class GameState {
 
     get gamePhase(): GamePhase {
         return this._gamePhase;
+    }
+
+    set gamePhase(value: GamePhase) {
+        this._gamePhase = value;
     }
 
     get areas(): Array<Area> {

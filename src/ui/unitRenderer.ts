@@ -1,8 +1,8 @@
-import * as Assets from "../assets";
-import {GameState} from "../logic/gameStati";
-import {Area} from "../logic/area";
-import {Unit, UnitType} from "../logic/units";
-import {House} from "../logic/house";
+import * as Assets from '../assets';
+import GameState from '../logic/gameStati';
+import {Area} from '../logic/area';
+import {Unit, UnitType} from '../logic/units';
+import {House} from '../logic/house';
 
 
 export class UnitRenderer {

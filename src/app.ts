@@ -1,10 +1,10 @@
-import "p2";
-import "pixi";
-import "phaser";
-import Boot from "./states/boot";
-import Preloader from "./states/preloader";
-import Game from "./states/game";
-import * as Utils from "./utils/utils";
+import 'p2';
+import 'pixi';
+import 'phaser';
+import Boot from './states/boot';
+import Preloader from './states/preloader';
+import Game from './states/game';
+import * as Utils from './utils/utils';
 
 class App extends Phaser.Game {
     constructor(config: Phaser.IGameConfig) {

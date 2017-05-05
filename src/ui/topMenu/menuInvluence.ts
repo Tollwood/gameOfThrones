@@ -1,5 +1,5 @@
-import * as Assets from "../../assets";
-import {TopMenuItem} from "./topMenuItem";
+import * as Assets from '../../assets';
+import {TopMenuItem} from './topMenuItem';
 
 const MENU = 'menu',
     OVERLAY = 'overlay';
