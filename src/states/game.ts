@@ -39,7 +39,7 @@ export default class Game extends Phaser.State {
         this.unitRenderer.renderUnits(this.game);
         this.orderTokenService.addPlanningLayer(this.game, House.stark);
         this.topMenu.draw(this.game);
-        this.orderTokenService.creatOrderTokens(this.game);
+        this.orderTokenService.renderOrderTokenInMenu(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
         let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};

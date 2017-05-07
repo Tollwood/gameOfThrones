@@ -2,13 +2,56 @@ import {Unit} from './units';
 import {OrderToken} from './orderToken';
 
 export type AreaKey =
-    'Winterfell' |
-    'Karhold' |
-    'TheShiveringSea' |
-    'BayOfIce' |
     'TheStonyShore' |
+    'Winterfell' |
     'WhiteHarbor' |
-    'CastleBlack';
+    'CastleBlack' |
+    'Karhold' |
+    'WidowsWatch' |
+    'FlintsFinger' |
+    'GrayWaterWatch' |
+    'MoatCailin' |
+    'Seagard' |
+    'TheTwins' |
+    'TheFingers' |
+    'Lannisport' |
+    'TheEyrie' |
+    'TheNarrowSea' |
+    'BayOfIce' |
+    'TheShiveringSea' |
+    'SunsetSea' |
+    'IronmansBay' |
+    'Pyke' |
+    'TheGoldenSound' |
+    'Riverrun' |
+    'TheMountainOfTheMoon' |
+    'Harrenhal' |
+    'StoneySept' |
+    'CraicklawPoint' |
+    'Dragonstone' |
+    'BlackwaterBay' |
+    'ShipbreakerBay' |
+    'Kingswood' |
+    'KingsLanding' |
+    'Blackwater' |
+    'SearoadMarches' |
+    'Highgarden' |
+    'StormsEnd' |
+    'TheBoneway' |
+    'DornishMarches' |
+    'Oldtown' |
+    'ThreeTowers' |
+    'PrincesPass' |
+    'Yornwood' |
+    'Sunspear' |
+    'SaltShore' |
+    'Starfall' |
+    'SeaOfDorne' |
+    'TheArbor' |
+    'RedwyneStraights' |
+    'WestSummerSea' |
+    'EastSummerSea' |
+    'TheReach';
 
 
 export class Area {
@@ -23,8 +66,7 @@ export class Area {
     private orderToken: OrderToken;
 
 
-
-    constructor(key: string, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
         this.key = key;
         this.consolidatePower = consolidatePower;
         this.harbor = harbor;

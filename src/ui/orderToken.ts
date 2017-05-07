@@ -28,7 +28,7 @@ export default class OrderTokenService {
 
     }
 
-    public creatOrderTokens(game: Phaser.Game) {
+    public renderOrderTokenInMenu(game: Phaser.Game) {
         this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
 
@@ -135,7 +135,7 @@ export default class OrderTokenService {
     public resetOrderTokens(game: Phaser.Game) {
         this.placedTokens.destroy(true);
         this.orderTokens.destroy(true);
-        this.creatOrderTokens(game);
+        this.renderOrderTokenInMenu(game);
     }
 
     public highlightToken(game: Phaser.Game, area: UiArea) {
