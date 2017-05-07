@@ -55,13 +55,20 @@ export type AreaKey =
 
 
 export class Area {
+    get borders(): Area[] {
+        return this._borders;
+    }
+
+    set borders(value: Area[]) {
+        this._borders = value;
+    }
     private key: string;
     private consolidatePower: number;
     private harbor: boolean;
     private castle: boolean;
     private stronghold: boolean;
     private supply: number;
-    private borders: Area[];
+    private _borders: Area[];
     private units: Array<Unit>;
     private orderToken: OrderToken;
 
@@ -73,7 +80,7 @@ export class Area {
         this.castle = castle;
         this.stronghold = stronghold;
         this.supply = supply;
-        this.borders = [];
+        this._borders = [];
         this.units = units;
     }
 
