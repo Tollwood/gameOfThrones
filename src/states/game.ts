@@ -5,6 +5,7 @@ import GameState from '../logic/gameStati';
 import UnitRenderer from '../ui/unitRenderer';
 import GameRules from '../logic/gameRules';
 import {GamePhase} from '../logic/gamePhase';
+import {House} from '../logic/house';
 
 import game = PIXI.game;
 
@@ -36,7 +37,7 @@ export default class Game extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         Board.createBoard(this.game);
         this.unitRenderer.renderUnits(this.game);
-        this.orderTokenService.addPlanningLayer(this.game);
+        this.orderTokenService.addPlanningLayer(this.game, House.stark);
         this.topMenu.draw(this.game);
         this.orderTokenService.creatOrderTokens(this.game);
         this.game.input.enabled = true;

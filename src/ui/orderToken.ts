@@ -4,6 +4,7 @@ import {House} from '../logic/house';
 import {OrderToken, OrderTokenType} from '../logic/orderToken';
 import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
+import UiArea from './UiArea';
 import game = PIXI.game;
 
 export default class OrderTokenService {
@@ -11,6 +12,7 @@ export default class OrderTokenService {
     private ORDER_TOKEN_WIDTH: number = 45;
     private ORDER_TOKEN_HEIGHT: number = 45;
     private map: Phaser.Tilemap;
+    private area: Array<UiArea>;
     private selectedTokenMarker: Phaser.Group;
     private orderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
@@ -46,11 +48,24 @@ export default class OrderTokenService {
         }, this, false);
     }
 
-    public addPlanningLayer(game: Phaser.Game) {
+    public addPlanningLayer(game: Phaser.Game, house: House) {
         this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
+        let areaNames = game.add.group();
+
+        /* this.map.objects['areaNames'].map((area) => {
+         let graphics = game.add.graphics(0, 0, areaNames);
+         graphics.lineStyle(2, 0x0000FF, 1);
+         graphics.drawRect(area.x, area.y, area.width, area.height);
+         });
+         */
+        this.area = this.map.objects['planninglayer'].map((area) => {
+            return new UiArea(area.height, area.name, area.height, area.x, area.y)
+        });
+
         let areas: Phaser.Group = game.add.group();
-        this.map.objects['planninglayer'].forEach(field => {
-            const fieldFront = game.add.sprite(field.x, field.y, 'orderTokenFront', 0, areas);
+        this.area.forEach((area: UiArea) => {
+            if (GameRules.isAllowedToPlaceOrderToken(house, area.name))
+                game.add.sprite(area.x + (area.width / 2), area.y + (area.height / 2), 'orderTokenFront', 0, areas);
         });
     }
 
@@ -69,7 +84,7 @@ export default class OrderTokenService {
                 currentSprite.x = matchingArea.x;
                 currentSprite.y = matchingArea.y;
                 this.orderTokens.remove(currentSprite);
-                let placedToken = currentSprite.game.add.sprite(currentSprite.x, currentSprite.y, currentSprite.key, currentSprite.frame, placedTokenGroup);
+                let placedToken = currentSprite.game.add.sprite(currentSprite.x + (currentSprite.width / 2), currentSprite.y + ( currentSprite.height / 2), currentSprite.key, currentSprite.frame, placedTokenGroup);
                 placedToken.inputEnabled = true;
                 placedToken.events.onInputDown.add((currentSprite) => {
                     if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
@@ -101,9 +116,9 @@ export default class OrderTokenService {
         return sprite;
     }
 
-    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): any {
-        let matchingBounds: any = null;
-        this.map.objects['planninglayer'].forEach((area) => {
+    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): UiArea {
+        let matchingBounds: UiArea = null;
+        this.area.forEach((area) => {
             const scale: Phaser.Point = currentSprite.game.camera.scale;
             let boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
             let relativeX = area.x - currentSprite.game.camera.x;
@@ -113,8 +128,7 @@ export default class OrderTokenService {
                 GameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
                 matchingBounds = area;
             }
-
-        }, this, false);
+        });
         return matchingBounds;
     }
 
@@ -124,9 +138,9 @@ export default class OrderTokenService {
         this.creatOrderTokens(game);
     }
 
-    public highlightToken(game: Phaser.Game, area: any) {
+    public highlightToken(game: Phaser.Game, area: UiArea) {
         let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
         graphics.beginFill(0x00FF00, 1);
-        graphics.drawCircle(area.x + (45 / 2), area.y + (45 / 2), 50);
+        graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
     }
 }
