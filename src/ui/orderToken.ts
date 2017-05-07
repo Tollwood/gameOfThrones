@@ -125,7 +125,7 @@ export default class OrderTokenService {
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                GameRules.addOrderToken(new OrderToken(House.stark, OrderTokenType.march), area.name);
+                GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer, OrderTokenType.march), area.name);
                 matchingBounds = area;
             }
         });

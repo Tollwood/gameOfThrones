@@ -24,9 +24,9 @@ export default class GameRules {
         })[0];
     }
 
-    public static allOrderTokenPlaced(): boolean {
+    public static allOrderTokenPlaced(currentPlayer: House): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.getUnits().length > 0 && isUndefined(area.getOrderToken());
+                return area.getUnits().length > 0 && area.getUnits()[0].getHouse() === currentPlayer && isUndefined(area.getOrderToken());
             }).length === 0;
     }
 

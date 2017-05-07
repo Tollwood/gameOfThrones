@@ -31,7 +31,7 @@ export default class UnitRenderer {
         this.units = game.add.group();
         GameState.getInstance().areas
             .filter((area: Area) => {
-                return area.getUnits().length > 0;
+                return area.getUnits().length > 0 && area.getUnits()[0].getHouse() === GameState.getInstance().currentPlayer;
             })
             .map((area: Area) => {
                 let field = this.map.objects['units'].find((areaField) => {
