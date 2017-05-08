@@ -44,6 +44,7 @@ export default class Game extends Phaser.State {
         let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
 
         this.currentPhase = this.game.add.text(0, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
+        this.currentPhase.fixedToCamera = true;
     }
 
     public update() {
