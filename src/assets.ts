@@ -137,6 +137,33 @@ export namespace Images {
             return require('assets/images/Supply.png');
         };
     }
+    export class ImagesUnitsGreyjoyShip {
+        static getName(): string {
+            return 'greyjoyShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/greyjoyShip.png');
+        };
+    }
+    export class ImagesUnitsLennisterShip {
+        static getName(): string {
+            return 'lennisterShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/lennisterShip.png');
+        };
+    }
+    export class ImagesUnitsMartellShip {
+        static getName(): string {
+            return 'martellShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/martellShip.png');
+        };
+    }
     export class ImagesUnitsStarkFootman {
         static getName(): string {
             return 'starkFootman';
@@ -171,6 +198,24 @@ export namespace Images {
 
         static getPNG(): string {
             return require('assets/images/units/starkSiege.png');
+        };
+    }
+    export class ImagesUnitsTullyShip {
+        static getName(): string {
+            return 'tullyShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/tullyShip.png');
+        };
+    }
+    export class ImagesUnitsTyrellShip {
+        static getName(): string {
+            return 'tyrellShip';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/tyrellShip.png');
         };
     }
     export class ImagesVictory {
