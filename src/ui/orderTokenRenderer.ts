@@ -7,15 +7,17 @@ import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import game = PIXI.game;
 
-export default class OrderTokenService {
-
+export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
     private ORDER_TOKEN_HEIGHT: number = 45;
     private map: Phaser.Tilemap;
+    private areaNames: Array<UiArea>;
     private area: Array<UiArea>;
     private selectedTokenMarker: Phaser.Group;
     private orderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
+    private neighborsOfCurrentToken: Phaser.Group;
+    private areasToPlaceToken: Phaser.Group;
 
     constructor() {
     }
@@ -48,59 +50,106 @@ export default class OrderTokenService {
         }, this, false);
     }
 
-    public addPlanningLayer(game: Phaser.Game, house: House) {
+    public createGroups(game: Phaser.Game) {
         this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
-        let areaNames = game.add.group();
+        this.neighborsOfCurrentToken = game.add.group();
+        this.areasToPlaceToken = game.add.group();
+        this.areaNames = this.map.objects['areaNames'].map((area) => {
+            return new UiArea(area.height, area.name, area.width, area.x, area.y)
+        });
 
-        /* this.map.objects['areaNames'].map((area) => {
-         let graphics = game.add.graphics(0, 0, areaNames);
-         graphics.lineStyle(2, 0x0000FF, 1);
-         graphics.drawRect(area.x, area.y, area.width, area.height);
-         });
-         */
         this.area = this.map.objects['planninglayer'].map((area) => {
             return new UiArea(area.height, area.name, area.height, area.x, area.y)
         });
 
-        let areas: Phaser.Group = game.add.group();
+    }
+
+    public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House) {
+        this.areasToPlaceToken.removeChildren();
         this.area.forEach((area: UiArea) => {
             if (GameRules.isAllowedToPlaceOrderToken(house, area.name))
-                game.add.sprite(area.x + (area.width / 2), area.y + (area.height / 2), 'orderTokenFront', 0, areas);
+                game.add.sprite(area.x + (area.width / 2), area.y + (area.height / 2), 'orderTokenFront', house, this.areasToPlaceToken);
         });
+    }
+
+    public highlightToken(game: Phaser.Game, area: UiArea) {
+        let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
+        graphics.beginFill(0x00FF00, 1);
+        graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
+    }
+
+    public highlightNeigbors(game: Phaser.Game, sprite: Phaser.Sprite, matchingArea: UiArea) {
+        this.neighborsOfCurrentToken.removeChildren();
+        let borderAreas = GameState.getInstance().areas
+            .filter((area) => {
+                return matchingArea.name === area.key
+            })[0]
+            .borders;
+        this.areaNames.filter((area) => {
+            return borderAreas.filter((border) => {
+                    return border.key === area.name
+                }).length > 0;
+        }).map((area: UiArea) => {
+            let game = this.neighborsOfCurrentToken.game;
+            let graphics = game.add.graphics(0, 0, this.neighborsOfCurrentToken);
+            graphics.lineStyle(2, 0x0000FF, 1);
+            graphics.beginFill(0xdfffb1, 0);
+            graphics.drawRect(area.x, area.y, area.width, area.height);
+            graphics.endFill();
+            graphics.inputEnabled = true;
+            graphics.events.onInputDown.add(() => {
+                GameRules.moveUnits(matchingArea.name, area.name);
+                this.removeSelectedToken(sprite);
+            });
+        });
+    }
+
+    public resetOrderTokens(game: Phaser.Game) {
+        this.placedTokens.removeChildren();
+        this.orderTokens.removeChildren();
+        this.selectedTokenMarker.removeChildren();
+        this.neighborsOfCurrentToken.removeChildren();
+        this.areasToPlaceToken.removeChildren();
+        this.renderOrderTokenInMenu(game);
+        this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer);
     }
 
     private creatDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
         orderToken.inputEnabled = true;
         orderToken.input.enableDrag();
-        OrderTokenService.fixDragWhileZooming(orderToken);
-        orderToken.events.onInputDown.add(function (currentSprite) {
-            currentSprite.originalx = currentSprite.x;
-            currentSprite.originaly = currentSprite.y;
-        }, this);
+        OrderTokenRenderer.fixDragWhileZooming(orderToken);
+        orderToken.events.onInputDown.add((sprite) => {
+            sprite.originalx = sprite.x;
+            sprite.originaly = sprite.y;
+        });
         let placedTokenGroup = this.placedTokens;
-        orderToken.events.onDragStop.add(function (currentSprite) {
-            let matchingArea: any = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
+        orderToken.events.onDragStop.add((currentSprite) => {
+            let matchingArea: UiArea = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
             if (matchingArea) {
-                currentSprite.x = matchingArea.x;
-                currentSprite.y = matchingArea.y;
                 this.orderTokens.remove(currentSprite);
-                let placedToken = currentSprite.game.add.sprite(currentSprite.x + (currentSprite.width / 2), currentSprite.y + ( currentSprite.height / 2), currentSprite.key, currentSprite.frame, placedTokenGroup);
+                let placedToken = currentSprite.game.add.sprite(matchingArea.x + (matchingArea.width / 2), matchingArea.y + ( matchingArea.height / 2), currentSprite.key, currentSprite.frame, placedTokenGroup);
                 placedToken.inputEnabled = true;
-                placedToken.events.onInputDown.add((currentSprite) => {
-                    if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
-                        this.selectedTokenMarker.removeChildren();
-                        this.highlightToken(currentSprite.game, matchingArea);
-                    }
+                placedToken.events.onInputDown.add((sprite) => {
+                    this.addOnInputDownBehaviour(sprite, matchingArea);
                 });
+                currentSprite.destroy();
 
             } else {
                 // move back to orignalPosition
                 currentSprite.x = currentSprite.originalx;
                 currentSprite.y = currentSprite.originaly;
             }
-        }, this);
+        });
     }
 
+    private addOnInputDownBehaviour(sprite: Phaser.Sprite, matchingArea: UiArea) {
+        if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
+            this.selectedTokenMarker.removeChildren();
+            this.highlightToken(sprite.game, matchingArea);
+            this.highlightNeigbors(game, sprite, matchingArea);
+        }
+
+    }
     private static fixDragWhileZooming(sprite) {
 
         sprite.events.onDragUpdate.add(function (sprite, pointer) {
@@ -132,15 +181,11 @@ export default class OrderTokenService {
         return matchingBounds;
     }
 
-    public resetOrderTokens(game: Phaser.Game) {
-        this.placedTokens.destroy(true);
-        this.orderTokens.destroy(true);
-        this.renderOrderTokenInMenu(game);
-    }
+    private removeSelectedToken(sprite: Phaser.Sprite) {
+        sprite.destroy();
+        this.selectedTokenMarker.removeChildren();
+        this.neighborsOfCurrentToken.removeChildren();
+        this.selectedTokenMarker.removeChildren();
 
-    public highlightToken(game: Phaser.Game, area: UiArea) {
-        let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
-        graphics.beginFill(0x00FF00, 1);
-        graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
     }
 }

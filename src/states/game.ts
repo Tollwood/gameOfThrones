@@ -1,6 +1,6 @@
-import OrderTokenService from '../ui/orderToken';
-import Board from '../ui/board';
-import TopMenu from '../ui/topMenu/topMenu';
+import OrderTokenRenderer from '../ui/orderTokenRenderer';
+import BoardRenderer from '../ui/boardRenderer';
+import TopMenuRenderer from '../ui/topMenu/topMenuRenderer';
 import GameState from '../logic/gameStati';
 import UnitRenderer from '../ui/unitRenderer';
 import GameRules from '../logic/gameRules';
@@ -9,59 +9,61 @@ import {GamePhase} from '../logic/gamePhase';
 import game = PIXI.game;
 
 export default class Game extends Phaser.State {
-    private orderTokenService: OrderTokenService;
-    private boardService: Board;
-    private topMenu: TopMenu;
+    private orderTokenRenderer: OrderTokenRenderer;
+    private boardRenderer: BoardRenderer;
+    private topMenuRenderer: TopMenuRenderer;
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
-    private currentPhase: Phaser.Text;
 
     constructor() {
         super();
-        this.orderTokenService = new OrderTokenService();
-        this.boardService = new Board();
-        this.topMenu = new TopMenu();
+        this.orderTokenRenderer = new OrderTokenRenderer();
+        this.boardRenderer = new BoardRenderer();
+        this.topMenuRenderer = new TopMenuRenderer();
         this.unitRenderer = new UnitRenderer();
     }
 
     public preload() {
-        Board.loadAssets(this.game);
-        this.orderTokenService.loadAssets(this.game);
-        this.topMenu.loadAssets(this.game);
+        BoardRenderer.loadAssets(this.game);
+        this.orderTokenRenderer.loadAssets(this.game);
+        this.topMenuRenderer.loadAssets(this.game);
         this.unitRenderer.loadAssets(this.game);
-
     }
 
     public create(): void {
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        Board.createBoard(this.game);
-        this.unitRenderer.renderUnits(this.game);
-        this.orderTokenService.addPlanningLayer(this.game, GameState.getInstance().currentPlayer);
-        this.topMenu.draw(this.game);
-        this.orderTokenService.renderOrderTokenInMenu(this.game);
+        BoardRenderer.renderBoard(this.game);
+        this.orderTokenRenderer.createGroups(this.game);
         this.game.input.enabled = true;
+        this.topMenuRenderer.renderTopMenu(this.game);
+        this.topMenuRenderer.renderGameState(this.game);
+        this.unitRenderer.renderUnits(this.game);
+        this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
+        this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer);
         this.currentGameWidth = window.innerWidth;
-        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
 
-        this.currentPhase = this.game.add.text(0, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
-        this.currentPhase.fixedToCamera = true;
+
     }
 
     public update() {
-        this.boardService.handleNavigationOnMap(this.game);
-        this.boardService.handleZoom(this.game);
         if (this.currentGameWidth !== window.innerWidth) {
-            this.topMenu.draw(this.game);
+            this.topMenuRenderer.renderTopMenu(this.game);
             this.currentGameWidth = window.innerWidth;
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.KeyCode.N)) {
-            GameRules.switchToActionPhase();
+        if (GameRules.isPlanningPhaseComplete()) {
+            GameRules.switchToPhase(GamePhase.ACTION);
         }
-        if (GameState.getInstance().gamePhase === GamePhase.PLANNING && GameRules.allOrderTokenPlaced(GameState.getInstance().currentPlayer)) {
-            GameRules.switchToActionPhase();
-            this.currentPhase.text = GamePhase[GameState.getInstance().gamePhase];
+
+        if (GameRules.isActionPhaseComplete()) {
+            GameRules.switchToPhase(GamePhase.PLANNING);
+            GameRules.nextRound();
+            this.orderTokenRenderer.resetOrderTokens(this.game);
+            this.topMenuRenderer.renderGameState(this.game);
         }
+
+        this.boardRenderer.handleNavigationOnMap(this.game);
+        this.boardRenderer.handleZoom(this.game);
+        this.unitRenderer.renderUnits(this.game);
     }
 
 }

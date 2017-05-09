@@ -55,6 +55,42 @@ export type AreaKey =
 
 
 export class Area {
+
+
+    private _key: string;
+    private consolidatePower: number;
+    private harbor: boolean;
+    private castle: boolean;
+    private stronghold: boolean;
+    private supply: number;
+    private _borders: Area[];
+    private _units: Array<Unit>;
+    private _orderToken: OrderToken;
+
+
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
+        this._key = key;
+        this.consolidatePower = consolidatePower;
+        this.harbor = harbor;
+        this.castle = castle;
+        this.stronghold = stronghold;
+        this.supply = supply;
+        this._borders = [];
+        this._units = units;
+    }
+
+    get key(): string {
+        return this._key;
+    }
+
+    get units(): Array<Unit> {
+        return this._units;
+    }
+
+    set units(value: Array<Unit>) {
+        this._units = value;
+    }
+
     get borders(): Area[] {
         return this._borders;
     }
@@ -62,41 +98,12 @@ export class Area {
     set borders(value: Area[]) {
         this._borders = value;
     }
-    private key: string;
-    private consolidatePower: number;
-    private harbor: boolean;
-    private castle: boolean;
-    private stronghold: boolean;
-    private supply: number;
-    private _borders: Area[];
-    private units: Array<Unit>;
-    private orderToken: OrderToken;
 
-
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
-        this.key = key;
-        this.consolidatePower = consolidatePower;
-        this.harbor = harbor;
-        this.castle = castle;
-        this.stronghold = stronghold;
-        this.supply = supply;
-        this._borders = [];
-        this.units = units;
+    get orderToken(): OrderToken {
+        return this._orderToken;
     }
 
-    public getUnits(): Array<Unit> {
-        return this.units;
-    }
-
-    public getKey(): string {
-        return this.key;
-    }
-
-    public getOrderToken() {
-        return this.orderToken;
-    }
-
-    public setOrderToken(orderToken: OrderToken) {
-        this.orderToken = orderToken;
+    set orderToken(value: OrderToken) {
+        this._orderToken = value;
     }
 }

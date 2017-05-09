@@ -31,14 +31,14 @@ export default class UnitRenderer {
         this.units = game.add.group();
         GameState.getInstance().areas
             .filter((area: Area) => {
-                return area.getUnits().length > 0 && area.getUnits()[0].getHouse() === GameState.getInstance().currentPlayer;
+                return area.units.length > 0 && area.units[0].getHouse() === GameState.getInstance().currentPlayer;
             })
             .map((area: Area) => {
                 let field = this.map.objects['units'].find((areaField) => {
-                    return areaField.name === area.getKey();
+                    return areaField.name === area.key;
                 });
                 let nextX = field.x;
-                area.getUnits().map((unit: Unit) => {
+                area.units.map((unit: Unit) => {
                     this.units.add(new Phaser.Sprite(game, nextX, field.y, House[unit.getHouse()] + UnitType[unit.getType()]));
                     nextX += 20;
                 });

@@ -4,11 +4,14 @@ import {MenuWildlings} from './menuWildlings';
 import {MenuSupply} from './menuSupply';
 import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
+import {GamePhase} from '../../logic/gamePhase';
+import GameState from '../../logic/gameStati';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
-export default class TopMenu {
+export default class TopMenuRenderer {
     private menu: Array<TopMenuItem> = new Array();
+    private currentPhase: Phaser.Text;
 
     public loadAssets(game: Phaser.Game) {
         MenuRounds.loadAssets(game);
@@ -18,7 +21,7 @@ export default class TopMenu {
         MenuVictory.loadAssets(game);
      }
 
-    public draw(game: Phaser.Game) {
+    public renderTopMenu(game: Phaser.Game) {
         this.menu.map((menuItem: TopMenuItem) => {
             menuItem.getOverlay().destroy();
             menuItem.destroy();
@@ -43,6 +46,15 @@ export default class TopMenu {
         this.menu.map((menuItem) => {
             menuItem.tween(menuItem.getOverlay(), 0);
         });
+    }
+
+    public renderGameState(game: Phaser.Game): void {
+        if (this.currentPhase) {
+            this.currentPhase.destroy();
+        }
+        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
+        this.currentPhase = game.add.text(0, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
+        this.currentPhase.fixedToCamera = true;
     }
 
 }

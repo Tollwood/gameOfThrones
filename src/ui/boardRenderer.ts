@@ -1,6 +1,6 @@
 import * as Assets from '../assets';
 
-export default class Board {
+export default class BoardRenderer {
 
     private SCROLL_SPEED: number = 8;
     private zoom: number = 1;
@@ -11,7 +11,7 @@ export default class Board {
         game.load.image('gameboard', Assets.Images.ImagesMapSmall.getPNG());
     }
 
-    public static createBoard(game: Phaser.Game) {
+    public static renderBoard(game: Phaser.Game) {
         const gameboard = game.add.sprite(0, 0, 'gameboard');
         game.world.setBounds(gameboard.x, gameboard.y, gameboard.width, gameboard.height);
     }
