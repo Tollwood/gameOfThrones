@@ -218,6 +218,15 @@ export namespace Images {
             return require('assets/images/units/tyrellShip.png');
         };
     }
+    export class ImagesUnitsTyrellShip1 {
+        static getName(): string {
+            return 'tyrellShip1';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/units/tyrellShip1.png');
+        };
+    }
     export class ImagesVictory {
         static getName(): string {
             return 'Victory';

@@ -5,6 +5,7 @@ import {OrderToken, OrderTokenType} from '../logic/orderToken';
 import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
+import {Area} from '../logic/area';
 import game = PIXI.game;
 
 export default class OrderTokenRenderer {
@@ -55,11 +56,11 @@ export default class OrderTokenRenderer {
         this.neighborsOfCurrentToken = game.add.group();
         this.areasToPlaceToken = game.add.group();
         this.areaNames = this.map.objects['areaNames'].map((area) => {
-            return new UiArea(area.height, area.name, area.width, area.x, area.y)
+            return new UiArea(area.height, area.name, area.width, area.x, area.y);
         });
 
         this.area = this.map.objects['planninglayer'].map((area) => {
-            return new UiArea(area.height, area.name, area.height, area.x, area.y)
+            return new UiArea(area.height, area.name, area.height, area.x, area.y);
         });
 
     }
@@ -80,14 +81,17 @@ export default class OrderTokenRenderer {
 
     public highlightNeigbors(game: Phaser.Game, sprite: Phaser.Sprite, matchingArea: UiArea) {
         this.neighborsOfCurrentToken.removeChildren();
-        let borderAreas = GameState.getInstance().areas
+        let areaToPlaceToken = GameRules.getAreaByKey(matchingArea.name);
+        let areasAllowedToMoveTo: Array<Area> = GameState.getInstance().areas
             .filter((area) => {
-                return matchingArea.name === area.key
-            })[0]
-            .borders;
+                return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
+            });
+
+
+
         this.areaNames.filter((area) => {
-            return borderAreas.filter((border) => {
-                    return border.key === area.name
+            return areasAllowedToMoveTo.filter((border) => {
+                    return border.key === area.name;
                 }).length > 0;
         }).map((area: UiArea) => {
             let game = this.neighborsOfCurrentToken.game;
@@ -98,8 +102,10 @@ export default class OrderTokenRenderer {
             graphics.endFill();
             graphics.inputEnabled = true;
             graphics.events.onInputDown.add(() => {
-                GameRules.moveUnits(matchingArea.name, area.name);
-                this.removeSelectedToken(sprite);
+                let validMove = GameRules.moveUnits(matchingArea.name, area.name, GameRules.getAreaByKey(matchingArea.name).units[0]);
+                if (validMove) {
+                    this.removeSelectedToken(sprite);
+                }
             });
         });
     }
@@ -123,21 +129,21 @@ export default class OrderTokenRenderer {
             sprite.originaly = sprite.y;
         });
         let placedTokenGroup = this.placedTokens;
-        orderToken.events.onDragStop.add((currentSprite) => {
-            let matchingArea: UiArea = this.getPositionOfValidAreaToPlaceOrderToken(currentSprite);
+        orderToken.events.onDragStop.add((placableOrderToken) => {
+            let matchingArea: UiArea = this.getPositionOfValidAreaToPlaceOrderToken(placableOrderToken);
             if (matchingArea) {
-                this.orderTokens.remove(currentSprite);
-                let placedToken = currentSprite.game.add.sprite(matchingArea.x + (matchingArea.width / 2), matchingArea.y + ( matchingArea.height / 2), currentSprite.key, currentSprite.frame, placedTokenGroup);
+                this.orderTokens.remove(placableOrderToken);
+                let placedToken = placableOrderToken.game.add.sprite(matchingArea.x + (matchingArea.width / 2), matchingArea.y + ( matchingArea.height / 2), placableOrderToken.key, placableOrderToken.frame, placedTokenGroup);
                 placedToken.inputEnabled = true;
                 placedToken.events.onInputDown.add((sprite) => {
                     this.addOnInputDownBehaviour(sprite, matchingArea);
                 });
-                currentSprite.destroy();
+                placableOrderToken.destroy();
 
             } else {
                 // move back to orignalPosition
-                currentSprite.x = currentSprite.originalx;
-                currentSprite.y = currentSprite.originaly;
+                placableOrderToken.x = placableOrderToken.originalx;
+                placableOrderToken.y = placableOrderToken.originaly;
             }
         });
     }

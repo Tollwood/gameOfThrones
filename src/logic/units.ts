@@ -21,5 +21,9 @@ export class Unit {
     public getHouse(): House {
         return this.house;
     }
+
+    public isLandunit(): boolean {
+        return this.type !== UnitType.Ship;
+    }
 }
 

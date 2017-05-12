@@ -18,6 +18,9 @@ export default class GameState {
         return this.gameState;
     }
 
+    public static resetGame() {
+        this.gameState = undefined;
+    }
     public nextRound(): void {
         this._round++;
     }

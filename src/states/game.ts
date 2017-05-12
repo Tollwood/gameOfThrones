@@ -52,11 +52,13 @@ export default class Game extends Phaser.State {
 
         if (GameRules.isPlanningPhaseComplete()) {
             GameRules.switchToPhase(GamePhase.ACTION);
+            this.topMenuRenderer.renderGameState(this.game);
         }
 
         if (GameRules.isActionPhaseComplete()) {
             GameRules.switchToPhase(GamePhase.PLANNING);
             GameRules.nextRound();
+            this.topMenuRenderer.renderGameState(this.game);
             this.orderTokenRenderer.resetOrderTokens(this.game);
             this.topMenuRenderer.renderGameState(this.game);
         }

@@ -56,7 +56,6 @@ export type AreaKey =
 
 export class Area {
 
-
     private _key: string;
     private consolidatePower: number;
     private harbor: boolean;
@@ -66,9 +65,10 @@ export class Area {
     private _borders: Area[];
     private _units: Array<Unit>;
     private _orderToken: OrderToken;
+    private _isLandArea: boolean;
 
 
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
         this._key = key;
         this.consolidatePower = consolidatePower;
         this.harbor = harbor;
@@ -77,6 +77,7 @@ export class Area {
         this.supply = supply;
         this._borders = [];
         this._units = units;
+        this._isLandArea = isLandArea;
     }
 
     get key(): string {
@@ -105,5 +106,9 @@ export class Area {
 
     set orderToken(value: OrderToken) {
         this._orderToken = value;
+    }
+
+    get isLandArea(): boolean {
+        return this._isLandArea;
     }
 }
