@@ -17,6 +17,30 @@ export default class UnitRenderer {
         game.load.image('starkHorse', Assets.Images.ImagesUnitsStarkHorse.getPNG());
         game.load.image('starkShip', Assets.Images.ImagesUnitsStarkShip.getPNG());
         game.load.image('starkSiege', Assets.Images.ImagesUnitsStarkSiege.getPNG());
+        game.load.image('lannisterFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
+        game.load.image('lannisterHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
+        game.load.image('lannisterShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());
+        game.load.image('lannisterSiege', Assets.Images.ImagesUnitsLannisterSiege.getPNG());
+
+        game.load.image('greyjoyFootman', Assets.Images.ImagesUnitsGreyjoyFootman.getPNG());
+        game.load.image('greyjoyHorse', Assets.Images.ImagesUnitsGreyjoyHorse.getPNG());
+        game.load.image('greyjoyShip', Assets.Images.ImagesUnitsGreyjoyShip.getPNG());
+        game.load.image('greyjoySiege', Assets.Images.ImagesUnitsGreyjoySiege.getPNG());
+
+        game.load.image('baratheonFootman', Assets.Images.ImagesUnitsBaratheonFootman.getPNG());
+        game.load.image('baratheonHorse', Assets.Images.ImagesUnitsBaratheonHorse.getPNG());
+        game.load.image('baratheonShip', Assets.Images.ImagesUnitsBaratheonShip.getPNG());
+        game.load.image('baratheonSiege', Assets.Images.ImagesUnitsBaratheonSiege.getPNG());
+
+        game.load.image('tyrellFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
+        game.load.image('tyrellHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
+        game.load.image('tyrellShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());
+        game.load.image('tyrellSiege', Assets.Images.ImagesUnitsLannisterSiege.getPNG());
+
+        game.load.image('martellFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
+        game.load.image('martellHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
+        game.load.image('martellShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());
+        game.load.image('martellSiege', Assets.Images.ImagesUnitsLannisterSiege.getPNG());
         game.load.tilemap('gotTileMap', Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
 
     }
@@ -31,7 +55,7 @@ export default class UnitRenderer {
         this.units = game.add.group();
         GameState.getInstance().areas
             .filter((area: Area) => {
-                return area.units.length > 0 && area.units[0].getHouse() === GameState.getInstance().currentPlayer;
+                return area.units.length > 0;
             })
             .map((area: Area) => {
                 let field = this.map.objects['units'].find((areaField) => {
