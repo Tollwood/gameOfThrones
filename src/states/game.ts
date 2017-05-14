@@ -7,6 +7,8 @@ import GameRules from '../logic/gameRules';
 import {GamePhase} from '../logic/gamePhase';
 
 import game = PIXI.game;
+import Player from "../logic/player";
+import {House} from "../logic/house";
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -31,6 +33,7 @@ export default class Game extends Phaser.State {
     }
 
     public create(): void {
+        GameState.initGame([new Player(House.stark,10),new Player(House.lannister,5),new Player(House.baratheon,5)]);
         BoardRenderer.renderBoard(this.game);
         this.orderTokenRenderer.createGroups(this.game);
         this.game.input.enabled = true;
@@ -63,6 +66,7 @@ export default class Game extends Phaser.State {
             this.topMenuRenderer.renderGameState(this.game);
         }
 
+        this.topMenuRenderer.renderPowerToken(this.game);
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
         this.unitRenderer.renderUnits(this.game);

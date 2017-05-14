@@ -6,6 +6,7 @@ import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
 import {GamePhase} from '../../logic/gamePhase';
 import GameState from '../../logic/gameStati';
+import PowerToken from "./PowerToken";
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
@@ -19,6 +20,7 @@ export default class TopMenuRenderer {
         MenuSupply.loadAssets(game);
         MenuInvluence.loadAssets(game);
         MenuVictory.loadAssets(game);
+        PowerToken.loadAssets(game);
      }
 
     public renderTopMenu(game: Phaser.Game) {
@@ -53,8 +55,11 @@ export default class TopMenuRenderer {
             this.currentPhase.destroy();
         }
         let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
-        this.currentPhase = game.add.text(0, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
+        this.currentPhase = game.add.text(250, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
         this.currentPhase.fixedToCamera = true;
     }
 
+    public renderPowerToken(game: Phaser.Game) {
+        PowerToken.renderPowerToken(game);
+    }
 }

@@ -2,31 +2,49 @@
 
 export namespace Images {
     export class ImagesGameRoundMarker {
-        static getName(): string {
-            return 'gameRoundMarker';
-        };
+        static getName(): string { return 'gameRoundMarker'; };
 
-        static getPNG(): string {
-            return require('assets/images/gameRoundMarker.png');
-        };
+        static getPNG(): string { return require('assets/images/gameRoundMarker.png'); };
     }
     export class ImagesGamerounds {
-        static getName(): string {
-            return 'Gamerounds';
-        };
+        static getName(): string { return 'Gamerounds'; };
 
-        static getPNG(): string {
-            return require('assets/images/Gamerounds.png');
-        };
+        static getPNG(): string { return require('assets/images/Gamerounds.png'); };
+    }
+    export class ImagesHouseSelectionHouseBaratheon {
+        static getName(): string { return 'House_Baratheon'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_Baratheon.png'); };
+    }
+    export class ImagesHouseSelectionHouseGreyjoy {
+        static getName(): string { return 'House_greyjoy'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_greyjoy.png'); };
+    }
+    export class ImagesHouseSelectionHouseLannister {
+        static getName(): string { return 'House_Lannister'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_Lannister.png'); };
+    }
+    export class ImagesHouseSelectionHouseMartell {
+        static getName(): string { return 'House_Martell'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_Martell.png'); };
+    }
+    export class ImagesHouseSelectionHouseStark {
+        static getName(): string { return 'House_Stark'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_Stark.png'); };
+    }
+    export class ImagesHouseSelectionHouseTyrell {
+        static getName(): string { return 'House_Tyrell'; };
+
+        static getPNG(): string { return require('assets/images/HouseSelection/House_Tyrell.png'); };
     }
     export class ImagesInfluence {
-        static getName(): string {
-            return 'Influence';
-        };
+        static getName(): string { return 'Influence'; };
 
-        static getPNG(): string {
-            return require('assets/images/Influence.png');
-        };
+        static getPNG(): string { return require('assets/images/Influence.png'); };
     }
     export class ImagesMap {
         static getName(): string { return 'map'; };
@@ -34,85 +52,49 @@ export namespace Images {
         static getPNG(): string { return require('assets/images/map.png'); };
     }
     export class ImagesMapSmall {
-        static getName(): string {
-            return 'mapSmall';
-        };
+        static getName(): string { return 'mapSmall'; };
 
-        static getPNG(): string {
-            return require('assets/images/mapSmall.png');
-        };
+        static getPNG(): string { return require('assets/images/mapSmall.png'); };
     }
     export class ImagesMenubackground {
-        static getName(): string {
-            return 'menubackground';
-        };
+        static getName(): string { return 'menubackground'; };
 
-        static getPNG(): string {
-            return require('assets/images/menubackground.png');
-        };
+        static getPNG(): string { return require('assets/images/menubackground.png'); };
     }
     export class ImagesMenuInvluence {
-        static getName(): string {
-            return 'MenuInvluence';
-        };
+        static getName(): string { return 'MenuInvluence'; };
 
-        static getPNG(): string {
-            return require('assets/images/MenuInvluence.png');
-        };
+        static getPNG(): string { return require('assets/images/MenuInvluence.png'); };
     }
     export class ImagesMenuRounds {
-        static getName(): string {
-            return 'MenuRounds';
-        };
+        static getName(): string { return 'MenuRounds'; };
 
-        static getPNG(): string {
-            return require('assets/images/MenuRounds.png');
-        };
+        static getPNG(): string { return require('assets/images/MenuRounds.png'); };
     }
     export class ImagesMenuSupply {
-        static getName(): string {
-            return 'MenuSupply';
-        };
+        static getName(): string { return 'MenuSupply'; };
 
-        static getPNG(): string {
-            return require('assets/images/MenuSupply.png');
-        };
+        static getPNG(): string { return require('assets/images/MenuSupply.png'); };
     }
     export class ImagesMenuVictory {
-        static getName(): string {
-            return 'MenuVictory';
-        };
+        static getName(): string { return 'MenuVictory'; };
 
-        static getPNG(): string {
-            return require('assets/images/MenuVictory.png');
-        };
+        static getPNG(): string { return require('assets/images/MenuVictory.png'); };
     }
     export class ImagesMenuWildlings {
-        static getName(): string {
-            return 'MenuWildlings';
-        };
+        static getName(): string { return 'MenuWildlings'; };
 
-        static getPNG(): string {
-            return require('assets/images/MenuWildlings.png');
-        };
+        static getPNG(): string { return require('assets/images/MenuWildlings.png'); };
     }
     export class ImagesOrderTokenFront {
-        static getName(): string {
-            return 'orderTokenFront';
-        };
+        static getName(): string { return 'orderTokenFront'; };
 
-        static getPNG(): string {
-            return require('assets/images/orderTokenFront.png');
-        };
+        static getPNG(): string { return require('assets/images/orderTokenFront.png'); };
     }
     export class ImagesOrderTokenFront45 {
-        static getName(): string {
-            return 'orderTokenFront45';
-        };
+        static getName(): string { return 'orderTokenFront45'; };
 
-        static getPNG(): string {
-            return require('assets/images/orderTokenFront45.png');
-        };
+        static getPNG(): string { return require('assets/images/orderTokenFront45.png'); };
     }
     export class ImagesOrdertokens {
         static getName(): string { return 'ordertokens'; };
@@ -120,301 +102,169 @@ export namespace Images {
         static getPNG(): string { return require('assets/images/ordertokens.png'); };
     }
     export class ImagesOrdertokens45 {
-        static getName(): string {
-            return 'ordertokens45';
-        };
+        static getName(): string { return 'ordertokens45'; };
 
-        static getPNG(): string {
-            return require('assets/images/ordertokens45.png');
-        };
+        static getPNG(): string { return require('assets/images/ordertokens45.png'); };
     }
     export class ImagesPowerTokenBaratheonPowerToken {
-        static getName(): string {
-            return 'BaratheonPowerToken';
-        };
+        static getName(): string { return 'BaratheonPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/BaratheonPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/BaratheonPowerToken.png'); };
     }
     export class ImagesPowerTokenGreyjoyPowerToken {
-        static getName(): string {
-            return 'GreyjoyPowerToken';
-        };
+        static getName(): string { return 'GreyjoyPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/GreyjoyPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/GreyjoyPowerToken.png'); };
     }
     export class ImagesPowerTokenLannisterPowerToken {
-        static getName(): string {
-            return 'LannisterPowerToken';
-        };
+        static getName(): string { return 'LannisterPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/LannisterPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/LannisterPowerToken.png'); };
     }
     export class ImagesPowerTokenMartellPowerToken {
-        static getName(): string {
-            return 'MartellPowerToken';
-        };
+        static getName(): string { return 'MartellPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/MartellPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/MartellPowerToken.png'); };
     }
     export class ImagesPowerTokenStarkPowerToken {
-        static getName(): string {
-            return 'StarkPowerToken';
-        };
+        static getName(): string { return 'StarkPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/StarkPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/StarkPowerToken.png'); };
     }
     export class ImagesPowerTokenTyrellPowerToken {
-        static getName(): string {
-            return 'TyrellPowerToken';
-        };
+        static getName(): string { return 'TyrellPowerToken'; };
 
-        static getPNG(): string {
-            return require('assets/images/powerToken/TyrellPowerToken.png');
-        };
+        static getPNG(): string { return require('assets/images/powerToken/TyrellPowerToken.png'); };
     }
     export class ImagesSupply {
-        static getName(): string {
-            return 'Supply';
-        };
+        static getName(): string { return 'Supply'; };
 
-        static getPNG(): string {
-            return require('assets/images/Supply.png');
-        };
+        static getPNG(): string { return require('assets/images/Supply.png'); };
     }
     export class ImagesUnitsBaratheonFootman {
-        static getName(): string {
-            return 'BaratheonFootman';
-        };
+        static getName(): string { return 'BaratheonFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/BaratheonFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/BaratheonFootman.png'); };
     }
     export class ImagesUnitsBaratheonHorse {
-        static getName(): string {
-            return 'BaratheonHorse';
-        };
+        static getName(): string { return 'BaratheonHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/BaratheonHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/BaratheonHorse.png'); };
     }
     export class ImagesUnitsBaratheonShip {
-        static getName(): string {
-            return 'BaratheonShip';
-        };
+        static getName(): string { return 'BaratheonShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/BaratheonShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/BaratheonShip.png'); };
     }
     export class ImagesUnitsBaratheonSiege {
-        static getName(): string {
-            return 'BaratheonSiege';
-        };
+        static getName(): string { return 'BaratheonSiege'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/BaratheonSiege.png');
-        };
+        static getPNG(): string { return require('assets/images/units/BaratheonSiege.png'); };
     }
     export class ImagesUnitsGreyjoyFootman {
-        static getName(): string {
-            return 'greyjoyFootman';
-        };
+        static getName(): string { return 'greyjoyFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/greyjoyFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/greyjoyFootman.png'); };
     }
     export class ImagesUnitsGreyjoyHorse {
-        static getName(): string {
-            return 'greyjoyHorse';
-        };
+        static getName(): string { return 'greyjoyHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/greyjoyHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/greyjoyHorse.png'); };
     }
     export class ImagesUnitsGreyjoyShip {
-        static getName(): string {
-            return 'greyjoyShip';
-        };
+        static getName(): string { return 'greyjoyShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/greyjoyShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/greyjoyShip.png'); };
     }
     export class ImagesUnitsGreyjoySiege {
-        static getName(): string {
-            return 'greyjoySiege';
-        };
+        static getName(): string { return 'greyjoySiege'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/greyjoySiege.png');
-        };
+        static getPNG(): string { return require('assets/images/units/greyjoySiege.png'); };
     }
     export class ImagesUnitsLannisterFootman {
-        static getName(): string {
-            return 'LannisterFootman';
-        };
+        static getName(): string { return 'LannisterFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/LannisterFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/LannisterFootman.png'); };
     }
     export class ImagesUnitsLannisterHorse {
-        static getName(): string {
-            return 'LannisterHorse';
-        };
+        static getName(): string { return 'LannisterHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/LannisterHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/LannisterHorse.png'); };
     }
     export class ImagesUnitsLannisterShip {
-        static getName(): string {
-            return 'LannisterShip';
-        };
+        static getName(): string { return 'LannisterShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/LannisterShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/LannisterShip.png'); };
     }
     export class ImagesUnitsLannisterSiege {
-        static getName(): string {
-            return 'LannisterSiege';
-        };
+        static getName(): string { return 'LannisterSiege'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/LannisterSiege.png');
-        };
+        static getPNG(): string { return require('assets/images/units/LannisterSiege.png'); };
     }
     export class ImagesUnitsMartellFootman {
-        static getName(): string {
-            return 'MartellFootman';
-        };
+        static getName(): string { return 'MartellFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/MartellFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/MartellFootman.png'); };
     }
     export class ImagesUnitsMartellHorse {
-        static getName(): string {
-            return 'MartellHorse';
-        };
+        static getName(): string { return 'MartellHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/MartellHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/MartellHorse.png'); };
     }
     export class ImagesUnitsMartellShip {
-        static getName(): string {
-            return 'MartellShip';
-        };
+        static getName(): string { return 'MartellShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/MartellShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/MartellShip.png'); };
     }
     export class ImagesUnitsStarkFootman {
-        static getName(): string {
-            return 'starkFootman';
-        };
+        static getName(): string { return 'starkFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/starkFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/starkFootman.png'); };
     }
     export class ImagesUnitsStarkHorse {
-        static getName(): string {
-            return 'starkHorse';
-        };
+        static getName(): string { return 'starkHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/starkHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/starkHorse.png'); };
     }
     export class ImagesUnitsStarkShip {
-        static getName(): string {
-            return 'starkShip';
-        };
+        static getName(): string { return 'starkShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/starkShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/starkShip.png'); };
     }
     export class ImagesUnitsStarkSiege {
-        static getName(): string {
-            return 'starkSiege';
-        };
+        static getName(): string { return 'starkSiege'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/starkSiege.png');
-        };
+        static getPNG(): string { return require('assets/images/units/starkSiege.png'); };
     }
     export class ImagesUnitsTyrellFootman {
-        static getName(): string {
-            return 'TyrellFootman';
-        };
+        static getName(): string { return 'TyrellFootman'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/TyrellFootman.png');
-        };
+        static getPNG(): string { return require('assets/images/units/TyrellFootman.png'); };
     }
     export class ImagesUnitsTyrellHorse {
-        static getName(): string {
-            return 'TyrellHorse';
-        };
+        static getName(): string { return 'TyrellHorse'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/TyrellHorse.png');
-        };
+        static getPNG(): string { return require('assets/images/units/TyrellHorse.png'); };
     }
     export class ImagesUnitsTyrellShip {
-        static getName(): string {
-            return 'TyrellShip';
-        };
+        static getName(): string { return 'TyrellShip'; };
 
-        static getPNG(): string {
-            return require('assets/images/units/TyrellShip.png');
-        };
+        static getPNG(): string { return require('assets/images/units/TyrellShip.png'); };
     }
     export class ImagesVictory {
-        static getName(): string {
-            return 'Victory';
-        };
+        static getName(): string { return 'Victory'; };
 
-        static getPNG(): string {
-            return require('assets/images/Victory.png');
-        };
+        static getPNG(): string { return require('assets/images/Victory.png'); };
     }
     export class ImagesWildlingCardCover {
-        static getName(): string {
-            return 'WildlingCardCover';
-        };
+        static getName(): string { return 'WildlingCardCover'; };
 
-        static getPNG(): string {
-            return require('assets/images/WildlingCardCover.png');
-        };
+        static getPNG(): string { return require('assets/images/WildlingCardCover.png'); };
     }
     export class ImagesWildlingStatus {
-        static getName(): string {
-            return 'WildlingStatus';
-        };
+        static getName(): string { return 'WildlingStatus'; };
 
-        static getPNG(): string {
-            return require('assets/images/WildlingStatus.png');
-        };
+        static getPNG(): string { return require('assets/images/WildlingStatus.png'); };
     }
 }
 

@@ -1,8 +1,8 @@
 export enum House {
     stark,
-    tyrell,
     baratheon,
     lannister,
     greyjoy,
+    tyrell,
     martell
 }

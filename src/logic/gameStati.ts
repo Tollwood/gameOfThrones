@@ -2,6 +2,7 @@ import {Area} from './area';
 import {AreaInitiator} from './initialArea';
 import {GamePhase} from './gamePhase';
 import {House} from './house';
+import Player from "./player";
 export default class GameState {
 
     private static gameState: GameState;
@@ -9,13 +10,19 @@ export default class GameState {
     private _round: number = 1;
     private _areas: Array<Area> = new Array<Area>();
     private _currentPlayer: House = House.stark;
+    private _players: Array<Player> = [];
 
     public static getInstance(): GameState {
         if (!this.gameState) {
             this.gameState = new GameState();
-            this.gameState._areas = AreaInitiator.getInitalState();
         }
         return this.gameState;
+    }
+
+    public static initGame(player: Array<Player>){
+        this.gameState = new GameState();
+        this.gameState._areas = AreaInitiator.getInitalState(player);
+        this.gameState._players = player;
     }
 
     public static resetGame() {
@@ -52,5 +59,10 @@ export default class GameState {
     set currentPlayer(value: House) {
         this._currentPlayer = value;
     }
+
+    get players(): Array<Player> {
+        return this._players;
+    }
+
 
 }

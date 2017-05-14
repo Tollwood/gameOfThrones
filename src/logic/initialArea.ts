@@ -1,34 +1,35 @@
 import {Area} from './area';
 import {Unit, UnitType} from './units';
 import {House} from './house';
+import Player from "./player";
 
 export class AreaInitiator {
 
-    public static getInitalState(): Array<Area> {
+    public static getInitalState(players: Array<Player>): Array<Area> {
         let areas: Array<Area> = new Array();
-        let castleBlack = new Area('CastleBlack', 1, false, false, false, true, 0);
+        let castleBlack = new Area('CastleBlack', 1, false, false, false, true, 0, []);
         areas.push(castleBlack);
-        let karhold = new Area('Karhold', 1, false, false, false, true, 0);
+        let karhold = new Area('Karhold', 1, false, false, false, true, 0, []);
         areas.push(karhold);
-        let theShiveringSea = new Area('TheShiveringSea', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.stark)]);
+        let theShiveringSea = new Area('TheShiveringSea', 0, false, false, false, false, 0, []);
         areas.push(theShiveringSea);
-        let bayOfIce = new Area('BayOfIce', 0, false, false, false, false, 0);
+        let bayOfIce = new Area('BayOfIce', 0, false, false, false, false, 0, []);
         areas.push(bayOfIce);
-        let winterfell = new Area('Winterfell', 1, true, false, true, true, 1, [new Unit(UnitType.Horse, House.stark), new Unit(UnitType.Footman, House.stark)]);
+        let winterfell = new Area('Winterfell', 1, true, false, true, true, 1, []);
         areas.push(winterfell);
-        let theStonyShore = new Area('TheStonyShore', 1, false, false, false, true, 1);
+        let theStonyShore = new Area('TheStonyShore', 1, false, false, false, true, 1, []);
         areas.push(theStonyShore);
-        let whiteHarbor = new Area('WhiteHarbor', 0, true, true, false, true, 0, [new Unit(UnitType.Footman, House.stark)]);
+        let whiteHarbor = new Area('WhiteHarbor', 0, true, true, false, true, 0, []);
         areas.push(whiteHarbor);
         let widowsWatch = new Area('WidowsWatch', 0, false, false, false, true, 1, []);
         areas.push(widowsWatch);
         let flintsFinger = new Area('FlintsFinger', 0, false, true, false, true, 0, []);
         areas.push(flintsFinger);
-        let pyke = new Area('Pyke', 1, true, false, true, true, 1, [new Unit(UnitType.Footman, House.greyjoy), new Unit(UnitType.Horse, House.greyjoy)]);
+        let pyke = new Area('Pyke', 1, true, false, true, true, 1, []);
         areas.push(pyke);
-        let greyWaterWatch = new Area('GrayWaterWatch', 0, false, false, false, true, 1, [new Unit(UnitType.Footman, House.greyjoy)]);
+        let greyWaterWatch = new Area('GrayWaterWatch', 0, false, false, false, true, 1, []);
         areas.push(greyWaterWatch);
-        let ironmansBay = new Area('IronmansBay', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.greyjoy), new Unit(UnitType.Ship, House.greyjoy)]);
+        let ironmansBay = new Area('IronmansBay', 0, false, false, false, false, 0, []);
         areas.push(ironmansBay);
         let theNarrowSea = new Area('TheNarrowSea', 0, false, false, false, false, 0, []);
         areas.push(theNarrowSea);
@@ -44,11 +45,11 @@ export class AreaInitiator {
         areas.push(theEyrie);
         let sunsetSea = new Area('SunsetSea', 0, false, false, false, false, 0, []);
         areas.push(sunsetSea);
-        let lannisport = new Area('Lannisport', 0, true, false, true, true, 2, [new Unit(UnitType.Footman, House.lannister), new Unit(UnitType.Horse, House.lannister)]);
+        let lannisport = new Area('Lannisport', 0, true, false, true, true, 2);
         areas.push(lannisport);
-        let theGoldenSound = new Area('TheGoldenSound', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.lannister)]);
+        let theGoldenSound = new Area('TheGoldenSound', 0, false, false, false, false, 0, []);
         areas.push(theGoldenSound);
-        let stoneySept = new Area('StoneySept', 1, false, false, false, true, 0, [new Unit(UnitType.Ship, House.lannister)]);
+        let stoneySept = new Area('StoneySept', 1, false, false, false, true, 0, []);
         areas.push(stoneySept);
         let riverrun = new Area('Riverrun', 1, false, false, true, true, 1, []);
         areas.push(riverrun);
@@ -60,11 +61,11 @@ export class AreaInitiator {
         areas.push(craicklawPoint);
         let blackwaterBay = new Area('BlackwaterBay', 0, false, false, false, false, 0, []);
         areas.push(blackwaterBay);
-        let dragonStone = new Area('Dragonstone', 1, true, false, true, true, 1, [new Unit(UnitType.Footman, House.baratheon), new Unit(UnitType.Horse, House.baratheon)]);
+        let dragonStone = new Area('Dragonstone', 1, true, false, true, true, 1, []);
         areas.push(dragonStone);
-        let shipbreakerBay = new Area('ShipbreakerBay', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.baratheon), new Unit(UnitType.Ship, House.baratheon)]);
+        let shipbreakerBay = new Area('ShipbreakerBay', 0, false, false, false, false, 0, []);
         areas.push(shipbreakerBay);
-        let kingswood = new Area('Kingswood', 1, false, false, false, true, 1, [new Unit(UnitType.Footman, House.baratheon)]);
+        let kingswood = new Area('Kingswood', 1, false, false, false, true, 1, []);
         areas.push(kingswood);
         let kingsLanding = new Area('KingsLanding', 2, false, false, false, true, 0, []);
         areas.push(kingsLanding);
@@ -72,11 +73,11 @@ export class AreaInitiator {
         areas.push(blackwater);
         let searoadMarches = new Area('SearoadMarches', 0, false, false, false, true, 1, []);
         areas.push(searoadMarches);
-        let highgarden = new Area('Highgarden', 0, false, false, true, true, 2, [new Unit(UnitType.Footman, House.tyrell), new Unit(UnitType.Horse, House.tyrell)]);
+        let highgarden = new Area('Highgarden', 0, false, false, true, true, 2, []);
         areas.push(highgarden);
-        let dornishMarches = new Area('DornishMarches', 1, false, false, false, true, 0, [new Unit(UnitType.Footman, House.tyrell)]);
+        let dornishMarches = new Area('DornishMarches', 1, false, false, false, true, 0, []);
         areas.push(dornishMarches);
-        let redwyneStraights = new Area('RedwyneStraights', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.tyrell)]);
+        let redwyneStraights = new Area('RedwyneStraights', 0, false, false, false, false, 0, []);
         areas.push(redwyneStraights);
         let stormsEnd = new Area('StormsEnd', 0, true, true, false, true, 0, []);
         areas.push(stormsEnd);
@@ -90,11 +91,11 @@ export class AreaInitiator {
         areas.push(princesPass);
         let yronwood = new Area('Yornwood', 0, false, true, false, true, 0, []);
         areas.push(yronwood);
-        let sunspear = new Area('Sunspear', 1, true, false, true, true, 1, [new Unit(UnitType.Footman, House.martell), new Unit(UnitType.Horse, House.martell)]);
+        let sunspear = new Area('Sunspear', 1, true, false, true, true, 1, []);
         areas.push(sunspear);
-        let saltShore = new Area('SaltShore', 0, false, false, false, true, 1, [new Unit(UnitType.Footman, House.martell)]);
+        let saltShore = new Area('SaltShore', 0, false, false, false, true, 1, []);
         areas.push(saltShore);
-        let seaOfDorne = new Area('SeaOfDorne', 0, false, false, false, false, 0, [new Unit(UnitType.Ship, House.martell)]);
+        let seaOfDorne = new Area('SeaOfDorne', 0, false, false, false, false, 0, []);
         areas.push(seaOfDorne);
         let starfall = new Area('Starfall', 0, false, true, false, true, 1, []);
         areas.push(starfall);
@@ -156,14 +157,48 @@ export class AreaInitiator {
         saltShore.borders.push(yronwood, sunspear, eastSummerSea, starfall);
         eastSummerSea.borders.push(starfall, saltShore, sunspear, seaOfDorne, shipbreakerBay, westSummerSea);
         sunspear.borders.push(seaOfDorne, eastSummerSea, saltShore, yronwood);
+
+        for(let player of players){
+            switch (player.house) {
+                case House.stark:
+                    theShiveringSea.units = [new Unit(UnitType.Ship, House.stark)];
+                    winterfell.units = [new Unit(UnitType.Horse, House.stark), new Unit(UnitType.Footman, House.stark)];
+                    whiteHarbor.units =  [new Unit(UnitType.Footman, House.stark)];
+                    break;
+                case House.lannister:
+                    lannisport.units = [new Unit(UnitType.Footman, House.lannister), new Unit(UnitType.Horse, House.lannister)];
+                    theGoldenSound.units =  [new Unit(UnitType.Ship, House.lannister)];
+                    stoneySept.units = [new Unit(UnitType.Ship, House.lannister)];
+                    break;
+                case House.baratheon:
+                    dragonStone.units = [new Unit(UnitType.Footman, House.baratheon), new Unit(UnitType.Horse, House.baratheon)];
+                    shipbreakerBay.units = [new Unit(UnitType.Ship, House.baratheon), new Unit(UnitType.Ship, House.baratheon)];
+                    kingswood.units = [new Unit(UnitType.Footman, House.baratheon)];
+                    break;
+                case House.greyjoy:
+                    pyke.units = [new Unit(UnitType.Footman, House.greyjoy), new Unit(UnitType.Horse, House.greyjoy)];
+                    greyWaterWatch.units = [new Unit(UnitType.Footman, House.greyjoy)];
+                    ironmansBay.units = [new Unit(UnitType.Ship, House.greyjoy), new Unit(UnitType.Ship, House.greyjoy)];
+                    break;
+                case House.tyrell:
+                    highgarden.units = [new Unit(UnitType.Footman, House.tyrell), new Unit(UnitType.Horse, House.tyrell)];
+                    dornishMarches.units = [new Unit(UnitType.Footman, House.tyrell)];
+                    redwyneStraights.units = [new Unit(UnitType.Ship, House.tyrell)];
+                    break;
+                case House.martell:
+                    sunspear.units = [new Unit(UnitType.Footman, House.martell), new Unit(UnitType.Horse, House.martell)];
+                    saltShore.units = [new Unit(UnitType.Footman, House.martell)];
+                    seaOfDorne.units = [new Unit(UnitType.Ship, House.martell)];
+                    break;
+            }
+
+        }
+
         return areas;
     }
+
+    private static addInitialUnits(areas: Array<Area>, players: Array<Player>) {
+
+
+    }
 }
-
-
-/*
-
-
-
-
- */
