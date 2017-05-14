@@ -5,11 +5,11 @@ import GameState from '../logic/gameStati';
 import UnitRenderer from '../ui/unitRenderer';
 import GameRules from '../logic/gameRules';
 import {GamePhase} from '../logic/gamePhase';
+import Player from '../logic/player';
+import {House} from '../logic/house';
+import AI from '../logic/ai';
 
 import game = PIXI.game;
-import Player from "../logic/player";
-import {House} from "../logic/house";
-import AI from "../logic/ai";
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -43,6 +43,7 @@ export default class Game extends Phaser.State {
         this.unitRenderer.renderUnits(this.game);
         this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
         this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer);
+        this.topMenuRenderer.renderPowerToken(this.game);
         this.currentGameWidth = window.innerWidth;
     }
 
@@ -74,9 +75,9 @@ export default class Game extends Phaser.State {
             this.topMenuRenderer.renderGameState(this.game);
             this.orderTokenRenderer.resetOrderTokens(this.game);
             this.topMenuRenderer.renderGameState(this.game);
+            this.topMenuRenderer.renderPowerToken(this.game);
         }
 
-        this.topMenuRenderer.renderPowerToken(this.game);
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
         this.unitRenderer.renderUnits(this.game);
