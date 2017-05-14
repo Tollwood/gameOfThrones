@@ -1,7 +1,7 @@
 import {Area} from './area';
 import {Unit, UnitType} from './units';
 import {House} from './house';
-import Player from "./player";
+import Player from './player';
 
 export class AreaInitiator {
 
@@ -53,8 +53,8 @@ export class AreaInitiator {
         areas.push(stoneySept);
         let riverrun = new Area('Riverrun', 1, false, false, true, true, 1, []);
         areas.push(riverrun);
-        let theMountainOfTheMoon = new Area('TheMountainOfTheMoon', 0, false, false, false, true, 1, []);
-        areas.push(theMountainOfTheMoon);
+        let TheMountainsOfTheMoon = new Area('TheMountainsOfTheMoon', 0, false, false, false, true, 1, []);
+        areas.push(TheMountainsOfTheMoon);
         let harrenhal = new Area('Harrenhal', 1, false, true, false, true, 0, []);
         areas.push(harrenhal);
         let craicklawPoint = new Area('CraicklawPoint', 0, false, true, false, true, 0, []);
@@ -116,7 +116,7 @@ export class AreaInitiator {
         theStonyShore.borders.push(winterfell, bayOfIce);
         whiteHarbor.borders.push(theShiveringSea, widowsWatch, theNarrowSea, moatCailin, winterfell);
         widowsWatch.borders.push(whiteHarbor, theShiveringSea, theNarrowSea);
-        theNarrowSea.borders.push(theShiveringSea, widowsWatch, whiteHarbor, moatCailin, theTwins, theFingers, theMountainOfTheMoon, theEyrie, craicklawPoint, shipbreakerBay);
+        theNarrowSea.borders.push(theShiveringSea, widowsWatch, whiteHarbor, moatCailin, theTwins, theFingers, TheMountainsOfTheMoon, theEyrie, craicklawPoint, shipbreakerBay);
         moatCailin.borders.push(whiteHarbor, theNarrowSea, theTwins, seagard, greyWaterWatch);
         greyWaterWatch.borders.push(moatCailin, seagard, ironmansBay, flintsFinger, bayOfIce);
         flintsFinger.borders.push(bayOfIce, sunsetSea, ironmansBay, greyWaterWatch);
@@ -124,16 +124,16 @@ export class AreaInitiator {
         ironmansBay.borders.push(sunsetSea, flintsFinger, greyWaterWatch, seagard, riverrun, theGoldenSound, pyke);
         pyke.borders.push(ironmansBay);
         seagard.borders.push(greyWaterWatch, moatCailin, theTwins, riverrun, ironmansBay);
-        theTwins.borders.push(moatCailin, theNarrowSea, theFingers, theMountainOfTheMoon);
-        theFingers.borders.push(theNarrowSea, theMountainOfTheMoon, theTwins);
-        theMountainOfTheMoon.borders.push(theTwins, theFingers, theNarrowSea, theEyrie, craicklawPoint);
-        theEyrie.borders.push(theMountainOfTheMoon, theNarrowSea);
+        theTwins.borders.push(moatCailin, theNarrowSea, theFingers, TheMountainsOfTheMoon);
+        theFingers.borders.push(theNarrowSea, TheMountainsOfTheMoon, theTwins);
+        TheMountainsOfTheMoon.borders.push(theTwins, theFingers, theNarrowSea, theEyrie, craicklawPoint);
+        theEyrie.borders.push(TheMountainsOfTheMoon, theNarrowSea);
         riverrun.borders.push(seagard, harrenhal, stoneySept, lannisport, theGoldenSound, ironmansBay);
         lannisport.borders.push(theGoldenSound, riverrun, stoneySept, searoadMarches);
         theGoldenSound.borders.push(ironmansBay, riverrun, lannisport, searoadMarches);
         theStonyShore.borders.push();
         harrenhal.borders.push(craicklawPoint, blackwater, stoneySept, riverrun);
-        craicklawPoint.borders.push(theMountainOfTheMoon, theNarrowSea, shipbreakerBay, blackwaterBay, kingsLanding, blackwater, harrenhal);
+        craicklawPoint.borders.push(TheMountainsOfTheMoon, theNarrowSea, shipbreakerBay, blackwaterBay, kingsLanding, blackwater, harrenhal);
         shipbreakerBay.borders.push(theNarrowSea, dragonStone, eastSummerSea, stormsEnd, kingswood, blackwaterBay, craicklawPoint);
         dragonStone.borders.push(shipbreakerBay);
         kingsLanding.borders.push(craicklawPoint, blackwaterBay, kingswood, blackwater, theReach);

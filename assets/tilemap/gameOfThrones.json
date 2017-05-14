@@ -163,7 +163,7 @@
           {
            "height": 90,
            "id": 63,
-           "name": "TheMountainOfTheMoon",
+           "name": "TheMountainsOfTheMoon",
            "rotation": 0,
            "type": "",
            "visible": true,
@@ -847,7 +847,7 @@
            "ellipse": true,
            "height": 45,
            "id": 129,
-           "name": "TheMountainOfTheMoon",
+           "name": "TheMountainsOfTheMoon",
            "rotation": 0,
            "type": "",
            "visible": true,
@@ -1735,7 +1735,7 @@
     {
      "height": 44,
      "id": 120,
-     "name": "TheMountainOfTheMoon",
+     "name": "TheMountainsOfTheMoon",
      "rotation": 0,
      "type": "",
      "visible": true,

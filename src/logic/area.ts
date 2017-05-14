@@ -24,7 +24,7 @@ export type AreaKey =
     'Pyke' |
     'TheGoldenSound' |
     'Riverrun' |
-    'TheMountainOfTheMoon' |
+    'TheMountainsOfTheMoon' |
     'Harrenhal' |
     'StoneySept' |
     'CraicklawPoint' |
