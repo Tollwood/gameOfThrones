@@ -32,14 +32,14 @@ export default class UnitRenderer {
         game.load.image('baratheonShip', Assets.Images.ImagesUnitsBaratheonShip.getPNG());
         game.load.image('baratheonSiege', Assets.Images.ImagesUnitsBaratheonSiege.getPNG());
 
-        game.load.image('tyrellFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
-        game.load.image('tyrellHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
-        game.load.image('tyrellShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());
+        game.load.image('tyrellFootman', Assets.Images.ImagesUnitsTyrellFootman.getPNG());
+        game.load.image('tyrellHorse', Assets.Images.ImagesUnitsTyrellHorse.getPNG());
+        game.load.image('tyrellShip', Assets.Images.ImagesUnitsTyrellShip.getPNG());
         game.load.image('tyrellSiege', Assets.Images.ImagesUnitsLannisterSiege.getPNG());
 
-        game.load.image('martellFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
-        game.load.image('martellHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
-        game.load.image('martellShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());
+        game.load.image('martellFootman', Assets.Images.ImagesUnitsMartellFootman.getPNG());
+        game.load.image('martellHorse', Assets.Images.ImagesUnitsMartellHorse.getPNG());
+        game.load.image('martellShip', Assets.Images.ImagesUnitsMartellShip.getPNG());
         game.load.image('martellSiege', Assets.Images.ImagesUnitsLannisterSiege.getPNG());
         game.load.tilemap('gotTileMap', Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
 
