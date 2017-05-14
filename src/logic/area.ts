@@ -42,7 +42,7 @@ export type AreaKey =
     'Oldtown' |
     'ThreeTowers' |
     'PrincesPass' |
-    'Yornwood' |
+    'Yronwood' |
     'Sunspear' |
     'SaltShore' |
     'Starfall' |
@@ -56,7 +56,7 @@ export type AreaKey =
 
 export class Area {
 
-    private _key: string;
+    private _key: AreaKey;
     private consolidatePower: number;
     private harbor: boolean;
     private castle: boolean;
@@ -80,7 +80,7 @@ export class Area {
         this._isLandArea = isLandArea;
     }
 
-    get key(): string {
+    get key(): AreaKey {
         return this._key;
     }
 

@@ -1,6 +1,6 @@
 import {House} from './house';
 export enum OrderTokenType {
-    march = 1
+    march = 0,
 }
 
 export class OrderToken {

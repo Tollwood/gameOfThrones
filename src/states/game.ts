@@ -9,6 +9,7 @@ import {GamePhase} from '../logic/gamePhase';
 import game = PIXI.game;
 import Player from "../logic/player";
 import {House} from "../logic/house";
+import AI from "../logic/ai";
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -33,7 +34,7 @@ export default class Game extends Phaser.State {
     }
 
     public create(): void {
-        GameState.initGame([new Player(House.stark,10),new Player(House.lannister,5),new Player(House.baratheon,5)]);
+        GameState.initGame([new Player(House.stark,5, false),new Player(House.lannister,5, true),new Player(House.baratheon,5, true),new Player(House.greyjoy,5, true), new Player(House.tyrell,5, true),new Player(House.martell,5, true)]);
         BoardRenderer.renderBoard(this.game);
         this.orderTokenRenderer.createGroups(this.game);
         this.game.input.enabled = true;
@@ -43,14 +44,23 @@ export default class Game extends Phaser.State {
         this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
         this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer);
         this.currentGameWidth = window.innerWidth;
-
-
     }
 
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
             this.topMenuRenderer.renderTopMenu(this.game);
             this.currentGameWidth = window.innerWidth;
+        }
+
+        if(GameState.getInstance().gamePhase == GamePhase.PLANNING){
+            AI.placeOrderTokens();
+            this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
+        }
+
+        if(GameState.getInstance().gamePhase == GamePhase.ACTION){
+            this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
+            GameState.getInstance().areas.map((area) => {AI.executeMoveOrder(area);});
+
         }
 
         if (GameRules.isPlanningPhaseComplete()) {

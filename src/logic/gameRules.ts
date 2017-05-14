@@ -54,6 +54,11 @@ export default class GameRules {
         return validMove
     }
 
+    public static skipMarchorder(source: AreaKey){
+        let sourceArea = GameRules.getAreaByKey(source);
+        sourceArea.orderToken = undefined;
+    }
+
     public static isAllowedToMove(source: Area, target: Area, unit: Unit): boolean {
         let hasUnitsToMove = source.units.length > 0;
         let moveOnLand = target.isLandArea && unit.isLandunit()

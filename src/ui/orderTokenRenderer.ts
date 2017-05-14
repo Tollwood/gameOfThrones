@@ -5,8 +5,9 @@ import {OrderToken, OrderTokenType} from '../logic/orderToken';
 import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
-import {Area} from '../logic/area';
+import {Area, AreaKey} from '../logic/area';
 import game = PIXI.game;
+import {isUndefined} from "util";
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -128,19 +129,9 @@ export default class OrderTokenRenderer {
             sprite.originalx = sprite.x;
             sprite.originaly = sprite.y;
         });
-        let placedTokenGroup = this.placedTokens;
         orderToken.events.onDragStop.add((placableOrderToken) => {
-            let matchingArea: UiArea = this.getPositionOfValidAreaToPlaceOrderToken(placableOrderToken);
-            if (matchingArea) {
-                this.orderTokens.remove(placableOrderToken);
-                let placedToken = placableOrderToken.game.add.sprite(matchingArea.x + (matchingArea.width / 2), matchingArea.y + ( matchingArea.height / 2), placableOrderToken.key, placableOrderToken.frame, placedTokenGroup);
-                placedToken.inputEnabled = true;
-                placedToken.events.onInputDown.add((sprite) => {
-                    this.addOnInputDownBehaviour(sprite, matchingArea);
-                });
-                placableOrderToken.destroy();
-
-            } else {
+            let successcullyPlaced: boolean = this.placeOrderToken(placableOrderToken);
+            if (!successcullyPlaced) {
                 // move back to orignalPosition
                 placableOrderToken.x = placableOrderToken.originalx;
                 placableOrderToken.y = placableOrderToken.originaly;
@@ -171,8 +162,7 @@ export default class OrderTokenRenderer {
         return sprite;
     }
 
-    public getPositionOfValidAreaToPlaceOrderToken(currentSprite): UiArea {
-        let matchingBounds: UiArea = null;
+    public placeOrderToken(currentSprite): boolean {
         this.area.forEach((area) => {
             const scale: Phaser.Point = currentSprite.game.camera.scale;
             let boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
@@ -180,12 +170,11 @@ export default class OrderTokenRenderer {
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-
                 GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer, OrderTokenType.march), area.name);
-                matchingBounds = area;
+                return true;
             }
         });
-        return matchingBounds;
+        return false;
     }
 
     private removeSelectedToken(sprite: Phaser.Sprite) {
@@ -194,5 +183,34 @@ export default class OrderTokenRenderer {
         this.neighborsOfCurrentToken.removeChildren();
         this.selectedTokenMarker.removeChildren();
 
+    }
+
+    public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
+        this.placedTokens.removeChildren();
+        GameState.getInstance().areas
+            .filter((area) => {
+                return !isUndefined(area.orderToken);
+                })
+            .map((area ) => {
+                let uiArea : UiArea = this.getUiAreaByKey(area.key);
+                if(area.units[0].getHouse() === GameState.getInstance().currentPlayer){
+                    let placedToken = game.add.sprite(uiArea.x + (uiArea.width / 2), uiArea.y + ( uiArea.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
+                    placedToken.inputEnabled = true;
+                    placedToken.events.onInputDown.add((sprite) => {
+                        this.addOnInputDownBehaviour(sprite, uiArea);
+                    });
+                } else {
+                    if(revealed){
+                        game.add.sprite(uiArea.x + (uiArea.width / 2), uiArea.y + ( uiArea.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
+                    }
+                    else {
+                        game.add.sprite(uiArea.x + (uiArea.width / 2), uiArea.y + (uiArea.height / 2), 'orderTokenFront', area.units[0].getHouse(), this.placedTokens);
+                    }
+                }
+            }) ;
+    }
+
+    private getUiAreaByKey(key: AreaKey): UiArea {
+        return this.area.filter((uiArea) => {return uiArea.name === key;})[0];
     }
 }

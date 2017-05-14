@@ -89,7 +89,7 @@ export class AreaInitiator {
         areas.push(threeTowers);
         let princesPass = new Area('PrincesPass', 1, false, false, false, true, 1, []);
         areas.push(princesPass);
-        let yronwood = new Area('Yornwood', 0, false, true, false, true, 0, []);
+        let yronwood = new Area('Yronwood', 0, false, true, false, true, 0, []);
         areas.push(yronwood);
         let sunspear = new Area('Sunspear', 1, true, false, true, true, 1, []);
         areas.push(sunspear);

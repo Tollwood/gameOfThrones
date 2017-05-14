@@ -163,7 +163,7 @@
           {
            "height": 90,
            "id": 63,
-           "name": "TheMountainsOfTheMoon",
+           "name": "TheMountainOfTheMoon",
            "rotation": 0,
            "type": "",
            "visible": true,
@@ -394,7 +394,7 @@
           {
            "height": 90,
            "id": 174,
-           "name": "Harenhal",
+           "name": "Harrenhal",
            "rotation": 0,
            "type": "",
            "visible": true,
@@ -1063,7 +1063,7 @@
            "ellipse": true,
            "height": 45,
            "id": 148,
-           "name": "Yornwood",
+           "name": "Yronwood",
            "rotation": 0,
            "type": "",
            "visible": true,
