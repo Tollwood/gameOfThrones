@@ -1,7 +1,7 @@
 import * as Assets from '../assets';
 import GameRules from '../logic/gameRules';
 import {House} from '../logic/house';
-import {OrderToken, OrderTokenType} from '../logic/orderToken';
+import {OrderToken} from '../logic/orderToken';
 import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
@@ -58,7 +58,9 @@ export default class OrderTokenRenderer {
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
 
-        this.placableOrderTokens.createMultiple(1, 'orderTokens', [0, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10], true);
+        let availableOrderToken = GameRules.getAvailableOrderToken(GameState.getInstance().currentPlayer);
+
+        this.placableOrderTokens.createMultiple(1, 'orderTokens', availableOrderToken, true);
         this.placableOrderTokens.align(0, 0, 50, 45);
         this.placableOrderTokens.fixedToCamera = true;
         this.placableOrderTokens.cameraOffset.x = 10;
@@ -114,17 +116,9 @@ export default class OrderTokenRenderer {
         orderToken.inputEnabled = true;
         orderToken.input.enableDrag();
         OrderTokenRenderer.fixDragWhileZooming(orderToken);
-        orderToken.events.onInputDown.add((sprite) => {
-            sprite.originalx = sprite.x;
-            sprite.originaly = sprite.y;
-        });
         orderToken.events.onDragStop.add((placableOrderToken) => {
             let successcullyPlaced: boolean = this.placeOrderToken(placableOrderToken);
-            if (!successcullyPlaced) {
-                // move back to orignalPosition
-                placableOrderToken.x = placableOrderToken.originalx;
-                placableOrderToken.y = placableOrderToken.originaly;
-            }
+            this.renderOrderTokenInMenu(game);
         });
     }
 
@@ -159,7 +153,7 @@ export default class OrderTokenRenderer {
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer, OrderTokenType.march), area.name);
+                GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer, currentSprite.frame), area.name);
                 return true;
             }
         });

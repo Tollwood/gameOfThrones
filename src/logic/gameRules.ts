@@ -1,7 +1,7 @@
 import {Area, AreaKey} from './area';
 import GameState from './gameStati';
 import {House} from './house';
-import {OrderToken} from './orderToken';
+import {OrderToken, OrderTokenType} from './orderToken';
 import {isUndefined} from 'util';
 import {GamePhase} from './gamePhase';
 import {Unit} from './units';
@@ -113,4 +113,15 @@ export default class GameRules {
             }).length === 0;
     }
 
+    public static getAvailableOrderToken(house: House): Array<OrderTokenType> {
+        let alreadyPlacedOrderTokens: Array<OrderTokenType> = GameState.getInstance().areas.filter((area) => {
+            return area.orderToken && area.units.length > 0 && area.units[0].getHouse() === house;
+        }).map((area) => {
+            return area.orderToken.getType()
+        });
+
+        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special].filter((type) => {
+            return alreadyPlacedOrderTokens.indexOf(type) === -1;
+        });
+    }
 }

@@ -23,7 +23,7 @@ describe('GameRules', () => {
     });
 
     it('should not be allowed to place a token on an area with an orderToken already placed', () => {
-        let orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        let orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameState.getInstance().areas.filter((area) => {
             return area.key === 'Winterfell';
         })[0].orderToken = orderToken;
@@ -31,7 +31,7 @@ describe('GameRules', () => {
     });
 
     it('should add OrderToken', () => {
-        let orderToken: OrderToken = new OrderToken(House.stark, OrderTokenType.march);
+        let orderToken: OrderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.addOrderToken(orderToken, 'Winterfell');
         let result: OrderToken = GameState.getInstance().areas.filter((area) => {
             return area.key === 'Winterfell';
@@ -46,13 +46,13 @@ describe('GameRules', () => {
 
     it('should end the planningPhase the panning Phase while there are still Tokens to place', () => {
         GameState.getInstance().areas.map(area => {
-            area.orderToken = new OrderToken(House.stark, OrderTokenType.march);
+            area.orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         });
         expect(GameRules.allOrderTokenPlaced(House.stark)).toBe(true);
     });
 
     it('should move units from one area to another', () => {
-        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('Winterfell', 'Karhold', new Unit(UnitType.Footman, House.stark));
         let winterfell = GameRules.getAreaByKey('Winterfell');
         expect(winterfell.units.length).toBe(0);
@@ -61,7 +61,7 @@ describe('GameRules', () => {
     });
 
     it('should move land units from one area to another over the sea using a friendly ship', () => {
-        GameRules.getAreaByKey('WhiteHarbor').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('WhiteHarbor').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('WhiteHarbor', 'CastleBlack', new Unit(UnitType.Footman, House.stark));
         let winterfell = GameRules.getAreaByKey('WhiteHarbor');
         expect(winterfell.units.length).toBe(0);
@@ -70,14 +70,14 @@ describe('GameRules', () => {
     });
 
     it('should not move unit if unit is not present in source area ', () => {
-        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('Winterfell', 'Karhold', new Unit(UnitType.Siege, House.stark));
         let winterfell = GameRules.getAreaByKey('Winterfell');
         expect(winterfell.orderToken).toBeDefined();
     });
 
     it('should not move unit into an enemy area ', () => {
-        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.getAreaByKey('Karhold').units.push(new Unit(UnitType.Horse, House.baratheon));
         GameRules.moveUnits('Winterfell', 'Karhold', new Unit(UnitType.Footman, House.stark));
         let winterfell = GameRules.getAreaByKey('Winterfell');
@@ -85,14 +85,14 @@ describe('GameRules', () => {
     });
 
     it('should not move land unit into a sea area ', () => {
-        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('Winterfell', 'TheShiveringSea', new Unit(UnitType.Footman, House.stark));
         let winterfell = GameRules.getAreaByKey('Winterfell');
         expect(winterfell.orderToken).toBeDefined();
     });
 
     it('should not move sea unit into a land area ', () => {
-        GameRules.getAreaByKey('TheShiveringSea').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('TheShiveringSea').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('TheShiveringSea', 'Winterfell', new Unit(UnitType.Ship, House.stark));
         let theShiveringSea = GameRules.getAreaByKey('TheShiveringSea');
         expect(theShiveringSea.orderToken).toBeDefined();
@@ -101,7 +101,7 @@ describe('GameRules', () => {
 
     it('should not move units from one area to another if areas are not adjacent', () => {
         let winterfell = GameRules.getAreaByKey('Winterfell');
-        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march);
+        GameRules.getAreaByKey('Winterfell').orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
         GameRules.moveUnits('Winterfell', 'Starfall', new Unit(UnitType.Footman, House.stark));
         expect(winterfell.units.length).toBeGreaterThan(0);
 
