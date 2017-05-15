@@ -47,12 +47,13 @@ export default class UnitRenderer {
 
     private units: Phaser.Group;
 
+    public createGroups(game: Phaser.Game) {
+        this.units = game.add.group()
+    }
+
     public renderUnits(game: Phaser.Game) {
         this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
-        if (this.units) {
-            this.units.destroy(true);
-        }
-        this.units = game.add.group();
+        this.units.removeChildren();
         GameState.getInstance().areas
             .filter((area: Area) => {
                 return area.units.length > 0;

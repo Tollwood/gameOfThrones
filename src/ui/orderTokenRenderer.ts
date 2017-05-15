@@ -6,8 +6,8 @@ import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import {Area, AreaKey} from '../logic/area';
+import {isUndefined} from 'util';
 import game = PIXI.game;
-import {isUndefined} from "util";
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -16,10 +16,11 @@ export default class OrderTokenRenderer {
     private areaNames: Array<UiArea>;
     private area: Array<UiArea>;
     private selectedTokenMarker: Phaser.Group;
-    private orderTokens: Phaser.Group;
+    private placableOrderTokens: Phaser.Group;
     private placedTokens: Phaser.Group;
-    private neighborsOfCurrentToken: Phaser.Group;
+    private validAreasToExecuteOrderToken: Phaser.Group;
     private areasToPlaceToken: Phaser.Group;
+    private placeableOrderTokenBackground: Phaser.Group;
 
     constructor() {
     }
@@ -32,30 +33,14 @@ export default class OrderTokenRenderer {
 
     }
 
-    public renderOrderTokenInMenu(game: Phaser.Game) {
+    public createGroups(game: Phaser.Game) {
+        this.areasToPlaceToken = game.add.group();
         this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
-
-        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground');
-        menu.fixedToCamera = true;
-        menu.cameraOffset.y = window.innerHeight - 60;
-        this.orderTokens = game.add.group();
-        this.orderTokens.createMultiple(1, 'orderTokens', [0, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10], true);
-        this.orderTokens.align(0, 0, 50, 45);
-
-        this.orderTokens.fixedToCamera = true;
-        this.orderTokens.cameraOffset.x = 10;
-        this.orderTokens.cameraOffset.y = window.innerHeight - 55;
-
-        this.orderTokens.forEach((orderToken) => {
-            this.creatDragAndDrop(game, orderToken);
-        }, this, false);
-    }
-
-    public createGroups(game: Phaser.Game) {
+        this.placeableOrderTokenBackground = game.add.group();
+        this.placableOrderTokens = game.add.group();
+        this.validAreasToExecuteOrderToken = game.add.group();
         this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
-        this.neighborsOfCurrentToken = game.add.group();
-        this.areasToPlaceToken = game.add.group();
         this.areaNames = this.map.objects['areaNames'].map((area) => {
             return new UiArea(area.height, area.name, area.width, area.x, area.y);
         });
@@ -66,6 +51,23 @@ export default class OrderTokenRenderer {
 
     }
 
+    public renderOrderTokenInMenu(game: Phaser.Game) {
+        this.placeableOrderTokenBackground.removeChildren();
+        this.placableOrderTokens.removeChildren();
+        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground', 0, this.placeableOrderTokenBackground);
+        menu.fixedToCamera = true;
+        menu.cameraOffset.y = window.innerHeight - 60;
+
+        this.placableOrderTokens.createMultiple(1, 'orderTokens', [0, 1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8, 9, 9, 10], true);
+        this.placableOrderTokens.align(0, 0, 50, 45);
+        this.placableOrderTokens.fixedToCamera = true;
+        this.placableOrderTokens.cameraOffset.x = 10;
+        this.placableOrderTokens.cameraOffset.y = window.innerHeight - 55;
+        this.placableOrderTokens.forEach((orderToken) => {
+            this.creatDragAndDrop(game, orderToken);
+        }, this, false);
+    }
+
     public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House) {
         this.areasToPlaceToken.removeChildren();
         this.area.forEach((area: UiArea) => {
@@ -74,29 +76,21 @@ export default class OrderTokenRenderer {
         });
     }
 
-    public highlightToken(game: Phaser.Game, area: UiArea) {
-        let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
-        graphics.beginFill(0x00FF00, 1);
-        graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
-    }
-
-    public highlightNeigbors(game: Phaser.Game, sprite: Phaser.Sprite, matchingArea: UiArea) {
-        this.neighborsOfCurrentToken.removeChildren();
+    public highlightValidAreasToExecuteOrderToken(game: Phaser.Game, sprite: Phaser.Sprite, matchingArea: UiArea) {
+        this.validAreasToExecuteOrderToken.removeChildren();
         let areaToPlaceToken = GameRules.getAreaByKey(matchingArea.name);
         let areasAllowedToMoveTo: Array<Area> = GameState.getInstance().areas
             .filter((area) => {
                 return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
             });
 
-
-
         this.areaNames.filter((area) => {
             return areasAllowedToMoveTo.filter((border) => {
                     return border.key === area.name;
                 }).length > 0;
         }).map((area: UiArea) => {
-            let game = this.neighborsOfCurrentToken.game;
-            let graphics = game.add.graphics(0, 0, this.neighborsOfCurrentToken);
+            let game = this.validAreasToExecuteOrderToken.game;
+            let graphics = game.add.graphics(0, 0, this.validAreasToExecuteOrderToken);
             graphics.lineStyle(2, 0x0000FF, 1);
             graphics.beginFill(0xdfffb1, 0);
             graphics.drawRect(area.x, area.y, area.width, area.height);
@@ -112,11 +106,6 @@ export default class OrderTokenRenderer {
     }
 
     public resetOrderTokens(game: Phaser.Game) {
-        this.placedTokens.removeChildren();
-        this.orderTokens.removeChildren();
-        this.selectedTokenMarker.removeChildren();
-        this.neighborsOfCurrentToken.removeChildren();
-        this.areasToPlaceToken.removeChildren();
         this.renderOrderTokenInMenu(game);
         this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer);
     }
@@ -139,11 +128,11 @@ export default class OrderTokenRenderer {
         });
     }
 
-    private addOnInputDownBehaviour(sprite: Phaser.Sprite, matchingArea: UiArea) {
+    private highlightDuringActionPhase(sprite: Phaser.Sprite, matchingArea: UiArea) {
         if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, matchingArea);
-            this.highlightNeigbors(game, sprite, matchingArea);
+            this.highlightValidAreasToExecuteOrderToken(game, sprite, matchingArea);
         }
 
     }
@@ -180,7 +169,7 @@ export default class OrderTokenRenderer {
     private removeSelectedToken(sprite: Phaser.Sprite) {
         sprite.destroy();
         this.selectedTokenMarker.removeChildren();
-        this.neighborsOfCurrentToken.removeChildren();
+        this.validAreasToExecuteOrderToken.removeChildren();
         this.selectedTokenMarker.removeChildren();
 
     }
@@ -197,7 +186,7 @@ export default class OrderTokenRenderer {
                     let placedToken = game.add.sprite(uiArea.x + (uiArea.width / 2), uiArea.y + ( uiArea.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
                     placedToken.events.onInputDown.add((sprite) => {
-                        this.addOnInputDownBehaviour(sprite, uiArea);
+                        this.highlightDuringActionPhase(sprite, uiArea);
                     });
                 } else {
                     if(revealed){
@@ -208,6 +197,12 @@ export default class OrderTokenRenderer {
                     }
                 }
             }) ;
+    }
+
+    private highlightToken(game: Phaser.Game, area: UiArea) {
+        let graphics = game.add.graphics(0, 0, this.selectedTokenMarker);
+        graphics.beginFill(0x00FF00, 1);
+        graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
     }
 
     private getUiAreaByKey(key: AreaKey): UiArea {

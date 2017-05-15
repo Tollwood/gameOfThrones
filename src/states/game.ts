@@ -36,11 +36,12 @@ export default class Game extends Phaser.State {
     public create(): void {
         GameState.initGame([new Player(House.stark,5, false),new Player(House.lannister,5, true),new Player(House.baratheon,5, true),new Player(House.greyjoy,5, true), new Player(House.tyrell,5, true),new Player(House.martell,5, true)]);
         BoardRenderer.renderBoard(this.game);
+        this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
+        this.unitRenderer.renderUnits(this.game);
         this.game.input.enabled = true;
         this.topMenuRenderer.renderTopMenu(this.game);
         this.topMenuRenderer.renderGameState(this.game);
-        this.unitRenderer.renderUnits(this.game);
         this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
         this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer);
         this.topMenuRenderer.renderPowerToken(this.game);
@@ -50,6 +51,7 @@ export default class Game extends Phaser.State {
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
             this.topMenuRenderer.renderTopMenu(this.game);
+            this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
             this.currentGameWidth = window.innerWidth;
         }
 
