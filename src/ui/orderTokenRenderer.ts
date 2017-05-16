@@ -7,7 +7,6 @@ import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import {Area, AreaKey} from '../logic/area';
 import {isUndefined} from 'util';
-import game = PIXI.game;
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -92,25 +91,27 @@ export default class OrderTokenRenderer {
                 }).length > 0;
         }).map((area: UiArea) => {
             let game = this.validAreasToExecuteOrderToken.game;
-            this.drawRectangleAroundAreaName(game, areaToken, area, selectedOrderToken);
+
+            let moveUnitFunction = () => {
+                let validMove = GameRules.moveUnits(areaToken.name, area.name, GameRules.getAreaByKey(areaToken.name).units[0]);
+                if (validMove) {
+                    this.removeSelectedToken(selectedOrderToken);
+                }
+            };
+
+            this.drawRectangleAroundAreaName(game, area, 0x0000FF, moveUnitFunction);
 
         });
     }
 
-    private drawRectangleAroundAreaName(game, areaToken: UiArea, areaName: UiArea, selectedToken: Phaser.Sprite) {
+    private drawRectangleAroundAreaName(game, areaName: UiArea, color: number, onInputDown: Function) {
         let graphics = game.add.graphics(0, 0, this.validAreasToExecuteOrderToken);
-        graphics.lineStyle(2, 0x0000FF, 1);
+        graphics.lineStyle(2, color, 1);
         graphics.beginFill(0xdfffb1, 0);
         graphics.drawRect(areaName.x, areaName.y, areaName.width, areaName.height);
         graphics.endFill();
         graphics.inputEnabled = true;
-        graphics.events.onInputDown.add(() => {
-            let validMove = GameRules.moveUnits(areaToken.name, areaName.name, GameRules.getAreaByKey(areaToken.name).units[0]);
-            if (validMove) {
-                GameRules.nextPlayer();
-                this.removeSelectedToken(selectedToken);
-            }
-        });
+        graphics.events.onInputDown.add(onInputDown);
     }
     public resetOrderTokens(game: Phaser.Game) {
         this.renderOrderTokenInMenu(game);
@@ -131,8 +132,8 @@ export default class OrderTokenRenderer {
         if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
-            this.highlightValidAreasToExecuteOrderToken(game, sprite, areaToken);
-            this.highlightAreaNameToSkipOrder(game, areaToken);
+            this.highlightValidAreasToExecuteOrderToken(sprite.game, sprite, areaToken);
+            this.highlightAreaNameToSkipOrder(sprite.game, areaToken, sprite);
         }
 
     }
@@ -207,7 +208,18 @@ export default class OrderTokenRenderer {
         })[0];
     }
 
-    private highlightAreaNameToSkipOrder(game: Phaser.Game, areaToken: UiArea) {
+    private getAreaNameByKey(key: AreaKey): UiArea {
+        return this.areaNames.filter((uiArea) => {
+            return uiArea.name === key;
+        })[0];
+    }
+
+    private highlightAreaNameToSkipOrder(game: Phaser.Game, areaToken: UiArea, selectedToken: Phaser.Sprite) {
+        let areaName = this.getAreaNameByKey(areaToken.name);
+        this.drawRectangleAroundAreaName(game, areaName, 0xFF0000, () => {
+            GameRules.skipMarchorder(areaToken.name);
+            this.removeSelectedToken(selectedToken);
+        });
 
     }
 }

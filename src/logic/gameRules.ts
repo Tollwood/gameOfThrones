@@ -31,6 +31,9 @@ export default class GameRules {
         this.switchToPhase(GamePhase.PLANNING);
         const gameState = GameState.getInstance();
         gameState.nextRound();
+        gameState.currentPlayer = gameState.players.filter((player) => {
+            return !player.computerOpponent
+        })[0];
     }
 
     public static switchToPhase(phase: GamePhase) {
@@ -44,13 +47,14 @@ export default class GameRules {
     }
 
     public static moveUnits(source: AreaKey, target: AreaKey, unit: Unit): boolean {
-        let sourceArea = GameRules.getAreaByKey(source);
-        let targetArea = GameRules.getAreaByKey(target);
-        let validMove: boolean = GameRules.isAllowedToMove(sourceArea, targetArea, unit);
+        let sourceArea = this.getAreaByKey(source);
+        let targetArea = this.getAreaByKey(target);
+        let validMove: boolean = this.isAllowedToMove(sourceArea, targetArea, unit);
         if (validMove) {
             sourceArea.orderToken = undefined;
             targetArea.units = targetArea.units.concat(sourceArea.units);
             sourceArea.units = new Array<Unit>();
+            this.nextPlayer();
         }
         return validMove
     }
@@ -58,6 +62,7 @@ export default class GameRules {
     public static skipMarchorder(source: AreaKey){
         let sourceArea = GameRules.getAreaByKey(source);
         sourceArea.orderToken = undefined;
+        this.nextPlayer();
     }
 
     public static isAllowedToMove(source: Area, target: Area, unit: Unit): boolean {

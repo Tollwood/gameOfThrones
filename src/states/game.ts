@@ -68,7 +68,6 @@ export default class Game extends Phaser.State {
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
             if (GameState.getInstance().currentPlayer.computerOpponent) {
                 AI.executeMoveOrder(GameState.getInstance().currentPlayer);
-                GameRules.nextPlayer();
             }
 
             if (GameRules.isActionPhaseComplete()) {
