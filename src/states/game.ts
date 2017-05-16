@@ -43,7 +43,7 @@ export default class Game extends Phaser.State {
         this.topMenuRenderer.renderTopMenu(this.game);
         this.topMenuRenderer.renderGameState(this.game);
         this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
-        this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer);
+        this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
         this.topMenuRenderer.renderPowerToken(this.game);
         this.currentGameWidth = window.innerWidth;
     }
@@ -58,26 +58,26 @@ export default class Game extends Phaser.State {
         if(GameState.getInstance().gamePhase == GamePhase.PLANNING){
             AI.placeOrderTokens();
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
+            if (GameRules.isPlanningPhaseComplete()) {
+                GameRules.startActionPhase();
+                this.topMenuRenderer.renderGameState(this.game);
+            }
         }
 
-        if(GameState.getInstance().gamePhase == GamePhase.ACTION){
+        if (GameState.getInstance().gamePhase == GamePhase.ACTION) {
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
-            GameState.getInstance().areas.map((area) => {AI.executeMoveOrder(area);});
+            if (GameState.getInstance().currentPlayer.computerOpponent) {
+                AI.executeMoveOrder(GameState.getInstance().currentPlayer);
+                GameRules.nextPlayer();
+            }
 
-        }
-
-        if (GameRules.isPlanningPhaseComplete()) {
-            GameRules.switchToPhase(GamePhase.ACTION);
-            this.topMenuRenderer.renderGameState(this.game);
-        }
-
-        if (GameRules.isActionPhaseComplete()) {
-            GameRules.switchToPhase(GamePhase.PLANNING);
-            GameRules.nextRound();
-            this.topMenuRenderer.renderGameState(this.game);
-            this.orderTokenRenderer.resetOrderTokens(this.game);
-            this.topMenuRenderer.renderGameState(this.game);
-            this.topMenuRenderer.renderPowerToken(this.game);
+            if (GameRules.isActionPhaseComplete()) {
+                GameRules.nextRound();
+                this.topMenuRenderer.renderGameState(this.game);
+                this.orderTokenRenderer.resetOrderTokens(this.game);
+                this.topMenuRenderer.renderGameState(this.game);
+                this.topMenuRenderer.renderPowerToken(this.game);
+            }
         }
 
         this.boardRenderer.handleNavigationOnMap(this.game);

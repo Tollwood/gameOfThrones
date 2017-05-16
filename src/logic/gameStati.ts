@@ -24,7 +24,7 @@ export default class GameState {
     private _gamePhase: GamePhase = GamePhase.PLANNING;
     private _round: number = 1;
     private _areas: Array<Area> = new Array<Area>();
-    private _currentPlayer: House = House.stark;
+    private _currentPlayer: Player;
     private _players: Array<Player> = [];
     private _ironThroneSuccession: Array<House> = [];
     private _kingscourt: Array<House> = [];
@@ -41,6 +41,9 @@ export default class GameState {
         this.gameState = new GameState();
         this.gameState._areas = AreaInitiator.getInitalState(player);
         this.gameState._players = player;
+        this.gameState.currentPlayer = player.filter((player) => {
+            return !player.computerOpponent;
+        })[0];
         this.gameState._ironThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
         this.gameState._fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
         this.gameState._kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -73,11 +76,11 @@ export default class GameState {
         return this._round;
     }
 
-    get currentPlayer(): House {
+    get currentPlayer(): Player {
         return this._currentPlayer;
     }
 
-    set currentPlayer(value: House) {
+    set currentPlayer(value: Player) {
         this._currentPlayer = value;
     }
 

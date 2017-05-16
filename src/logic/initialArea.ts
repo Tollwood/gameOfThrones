@@ -168,7 +168,7 @@ export class AreaInitiator {
                 case House.lannister:
                     lannisport.units = [new Unit(UnitType.Footman, House.lannister), new Unit(UnitType.Horse, House.lannister)];
                     theGoldenSound.units =  [new Unit(UnitType.Ship, House.lannister)];
-                    stoneySept.units = [new Unit(UnitType.Ship, House.lannister)];
+                    stoneySept.units = [new Unit(UnitType.Footman, House.lannister)];
                     break;
                 case House.baratheon:
                     dragonStone.units = [new Unit(UnitType.Footman, House.baratheon), new Unit(UnitType.Horse, House.baratheon)];

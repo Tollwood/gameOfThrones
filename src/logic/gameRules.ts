@@ -28,6 +28,7 @@ export default class GameRules {
     }
 
     public static nextRound() {
+        this.switchToPhase(GamePhase.PLANNING);
         const gameState = GameState.getInstance();
         gameState.nextRound();
     }
@@ -71,9 +72,10 @@ export default class GameRules {
             }).length > 0;
         let requiresCombat = target.units.filter((unitToCheck) => {
                 return unit.getHouse() !== unitToCheck.getHouse()
-            }).length !== 0
+            }).length !== 0;
         let connectedUsingShipTransport = GameRules.connectedUsingShipTransport(source, target);
-        return hasUnitsToMove
+        return source.key !== target.key
+            && hasUnitsToMove
             && hasUnitOfSameTypeToMove
             && (isConnectedArea || connectedUsingShipTransport)
             && (moveOnLand || moveOnSea)
@@ -100,16 +102,16 @@ export default class GameRules {
     }
 
     public static isPlanningPhaseComplete(): boolean {
-        return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced(GameState.getInstance().currentPlayer);
+        return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
     }
 
     public static isActionPhaseComplete(): boolean {
-        return GameState.getInstance().gamePhase === GamePhase.ACTION && this.allOrderTokenRevealed(GameState.getInstance().currentPlayer);
+        return GameState.getInstance().gamePhase === GamePhase.ACTION && this.allOrderTokenRevealed();
     }
 
-    private static allOrderTokenRevealed(currentPlayer: House): boolean {
+    private static allOrderTokenRevealed(): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.getHouse() === currentPlayer;
+                return area.orderToken;
             }).length === 0;
     }
 
@@ -123,5 +125,23 @@ export default class GameRules {
         return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special].filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
+    }
+
+    public static nextPlayer() {
+        let gamestate = GameState.getInstance();
+        let currrentIndex = gamestate.ironThroneSuccession.indexOf(gamestate.currentPlayer.house);
+        let nextIndex = gamestate.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
+        let nextHouse = gamestate.ironThroneSuccession[nextIndex];
+        gamestate.currentPlayer = gamestate.players.filter((player) => {
+            return player.house === nextHouse
+        })[0];
+    }
+
+    public static startActionPhase() {
+        this.switchToPhase(GamePhase.ACTION);
+        let gamestate = GameState.getInstance();
+        gamestate.currentPlayer = gamestate.players.filter((player) => {
+            return player.house === gamestate.ironThroneSuccession[0]
+        })[0];
     }
 }
