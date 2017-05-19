@@ -66,6 +66,8 @@ export default class Game extends Phaser.State {
 
         if (GameState.getInstance().gamePhase == GamePhase.ACTION) {
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
+            this.orderTokenRenderer.removeOrderTokenMenu();
+            this.orderTokenRenderer.removePlaceHolder();
             if (GameState.getInstance().currentPlayer.computerOpponent) {
                 AI.executeMoveOrder(GameState.getInstance().currentPlayer);
             }

@@ -1,5 +1,6 @@
 import {Unit} from './units';
 import {OrderToken} from './orderToken';
+import {House} from './house';
 
 export type AreaKey =
     'TheStonyShore' |
@@ -66,9 +67,10 @@ export class Area {
     private _units: Array<Unit>;
     private _orderToken: OrderToken;
     private _isLandArea: boolean;
+    private _controllingHouse: House;
 
 
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, units: Array<Unit> = new Array<Unit>()) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, controllingHouse?: House) {
         this._key = key;
         this.consolidatePower = consolidatePower;
         this.harbor = harbor;
@@ -76,7 +78,8 @@ export class Area {
         this.stronghold = stronghold;
         this.supply = supply;
         this._borders = [];
-        this._units = units;
+        this._units = [];
+        this._controllingHouse = controllingHouse;
         this._isLandArea = isLandArea;
     }
 
@@ -110,5 +113,13 @@ export class Area {
 
     get isLandArea(): boolean {
         return this._isLandArea;
+    }
+
+    get controllingHouse(): House {
+        return this._controllingHouse;
+    }
+
+    set controllingHouse(value: House) {
+        this._controllingHouse = value;
     }
 }

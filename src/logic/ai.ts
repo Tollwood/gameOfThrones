@@ -3,6 +3,7 @@ import GameState from './gameStati';
 import GameRules from './gameRules';
 import {OrderToken, OrderTokenType} from './orderToken';
 import {isUndefined} from 'util';
+import {Area} from './area';
 export default class AI {
 
     public  static placeOrderTokens (){
@@ -19,11 +20,7 @@ export default class AI {
 
     public static executeMoveOrder(player: Player) {
 
-        let areasWithMoveToken = GameState.getInstance().areas.filter((area) => {
-            return area.orderToken
-                && area.orderToken.getHouse() === player.house
-                && [OrderTokenType.march_special, OrderTokenType.march_zero, OrderTokenType.march_minusOne].indexOf(area.orderToken.getType()) > -1;
-        });
+        let areasWithMoveToken = this.getAreasWithToken(player, [OrderTokenType.march_special, OrderTokenType.march_zero, OrderTokenType.march_minusOne]);
 
         if (areasWithMoveToken.length > 0) {
             let sourceArea = areasWithMoveToken[0];
@@ -32,10 +29,27 @@ export default class AI {
             });
             if (areasToMoveTo.length > 0) {
                 GameRules.moveUnits(sourceArea.key, areasToMoveTo[0].key, sourceArea.units[0]);
+                //GameRules.executeConsolidatePowerOrder(sourceArea.key);
+                return;
             }
             else {
                 GameRules.skipMarchorder(sourceArea.key);
+                return;
             }
         }
+        let areasWithConsolidatePowerToken = this.getAreasWithToken(player, [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special]);
+        if (areasWithConsolidatePowerToken.length > 0) {
+            GameRules.executeConsolidatePowerOrder(areasWithConsolidatePowerToken[0].key);
+            return;
+        }
+        GameRules.nextPlayer();
+    }
+
+    private static getAreasWithToken(player: Player, orderTokens: Array<OrderTokenType>): Array<Area> {
+        return GameState.getInstance().areas.filter((area) => {
+            return area.orderToken
+                && area.orderToken.getHouse() === player.house
+                && orderTokens.indexOf(area.orderToken.getType()) > -1;
+        });
     }
 }

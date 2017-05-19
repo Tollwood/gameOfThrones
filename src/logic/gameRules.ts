@@ -46,6 +46,15 @@ export default class GameRules {
         });
     }
 
+    public static executeConsolidatePowerOrder(source: AreaKey) {
+        let sourceArea = this.getAreaByKey(source);
+        sourceArea.orderToken = undefined;
+        GameState.getInstance().players.filter((player) => {
+            return player.house === sourceArea.controllingHouse
+        })[0].powerToken++;
+        this.nextPlayer();
+    }
+
     public static moveUnits(source: AreaKey, target: AreaKey, unit: Unit): boolean {
         let sourceArea = this.getAreaByKey(source);
         let targetArea = this.getAreaByKey(target);
@@ -54,6 +63,8 @@ export default class GameRules {
             sourceArea.orderToken = undefined;
             targetArea.units = targetArea.units.concat(sourceArea.units);
             sourceArea.units = new Array<Unit>();
+            sourceArea.controllingHouse = undefined;
+            targetArea.controllingHouse = unit.getHouse();
             this.nextPlayer();
         }
         return validMove
@@ -127,7 +138,7 @@ export default class GameRules {
             return area.orderToken.getType()
         });
 
-        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special].filter((type) => {
+        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }

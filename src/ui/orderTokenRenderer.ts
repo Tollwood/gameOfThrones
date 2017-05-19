@@ -25,7 +25,7 @@ export default class OrderTokenRenderer {
     }
 
     public loadAssets(game: Phaser.Game) {
-        game.load.spritesheet('orderTokens', Assets.Images.ImagesOrdertokens45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 11);
+        game.load.spritesheet('orderTokens', Assets.Images.ImagesOrdertokens45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
         game.load.spritesheet('orderTokenFront', Assets.Images.ImagesOrderTokenFront45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
         game.load.tilemap('gotTileMap', Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
         game.load.image('menubackground', Assets.Images.ImagesMenubackground.getPNG());
@@ -51,8 +51,7 @@ export default class OrderTokenRenderer {
     }
 
     public renderOrderTokenInMenu(game: Phaser.Game) {
-        this.placeableOrderTokenBackground.removeChildren();
-        this.placableOrderTokens.removeChildren();
+        this.removeOrderTokenMenu();
         let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground', 0, this.placeableOrderTokenBackground);
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
@@ -69,6 +68,14 @@ export default class OrderTokenRenderer {
         }, this, false);
     }
 
+    public removeOrderTokenMenu() {
+        this.placeableOrderTokenBackground.removeChildren();
+        this.placableOrderTokens.removeChildren();
+    }
+
+    public removePlaceHolder() {
+        this.areasToPlaceToken.removeChildren();
+    }
     public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House) {
         this.areasToPlaceToken.removeChildren();
         this.areaTokens.forEach((areaToken: UiArea) => {
@@ -180,11 +187,18 @@ export default class OrderTokenRenderer {
             .map((area ) => {
                 let areaToken: UiArea = this.getAreaTokenByKey(area.key);
                 if (area.units[0].getHouse() === GameState.getInstance().currentPlayer.house) {
-                    let placedToken = game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + ( areaToken.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
+                    let placedToken: Phaser.Sprite = game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + ( areaToken.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
-                    placedToken.events.onInputDown.add((sprite) => {
-                        this.highlightDuringActionPhase(sprite, areaToken);
-                    });
+                    if (area.orderToken.isMoveToken()) {
+                        placedToken.events.onInputDown.add((sprite) => {
+                            this.highlightDuringActionPhase(sprite, areaToken);
+                        });
+                    }
+                    if (area.orderToken.isConsolidatePowerToken()) {
+                        placedToken.events.onInputDown.add((sprite) => {
+                            GameRules.executeConsolidatePowerOrder(areaToken.name);
+                        });
+                    }
                 } else {
                     if(revealed){
                         game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + ( areaToken.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
