@@ -127,7 +127,7 @@ export default class GameRules {
             return area.orderToken.getType()
         });
 
-        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special].filter((type) => {
+        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.consolidate_power, OrderTokenType.consolidate_power, OrderTokenType.consolidate_power_special].filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
