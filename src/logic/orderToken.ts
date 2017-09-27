@@ -42,4 +42,8 @@ export class OrderToken {
     public isConsolidatePowerToken(): boolean {
         return this.type === OrderTokenType.consolidatePower_0 || this.type === OrderTokenType.consolidatePower_1 || this.type === OrderTokenType.consolidatePower_special;
     }
+
+    public isRaidToken(): boolean {
+        return this.type === OrderTokenType.raid_0 || this.type === OrderTokenType.raid_1 || this.type === OrderTokenType.raid_special;
+    }
 }

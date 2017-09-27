@@ -46,6 +46,21 @@ export default class GameRules {
         });
     }
 
+    public static executeRaidOrder(source: AreaKey, target: AreaKey) {
+        let sourceArea = this.getAreaByKey(source);
+        sourceArea.orderToken = undefined;
+
+        const targetArea = this.getAreaByKey(target);
+        if (targetArea.orderToken.isConsolidatePowerToken()) {
+            GameState.getInstance().players.filter((player) => {
+                return player.house === sourceArea.controllingHouse
+            })[0].powerToken++;
+        }
+        targetArea.orderToken = undefined;
+
+        this.nextPlayer();
+    }
+
     public static executeConsolidatePowerOrder(source: AreaKey) {
         let sourceArea = this.getAreaByKey(source);
         sourceArea.orderToken = undefined;
@@ -72,7 +87,7 @@ export default class GameRules {
         return validMove
     }
 
-    public static skipMarchorder(source: AreaKey){
+    public static skipOrder(source: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
         sourceArea.orderToken = undefined;
         this.nextPlayer();
@@ -95,7 +110,7 @@ export default class GameRules {
         return source.key !== target.key
             && hasUnitsToMove
             && hasUnitOfSameTypeToMove
-            && (isConnectedArea || connectedUsingShipTransport)
+            && (this.isConnectedArea(source, target) || connectedUsingShipTransport)
             && (moveOnLand || moveOnSea)
             && !requiresCombat;
 
@@ -140,7 +155,7 @@ export default class GameRules {
             return area.orderToken.getType()
         });
 
-        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
+        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
 
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
@@ -162,5 +177,18 @@ export default class GameRules {
         gamestate.currentPlayer = gamestate.players.filter((player) => {
             return player.house === gamestate.ironThroneSuccession[0]
         })[0];
+    }
+
+    public static isAllowedToRaid(sourceArea: Area, targetArea: Area) {
+        return this.isConnectedArea(sourceArea, targetArea)
+            && targetArea.controllingHouse
+            && sourceArea.controllingHouse !== targetArea.controllingHouse
+            && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
+    }
+
+    private static isConnectedArea(source: Area, target: Area) {
+        return source.borders.filter((area) => {
+                return area.key === target.key
+            }).length === 1;
     }
 }

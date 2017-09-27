@@ -84,29 +84,17 @@ export default class OrderTokenRenderer {
         });
     }
 
-    private highlightValidAreasToExecuteOrderToken(game: Phaser.Game, selectedOrderToken: Phaser.Sprite, areaToken: UiArea) {
+    private highlightValidAreasToExecuteOrderToken(areasAllowedToExecuteOrder: Array<Area>, onInputDownFunction: Function) {
         this.validAreasToExecuteOrderToken.removeChildren();
-        let areaToPlaceToken = GameRules.getAreaByKey(areaToken.name);
-        let areasAllowedToMoveTo: Array<Area> = GameState.getInstance().areas
-            .filter((area) => {
-                return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
-            });
-
         this.areaNames.filter((area) => {
-            return areasAllowedToMoveTo.filter((border) => {
+            return areasAllowedToExecuteOrder.filter((border) => {
                     return border.key === area.name;
                 }).length > 0;
         }).map((area: UiArea) => {
             let game = this.validAreasToExecuteOrderToken.game;
-
-            let moveUnitFunction = () => {
-                let validMove = GameRules.moveUnits(areaToken.name, area.name, GameRules.getAreaByKey(areaToken.name).units[0]);
-                if (validMove) {
-                    this.removeSelectedToken(selectedOrderToken);
-                }
-            };
-
-            this.drawRectangleAroundAreaName(game, area, 0x0000FF, moveUnitFunction);
+            this.drawRectangleAroundAreaName(game, area, 0x0000FF, () => {
+                onInputDownFunction(area.name)
+            });
 
         });
     }
@@ -135,11 +123,11 @@ export default class OrderTokenRenderer {
         });
     }
 
-    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaToken: UiArea) {
+    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaToken: UiArea, onInputDownFunction, areasAllowdToExecuteOrder) {
         if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
-            this.highlightValidAreasToExecuteOrderToken(sprite.game, sprite, areaToken);
+            this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);
             this.highlightAreaNameToSkipOrder(sprite.game, areaToken, sprite);
         }
 
@@ -181,30 +169,53 @@ export default class OrderTokenRenderer {
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
         this.placedTokens.removeChildren();
         GameState.getInstance().areas
-            .filter((area) => {
+            .filter((area: Area) => {
                 return !isUndefined(area.orderToken);
                 })
-            .map((area ) => {
-                let areaToken: UiArea = this.getAreaTokenByKey(area.key);
-                if (area.units[0].getHouse() === GameState.getInstance().currentPlayer.house) {
-                    let placedToken: Phaser.Sprite = game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + ( areaToken.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
+            .map((sourceArea: Area) => {
+                let sourceAreaToken: UiArea = this.getAreaTokenByKey(sourceArea.key);
+                if (sourceArea.units[0].getHouse() === GameState.getInstance().currentPlayer.house) {
+                    let placedToken: Phaser.Sprite = game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), 'orderTokens', sourceArea.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
-                    if (area.orderToken.isMoveToken()) {
+                    if (sourceArea.orderToken.isMoveToken()) {
                         placedToken.events.onInputDown.add((sprite) => {
-                            this.highlightDuringActionPhase(sprite, areaToken);
+                            let moveUnitFunction = (targetAreaKey) => {
+                                GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units[0]);
+                                this.removeSelectedToken(sprite);
+                            };
+                            let areaToPlaceToken = GameRules.getAreaByKey(sourceAreaToken.name);
+                            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
+                                .filter((area) => {
+                                    return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
+                                });
+                            this.highlightDuringActionPhase(sprite, sourceAreaToken, moveUnitFunction, areasAllowedToExecuteOrder);
                         });
                     }
-                    if (area.orderToken.isConsolidatePowerToken()) {
+                    if (sourceArea.orderToken.isConsolidatePowerToken()) {
                         placedToken.events.onInputDown.add((sprite) => {
-                            GameRules.executeConsolidatePowerOrder(areaToken.name);
+                            GameRules.executeConsolidatePowerOrder(sourceAreaToken.name);
+                        });
+                    }
+                    if (sourceArea.orderToken.isRaidToken()) {
+                        placedToken.events.onInputDown.add((sprite) => {
+                            let raidAreaFunction = (targetAreaKey) => {
+                                GameRules.executeRaidOrder(sourceAreaToken.name, targetAreaKey);
+                                this.removeSelectedToken(sprite);
+                            };
+                            let areaToPlaceToken = GameRules.getAreaByKey(sourceAreaToken.name);
+                            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
+                                .filter((area) => {
+                                    return GameRules.isAllowedToRaid(areaToPlaceToken, area);
+                                });
+                            this.highlightDuringActionPhase(sprite, sourceAreaToken, raidAreaFunction, areasAllowedToExecuteOrder);
                         });
                     }
                 } else {
                     if(revealed){
-                        game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + ( areaToken.height / 2), 'orderTokens', area.orderToken.getType(), this.placedTokens);
+                        game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), 'orderTokens', sourceArea.orderToken.getType(), this.placedTokens);
                     }
                     else {
-                        game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), 'orderTokenFront', area.units[0].getHouse(), this.placedTokens);
+                        game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + (sourceAreaToken.height / 2), 'orderTokenFront', sourceArea.units[0].getHouse(), this.placedTokens);
                     }
                 }
             }) ;
@@ -231,7 +242,7 @@ export default class OrderTokenRenderer {
     private highlightAreaNameToSkipOrder(game: Phaser.Game, areaToken: UiArea, selectedToken: Phaser.Sprite) {
         let areaName = this.getAreaNameByKey(areaToken.name);
         this.drawRectangleAroundAreaName(game, areaName, 0xFF0000, () => {
-            GameRules.skipMarchorder(areaToken.name);
+            GameRules.skipOrder(areaToken.name);
             this.removeSelectedToken(selectedToken);
         });
 

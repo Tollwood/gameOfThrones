@@ -33,7 +33,7 @@ export default class AI {
                 return;
             }
             else {
-                GameRules.skipMarchorder(sourceArea.key);
+                GameRules.skipOrder(sourceArea.key);
                 return;
             }
         }

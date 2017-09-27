@@ -19,7 +19,7 @@
   <object id="56" name="Winterfell" x="783.41" y="341.219" width="90" height="90"/>
   <object id="57" name="Karhold" x="1095.15" y="336.83" width="90" height="90"/>
   <object id="58" name="WhiteHarbor" x="859.104" y="549.689" width="90" height="90"/>
-  <object id="60" name="GrayWaterWatch" x="433.385" y="940.297" width="90" height="90"/>
+  <object id="60" name="GreyWaterWatch" x="433.385" y="940.297" width="90" height="90"/>
   <object id="61" name="MoatCailin" x="617.717" y="984.186" width="90" height="90"/>
   <object id="62" name="TheFingers" x="872.27" y="1080.74" width="90" height="90"/>
   <object id="63" name="TheMountainsOfTheMoon" x="1034.66" y="1186.07" width="90" height="90"/>
@@ -52,7 +52,7 @@
   <object id="24" name="FlintsFinger" x="326.147" y="829.522" width="96" height="96">
    <ellipse/>
   </object>
-  <object id="25" name="GrayWaterWatch" x="517.404" y="817.84" width="96" height="96">
+  <object id="25" name="GreyWaterWatch" x="517.404" y="817.84" width="96" height="96">
    <ellipse/>
   </object>
   <object id="26" name="MoatCailin" x="644.239" y="866.564" width="96" height="96">

@@ -10,7 +10,7 @@ export type AreaKey =
     'Karhold' |
     'WidowsWatch' |
     'FlintsFinger' |
-    'GrayWaterWatch' |
+    'GreyWaterWatch' |
     'MoatCailin' |
     'Seagard' |
     'TheTwins' |
@@ -28,7 +28,7 @@ export type AreaKey =
     'TheMountainsOfTheMoon' |
     'Harrenhal' |
     'StoneySept' |
-    'CraicklawPoint' |
+    'CracklawPoint' |
     'Dragonstone' |
     'BlackwaterBay' |
     'ShipbreakerBay' |
