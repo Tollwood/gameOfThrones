@@ -58,7 +58,7 @@ export type AreaKey =
 export class Area {
 
     private _key: AreaKey;
-    private consolidatePower: number;
+    private _consolidatePower: number;
     private harbor: boolean;
     private castle: boolean;
     private stronghold: boolean;
@@ -72,7 +72,7 @@ export class Area {
 
     constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, controllingHouse?: House) {
         this._key = key;
-        this.consolidatePower = consolidatePower;
+        this._consolidatePower = consolidatePower;
         this.harbor = harbor;
         this.castle = castle;
         this.stronghold = stronghold;
@@ -121,5 +121,9 @@ export class Area {
 
     set controllingHouse(value: House) {
         this._controllingHouse = value;
+    }
+
+    get consolidatePower(): number {
+        return this._consolidatePower;
     }
 }

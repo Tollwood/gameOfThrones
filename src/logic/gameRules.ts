@@ -49,9 +49,11 @@ export default class GameRules {
     public static executeConsolidatePowerOrder(source: AreaKey) {
         let sourceArea = this.getAreaByKey(source);
         sourceArea.orderToken = undefined;
+        const area = this.getAreaByKey(source);
+        let additionalPowerToken = area.consolidatePower + 1;
         GameState.getInstance().players.filter((player) => {
             return player.house === sourceArea.controllingHouse
-        })[0].powerToken++;
+        })[0].powerToken += additionalPowerToken;
         this.nextPlayer();
     }
 
