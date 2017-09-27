@@ -139,6 +139,7 @@ export default class GameRules {
         });
 
         return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
+
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
