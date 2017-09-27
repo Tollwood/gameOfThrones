@@ -68,6 +68,7 @@ export default class Game extends Phaser.State {
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
             this.orderTokenRenderer.removeOrderTokenMenu();
             this.orderTokenRenderer.removePlaceHolder();
+            this.topMenuRenderer.renderPowerToken(this.game);
             if (GameState.getInstance().currentPlayer.computerOpponent) {
                 AI.executeMoveOrder(GameState.getInstance().currentPlayer);
             }
@@ -77,7 +78,6 @@ export default class Game extends Phaser.State {
                 this.topMenuRenderer.renderGameState(this.game);
                 this.orderTokenRenderer.resetOrderTokens(this.game);
                 this.topMenuRenderer.renderGameState(this.game);
-                this.topMenuRenderer.renderPowerToken(this.game);
             }
         }
 
