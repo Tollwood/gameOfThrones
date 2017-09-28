@@ -43,11 +43,9 @@ export default class OrderTokenRenderer {
         this.areaNames = this.map.objects['areaNames'].map((area) => {
             return new UiArea(area.height, area.name, area.width, area.x, area.y);
         });
-
         this.areaTokens = this.map.objects['planninglayer'].map((area) => {
             return new UiArea(area.height, area.name, area.height, area.x, area.y);
         });
-
     }
 
     public renderOrderTokenInMenu(game: Phaser.Game) {
@@ -64,7 +62,7 @@ export default class OrderTokenRenderer {
         this.placableOrderTokens.cameraOffset.x = 10;
         this.placableOrderTokens.cameraOffset.y = window.innerHeight - 55;
         this.placableOrderTokens.forEach((orderToken) => {
-            this.creatDragAndDrop(game, orderToken);
+            this.createDragAndDrop(game, orderToken);
         }, this, false);
     }
 
@@ -113,7 +111,7 @@ export default class OrderTokenRenderer {
         this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer.house);
     }
 
-    private creatDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
+    private createDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
         orderToken.inputEnabled = true;
         orderToken.input.enableDrag();
         OrderTokenRenderer.fixDragWhileZooming(orderToken);
