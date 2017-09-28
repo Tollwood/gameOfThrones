@@ -37,7 +37,7 @@ export default class GameState {
         return this.gameState;
     }
 
-    public static initGame(player: Array<Player>){
+    public static initGame( player: Array<Player>) {
         this.gameState = new GameState();
         this.gameState._areas = AreaInitiator.getInitalState(player);
         this.gameState._players = player;

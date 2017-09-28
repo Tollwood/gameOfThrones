@@ -6,12 +6,16 @@ import {isUndefined} from 'util';
 import {Area} from './area';
 export default class AI {
 
-    public  static placeOrderTokens (){
-        let aiPlayers: Array<Player> = GameState.getInstance().players.filter((player) => { return player.computerOpponent});
-        for( let aiPlayer of aiPlayers){
+    public static placeOrderTokens() {
+        let aiPlayers: Array<Player> = GameState.getInstance().players.filter((player) => {
+            return player.computerOpponent;
+        });
+        for (let aiPlayer of aiPlayers) {
             let availableOrderToken = GameRules.getAvailableOrderToken(aiPlayer.house);
-            let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => { return area.units.length > 0 && area.units[0].getHouse() === aiPlayer.house && isUndefined(area.orderToken)});
-            for(let area of areasToPlaceAToken){
+            let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => {
+                return area.units.length > 0 && area.units[0].getHouse() === aiPlayer.house && isUndefined(area.orderToken);
+            });
+            for (let area of areasToPlaceAToken) {
                 GameRules.addOrderToken(new OrderToken(aiPlayer.house, availableOrderToken.pop()), area.key);
             }
         }
@@ -25,11 +29,11 @@ export default class AI {
         if (areasWithMoveToken.length > 0) {
             let sourceArea = areasWithMoveToken[0];
             let areasToMoveTo = sourceArea.borders.filter((targetArea) => {
-                return sourceArea.units.length > 0 && GameRules.isAllowedToMove(sourceArea, targetArea, sourceArea.units[0])
+                return sourceArea.units.length > 0 && GameRules.isAllowedToMove(sourceArea, targetArea, sourceArea.units[0]);
             });
             if (areasToMoveTo.length > 0) {
                 GameRules.moveUnits(sourceArea.key, areasToMoveTo[0].key, sourceArea.units[0]);
-                //GameRules.executeConsolidatePowerOrder(sourceArea.key);
+                // GameRules.executeConsolidatePowerOrder(sourceArea.key);
                 return;
             }
             else {

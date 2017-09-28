@@ -19,7 +19,9 @@
     "electron:pack:dev": "npm run build:dev && node ./scripts/packageElectronApp.js",
     "electron:pack:dist": "npm run build:dist && node ./scripts/packageElectronApp.js",
     "checkDepsVersions": "npm-check --skip-unused -u",
-    "test": "karma start karma.conf.js"
+    "test": "karma start karma.conf.js",
+    "lint": "tslint src/**/*.ts -t verbose",
+    "lint-fix": "tslint --fix src/**/*.ts -t verbose"
   },
   "repository": {
     "type": "git",

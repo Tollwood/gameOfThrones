@@ -1,19 +1,9 @@
-# Phaser NPM Webpack TypeScript Starter Project (catchy name, isn't it?)
-
-![PhaserNPMWebpackTypeScriptStarterProject](https://raw.githubusercontent.com/rroylance/phaser-npm-webpack-typescript-starter-project/master/README_HEADER.png)
-
-### [Visit the itch.io page for a live demo!][itchio]
-
-##### Hit the ground running and make some great games!
-
-###### If you use this template/starter project in any capacity; I'd love to hear about your experience with it. Whether you continued with it or decided not to (I really want to hear why you made your decision).
+# Game of Thrones learning by doing
 
 # Features:
 
 - Phaser-CE 2.7.5 (npm module, no having to download the library separately...)
 - TypeScript + TSLint
-- 3 States (Boot, Preloader, Title) showing transition between states and where some things should be done and how a TypeScript state looks
-- Google Web Font loader
 - Webpack
 - Separate Development and Distribution builds
 - Live server (builds and reloads the browser on changes)
@@ -25,30 +15,19 @@
   - Sets up the size the game so that it is scaled only when absolutely necessary 
   - Refer to src/utils/utils.ts for an explanation on the background_template and the sizing/scaling style
 
-### TODO:
-
-- Clean up generateAssetsClass.js
-- Get Custom/Local Web Fonts hashed by Webpack (to avoid cache issues)
-  - If anyone has experience webpacking font-face in css style web fonts and loading said fonts via webfontloader, let me know as I was having some trouble getting the font-face src to use the hashed assets.
-- Multiple resolution asset loader (@2x, @3x, etc...)
-- Yeoman Generator
-- Optional Analytics integration
-- Optional Cordova integration for iOS and Android builds
 
 ### Folder Structure:
 - **assets/** – This is where your assets that are processed when building goes
 - **assets_raw/** – This folder is NOT processed at all and is merely an organizational folder (I use it for things like my individual images that get compiled into a spritesheet, individual sounds that get compiled into an audiosprite, etc...)
 - **dist/** – This is where the built game will go
 - **node_modules/** – This is where the node modules required for the game will be put with npm install
-- **scripts/** – This is where node scripts go
+- **scripts/** – This is where I put all the helper scripts
 - **src/** – This is where all the games code goes
 - **templates/** – This is where the html template that gets built by Webpack goes
 - **.gitignore** – List of files and folders that are ignored by git
 - **.npmrc** – List of some project wide npm settings
-- **electron-main.js** – Entry point and application life controller for electron builds
 - **package.json** – Node config for the project
 - **README.md** – This is the README displayed ont he GitHub page
-- **README_HEADER.png** – This is just the header image for the GitHub README
 - **tsconfig.json** – List of some TypeScript settings
 - **tslint.json** – List of some TypeScript Linting rules
 - **webpack.dev.config.js** – Webpack config for the DEV build

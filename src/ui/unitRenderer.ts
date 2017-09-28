@@ -48,7 +48,7 @@ export default class UnitRenderer {
     private units: Phaser.Group;
 
     public createGroups(game: Phaser.Game) {
-        this.units = game.add.group()
+        this.units = game.add.group();
     }
 
     public renderUnits(game: Phaser.Game) {

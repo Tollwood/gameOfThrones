@@ -17,17 +17,17 @@ export default class PowerToken  {
         this.texts = new Array<Phaser.Text>();
     }
 
-    public static renderPowerToken (game: Phaser.Game){
+    public static renderPowerToken (game: Phaser.Game) {
         this.powerTokenGroup.removeChildren();
         for (let text of this.texts) {
             text.destroy();
         }
-        for(let player of GameState.getInstance().players){
+        for (let player of GameState.getInstance().players) {
             let cachedImage = game.cache.getImage(this.getImageNameByHouse(player.house));
-            let image = game.add.image(player.house * cachedImage.width, 0 , this.getImageNameByHouse(player.house),this.powerTokenGroup);
+            let image = game.add.image(player.house * cachedImage.width, 0 , this.getImageNameByHouse(player.house), this.powerTokenGroup);
             image.fixedToCamera = true;
             let style = {font: '28px Arial', fill: '#000000', boundsAlignH: 'right'};
-            let text = game.add.text(player.house * cachedImage.width , 0 + cachedImage.height, player.powerToken+'', style);
+            let text = game.add.text(player.house * cachedImage.width , 0 + cachedImage.height, player.powerToken + '', style);
             text.fixedToCamera = true;
             this.texts.push(text);
         }

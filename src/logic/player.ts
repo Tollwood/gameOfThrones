@@ -1,10 +1,10 @@
-import {House} from "./house";
+import {House} from './house';
 export default class Player {
     private _house: House;
     private _powerToken: number;
     private _computerOpponent: boolean;
 
-    constructor(house: House, powerToken: number,computerOpponent: boolean) {
+    constructor(house: House, powerToken: number, computerOpponent: boolean) {
         this._powerToken = powerToken;
         this._house = house;
         this._computerOpponent = computerOpponent;

@@ -32,7 +32,7 @@ export default class GameRules {
         const gameState = GameState.getInstance();
         gameState.nextRound();
         gameState.currentPlayer = gameState.players.filter((player) => {
-            return !player.computerOpponent
+            return !player.computerOpponent;
         })[0];
     }
 
@@ -53,7 +53,7 @@ export default class GameRules {
         const targetArea = this.getAreaByKey(target);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
             GameState.getInstance().players.filter((player) => {
-                return player.house === sourceArea.controllingHouse
+                return player.house === sourceArea.controllingHouse;
             })[0].powerToken++;
         }
         targetArea.orderToken = undefined;
@@ -67,7 +67,7 @@ export default class GameRules {
         const area = this.getAreaByKey(source);
         let additionalPowerToken = area.consolidatePower + 1;
         GameState.getInstance().players.filter((player) => {
-            return player.house === sourceArea.controllingHouse
+            return player.house === sourceArea.controllingHouse;
         })[0].powerToken += additionalPowerToken;
         this.nextPlayer();
     }
@@ -84,7 +84,7 @@ export default class GameRules {
             targetArea.controllingHouse = unit.getHouse();
             this.nextPlayer();
         }
-        return validMove
+        return validMove;
     }
 
     public static skipOrder(source: AreaKey) {
@@ -95,16 +95,16 @@ export default class GameRules {
 
     public static isAllowedToMove(source: Area, target: Area, unit: Unit): boolean {
         let hasUnitsToMove = source.units.length > 0;
-        let moveOnLand = target.isLandArea && unit.isLandunit()
-        let moveOnSea = !target.isLandArea && !unit.isLandunit()
+        let moveOnLand = target.isLandArea && unit.isLandunit();
+        let moveOnSea = !target.isLandArea && !unit.isLandunit();
         let isConnectedArea = source.borders.filter((area) => {
-                return area.key === target.key
+                return area.key === target.key;
             }).length === 1;
         let hasUnitOfSameTypeToMove = source.units.filter((unitToCheck) => {
-                return unitToCheck.getHouse() === unit.getHouse() && unitToCheck.getType() === unit.getType()
+                return unitToCheck.getHouse() === unit.getHouse() && unitToCheck.getType() === unit.getType();
             }).length > 0;
         let requiresCombat = target.units.filter((unitToCheck) => {
-                return unit.getHouse() !== unitToCheck.getHouse()
+                return unit.getHouse() !== unitToCheck.getHouse();
             }).length !== 0;
         let connectedUsingShipTransport = GameRules.connectedUsingShipTransport(source, target);
         return source.key !== target.key
@@ -119,7 +119,7 @@ export default class GameRules {
     public static connectedUsingShipTransport(source: Area, target: Area): boolean {
         return source.borders
                 .filter((seaArea) => {
-                    return !seaArea.isLandArea && seaArea.units.length > 0 && seaArea.units[0].getHouse() === source.units[0].getHouse()
+                    return !seaArea.isLandArea && seaArea.units.length > 0 && seaArea.units[0].getHouse() === source.units[0].getHouse();
                 })
                 .filter((areaWithShip) => {
                     return areaWithShip.borders.filter((areaReachableByShip) => {
@@ -130,7 +130,7 @@ export default class GameRules {
 
     public static getAreaByKey(areaKey: AreaKey): Area {
         return GameState.getInstance().areas.filter((area) => {
-            return area.key === areaKey
+            return area.key === areaKey;
         })[0];
     }
 
@@ -152,7 +152,7 @@ export default class GameRules {
         let alreadyPlacedOrderTokens: Array<OrderTokenType> = GameState.getInstance().areas.filter((area) => {
             return area.orderToken && area.units.length > 0 && area.units[0].getHouse() === house;
         }).map((area) => {
-            return area.orderToken.getType()
+            return area.orderToken.getType();
         });
 
         return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
@@ -167,7 +167,7 @@ export default class GameRules {
         let nextIndex = gamestate.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
         let nextHouse = gamestate.ironThroneSuccession[nextIndex];
         gamestate.currentPlayer = gamestate.players.filter((player) => {
-            return player.house === nextHouse
+            return player.house === nextHouse;
         })[0];
     }
 
@@ -175,7 +175,7 @@ export default class GameRules {
         this.switchToPhase(GamePhase.ACTION);
         let gamestate = GameState.getInstance();
         gamestate.currentPlayer = gamestate.players.filter((player) => {
-            return player.house === gamestate.ironThroneSuccession[0]
+            return player.house === gamestate.ironThroneSuccession[0];
         })[0];
     }
 
@@ -188,7 +188,7 @@ export default class GameRules {
 
     private static isConnectedArea(source: Area, target: Area) {
         return source.borders.filter((area) => {
-                return area.key === target.key
+                return area.key === target.key;
             }).length === 1;
     }
 }

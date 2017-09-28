@@ -93,7 +93,7 @@ export default class OrderTokenRenderer {
         }).map((area: UiArea) => {
             let game = this.validAreasToExecuteOrderToken.game;
             this.drawRectangleAroundAreaName(game, area, 0x0000FF, () => {
-                onInputDownFunction(area.name)
+                onInputDownFunction(area.name);
             });
 
         });
@@ -211,7 +211,7 @@ export default class OrderTokenRenderer {
                         });
                     }
                 } else {
-                    if(revealed){
+                    if (revealed) {
                         game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), 'orderTokens', sourceArea.orderToken.getType(), this.placedTokens);
                     }
                     else {

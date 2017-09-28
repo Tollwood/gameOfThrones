@@ -6,7 +6,7 @@ import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
 import {GamePhase} from '../../logic/gamePhase';
 import GameState from '../../logic/gameStati';
-import PowerToken from "./PowerToken";
+import PowerToken from './PowerToken';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];

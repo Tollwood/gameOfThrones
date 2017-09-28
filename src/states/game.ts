@@ -34,7 +34,7 @@ export default class Game extends Phaser.State {
     }
 
     public create(): void {
-        GameState.initGame([new Player(House.stark,5, false),new Player(House.lannister,5, true),new Player(House.baratheon,5, true),new Player(House.greyjoy,5, true), new Player(House.tyrell,5, true),new Player(House.martell,5, true)]);
+        GameState.initGame([new Player(House.stark, 5, false), new Player(House.lannister, 5, true), new Player(House.baratheon, 5, true), new Player(House.greyjoy, 5, true), new Player(House.tyrell, 5, true), new Player(House.martell, 5, true)]);
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
@@ -55,7 +55,7 @@ export default class Game extends Phaser.State {
             this.currentGameWidth = window.innerWidth;
         }
 
-        if(GameState.getInstance().gamePhase == GamePhase.PLANNING){
+        if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
             AI.placeOrderTokens();
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
             if (GameRules.isPlanningPhaseComplete()) {
@@ -64,7 +64,7 @@ export default class Game extends Phaser.State {
             }
         }
 
-        if (GameState.getInstance().gamePhase == GamePhase.ACTION) {
+        if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
             this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
             this.orderTokenRenderer.removeOrderTokenMenu();
             this.orderTokenRenderer.removePlaceHolder();

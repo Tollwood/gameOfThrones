@@ -158,7 +158,7 @@ export class AreaInitiator {
         eastSummerSea.borders.push(starfall, saltShore, sunspear, seaOfDorne, shipbreakerBay, westSummerSea);
         sunspear.borders.push(seaOfDorne, eastSummerSea, saltShore, yronwood);
 
-        for(let player of players){
+        for (let player of players){
             switch (player.house) {
                 case House.stark:
                     theShiveringSea.units = [new Unit(UnitType.Ship, House.stark)];
