@@ -41,13 +41,14 @@ export default class Game extends Phaser.State {
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
+        PowerToken.createGroups(this.game);
         this.unitRenderer.renderUnits(this.game);
         this.game.input.enabled = true;
         this.topMenuRenderer.renderTopMenu(this.game);
         this.topMenuRenderer.renderGameState(this.game);
         this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
         this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
-        this.topMenuRenderer.renderPowerToken(this.game);
+        PowerToken.renderPowerToken(this.game);
         this.currentGameWidth = window.innerWidth;
     }
 
@@ -73,7 +74,7 @@ export default class Game extends Phaser.State {
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
                 this.orderTokenRenderer.removeOrderTokenMenu();
                 this.orderTokenRenderer.removePlaceHolder();
-                this.topMenuRenderer.renderPowerToken(this.game);
+                PowerToken.renderPowerToken(this.game);
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
                     AI.executeMoveOrder(GameState.getInstance().currentPlayer);
                     Renderer.rerenderRequired = true;

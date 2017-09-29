@@ -15,11 +15,14 @@ export default class PowerToken {
         game.load.image(House[House.greyjoy] + 'PowerToken', Assets.Images.ImagesPowerTokenGreyjoyPowerToken.getPNG());
         game.load.image(House[House.tyrell] + 'PowerToken', Assets.Images.ImagesPowerTokenTyrellPowerToken.getPNG());
         game.load.image(House[House.martell] + 'PowerToken', Assets.Images.ImagesPowerTokenMartellPowerToken.getPNG());
-        this.powerTokenGroup = game.add.group();
-        this.controlMarkerGroup = game.add.group();
         this.texts = new Array<Phaser.Text>();
     }
 
+
+    public static createGroups(game: Phaser.Game) {
+        this.powerTokenGroup = game.add.group();
+        this.controlMarkerGroup = game.add.group();
+    }
     public static renderPowerToken(game: Phaser.Game) {
         this.powerTokenGroup.removeChildren();
         for (let text of this.texts) {
@@ -27,7 +30,7 @@ export default class PowerToken {
         }
         for (let player of GameState.getInstance().players) {
             let cachedImage = game.cache.getImage(this.getImageNameByHouse(player.house));
-            let image = game.add.image(player.house * cachedImage.width, 0, this.getImageNameByHouse(player.house), this.powerTokenGroup);
+            let image = game.add.image(player.house * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
             image.fixedToCamera = true;
             let style = {font: '28px Arial', fill: '#000000', boundsAlignH: 'right'};
             let text = game.add.text(player.house * cachedImage.width, 0 + cachedImage.height, player.powerToken + '', style);
@@ -53,7 +56,7 @@ export default class PowerToken {
                 let field = map.objects['controlMarker'].find((areaField) => {
                     return areaField.name === area.key;
                 });
-                game.add.image(field.x, field.y, this.getImageNameByHouse(area.controllingHouse), this.controlMarkerGroup);
+                game.add.sprite(field.x, field.y, this.getImageNameByHouse(area.controllingHouse), undefined, this.controlMarkerGroup);
             });
 
     }

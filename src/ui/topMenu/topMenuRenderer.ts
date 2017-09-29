@@ -58,8 +58,4 @@ export default class TopMenuRenderer {
         this.currentPhase = game.add.text(250, 0, GamePhase[GameState.getInstance().gamePhase] + '', style);
         this.currentPhase.fixedToCamera = true;
     }
-
-    public renderPowerToken(game: Phaser.Game) {
-        PowerToken.renderPowerToken(game);
-    }
 }
