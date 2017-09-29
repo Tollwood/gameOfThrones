@@ -42,39 +42,41 @@ export default class Game extends Phaser.State {
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
         PowerToken.createGroups(this.game);
-        this.unitRenderer.renderUnits(this.game);
         this.game.input.enabled = true;
-        this.topMenuRenderer.renderTopMenu(this.game);
-        this.topMenuRenderer.renderGameState(this.game);
-        this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
-        this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
-        PowerToken.renderPowerToken(this.game);
         this.currentGameWidth = window.innerWidth;
+        Renderer.rerenderRequired = true;
     }
 
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
-            this.topMenuRenderer.renderTopMenu(this.game);
             this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
             this.currentGameWidth = window.innerWidth;
         }
 
         if (Renderer.rerenderRequired) {
+            this.topMenuRenderer.renderTopMenu(this.game);
+            this.topMenuRenderer.renderGameState(this.game);
+            PowerToken.renderPowerToken(this.game);
+            this.unitRenderer.renderUnits(this.game);
+
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
                 AI.placeOrderTokens();
+                this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
                 this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
                 if (GameRules.isPlanningPhaseComplete()) {
                     GameRules.startActionPhase();
-                    this.topMenuRenderer.renderGameState(this.game);
+                    this.orderTokenRenderer.removeOrderTokenMenu();
+                    this.orderTokenRenderer.removePlaceHolder();
+                    Renderer.rerenderRequired = true;
+                    return;
                 }
             }
 
             if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
+                PowerToken.renderControlToken(this.game);
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
-                this.orderTokenRenderer.removeOrderTokenMenu();
-                this.orderTokenRenderer.removePlaceHolder();
-                PowerToken.renderPowerToken(this.game);
+
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
                     AI.executeMoveOrder(GameState.getInstance().currentPlayer);
                     Renderer.rerenderRequired = true;
@@ -83,14 +85,12 @@ export default class Game extends Phaser.State {
 
                 if (GameRules.isActionPhaseComplete()) {
                     GameRules.nextRound();
-                    this.topMenuRenderer.renderGameState(this.game);
+                    Renderer.rerenderRequired = true;
                     this.orderTokenRenderer.resetOrderTokens(this.game);
-                    this.topMenuRenderer.renderGameState(this.game);
+                    return;
                 }
             }
 
-            this.unitRenderer.renderUnits(this.game);
-            PowerToken.renderControlToken(this.game);
             Renderer.rerenderRequired = false;
         }
 
