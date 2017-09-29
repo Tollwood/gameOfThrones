@@ -17,6 +17,7 @@ export default class UnitRenderer {
         game.load.image('starkHorse', Assets.Images.ImagesUnitsStarkHorse.getPNG());
         game.load.image('starkShip', Assets.Images.ImagesUnitsStarkShip.getPNG());
         game.load.image('starkSiege', Assets.Images.ImagesUnitsStarkSiege.getPNG());
+
         game.load.image('lannisterFootman', Assets.Images.ImagesUnitsLannisterFootman.getPNG());
         game.load.image('lannisterHorse', Assets.Images.ImagesUnitsLannisterHorse.getPNG());
         game.load.image('lannisterShip', Assets.Images.ImagesUnitsLannisterShip.getPNG());

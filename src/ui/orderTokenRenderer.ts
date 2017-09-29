@@ -75,6 +75,7 @@ export default class OrderTokenRenderer {
     public removePlaceHolder() {
         this.areasToPlaceToken.removeChildren();
     }
+
     public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House) {
         this.areasToPlaceToken.removeChildren();
         this.areaTokens.forEach((areaToken: UiArea) => {
@@ -107,6 +108,7 @@ export default class OrderTokenRenderer {
         graphics.inputEnabled = true;
         graphics.events.onInputDown.add(onInputDown);
     }
+
     public resetOrderTokens(game: Phaser.Game) {
         this.renderOrderTokenInMenu(game);
         this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer.house);
@@ -132,6 +134,7 @@ export default class OrderTokenRenderer {
         }
 
     }
+
     private static fixDragWhileZooming(sprite) {
 
         sprite.events.onDragUpdate.add(function (sprite, pointer) {
@@ -171,7 +174,7 @@ export default class OrderTokenRenderer {
         GameState.getInstance().areas
             .filter((area: Area) => {
                 return area.orderToken !== null;
-                })
+            })
             .map((sourceArea: Area) => {
                 let sourceAreaToken: UiArea = this.getAreaTokenByKey(sourceArea.key);
                 if (sourceArea.units[0].getHouse() === GameState.getInstance().currentPlayer.house) {
@@ -180,11 +183,19 @@ export default class OrderTokenRenderer {
                     if (sourceArea.orderToken.isMoveToken()) {
                         placedToken.events.onInputDown.add((sprite) => {
                             let moveUnitFunction = (targetAreaKey) => {
-                                GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units[0]);
-                                this.removeSelectedToken(sprite);
-                                if (sourceArea.units.length === 0 && GameState.getInstance().currentPlayer.powerToken > 0) {
+                                if (sourceArea.units.length > 1) {
+                                    ModalRenderer.showSplitArmyModal(game, sourceArea, targetAreaKey);
+                                    //add callback and call move units only with units to move
+                                    // remove token only if no was selected in modal
+                                    GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units);
+                                    this.removeSelectedToken(sprite);
+                                }
+                                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0) {
                                     let yesFn = () => {
+                                        GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units);
                                         GameRules.establishControl(sourceArea);
+                                        GameRules.nextPlayer();
+                                        this.removeSelectedToken(sprite);
                                         Renderer.rerenderRequired = true;
                                     };
                                     ModalRenderer.showEstablishControlModal(game, sourceArea, yesFn);
@@ -229,7 +240,7 @@ export default class OrderTokenRenderer {
                         game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + (sourceAreaToken.height / 2), 'orderTokenFront', sourceArea.units[0].getHouse(), this.placedTokens);
                     }
                 }
-            }) ;
+            });
     }
 
     private highlightToken(game: Phaser.Game, area: UiArea) {

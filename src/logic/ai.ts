@@ -32,7 +32,7 @@ export default class AI {
                 return sourceArea.units.length > 0 && GameRules.isAllowedToMove(sourceArea, targetArea, sourceArea.units[0]);
             });
             if (areasToMoveTo.length > 0) {
-                GameRules.moveUnits(sourceArea.key, areasToMoveTo[0].key, sourceArea.units[0]);
+                GameRules.moveUnits(sourceArea.key, areasToMoveTo[0].key, sourceArea.units);
                 // GameRules.executeConsolidatePowerOrder(sourceArea.key);
                 return;
             }

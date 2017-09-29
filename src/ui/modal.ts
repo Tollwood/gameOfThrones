@@ -1,4 +1,6 @@
-import {Area} from '../logic/area';
+import {Area, AreaKey} from '../logic/area';
+import {House} from '../logic/house';
+import {UnitType} from '../logic/units';
 export default class ModalRenderer {
 
     static createModal(game, options): Phaser.Group {
@@ -227,48 +229,129 @@ export default class ModalRenderer {
         let modal = this.createModal(game, {
             type: 'establishControl',
             includeBackground: true,
-            itemsArr: [{
-                type: 'graphics',
-                graphicColor: '0xffffff',
-                graphicWidth: 500,
-                graphicHeight: 300,
-                graphicRadius: 40
-            }, {
-                type: 'text',
-                content: 'Establish Control over ' + area.key,
-                fontFamily: 'Luckiest Guy',
-                fontSize: 22,
-                color: '0x1e1e1e',
-                offsetY: -50
-            }, {
-                type: 'text',
-                content: 'Yes',
-                fontFamily: 'Luckiest Guy',
-                fontSize: 22,
-                color: '0x1e1e1e',
-                offsetY: 50,
-                offsetX: -100,
-                callback: function () {
-                    yesFn();
-                    modal.visible = false;
-                    modal.destroy();
-                }.bind(this),
-            }, {
-                type: 'text',
-                content: 'No',
-                fontFamily: 'Luckiest Guy',
-                fontSize: 22,
-                color: '0x1e1e1e',
-                offsetY: 50,
-                offsetX: 100,
-                callback: function () {
-                    modal.visible = false;
-                    modal.destroy();
-                }.bind(this),
-            },
+            itemsArr: [
+                {
+                    type: 'graphics',
+                    graphicColor: '0xffffff',
+                    graphicWidth: 500,
+                    graphicHeight: 300,
+                    graphicRadius: 40
+                },
+                {
+                    type: 'text',
+                    content: 'Establish Control over ' + area.key,
+                    fontFamily: 'Luckiest Guy',
+                    fontSize: 22,
+                    color: '0x1e1e1e',
+                    offsetY: -50
+                },
+                {
+                    type: 'text',
+                    content: 'Yes',
+                    fontFamily: 'Luckiest Guy',
+                    fontSize: 22,
+                    color: '0x1e1e1e',
+                    offsetY: 50,
+                    offsetX: -100,
+                    callback: function () {
+                        yesFn();
+                        modal.visible = false;
+                        modal.destroy();
+                    }.bind(this),
+                },
+                {
+                    type: 'text',
+                    content: 'No',
+                    fontFamily: 'Luckiest Guy',
+                    fontSize: 22,
+                    color: '0x1e1e1e',
+                    offsetY: 50,
+                    offsetX: 100,
+                    callback: function () {
+                        modal.visible = false;
+                        modal.destroy();
+                    }.bind(this),
+                },
             ]
         });
         game.world.bringToTop(modal);
         modal.visible = true;
+    }
+
+    static showSplitArmyModal(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey,) {
+
+        let items = new Array<any>();
+        items.push({
+            type: 'graphics',
+            graphicColor: '0xffffff',
+            graphicWidth: 500,
+            graphicHeight: 300,
+            graphicRadius: 40
+        });
+        items.push({
+            type: 'text',
+            content: 'Select units to move from ' + sourceArea.key + ' to ' + targetAreaKey,
+            fontFamily: 'Luckiest Guy',
+            fontSize: 22,
+            color: '0x1e1e1e',
+            offsetY: -100
+        });
+        items.push({
+            type: 'text',
+            content: 'More orders for ' + sourceArea.key,
+            fontFamily: 'Luckiest Guy',
+            fontSize: 22,
+            offsetY: 50,
+            color: '0x1e1e1e',
+        });
+        items.push({
+            type: 'text',
+            content: 'Yes',
+            fontFamily: 'Luckiest Guy',
+            fontSize: 22,
+            color: '0x1e1e1e',
+            offsetY: 100,
+            offsetX: -100,
+            callback: function () {
+
+                modal.visible = false;
+                modal.destroy();
+            }.bind(this),
+        });
+        items.push({
+            type: 'text',
+            content: 'No',
+            fontFamily: 'Luckiest Guy',
+            fontSize: 22,
+            color: '0x1e1e1e',
+            offsetY: 100,
+            offsetX: 100,
+            callback: function () {
+                modal.visible = false;
+                modal.destroy();
+            }.bind(this),
+        });
+
+        let offsetXIncrement = 60;
+        let offsetX = -1 * offsetXIncrement * sourceArea.units.length / 2;
+        sourceArea.units.forEach((unit) => {
+            let conent = House[unit.getHouse()] + UnitType[unit.getType()];
+            let item = {
+                type: "image",
+                content: conent,
+                offsetX: offsetX,
+            };
+            items.push(item);
+            offsetX += offsetXIncrement;
+        });
+
+        let modal = this.createModal(game, {
+            type: 'establishControl',
+            includeBackground: true,
+            itemsArr: items,
+        });
+        game.world.bringToTop(modal);
+        modal.visible = true;
+
     }
 }

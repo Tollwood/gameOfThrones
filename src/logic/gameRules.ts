@@ -71,7 +71,8 @@ export default class GameRules {
         this.nextPlayer();
     }
 
-    public static moveUnits(source: AreaKey, target: AreaKey, unit: Unit): boolean {
+    public static moveUnits(source: AreaKey, target: AreaKey, units: Array<Unit>): boolean {
+        let unit = units[0];
         let sourceArea = this.getAreaByKey(source);
         let targetArea = this.getAreaByKey(target);
         let validMove: boolean = this.isAllowedToMove(sourceArea, targetArea, unit);
@@ -81,7 +82,6 @@ export default class GameRules {
             sourceArea.units = new Array<Unit>();
             sourceArea.controllingHouse = null;
             targetArea.controllingHouse = unit.getHouse();
-            this.nextPlayer();
         }
         return validMove;
     }
