@@ -46,8 +46,10 @@ export default class UnitRenderer {
     }
 
     private units: Phaser.Group;
+    private controlMarker: Phaser.Group;
 
     public createGroups(game: Phaser.Game) {
+        this.controlMarker = game.add.group();
         this.units = game.add.group();
     }
 

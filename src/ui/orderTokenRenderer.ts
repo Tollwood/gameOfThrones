@@ -6,7 +6,8 @@ import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import {Area, AreaKey} from '../logic/area';
-import {isUndefined} from 'util';
+import ModalRenderer from './modal';
+import Renderer from './renderer';
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -117,7 +118,7 @@ export default class OrderTokenRenderer {
         OrderTokenRenderer.fixDragWhileZooming(orderToken);
         orderToken.events.onDragStop.add((placableOrderToken) => {
             this.placeOrderToken(placableOrderToken);
-            this.renderOrderTokenInMenu(game);
+            Renderer.rerenderRequired = true;
         });
     }
 
@@ -127,6 +128,7 @@ export default class OrderTokenRenderer {
             this.highlightToken(sprite.game, areaToken);
             this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);
             this.highlightAreaNameToSkipOrder(sprite.game, areaToken, sprite);
+            Renderer.rerenderRequired = true;
         }
 
     }
@@ -168,7 +170,7 @@ export default class OrderTokenRenderer {
         this.placedTokens.removeChildren();
         GameState.getInstance().areas
             .filter((area: Area) => {
-                return !isUndefined(area.orderToken);
+                return area.orderToken !== null;
                 })
             .map((sourceArea: Area) => {
                 let sourceAreaToken: UiArea = this.getAreaTokenByKey(sourceArea.key);
@@ -180,6 +182,14 @@ export default class OrderTokenRenderer {
                             let moveUnitFunction = (targetAreaKey) => {
                                 GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units[0]);
                                 this.removeSelectedToken(sprite);
+                                if (sourceArea.units.length === 0 && GameState.getInstance().currentPlayer.powerToken > 0) {
+                                    let yesFn = () => {
+                                        GameRules.establishControl(sourceArea);
+                                        Renderer.rerenderRequired = true;
+                                    };
+                                    ModalRenderer.showEstablishControlModal(game, sourceArea, yesFn);
+                                }
+                                Renderer.rerenderRequired = true;
                             };
                             let areaToPlaceToken = GameRules.getAreaByKey(sourceAreaToken.name);
                             let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
@@ -187,15 +197,18 @@ export default class OrderTokenRenderer {
                                     return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
                                 });
                             this.highlightDuringActionPhase(sprite, sourceAreaToken, moveUnitFunction, areasAllowedToExecuteOrder);
+                            Renderer.rerenderRequired = true;
                         });
                     }
                     if (sourceArea.orderToken.isConsolidatePowerToken()) {
                         placedToken.events.onInputDown.add((sprite) => {
                             GameRules.executeConsolidatePowerOrder(sourceAreaToken.name);
+                            Renderer.rerenderRequired = true;
                         });
                     }
                     if (sourceArea.orderToken.isRaidToken()) {
                         placedToken.events.onInputDown.add((sprite) => {
+                            console.log('placedToken clicked');
                             let raidAreaFunction = (targetAreaKey) => {
                                 GameRules.executeRaidOrder(sourceAreaToken.name, targetAreaKey);
                                 this.removeSelectedToken(sprite);

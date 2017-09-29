@@ -2,7 +2,6 @@ import {Area, AreaKey} from './area';
 import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken, OrderTokenType} from './orderToken';
-import {isUndefined} from 'util';
 import {GamePhase} from './gamePhase';
 import {Unit} from './units';
 
@@ -10,9 +9,9 @@ export default class GameRules {
 
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = GameRules.getAreaByKey(areaKey);
-        return !isUndefined(area) && area.units.length > 0
+        return area !== null && area.units.length > 0
             && area.units[0].getHouse() === house
-            && area.orderToken === undefined;
+            && area.orderToken === null;
     }
 
     public static addOrderToken(ordertoken: OrderToken, areaKey: AreaKey) {
@@ -23,7 +22,7 @@ export default class GameRules {
 
     public static allOrderTokenPlaced(currentPlayer: House): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.units.length > 0 && area.units[0].getHouse() === currentPlayer && isUndefined(area.orderToken);
+                return area.units.length > 0 && area.units[0].getHouse() === currentPlayer && area.orderToken === null;
             }).length === 0;
     }
 
@@ -42,13 +41,13 @@ export default class GameRules {
 
     private resetOrderToken() {
         GameState.getInstance().areas.map((area) => {
-            area.orderToken = undefined;
+            area.orderToken = null;
         });
     }
 
     public static executeRaidOrder(source: AreaKey, target: AreaKey) {
         let sourceArea = this.getAreaByKey(source);
-        sourceArea.orderToken = undefined;
+        sourceArea.orderToken = null;
 
         const targetArea = this.getAreaByKey(target);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
@@ -56,14 +55,14 @@ export default class GameRules {
                 return player.house === sourceArea.controllingHouse;
             })[0].powerToken++;
         }
-        targetArea.orderToken = undefined;
+        targetArea.orderToken = null;
 
         this.nextPlayer();
     }
 
     public static executeConsolidatePowerOrder(source: AreaKey) {
         let sourceArea = this.getAreaByKey(source);
-        sourceArea.orderToken = undefined;
+        sourceArea.orderToken = null;
         const area = this.getAreaByKey(source);
         let additionalPowerToken = area.consolidatePower + 1;
         GameState.getInstance().players.filter((player) => {
@@ -77,10 +76,10 @@ export default class GameRules {
         let targetArea = this.getAreaByKey(target);
         let validMove: boolean = this.isAllowedToMove(sourceArea, targetArea, unit);
         if (validMove) {
-            sourceArea.orderToken = undefined;
+            sourceArea.orderToken = null;
             targetArea.units = targetArea.units.concat(sourceArea.units);
             sourceArea.units = new Array<Unit>();
-            sourceArea.controllingHouse = undefined;
+            sourceArea.controllingHouse = null;
             targetArea.controllingHouse = unit.getHouse();
             this.nextPlayer();
         }
@@ -89,7 +88,7 @@ export default class GameRules {
 
     public static skipOrder(source: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
-        sourceArea.orderToken = undefined;
+        sourceArea.orderToken = null;
         this.nextPlayer();
     }
 
@@ -190,5 +189,16 @@ export default class GameRules {
         return source.borders.filter((area) => {
                 return area.key === target.key;
             }).length === 1;
+    }
+
+    static establishControl(area: Area) {
+        let currentPlayer = GameState.getInstance().currentPlayer;
+        currentPlayer.powerToken--;
+
+        GameState.getInstance().areas.filter((gameStateArea) => {
+            return area.key === gameStateArea.key;
+        }).map((area) => {
+            area.controllingHouse = currentPlayer.house;
+        });
     }
 }

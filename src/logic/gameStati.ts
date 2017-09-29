@@ -4,21 +4,6 @@ import {GamePhase} from './gamePhase';
 import {House} from './house';
 import Player from './player';
 export default class GameState {
-    get fiefdom(): Array<House> {
-        return this._fiefdom;
-    }
-
-    set fiefdom(value: Array<House>) {
-        this._fiefdom = value;
-    }
-
-    get kingscourt(): Array<House> {
-        return this._kingscourt;
-    }
-
-    set kingscourt(value: Array<House>) {
-        this._kingscourt = value;
-    }
 
     private static gameState: GameState;
     private _gamePhase: GamePhase = GamePhase.PLANNING;
@@ -94,6 +79,22 @@ export default class GameState {
 
     set ironThroneSuccession(value: Array<House>) {
         this._ironThroneSuccession = value;
+    }
+
+    get fiefdom(): Array<House> {
+        return this._fiefdom;
+    }
+
+    set fiefdom(value: Array<House>) {
+        this._fiefdom = value;
+    }
+
+    get kingscourt(): Array<House> {
+        return this._kingscourt;
+    }
+
+    set kingscourt(value: Array<House>) {
+        this._kingscourt = value;
     }
 
 }

@@ -28,7 +28,7 @@ export type AreaKey =
     'TheMountainsOfTheMoon' |
     'Harrenhal' |
     'StoneySept' |
-    'CracklawPoint' |
+    'CrackClawPoint' |
     'Dragonstone' |
     'BlackwaterBay' |
     'ShipbreakerBay' |
@@ -70,7 +70,7 @@ export class Area {
     private _controllingHouse: House;
 
 
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, controllingHouse?: House) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, controllingHouse: House = null) {
         this._key = key;
         this._consolidatePower = consolidatePower;
         this.harbor = harbor;
@@ -79,6 +79,7 @@ export class Area {
         this.supply = supply;
         this._borders = [];
         this._units = [];
+        this._orderToken = null;
         this._controllingHouse = controllingHouse;
         this._isLandArea = isLandArea;
     }
