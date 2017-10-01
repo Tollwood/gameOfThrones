@@ -7,8 +7,8 @@ import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import {Area, AreaKey} from '../logic/area';
 import Renderer from './renderer';
-import {EstablishControlModalFactory} from './modals/EstablishControlModalFactory';
-import SplitArmyModalFactory from './modals/SplitArmyModalFactory';
+import {EstablishControlModalFactory} from './modals/establishControlModalFactory';
+import SplitArmyModalFactory from './modals/splitArmyModalFactory';
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -95,6 +95,7 @@ export default class OrderTokenRenderer {
             let game = this.validAreasToExecuteOrderToken.game;
             this.drawRectangleAroundAreaName(game, area, 0x0000FF, () => {
                 onInputDownFunction(area.name);
+                Renderer.rerenderRequired = true;
             });
 
         });
@@ -225,6 +226,7 @@ export default class OrderTokenRenderer {
         this.drawRectangleAroundAreaName(game, areaName, 0xFF0000, () => {
             GameRules.skipOrder(areaToken.name);
             this.removeSelectedToken(selectedToken);
+            Renderer.rerenderRequired = true;
         });
 
     }

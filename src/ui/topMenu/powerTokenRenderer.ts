@@ -3,18 +3,18 @@ import {House} from '../../logic/house';
 import GameState from '../../logic/gameStati';
 import {Area} from '../../logic/area';
 
-export default class PowerToken {
+export default class PowerTokenRenderer {
     private static powerTokenGroup: Phaser.Group;
     private static controlMarkerGroup: Phaser.Group;
     private static texts: Array<Phaser.Text>;
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(House[House.stark] + 'PowerToken', Assets.Images.ImagesPowerTokenStarkPowerToken.getPNG());
-        game.load.image(House[House.lannister] + 'PowerToken', Assets.Images.ImagesPowerTokenLannisterPowerToken.getPNG());
-        game.load.image(House[House.baratheon] + 'PowerToken', Assets.Images.ImagesPowerTokenBaratheonPowerToken.getPNG());
-        game.load.image(House[House.greyjoy] + 'PowerToken', Assets.Images.ImagesPowerTokenGreyjoyPowerToken.getPNG());
-        game.load.image(House[House.tyrell] + 'PowerToken', Assets.Images.ImagesPowerTokenTyrellPowerToken.getPNG());
-        game.load.image(House[House.martell] + 'PowerToken', Assets.Images.ImagesPowerTokenMartellPowerToken.getPNG());
+        game.load.image(House[House.stark] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenStarkPowerToken.getPNG());
+        game.load.image(House[House.lannister] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenLannisterPowerToken.getPNG());
+        game.load.image(House[House.baratheon] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenBaratheonPowerToken.getPNG());
+        game.load.image(House[House.greyjoy] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenGreyjoyPowerToken.getPNG());
+        game.load.image(House[House.tyrell] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenTyrellPowerToken.getPNG());
+        game.load.image(House[House.martell] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenMartellPowerToken.getPNG());
         this.texts = new Array<Phaser.Text>();
     }
 
@@ -41,7 +41,7 @@ export default class PowerToken {
 
 
     private static getImageNameByHouse(house: House): string {
-        return House[house] + 'PowerToken';
+        return House[house] + 'PowerTokenRenderer';
     }
 
     public static renderControlToken(game: Phaser.Game) {

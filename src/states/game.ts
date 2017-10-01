@@ -8,7 +8,7 @@ import {GamePhase} from '../logic/gamePhase';
 import Player from '../logic/player';
 import {House} from '../logic/house';
 import AI from '../logic/ai';
-import PowerToken from '../ui/topMenu/powerToken';
+import PowerToken from '../ui/topMenu/powerTokenRenderer';
 import Renderer from '../ui/renderer';
 
 import game = PIXI.game;

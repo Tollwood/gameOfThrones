@@ -1,9 +1,9 @@
-import ModalRenderer from './modal';
+import ModalRenderer from './modalFactory';
 import {Area} from '../../logic/area';
 export class EstablishControlModalFactory {
 
     static showModal(game, area: Area, yesFn: Function, noFn: Function) {
-        let modal = ModalRenderer.createModal(game, []);
+        let modal = ModalRenderer.createModal(game);
         ModalRenderer.addText(modal, 'Establish Control over ' + area.key, -50);
         ModalRenderer.addText(modal, 'Yes', 50, -100, () => {
             yesFn();
