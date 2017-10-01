@@ -6,8 +6,9 @@ import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
 import {Area, AreaKey} from '../logic/area';
-import ModalRenderer from './modal';
 import Renderer from './renderer';
+import {EstablishControlModalFactory} from './modals/EstablishControlModalFactory';
+import SplitArmyModalFactory from './modals/SplitArmyModalFactory';
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -124,7 +125,8 @@ export default class OrderTokenRenderer {
         });
     }
 
-    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaToken: UiArea, onInputDownFunction, areasAllowdToExecuteOrder) {
+    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder) {
+        let areaToken = this.getAreaTokenByKey(areaKey);
         if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
@@ -181,56 +183,13 @@ export default class OrderTokenRenderer {
                     let placedToken: Phaser.Sprite = game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), 'orderTokens', sourceArea.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
                     if (sourceArea.orderToken.isMoveToken()) {
-                        placedToken.events.onInputDown.add((sprite) => {
-                            let moveUnitFunction = (targetAreaKey) => {
-                                if (sourceArea.units.length > 1) {
-                                    ModalRenderer.showSplitArmyModal(game, sourceArea, targetAreaKey);
-                                    //add callback and call move units only with units to move
-                                    // remove token only if no was selected in modal
-                                    GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units);
-                                    this.removeSelectedToken(sprite);
-                                }
-                                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0) {
-                                    let yesFn = () => {
-                                        GameRules.moveUnits(sourceAreaToken.name, targetAreaKey, GameRules.getAreaByKey(sourceAreaToken.name).units);
-                                        GameRules.establishControl(sourceArea);
-                                        GameRules.nextPlayer();
-                                        this.removeSelectedToken(sprite);
-                                        Renderer.rerenderRequired = true;
-                                    };
-                                    ModalRenderer.showEstablishControlModal(game, sourceArea, yesFn);
-                                }
-                                Renderer.rerenderRequired = true;
-                            };
-                            let areaToPlaceToken = GameRules.getAreaByKey(sourceAreaToken.name);
-                            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
-                                .filter((area) => {
-                                    return GameRules.isAllowedToMove(areaToPlaceToken, area, areaToPlaceToken.units[0]);
-                                });
-                            this.highlightDuringActionPhase(sprite, sourceAreaToken, moveUnitFunction, areasAllowedToExecuteOrder);
-                            Renderer.rerenderRequired = true;
-                        });
+                        this.onInputDownForMoveToken(game, placedToken, sourceArea);
                     }
                     if (sourceArea.orderToken.isConsolidatePowerToken()) {
-                        placedToken.events.onInputDown.add((sprite) => {
-                            GameRules.executeConsolidatePowerOrder(sourceAreaToken.name);
-                            Renderer.rerenderRequired = true;
-                        });
+                        this.onInputDownForConsolidatePowerToken(placedToken, sourceArea.key);
                     }
                     if (sourceArea.orderToken.isRaidToken()) {
-                        placedToken.events.onInputDown.add((sprite) => {
-                            console.log('placedToken clicked');
-                            let raidAreaFunction = (targetAreaKey) => {
-                                GameRules.executeRaidOrder(sourceAreaToken.name, targetAreaKey);
-                                this.removeSelectedToken(sprite);
-                            };
-                            let areaToPlaceToken = GameRules.getAreaByKey(sourceAreaToken.name);
-                            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
-                                .filter((area) => {
-                                    return GameRules.isAllowedToRaid(areaToPlaceToken, area);
-                                });
-                            this.highlightDuringActionPhase(sprite, sourceAreaToken, raidAreaFunction, areasAllowedToExecuteOrder);
-                        });
+                        this.onInputDownForRaidToken(placedToken, sourceArea.key);
                     }
                 } else {
                     if (revealed) {
@@ -268,5 +227,72 @@ export default class OrderTokenRenderer {
             this.removeSelectedToken(selectedToken);
         });
 
+    }
+
+    private onInputDownForMoveToken(game: Phaser.Game, placedToken: Phaser.Sprite, sourceArea: Area) {
+        placedToken.events.onInputDown.add((sprite) => {
+            let moveUnitFunction = (targetAreaKey) => {
+                if (sourceArea.units.length > 1) {
+                    let yesFn = (units) => {
+                        GameRules.moveUnits(sourceArea.key, targetAreaKey, units, false);
+                        Renderer.rerenderRequired = true;
+                    };
+                    let noFn = (units) => {
+                        GameRules.moveUnits(sourceArea.key, targetAreaKey, units);
+                        GameRules.nextPlayer();
+                        this.removeSelectedToken(sprite);
+                        Renderer.rerenderRequired = true;
+                    };
+                    SplitArmyModalFactory.showModal(game, sourceArea, targetAreaKey, yesFn, noFn);
+                }
+                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0) {
+                    let yesFn = () => {
+                        GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
+                        GameRules.establishControl(sourceArea);
+                        GameRules.nextPlayer();
+                        this.removeSelectedToken(sprite);
+                        Renderer.rerenderRequired = true;
+                    };
+                    let noFn = () => {
+                        GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
+                        GameRules.nextPlayer();
+                        this.removeSelectedToken(sprite);
+                        Renderer.rerenderRequired = true;
+                    };
+                    EstablishControlModalFactory.showModal(game, sourceArea, yesFn, noFn);
+
+                }
+                Renderer.rerenderRequired = true;
+            };
+            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
+                .filter((area) => {
+                    return GameRules.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
+                });
+            this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder);
+            Renderer.rerenderRequired = true;
+        });
+    }
+
+    private onInputDownForConsolidatePowerToken(placedToken: Phaser.Sprite, areaKey: AreaKey) {
+        placedToken.events.onInputDown.add(() => {
+            GameRules.executeConsolidatePowerOrder(areaKey);
+            Renderer.rerenderRequired = true;
+        });
+    }
+
+    private onInputDownForRaidToken(placedToken: Phaser.Sprite, areaKey: AreaKey) {
+        placedToken.events.onInputDown.add((sprite) => {
+            console.log('placedToken clicked');
+            let raidAreaFunction = (targetAreaKey) => {
+                GameRules.executeRaidOrder(areaKey, targetAreaKey);
+                this.removeSelectedToken(sprite);
+            };
+            let areaToPlaceToken = GameRules.getAreaByKey(areaKey);
+            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
+                .filter((area) => {
+                    return GameRules.isAllowedToRaid(areaToPlaceToken, area);
+                });
+            this.highlightDuringActionPhase(sprite, areaKey, raidAreaFunction, areasAllowedToExecuteOrder);
+        });
     }
 }

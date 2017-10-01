@@ -71,19 +71,23 @@ export default class GameRules {
         this.nextPlayer();
     }
 
-    public static moveUnits(source: AreaKey, target: AreaKey, units: Array<Unit>): boolean {
-        let unit = units[0];
+    public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true) {
         let sourceArea = this.getAreaByKey(source);
         let targetArea = this.getAreaByKey(target);
-        let validMove: boolean = this.isAllowedToMove(sourceArea, targetArea, unit);
-        if (validMove) {
-            sourceArea.orderToken = null;
-            targetArea.units = targetArea.units.concat(sourceArea.units);
-            sourceArea.units = new Array<Unit>();
+
+        targetArea.units = targetArea.units.concat(movingUnits);
+        targetArea.controllingHouse = sourceArea.controllingHouse;
+
+        var remainingUnits = sourceArea.units.filter(function (sourceUnit) {
+            return movingUnits.indexOf(sourceUnit) === -1;
+        });
+        sourceArea.units = remainingUnits;
+        if (sourceArea.units.length === 0) {
             sourceArea.controllingHouse = null;
-            targetArea.controllingHouse = unit.getHouse();
         }
-        return validMove;
+        if (completeOrder) {
+            sourceArea.orderToken = null;
+        }
     }
 
     public static skipOrder(source: AreaKey) {
