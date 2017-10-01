@@ -4,6 +4,7 @@ import {House} from './house';
 import {OrderToken, OrderTokenType} from './orderToken';
 import {GamePhase} from './gamePhase';
 import {Unit} from './units';
+import Player from './player';
 
 export default class GameRules {
 
@@ -52,11 +53,17 @@ export default class GameRules {
         const targetArea = this.getAreaByKey(target);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
             GameState.getInstance().players.filter((player) => {
+                player.house === targetArea.controllingHouse;
+            }).map((player) => {
+                if (player.powerToken > 0) {
+                    player.powerToken--;
+                }
+            });
+            GameState.getInstance().players.filter((player) => {
                 return player.house === sourceArea.controllingHouse;
             })[0].powerToken++;
         }
         targetArea.orderToken = null;
-
         this.nextPlayer();
     }
 
@@ -204,5 +211,32 @@ export default class GameRules {
         }).map((area) => {
             area.controllingHouse = currentPlayer.house;
         });
+    }
+
+    public static getVictoryPositionFor(house: House) {
+        return GameState.getInstance().areas.filter((area: Area) => {
+            return area.controllingHouse === house && area.hasCastleOrStronghold();
+        }).length;
+    }
+
+    public static getWinningHouse(): House {
+        let winningHouse: House = null;
+        let gamestate = GameState.getInstance();
+        gamestate.players.forEach((player) => {
+            if (this.getVictoryPositionFor(player.house) === 7) {
+                winningHouse = player.house;
+            }
+        });
+        if (gamestate.round == 10) {
+            let sortedPlayersByVictoryPoints = gamestate.players.sort((a, b) => {
+                return this.getVictoryPositionFor(b.house) - this.getVictoryPositionFor(a.house);
+            });
+            winningHouse = sortedPlayersByVictoryPoints[0].house;
+        }
+        return winningHouse;
+    }
+
+    public static newGame() {
+        GameState.initGame([new Player(House.stark, 5, false), new Player(House.lannister, 5, true), new Player(House.baratheon, 5, true), new Player(House.greyjoy, 5, true), new Player(House.tyrell, 5, true), new Player(House.martell, 5, true)]);
     }
 }

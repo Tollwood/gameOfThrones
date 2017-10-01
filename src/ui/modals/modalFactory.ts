@@ -14,14 +14,16 @@ export default class ModalRenderer {
 
     }
 
-    public static addText(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number = 0, callback?: Function) {
+    public static addText(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number = 0, visible = true, callback?: Function): Phaser.Text {
         let game = modalGroup.game;
         var style = {font: "22px Arial", fill: "#000000", align: "center"};
         var text = modalGroup.game.add.text(modalGroup.game.world.centerX, modalGroup.game.world.centerY, content, style, modalGroup);
         text.x = ((game.width / 2) - (text.width / 2)) + offsetX;
         text.y = ((game.height / 2) - (text.height / 2)) + offsetY;
+        text.visible = visible;
         this.addCallback(callback, text);
         this.bringToTop(modalGroup, text);
+        return text;
 
     }
 

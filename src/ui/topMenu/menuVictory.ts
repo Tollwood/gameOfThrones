@@ -1,26 +1,48 @@
 import * as Assets from '../../assets';
 import {TopMenuItem} from './topMenuItem';
+import {House} from '../../logic/house';
+import GameRules from '../../logic/gameRules';
+import GameState from '../../logic/gameStati';
 
 const MENU = 'menu',
-    OVERLAY = 'overlay';
+    OVERLAY = 'overlay',
+    POSITION_X = [0, 0, 90, 187, 260, 340, 420, 500];
 
 export class MenuVictory extends TopMenuItem {
 
-
     constructor(game: Phaser.Game, x: number, y: number) {
         super(game, x, y, 'Victory');
+        this.marker = game.add.group();
     }
+
+    marker: Phaser.Group;
 
     public static loadAssets(game: Phaser.Game) {
         game.load.image(OVERLAY + 'Victory', Assets.Images.ImagesVictory.getPNG());
         game.load.image(MENU + 'Victory', Assets.Images.ImagesMenuVictory.getPNG());
+        game.load.image(House[House.stark] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(House[House.baratheon] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(House[House.greyjoy] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(House[House.lannister] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(House[House.martell] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(House[House.tyrell] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {
-
+        if (overlay.key === OVERLAY + 'Victory') {
+            GameState.getInstance().players.forEach((player) => {
+                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house) + (player.house * 10), overlay.y + 45 + (player.house * 10), House[player.house] + 'Castle', undefined, this.marker);
+                marker.fixedToCamera = true;
+            });
+        }
     }
 
     hideMarker(overlay: Phaser.Sprite) {
+        this.marker.removeChildren();
+    }
 
+    private getPositionForHouse(house: House): number {
+        let numOfCastlesAndStrongholds = GameRules.getVictoryPositionFor(house);
+        return POSITION_X[numOfCastlesAndStrongholds];
     }
 }

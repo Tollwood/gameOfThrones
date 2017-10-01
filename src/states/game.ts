@@ -10,6 +10,7 @@ import {House} from '../logic/house';
 import AI from '../logic/ai';
 import PowerToken from '../ui/topMenu/powerTokenRenderer';
 import Renderer from '../ui/renderer';
+import WinningModal from '../ui/modals/winningModal';
 
 import game = PIXI.game;
 
@@ -57,6 +58,7 @@ export default class Game extends Phaser.State {
             this.topMenuRenderer.renderTopMenu(this.game);
             this.topMenuRenderer.renderGameState(this.game);
             PowerToken.renderPowerToken(this.game);
+            PowerToken.renderControlToken(this.game);
             this.unitRenderer.renderUnits(this.game);
 
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
@@ -74,7 +76,6 @@ export default class Game extends Phaser.State {
             }
 
             if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
-                PowerToken.renderControlToken(this.game);
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
 
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
@@ -89,6 +90,10 @@ export default class Game extends Phaser.State {
                     this.orderTokenRenderer.resetOrderTokens(this.game);
                     return;
                 }
+            }
+            let winningHouse = GameRules.getWinningHouse();
+            if (winningHouse !== null) {
+                WinningModal.showWinningModal(this.game, winningHouse);
             }
 
             Renderer.rerenderRequired = false;

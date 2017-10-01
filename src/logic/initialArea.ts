@@ -67,7 +67,7 @@ export class AreaInitiator {
         areas.push(shipbreakerBay);
         let kingswood = new Area('Kingswood', 1, false, false, false, true, 1);
         areas.push(kingswood);
-        let kingsLanding = new Area('KingsLanding', 2, false, false, false, true, 0);
+        let kingsLanding = new Area('KingsLanding', 2, false, false, true, true, 0);
         areas.push(kingsLanding);
         let blackwater = new Area('Blackwater', 0, false, false, false, true, 2);
         areas.push(blackwater);
