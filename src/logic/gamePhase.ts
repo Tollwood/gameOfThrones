@@ -1,4 +1,7 @@
 export enum GamePhase {
     PLANNING,
-    ACTION
+    ACTION_RAID,
+    ACTION_MARCH,
+    ACTION_CONSOLIDATE_POWER,
+    ACTION_CLEANUP
 }

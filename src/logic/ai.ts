@@ -40,11 +40,6 @@ export default class AI {
                 return;
             }
         }
-        let areasWithConsolidatePowerToken = this.getAreasWithToken(player, [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special]);
-        if (areasWithConsolidatePowerToken.length > 0) {
-            GameRules.executeConsolidatePowerOrder(areasWithConsolidatePowerToken[0].key);
-            return;
-        }
         GameRules.nextPlayer();
     }
 

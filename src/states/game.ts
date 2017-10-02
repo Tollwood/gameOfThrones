@@ -67,7 +67,7 @@ export default class Game extends Phaser.State {
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
                 this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
                 if (GameRules.isPlanningPhaseComplete()) {
-                    GameRules.startActionPhase();
+                    GameRules.switchToNextPhase();
                     this.orderTokenRenderer.removeOrderTokenMenu();
                     this.orderTokenRenderer.removePlaceHolder();
                     Renderer.rerenderRequired = true;
@@ -75,7 +75,17 @@ export default class Game extends Phaser.State {
                 }
             }
 
-            if (GameState.getInstance().gamePhase === GamePhase.ACTION) {
+
+            let actionPhase = new Array(GamePhase.ACTION_RAID,
+                GamePhase.ACTION_MARCH,
+                GamePhase.ACTION_CONSOLIDATE_POWER,
+                GamePhase.ACTION_CLEANUP)
+            let currentGamePhase = GameState.getInstance().gamePhase;
+            if (actionPhase.indexOf(currentGamePhase) > -1) {
+                if (!GameRules.isStillIn(currentGamePhase)) {
+                    GameRules.switchToNextPhase();
+                }
+
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
 
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
@@ -84,10 +94,16 @@ export default class Game extends Phaser.State {
                     return;
                 }
 
-                if (GameRules.isActionPhaseComplete()) {
-                    GameRules.nextRound();
+                if (currentGamePhase === GamePhase.ACTION_CONSOLIDATE_POWER) {
+                    GameRules.executeAllConsolidatePowerOrders();
                     Renderer.rerenderRequired = true;
+                    return;
+                }
+
+                if (GameState.getInstance().gamePhase === GamePhase.ACTION_CLEANUP) {
+                    GameRules.nextRound();
                     this.orderTokenRenderer.resetOrderTokens(this.game);
+                    Renderer.rerenderRequired = true;
                     return;
                 }
             }

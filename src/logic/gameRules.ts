@@ -67,15 +67,17 @@ export default class GameRules {
         this.nextPlayer();
     }
 
-    public static executeConsolidatePowerOrder(source: AreaKey) {
-        let sourceArea = this.getAreaByKey(source);
-        sourceArea.orderToken = null;
-        const area = this.getAreaByKey(source);
-        let additionalPowerToken = area.consolidatePower + 1;
-        GameState.getInstance().players.filter((player) => {
-            return player.house === sourceArea.controllingHouse;
-        })[0].powerToken += additionalPowerToken;
-        this.nextPlayer();
+    public static executeAllConsolidatePowerOrders() {
+        return GameState.getInstance().areas.filter((area) => {
+            return area.orderToken && area.orderToken.isConsolidatePowerToken();
+        }).map((sourceArea) => {
+            sourceArea.orderToken = null;
+            let additionalPowerToken = sourceArea.consolidatePower + 1;
+            let player = GameState.getInstance().players.filter((player) => {
+                return player.house === sourceArea.controllingHouse;
+            })[0];
+            player.powerToken += additionalPowerToken;
+        });
     }
 
     public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true) {
@@ -148,13 +150,21 @@ export default class GameRules {
         return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
     }
 
-    public static isActionPhaseComplete(): boolean {
-        return GameState.getInstance().gamePhase === GamePhase.ACTION && this.allOrderTokenRevealed();
+    private static allMarchOrdersRevealed(): boolean {
+        return GameState.getInstance().areas.filter((area) => {
+                return area.orderToken && area.orderToken.isMoveToken();
+            }).length === 0;
     }
 
-    private static allOrderTokenRevealed(): boolean {
+    private static allRaidOrdersRevealed(): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken;
+                return area.orderToken && area.orderToken.isRaidToken();
+            }).length === 0;
+    }
+
+    private static allConsolidatePowerOrdersRevealed(): boolean {
+        return GameState.getInstance().areas.filter((area) => {
+                return area.orderToken && area.orderToken.isConsolidatePowerToken();
             }).length === 0;
     }
 
@@ -165,8 +175,7 @@ export default class GameRules {
             return area.orderToken.getType();
         });
 
-        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special].filter((type) => {
-
+        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special].filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
@@ -181,9 +190,13 @@ export default class GameRules {
         })[0];
     }
 
-    public static startActionPhase() {
-        this.switchToPhase(GamePhase.ACTION);
+    public static switchToNextPhase() {
         let gamestate = GameState.getInstance();
+        if (gamestate.gamePhase === GamePhase.ACTION_CLEANUP) {
+            gamestate.gamePhase = GamePhase.PLANNING;
+        } else {
+            gamestate.gamePhase++;
+        }
         gamestate.currentPlayer = gamestate.players.filter((player) => {
             return player.house === gamestate.ironThroneSuccession[0];
         })[0];
@@ -238,5 +251,27 @@ export default class GameRules {
 
     public static newGame() {
         GameState.initGame([new Player(House.stark, 5, false), new Player(House.lannister, 5, true), new Player(House.baratheon, 5, true), new Player(House.greyjoy, 5, true), new Player(House.tyrell, 5, true), new Player(House.martell, 5, true)]);
+    }
+
+    public static isActionPhaseButNot(gamePhase: GamePhase) {
+        let actionPhases = new Array(GamePhase.ACTION_MARCH, GamePhase.ACTION_CONSOLIDATE_POWER, GamePhase.ACTION_RAID, GamePhase.ACTION_CLEANUP)
+        let currentPhase = GameState.getInstance().gamePhase;
+        return currentPhase !== gamePhase && actionPhases.indexOf(currentPhase) >= 0;
+    }
+
+    public static isStillIn(gamePhase: GamePhase) {
+        switch (gamePhase) {
+            case GamePhase.ACTION_RAID:
+                return !this.allRaidOrdersRevealed();
+            case GamePhase.ACTION_MARCH:
+                return !this.allMarchOrdersRevealed();
+            case GamePhase.ACTION_CONSOLIDATE_POWER:
+                return !this.allConsolidatePowerOrdersRevealed();
+            case GamePhase.ACTION_CLEANUP:
+                return GameState.getInstance().areas.filter((area) => {
+                        return area.orderToken;
+                    }).length > 0;
+        }
+
     }
 }
