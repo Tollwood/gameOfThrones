@@ -11,6 +11,7 @@ import AI from '../logic/ai';
 import PowerToken from '../ui/topMenu/powerTokenRenderer';
 import Renderer from '../ui/renderer';
 import WinningModal from '../ui/modals/winningModal';
+import {OrderTokenMenuRenderer} from '../ui/orderTokenMenuRenderer';
 
 import game = PIXI.game;
 
@@ -50,7 +51,7 @@ export default class Game extends Phaser.State {
 
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
-            this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
+            OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, this.orderTokenRenderer.getAreaTokens());
             this.currentGameWidth = window.innerWidth;
         }
 
@@ -65,10 +66,10 @@ export default class Game extends Phaser.State {
                 AI.placeOrderTokens();
                 this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
-                this.orderTokenRenderer.renderOrderTokenInMenu(this.game);
+                OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, this.orderTokenRenderer.getAreaTokens());
                 if (GameRules.isPlanningPhaseComplete()) {
                     GameRules.switchToNextPhase();
-                    this.orderTokenRenderer.removeOrderTokenMenu();
+                    OrderTokenMenuRenderer.removeOrderTokenMenu();
                     this.orderTokenRenderer.removePlaceHolder();
                     Renderer.rerenderRequired = true;
                     return;
@@ -99,7 +100,7 @@ export default class Game extends Phaser.State {
 
                 if (GameState.getInstance().gamePhase === GamePhase.ACTION_CLEANUP) {
                     GameRules.nextRound();
-                    this.orderTokenRenderer.resetOrderTokens(this.game);
+                    Renderer.rerenderRequired = true;
                     return;
                 }
             }

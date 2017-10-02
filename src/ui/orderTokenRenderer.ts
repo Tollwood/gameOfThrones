@@ -1,7 +1,6 @@
 import * as Assets from '../assets';
 import GameRules from '../logic/gameRules';
 import {House} from '../logic/house';
-import {OrderToken} from '../logic/orderToken';
 import GameState from '../logic/gameStati';
 import {GamePhase} from '../logic/gamePhase';
 import UiArea from './UiArea';
@@ -10,6 +9,7 @@ import Renderer from './renderer';
 import {EstablishControlModalFactory} from './modals/establishControlModalFactory';
 import SplitArmyModalFactory from './modals/splitArmyModalFactory';
 import OrderNotAllowedModal from './modals/orderNotAllowedModal';
+import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 
 export default class OrderTokenRenderer {
     private ORDER_TOKEN_WIDTH: number = 45;
@@ -18,11 +18,11 @@ export default class OrderTokenRenderer {
     private areaNames: Array<UiArea>;
     private areaTokens: Array<UiArea>;
     private selectedTokenMarker: Phaser.Group;
-    private placableOrderTokens: Phaser.Group;
+
     private placedTokens: Phaser.Group;
     private validAreasToExecuteOrderToken: Phaser.Group;
     private areasToPlaceToken: Phaser.Group;
-    private placeableOrderTokenBackground: Phaser.Group;
+
 
     constructor() {
     }
@@ -39,8 +39,7 @@ export default class OrderTokenRenderer {
         this.areasToPlaceToken = game.add.group();
         this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
-        this.placeableOrderTokenBackground = game.add.group();
-        this.placableOrderTokens = game.add.group();
+        OrderTokenMenuRenderer.createGroups(game);
         this.validAreasToExecuteOrderToken = game.add.group();
         this.map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
         this.areaNames = this.map.objects['areaNames'].map((area) => {
@@ -51,29 +50,9 @@ export default class OrderTokenRenderer {
         });
     }
 
-    public renderOrderTokenInMenu(game: Phaser.Game) {
-        this.removeOrderTokenMenu();
-        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground', 0, this.placeableOrderTokenBackground);
-        menu.fixedToCamera = true;
-        menu.cameraOffset.y = window.innerHeight - 60;
-
-        let availableOrderToken = GameRules.getAvailableOrderToken(GameState.getInstance().currentPlayer.house);
-
-        this.placableOrderTokens.createMultiple(1, 'orderTokens', availableOrderToken, true);
-        this.placableOrderTokens.align(0, 0, 50, 45);
-        this.placableOrderTokens.fixedToCamera = true;
-        this.placableOrderTokens.cameraOffset.x = 10;
-        this.placableOrderTokens.cameraOffset.y = window.innerHeight - 55;
-        this.placableOrderTokens.forEach((orderToken) => {
-            this.createDragAndDrop(game, orderToken);
-        }, this, false);
+    public getAreaTokens(): Array<UiArea> {
+        return this.areaTokens;
     }
-
-    public removeOrderTokenMenu() {
-        this.placeableOrderTokenBackground.removeChildren();
-        this.placableOrderTokens.removeChildren();
-    }
-
     public removePlaceHolder() {
         this.areasToPlaceToken.removeChildren();
     }
@@ -84,94 +63,6 @@ export default class OrderTokenRenderer {
             if (GameRules.isAllowedToPlaceOrderToken(house, areaToken.name))
                 game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), 'orderTokenFront', house, this.areasToPlaceToken);
         });
-    }
-
-    private highlightValidAreasToExecuteOrderToken(areasAllowedToExecuteOrder: Array<Area>, onInputDownFunction: Function) {
-        this.validAreasToExecuteOrderToken.removeChildren();
-        this.areaNames.filter((area) => {
-            return areasAllowedToExecuteOrder.filter((border) => {
-                    return border.key === area.name;
-                }).length > 0;
-        }).map((area: UiArea) => {
-            let game = this.validAreasToExecuteOrderToken.game;
-            this.drawRectangleAroundAreaName(game, area, 0x0000FF, () => {
-                onInputDownFunction(area.name);
-                Renderer.rerenderRequired = true;
-            });
-
-        });
-    }
-
-    private drawRectangleAroundAreaName(game, areaName: UiArea, color: number, onInputDown: Function) {
-        let graphics = game.add.graphics(0, 0, this.validAreasToExecuteOrderToken);
-        graphics.lineStyle(2, color, 1);
-        graphics.beginFill(0xdfffb1, 0);
-        graphics.drawRect(areaName.x, areaName.y, areaName.width, areaName.height);
-        graphics.endFill();
-        graphics.inputEnabled = true;
-        graphics.events.onInputDown.add(onInputDown);
-    }
-
-    public resetOrderTokens(game: Phaser.Game) {
-        this.renderOrderTokenInMenu(game);
-        this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer.house);
-        Renderer.rerenderRequired = true;
-    }
-
-    private createDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {
-        orderToken.inputEnabled = true;
-        orderToken.input.enableDrag();
-        OrderTokenRenderer.fixDragWhileZooming(orderToken);
-        orderToken.events.onDragStop.add((placableOrderToken) => {
-            this.placeOrderToken(placableOrderToken);
-            Renderer.rerenderRequired = true;
-        });
-    }
-
-    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder, gamePhase: GamePhase) {
-        let areaToken = this.getAreaTokenByKey(areaKey);
-        if (GameState.getInstance().gamePhase === gamePhase) {
-            this.selectedTokenMarker.removeChildren();
-            this.highlightToken(sprite.game, areaToken);
-            this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);
-            this.highlightAreaNameToSkipOrder(sprite.game, areaToken, sprite);
-            Renderer.rerenderRequired = true;
-        }
-
-    }
-
-    private static fixDragWhileZooming(sprite) {
-
-        sprite.events.onDragUpdate.add(function (sprite, pointer) {
-            const pos = sprite.game.input.getLocalPosition(sprite.parent, pointer);
-            if (sprite.hitArea) {
-                sprite.x = pos.x - sprite.hitArea.width / 2;
-                sprite.y = pos.y - sprite.hitArea.height / 2;
-            } else {
-                sprite.x = pos.x - sprite.width / 2;
-                sprite.y = pos.y - sprite.height / 2;
-            }
-        }, sprite);
-        return sprite;
-    }
-
-    public placeOrderToken(currentSprite) {
-        this.areaTokens.forEach((area) => {
-            const scale: Phaser.Point = currentSprite.game.camera.scale;
-            let boundsA = new Phaser.Rectangle(currentSprite.worldPosition.x * scale.x, currentSprite.worldPosition.y * scale.y, currentSprite.width * scale.x, currentSprite.height * scale.y);
-            let relativeX = area.x - currentSprite.game.camera.x;
-            let relativeY = area.y - currentSprite.game.camera.y;
-            let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-            if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer.house, currentSprite.frame), area.name);
-            }
-        });
-    }
-
-    private removeSelectedToken(sprite: Phaser.Sprite) {
-        sprite.destroy();
-        this.selectedTokenMarker.removeChildren();
-        this.validAreasToExecuteOrderToken.removeChildren();
     }
 
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
@@ -200,6 +91,32 @@ export default class OrderTokenRenderer {
                     }
                 }
             });
+    }
+
+    private highlightValidAreasToExecuteOrderToken(areasAllowedToExecuteOrder: Array<Area>, onInputDownFunction: Function) {
+        this.validAreasToExecuteOrderToken.removeChildren();
+        this.areaNames.filter((area) => {
+            return areasAllowedToExecuteOrder.filter((border) => {
+                    return border.key === area.name;
+                }).length > 0;
+        }).map((area: UiArea) => {
+            let game = this.validAreasToExecuteOrderToken.game;
+            this.drawRectangleAroundAreaName(game, area, 0x0000FF, () => {
+                onInputDownFunction(area.name);
+                Renderer.rerenderRequired = true;
+            });
+
+        });
+    }
+
+    private drawRectangleAroundAreaName(game, areaName: UiArea, color: number, onInputDown: Function) {
+        let graphics = game.add.graphics(0, 0, this.validAreasToExecuteOrderToken);
+        graphics.lineStyle(2, color, 1);
+        graphics.beginFill(0xdfffb1, 0);
+        graphics.drawRect(areaName.x, areaName.y, areaName.width, areaName.height);
+        graphics.endFill();
+        graphics.inputEnabled = true;
+        graphics.events.onInputDown.add(onInputDown);
     }
 
     private highlightToken(game: Phaser.Game, area: UiArea) {
@@ -293,5 +210,23 @@ export default class OrderTokenRenderer {
                 });
             this.highlightDuringActionPhase(sprite, areaKey, raidAreaFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_RAID);
         });
+    }
+
+    private removeSelectedToken(sprite: Phaser.Sprite) {
+        sprite.destroy();
+        this.selectedTokenMarker.removeChildren();
+        this.validAreasToExecuteOrderToken.removeChildren();
+    }
+
+    private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder, gamePhase: GamePhase) {
+        let areaToken = this.getAreaTokenByKey(areaKey);
+        if (GameState.getInstance().gamePhase === gamePhase) {
+            this.selectedTokenMarker.removeChildren();
+            this.highlightToken(sprite.game, areaToken);
+            this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);
+            this.highlightAreaNameToSkipOrder(sprite.game, areaToken, sprite);
+            Renderer.rerenderRequired = true;
+        }
+
     }
 }

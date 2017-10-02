@@ -16,8 +16,8 @@ export default class ModalRenderer {
 
     public static addText(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number = 0, visible = true, callback?: Function): Phaser.Text {
         let game = modalGroup.game;
-        var style = {font: "22px Arial", fill: "#000000", align: "center"};
-        var text = modalGroup.game.add.text(modalGroup.game.world.centerX, modalGroup.game.world.centerY, content, style, modalGroup);
+        let style = {font: '22px Arial', fill: '#000000', align: 'center'};
+        let text = modalGroup.game.add.text(modalGroup.game.world.centerX, modalGroup.game.world.centerY, content, style, modalGroup);
         text.x = ((game.width / 2) - (text.width / 2)) + offsetX;
         text.y = ((game.height / 2) - (text.height / 2)) + offsetY;
         text.visible = visible;
@@ -84,7 +84,7 @@ export default class ModalRenderer {
     }
 
     private static drawRectangleAroundImage(modal: Phaser.Group, image: Phaser.Image): Phaser.Graphics {
-        var graphics = modal.game.add.graphics(0, 0);
+        let graphics = modal.game.add.graphics(0, 0);
         graphics.lineStyle(2, 0x0000FF, 1);
         graphics.drawRect(image.x, image.y, image.width, image.height);
         graphics.visible = false;

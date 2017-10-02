@@ -88,7 +88,7 @@ export default class GameRules {
         targetArea.units = targetArea.units.concat(movingUnits);
         targetArea.controllingHouse = sourceArea.controllingHouse;
 
-        var remainingUnits = sourceArea.units.filter(function (sourceUnit) {
+        let remainingUnits = sourceArea.units.filter(function (sourceUnit) {
             return movingUnits.indexOf(sourceUnit) === -1;
         });
         sourceArea.units = remainingUnits;
@@ -241,7 +241,7 @@ export default class GameRules {
                 winningHouse = player.house;
             }
         });
-        if (gamestate.round == 10) {
+        if (gamestate.round === 10) {
             let sortedPlayersByVictoryPoints = gamestate.players.sort((a, b) => {
                 return this.getVictoryPositionFor(b.house) - this.getVictoryPositionFor(a.house);
             });
@@ -275,6 +275,10 @@ export default class GameRules {
     }
 
     public static isActionPhase(gamePhase: GamePhase) {
-        ACTION_PHASES.indexOf(gamePhase) > -1
+        return ACTION_PHASES.indexOf(gamePhase) > -1;
+    }
+
+    public static getValidAreasToPlaceAnOrder() {
+
     }
 }
