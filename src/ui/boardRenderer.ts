@@ -1,4 +1,4 @@
-import * as Assets from '../assets';
+import AssetLoader from './assetLoader';
 
 export default class BoardRenderer {
 
@@ -7,12 +7,9 @@ export default class BoardRenderer {
     private zoomIncrement: number = 0.01;
     private origDragPoint: Phaser.Point = null;
 
-    public static loadAssets(game: Phaser.Game) {
-        game.load.image('gameboard', Assets.Images.ImagesMapSmall.getPNG());
-    }
 
     public static renderBoard(game: Phaser.Game) {
-        const gameboard = game.add.sprite(0, 0, 'gameboard');
+        const gameboard = game.add.sprite(0, 0, AssetLoader.GAME_BOARD);
         game.world.setBounds(gameboard.x, gameboard.y, gameboard.width, gameboard.height);
     }
 

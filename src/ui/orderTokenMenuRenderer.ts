@@ -5,6 +5,7 @@ import {OrderToken} from '../logic/orderToken';
 import {House} from '../logic/house';
 import UiArea from './UiArea';
 import DragAndDropSupport from './dragAndDropSupport';
+import AssetLoader from './assetLoader';
 export class OrderTokenMenuRenderer {
 
     private static placableOrderTokens: Phaser.Group;
@@ -23,7 +24,7 @@ export class OrderTokenMenuRenderer {
 
         let availableOrderToken = GameRules.getAvailableOrderToken(GameState.getInstance().currentPlayer.house);
 
-        this.placableOrderTokens.createMultiple(1, 'orderTokens', availableOrderToken, true);
+        this.placableOrderTokens.createMultiple(1, AssetLoader.ORDER_TOKENS, availableOrderToken, true);
         this.placableOrderTokens.align(0, 0, 50, 45);
         this.placableOrderTokens.fixedToCamera = true;
         this.placableOrderTokens.cameraOffset.x = 10;

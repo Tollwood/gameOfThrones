@@ -1,6 +1,6 @@
 import ModalRenderer from './modalFactory';
 import {Area} from '../../logic/area';
-export class EstablishControlModalFactory {
+export default class EstablishControlModalFactory {
 
     static showModal(game, area: Area, yesFn: Function, noFn: Function) {
         let modal = ModalRenderer.createModal(game);

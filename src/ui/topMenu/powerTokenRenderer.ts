@@ -1,22 +1,12 @@
-import * as Assets from '../../assets';
 import {House} from '../../logic/house';
 import GameState from '../../logic/gameStati';
 import {Area} from '../../logic/area';
+import AssetLoader from '../assetLoader';
 
 export default class PowerTokenRenderer {
     private static powerTokenGroup: Phaser.Group;
     private static controlMarkerGroup: Phaser.Group;
-    private static texts: Array<Phaser.Text>;
-
-    public static loadAssets(game: Phaser.Game) {
-        game.load.image(House[House.stark] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenStarkPowerToken.getPNG());
-        game.load.image(House[House.lannister] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenLannisterPowerToken.getPNG());
-        game.load.image(House[House.baratheon] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenBaratheonPowerToken.getPNG());
-        game.load.image(House[House.greyjoy] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenGreyjoyPowerToken.getPNG());
-        game.load.image(House[House.tyrell] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenTyrellPowerToken.getPNG());
-        game.load.image(House[House.martell] + 'PowerTokenRenderer', Assets.Images.ImagesPowerTokenMartellPowerToken.getPNG());
-        this.texts = new Array<Phaser.Text>();
-    }
+    private static texts: Array<Phaser.Text> = new Array();
 
 
     public static createGroups(game: Phaser.Game) {
@@ -41,11 +31,10 @@ export default class PowerTokenRenderer {
 
 
     private static getImageNameByHouse(house: House): string {
-        return House[house] + 'PowerTokenRenderer';
+        return House[house] + AssetLoader.POWER_TOKEN;
     }
 
     public static renderControlToken(game: Phaser.Game) {
-        let map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
         this.controlMarkerGroup.removeChildren();
 
         GameState.getInstance().areas
@@ -53,9 +42,9 @@ export default class PowerTokenRenderer {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })
             .map((area: Area) => {
-                let field = map.objects['controlMarker'].find((areaField) => {
+                let field = AssetLoader.getControlMarker().filter((areaField) => {
                     return areaField.name === area.key;
-                });
+                })[0];
                 game.add.sprite(field.x, field.y, this.getImageNameByHouse(area.controllingHouse), undefined, this.controlMarkerGroup);
             });
 

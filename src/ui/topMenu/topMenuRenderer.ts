@@ -6,7 +6,6 @@ import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
 import {GamePhase} from '../../logic/gamePhase';
 import GameState from '../../logic/gameStati';
-import PowerToken from './powerTokenRenderer';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
@@ -20,7 +19,6 @@ export default class TopMenuRenderer {
         MenuSupply.loadAssets(game);
         MenuInvluence.loadAssets(game);
         MenuVictory.loadAssets(game);
-        PowerToken.loadAssets(game);
      }
 
     public renderTopMenu(game: Phaser.Game) {
