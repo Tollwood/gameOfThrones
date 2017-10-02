@@ -1,14 +1,14 @@
-import GameRules from '../logic/gameRules';
-import {House} from '../logic/house';
-import GameState from '../logic/gameStati';
-import {GamePhase} from '../logic/gamePhase';
-import UiArea from './UiArea';
-import {Area, AreaKey} from '../logic/area';
-import Renderer from './renderer';
-import EstablishControlModalFactory from './modals/establishControlModalFactory';
-import SplitArmyModalFactory from './modals/splitArmyModalFactory';
+import GameRules from '../../logic/gameRules';
+import {House} from '../../logic/house';
+import GameState from '../../logic/gameStati';
+import {GamePhase} from '../../logic/gamePhase';
+import UiArea from '../utils/UiArea';
+import {Area, AreaKey} from '../../logic/area';
+import Renderer from '../utils/renderer';
+import EstablishControlModalFactory from '../modals/establishControlModalFactory';
+import SplitArmyModalFactory from '../modals/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
-import AssetLoader from './assetLoader';
+import AssetLoader from '../utils/assetLoader';
 
 export default class OrderTokenRenderer {
 
@@ -123,6 +123,7 @@ export default class OrderTokenRenderer {
         placedToken.events.onInputDown.add((sprite) => {
 
             let moveUnitFunction = (targetAreaKey) => {
+                //splitArmy
                 if (sourceArea.units.length > 1) {
                     let yesFn = (units) => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units, false);
@@ -136,6 +137,7 @@ export default class OrderTokenRenderer {
                     };
                     SplitArmyModalFactory.showModal(game, sourceArea, targetAreaKey, yesFn, noFn);
                 }
+                // establish control
                 if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0) {
                     let yesFn = () => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
@@ -153,6 +155,7 @@ export default class OrderTokenRenderer {
                     EstablishControlModalFactory.showModal(game, sourceArea, yesFn, noFn);
 
                 }
+                //todo fight modal
                 Renderer.rerenderRequired = true;
             };
             let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas

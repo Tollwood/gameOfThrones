@@ -1,18 +1,18 @@
-import OrderTokenRenderer from '../ui/orderTokenRenderer';
-import BoardRenderer from '../ui/boardRenderer';
+import OrderTokenRenderer from '../ui/renderer/orderTokenRenderer';
+import BoardRenderer from '../ui/renderer/boardRenderer';
 import TopMenuRenderer from '../ui/topMenu/topMenuRenderer';
 import GameState from '../logic/gameStati';
-import UnitRenderer from '../ui/unitRenderer';
+import UnitRenderer from '../ui/renderer/unitRenderer';
 import GameRules from '../logic/gameRules';
 import {GamePhase} from '../logic/gamePhase';
 import Player from '../logic/player';
 import {House} from '../logic/house';
 import AI from '../logic/ai';
-import PowerToken from '../ui/topMenu/powerTokenRenderer';
-import Renderer from '../ui/renderer';
+import PowerToken from '../ui/renderer/powerTokenRenderer';
+import Renderer from '../ui/utils/renderer';
 import WinningModal from '../ui/modals/winningModal';
-import {OrderTokenMenuRenderer} from '../ui/orderTokenMenuRenderer';
-import AssetLoader from '../ui/assetLoader';
+import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
+import AssetLoader from '../ui/utils/assetLoader';
 
 import game = PIXI.game;
 

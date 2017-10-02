@@ -1,7 +1,7 @@
-import * as Assets from '../assets';
+import * as Assets from '../../assets';
 import UiArea from './UiArea';
-import {House} from '../logic/house';
-import {UnitType} from '../logic/units';
+import {House} from '../../logic/house';
+import {UnitType} from '../../logic/units';
 
 export default class AssetManager {
 

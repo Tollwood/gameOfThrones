@@ -1,7 +1,7 @@
 import {House} from '../../logic/house';
 import ModalRenderer from './modalFactory';
 import GameRules from '../../logic/gameRules';
-import Renderer from '../renderer';
+import Renderer from '../utils/renderer';
 export default class WinningModal {
 
     public static showWinningModal(game: Phaser.Game, house: House) {

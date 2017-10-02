@@ -1,4 +1,4 @@
-import AssetLoader from './assetLoader';
+import AssetLoader from '../utils/assetLoader';
 
 export default class BoardRenderer {
 

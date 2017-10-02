@@ -1,7 +1,7 @@
 import {House} from '../../logic/house';
 import GameState from '../../logic/gameStati';
 import {Area} from '../../logic/area';
-import AssetLoader from '../assetLoader';
+import AssetLoader from '../utils/assetLoader';
 
 export default class PowerTokenRenderer {
     private static powerTokenGroup: Phaser.Group;

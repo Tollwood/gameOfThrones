@@ -1,4 +1,4 @@
-import {AreaKey} from '../logic/area';
+import {AreaKey} from '../../logic/area';
 
 export default class UiArea {
 
