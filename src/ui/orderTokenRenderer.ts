@@ -115,6 +115,7 @@ export default class OrderTokenRenderer {
     public resetOrderTokens(game: Phaser.Game) {
         this.renderOrderTokenInMenu(game);
         this.renderPlaceHolderForOrderToken(game, GameState.getInstance().currentPlayer.house);
+        Renderer.rerenderRequired = true;
     }
 
     private createDragAndDrop(game: Phaser.Game, orderToken: Phaser.Sprite) {

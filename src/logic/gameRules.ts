@@ -2,7 +2,7 @@ import {Area, AreaKey} from './area';
 import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken, OrderTokenType} from './orderToken';
-import {GamePhase} from './gamePhase';
+import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
 
@@ -29,6 +29,7 @@ export default class GameRules {
 
     public static nextRound() {
         this.switchToPhase(GamePhase.PLANNING);
+        this.resetOrderToken();
         const gameState = GameState.getInstance();
         gameState.nextRound();
         gameState.currentPlayer = gameState.players.filter((player) => {
@@ -40,7 +41,7 @@ export default class GameRules {
         GameState.getInstance().gamePhase = phase;
     }
 
-    private resetOrderToken() {
+    private static resetOrderToken() {
         GameState.getInstance().areas.map((area) => {
             area.orderToken = null;
         });
@@ -254,9 +255,8 @@ export default class GameRules {
     }
 
     public static isActionPhaseButNot(gamePhase: GamePhase) {
-        let actionPhases = new Array(GamePhase.ACTION_MARCH, GamePhase.ACTION_CONSOLIDATE_POWER, GamePhase.ACTION_RAID, GamePhase.ACTION_CLEANUP)
         let currentPhase = GameState.getInstance().gamePhase;
-        return currentPhase !== gamePhase && actionPhases.indexOf(currentPhase) >= 0;
+        return currentPhase !== gamePhase && ACTION_PHASES.indexOf(currentPhase) >= 0;
     }
 
     public static isStillIn(gamePhase: GamePhase) {
@@ -272,6 +272,9 @@ export default class GameRules {
                         return area.orderToken;
                     }).length > 0;
         }
+    }
 
+    public static isActionPhase(gamePhase: GamePhase) {
+        ACTION_PHASES.indexOf(gamePhase) > -1
     }
 }

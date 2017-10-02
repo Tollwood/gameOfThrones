@@ -1,7 +1,14 @@
-export enum GamePhase {
+enum GamePhase {
     PLANNING,
     ACTION_RAID,
     ACTION_MARCH,
     ACTION_CONSOLIDATE_POWER,
     ACTION_CLEANUP
 }
+
+let ACTION_PHASES = new Array(GamePhase.ACTION_RAID,
+    GamePhase.ACTION_MARCH,
+    GamePhase.ACTION_CONSOLIDATE_POWER,
+    GamePhase.ACTION_CLEANUP);
+
+export {ACTION_PHASES, GamePhase};

@@ -76,14 +76,11 @@ export default class Game extends Phaser.State {
             }
 
 
-            let actionPhase = new Array(GamePhase.ACTION_RAID,
-                GamePhase.ACTION_MARCH,
-                GamePhase.ACTION_CONSOLIDATE_POWER,
-                GamePhase.ACTION_CLEANUP)
             let currentGamePhase = GameState.getInstance().gamePhase;
-            if (actionPhase.indexOf(currentGamePhase) > -1) {
+            if (GameRules.isActionPhase(currentGamePhase)) {
                 if (!GameRules.isStillIn(currentGamePhase)) {
                     GameRules.switchToNextPhase();
+                    Renderer.rerenderRequired = true;
                 }
 
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
@@ -103,7 +100,6 @@ export default class Game extends Phaser.State {
                 if (GameState.getInstance().gamePhase === GamePhase.ACTION_CLEANUP) {
                     GameRules.nextRound();
                     this.orderTokenRenderer.resetOrderTokens(this.game);
-                    Renderer.rerenderRequired = true;
                     return;
                 }
             }
