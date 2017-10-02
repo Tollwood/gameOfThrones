@@ -124,9 +124,7 @@ export default class GameRules {
             && hasUnitsToMove
             && hasUnitOfSameTypeToMove
             && (this.isConnectedArea(source, target) || connectedUsingShipTransport)
-            && (moveOnLand || moveOnSea)
-            && !requiresCombat;
-
+            && (moveOnLand || moveOnSea);
     }
 
     public static connectedUsingShipTransport(source: Area, target: Area): boolean {

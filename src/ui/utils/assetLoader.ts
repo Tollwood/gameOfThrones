@@ -2,6 +2,7 @@ import * as Assets from '../../assets';
 import UiArea from './UiArea';
 import {House} from '../../logic/house';
 import {UnitType} from '../../logic/units';
+import {AreaKey} from '../../logic/area';
 
 export default class AssetManager {
 
@@ -25,6 +26,17 @@ export default class AssetManager {
         return this.areaTokens;
     }
 
+    public static getAreaTokenByKey(key: AreaKey): UiArea {
+        return this.getAreaTokens().filter((uiArea) => {
+            return uiArea.name === key;
+        })[0];
+    }
+
+    public static getAreaNameByKey(key: AreaKey): UiArea {
+        return this.getAreaNames().filter((uiArea) => {
+            return uiArea.name === key;
+        })[0];
+    }
     public static getAreaNames(): Array<UiArea> {
         return this.areaNames;
     }
@@ -46,7 +58,10 @@ export default class AssetManager {
         this.loadUnits(game);
         this.loadPowerToken(game);
 
-        let map = game.add.tilemap('gotTileMap', 32, 32, 53, 94);
+    }
+
+    public static createAssets(game: Phaser.Game) {
+        let map = game.add.tilemap(this.GOT_TILE_MAP, 32, 32, 53, 94);
         this.areaNames = map.objects['areaNames'].map((area) => {
             return new UiArea(area.height, area.name, area.width, area.x, area.y);
         });

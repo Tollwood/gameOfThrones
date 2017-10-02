@@ -9,6 +9,7 @@ import EstablishControlModalFactory from '../modals/establishControlModalFactory
 import SplitArmyModalFactory from '../modals/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../utils/assetLoader';
+import FightModal from '../modals/fightModal';
 
 export default class OrderTokenRenderer {
 
@@ -33,7 +34,7 @@ export default class OrderTokenRenderer {
         this.areasToPlaceToken.removeChildren();
         AssetLoader.getAreaTokens().forEach((areaToken: UiArea) => {
             if (GameRules.isAllowedToPlaceOrderToken(house, areaToken.name))
-                game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), 'orderTokenFront', house, this.areasToPlaceToken);
+                game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, house, this.areasToPlaceToken);
         });
     }
 
@@ -44,7 +45,7 @@ export default class OrderTokenRenderer {
                 return area.orderToken !== null;
             })
             .map((sourceArea: Area) => {
-                let sourceAreaToken: UiArea = this.getAreaTokenByKey(sourceArea.key);
+                let sourceAreaToken: UiArea = AssetLoader.getAreaTokenByKey(sourceArea.key);
                 if (sourceArea.units[0].getHouse() === GameState.getInstance().currentPlayer.house) {
                     let placedToken: Phaser.Sprite = game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS, sourceArea.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
@@ -97,20 +98,8 @@ export default class OrderTokenRenderer {
         graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
     }
 
-    private getAreaTokenByKey(key: AreaKey): UiArea {
-        return AssetLoader.getAreaTokens().filter((uiArea) => {
-            return uiArea.name === key;
-        })[0];
-    }
-
-    private getAreaNameByKey(key: AreaKey): UiArea {
-        return AssetLoader.getAreaNames().filter((uiArea) => {
-            return uiArea.name === key;
-        })[0];
-    }
-
     private highlightAreaNameToSkipOrder(game: Phaser.Game, areaToken: UiArea, selectedToken: Phaser.Sprite) {
-        let areaName = this.getAreaNameByKey(areaToken.name);
+        let areaName = AssetLoader.getAreaNameByKey(areaToken.name);
         this.drawRectangleAroundAreaName(game, areaName, 0xFF0000, () => {
             GameRules.skipOrder(areaToken.name);
             this.removeSelectedToken(selectedToken);
@@ -124,7 +113,9 @@ export default class OrderTokenRenderer {
 
             let moveUnitFunction = (targetAreaKey) => {
                 //splitArmy
-                if (sourceArea.units.length > 1) {
+                let targetArea = GameRules.getAreaByKey(targetAreaKey);
+                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse == GameState.getInstance().currentPlayer.house)) {
+                    // establish control
                     let yesFn = (units) => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units, false);
                         Renderer.rerenderRequired = true;
@@ -137,8 +128,7 @@ export default class OrderTokenRenderer {
                     };
                     SplitArmyModalFactory.showModal(game, sourceArea, targetAreaKey, yesFn, noFn);
                 }
-                // establish control
-                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0) {
+                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse == GameState.getInstance().currentPlayer.house)) {
                     let yesFn = () => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
                         GameRules.establishControl(sourceArea);
@@ -152,10 +142,12 @@ export default class OrderTokenRenderer {
                         this.removeSelectedToken(sprite);
                         Renderer.rerenderRequired = true;
                     };
-                    EstablishControlModalFactory.showModal(game, sourceArea, yesFn, noFn);
 
+                    EstablishControlModalFactory.showModal(game, sourceArea, yesFn, noFn);
                 }
-                //todo fight modal
+                if (targetArea.controllingHouse != GameState.getInstance().currentPlayer.house && targetArea.units.length > 0) {
+                    FightModal.showModal(game, sourceArea, targetArea);
+                }
                 Renderer.rerenderRequired = true;
             };
             let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
@@ -191,7 +183,7 @@ export default class OrderTokenRenderer {
     }
 
     private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder, gamePhase: GamePhase) {
-        let areaToken = this.getAreaTokenByKey(areaKey);
+        let areaToken = AssetLoader.getAreaTokenByKey(areaKey);
         if (GameState.getInstance().gamePhase === gamePhase) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
