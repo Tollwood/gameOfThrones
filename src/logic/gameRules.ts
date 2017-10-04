@@ -5,6 +5,7 @@ import {OrderToken, OrderTokenType} from './orderToken';
 import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
+import FightResult from '../ui/combat/combatResult';
 
 export default class GameRules {
 
@@ -276,7 +277,20 @@ export default class GameRules {
         return ACTION_PHASES.indexOf(gamePhase) > -1;
     }
 
-    public static getValidAreasToPlaceAnOrder() {
+    public static resolveFight(fightResult: FightResult) {
 
+        let loosingArea = fightResult.looser === fightResult.attackingArea.controllingHouse ? fightResult.attackingArea : fightResult.defendingArea;
+        let winningArea = fightResult.winner === fightResult.attackingArea.controllingHouse ? fightResult.attackingArea : fightResult.defendingArea;
+        if (fightResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
+            loosingArea.controllingHouse = winningArea.controllingHouse;
+            loosingArea.orderToken == null;
+            loosingArea.units = new Array<Unit>();
+            this.moveUnits(winningArea.key, loosingArea.key, winningArea.units, true);
+        }
+        else {
+            loosingArea.units = new Array<Unit>();
+            loosingArea.orderToken = null;
+            loosingArea.controllingHouse = null;
+        }
     }
 }

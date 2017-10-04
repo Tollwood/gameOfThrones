@@ -9,7 +9,7 @@ import EstablishControlModalFactory from '../modals/establishControlModalFactory
 import SplitArmyModalFactory from '../modals/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../utils/assetLoader';
-import FightModal from '../modals/fightModal';
+import FightModal from '../combat/combatModal';
 
 export default class OrderTokenRenderer {
 
@@ -112,9 +112,9 @@ export default class OrderTokenRenderer {
         placedToken.events.onInputDown.add((sprite) => {
 
             let moveUnitFunction = (targetAreaKey) => {
-                //splitArmy
+                // splitArmy
                 let targetArea = GameRules.getAreaByKey(targetAreaKey);
-                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse == GameState.getInstance().currentPlayer.house)) {
+                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameState.getInstance().currentPlayer.house)) {
                     // establish control
                     let yesFn = (units) => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units, false);
@@ -128,8 +128,8 @@ export default class OrderTokenRenderer {
                     };
                     SplitArmyModalFactory.showModal(game, sourceArea, targetAreaKey, yesFn, noFn);
                 }
-                //establish Control
-                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse == GameState.getInstance().currentPlayer.house)) {
+                // establish Control
+                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameState.getInstance().currentPlayer.house)) {
                     let yesFn = () => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
                         GameRules.establishControl(sourceArea);
@@ -146,9 +146,14 @@ export default class OrderTokenRenderer {
 
                     EstablishControlModalFactory.showModal(game, sourceArea, yesFn, noFn);
                 }
-                //fight
-                if (targetArea.controllingHouse != GameState.getInstance().currentPlayer.house && targetArea.units.length > 0) {
-                    FightModal.showModal(game, sourceArea, targetArea);
+                // fight
+                let onCloseFn = () => {
+                    GameRules.nextPlayer();
+                    this.removeSelectedToken(sprite);
+                    Renderer.rerenderRequired = true;
+                };
+                if (targetArea.controllingHouse !== GameState.getInstance().currentPlayer.house && targetArea.units.length > 0) {
+                    FightModal.showModal(game, sourceArea, targetArea, onCloseFn);
                 }
                 Renderer.rerenderRequired = true;
             };
