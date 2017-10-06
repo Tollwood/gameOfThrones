@@ -12,8 +12,10 @@ export default class Card {
     private _house: House;
     private _played: boolean;
     private _cardExecutionPoint: CardExecutionPoint;
+    private _id: number;
 
-    constructor(leaderName: string, artWork: string, combatStrength: number, sword: number, fortification: number, ability: string, abilityFn: string, house: House, cardExecutionPoint: CardExecutionPoint) {
+    constructor(id: number, leaderName: string, artWork: string, combatStrength: number, sword: number, fortification: number, ability: string, abilityFn: string, house: House, cardExecutionPoint: CardExecutionPoint) {
+        this._id = id;
         this._leaderName = leaderName;
         this._artWork = artWork;
         this._combatStrength = combatStrength;
@@ -26,6 +28,11 @@ export default class Card {
         this._played = false;
 
     }
+
+    get id(): number {
+        return this._id;
+    }
+
 
     get house(): House {
         return this._house;
@@ -62,6 +69,7 @@ export default class Card {
     get cardExecutionPoint(): CardExecutionPoint {
         return this._cardExecutionPoint;
     }
+
 
     get played(): boolean {
         return this._played;

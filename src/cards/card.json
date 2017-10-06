@@ -1,5 +1,6 @@
 [
   {
+    "id": 0,
     "leaderName": "Eddard Stark",
     "artWork": null,
     "combatStrength": 4,
@@ -11,6 +12,7 @@
     "house": "stark"
   },
   {
+    "id": 1,
     "leaderName": "Roose Bolton",
     "artWork": null,
     "combatStrength": 2,
@@ -22,6 +24,7 @@
     "house": "stark"
   },
   {
+    "id": 2,
     "leaderName": "Robb Stark",
     "artWork": null,
     "combatStrength": 3,
@@ -33,6 +36,7 @@
     "house": "stark"
   },
   {
+    "id": 3,
     "leaderName": "Sir Rodrick Cassel",
     "artWork": null,
     "combatStrength": 1,
@@ -44,6 +48,7 @@
     "house": "stark"
   },
   {
+    "id": 4,
     "leaderName": "Cateyling Stark",
     "artWork": null,
     "combatStrength": 0,
@@ -55,6 +60,7 @@
     "house": "stark"
   },
   {
+    "id": 5,
     "leaderName": "Der Blackfish",
     "artWork": null,
     "combatStrength": 1,
@@ -66,6 +72,7 @@
     "house": "stark"
   },
   {
+    "id": 6,
     "leaderName": "Greation Umber",
     "artWork": null,
     "combatStrength": 2,
@@ -77,6 +84,7 @@
     "house": "stark"
   },
   {
+    "id": 7,
     "leaderName": "Ser Davos Seaworth",
     "artWork": null,
     "combatStrength": 2,
@@ -88,6 +96,7 @@
     "house": "baratheon"
   },
   {
+    "id": 8,
     "leaderName": "Salladhor Saan",
     "artWork": null,
     "combatStrength": 1,
@@ -99,17 +108,19 @@
     "house": "baratheon"
   },
   {
+    "id": 9,
     "leaderName": "Patchface",
     "artWork": null,
     "combatStrength": 0,
     "sword": 0,
     "fortification": 0,
     "ability": "Am Ende des Kampfes darfst du dir die Handkarten des Gegners ansehen und eine beliebige abwerfen",
-    "abilityFn": "removeAdditionalEnemiesCard",
+    "abilityFn": "dropAdditionalEnemiesCard",
     "cardExecutionPoint": "afterFight",
     "house": "baratheon"
   },
   {
+    "id": 10,
     "leaderName": "Brienne von Tarth",
     "artWork": null,
     "combatStrength": 2,
@@ -121,6 +132,7 @@
     "house": "baratheon"
   },
   {
+    "id": 11,
     "leaderName": "Melisandre",
     "artWork": null,
     "combatStrength": 1,
@@ -132,6 +144,7 @@
     "house": "baratheon"
   },
   {
+    "id": 12,
     "leaderName": "Stannis Baratheon",
     "artWork": null,
     "combatStrength": 4,
@@ -143,6 +156,7 @@
     "house": "baratheon"
   },
   {
+    "id": 13,
     "leaderName": "Renly Baratheon",
     "artWork": null,
     "combatStrength": 0,
@@ -154,6 +168,7 @@
     "house": "baratheon"
   },
   {
+    "id": 14,
     "leaderName": "Cersei Lannister",
     "artWork": null,
     "combatStrength": 0,
@@ -164,6 +179,7 @@
     "house": "lannister"
   },
   {
+    "id": 15,
     "leaderName": "Ser Kevan Lannister",
     "artWork": null,
     "combatStrength": 1,
@@ -175,6 +191,7 @@
     "house": "lannister"
   },
   {
+    "id": 16,
     "leaderName": "Der Bluthund",
     "artWork": null,
     "combatStrength": 2,
@@ -186,6 +203,7 @@
     "house": "lannister"
   },
   {
+    "id": 17,
     "leaderName": "Ser Jaime Lannister",
     "artWork": null,
     "combatStrength": 2,
@@ -197,6 +215,7 @@
     "house": "lannister"
   },
   {
+    "id": 18,
     "leaderName": "Tyrion Lannister",
     "artWork": null,
     "combatStrength": 1,
@@ -208,6 +227,7 @@
     "house": "lannister"
   },
   {
+    "id": 19,
     "leaderName": "Ser Gregor Clegane",
     "artWork": null,
     "combatStrength": 3,
@@ -219,6 +239,7 @@
     "house": "lannister"
   },
   {
+    "id": 20,
     "leaderName": "Tywin Lannister",
     "artWork": null,
     "combatStrength": 4,
@@ -230,6 +251,7 @@
     "house": "lannister"
   },
   {
+    "id": 21,
     "leaderName": "Euron Krähenauge",
     "artWork": null,
     "combatStrength": 4,
@@ -241,6 +263,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 22,
     "leaderName": "Victarion Greyjoy",
     "artWork": null,
     "combatStrength": 3,
@@ -252,6 +275,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 23,
     "leaderName": "Theon Greyjoy",
     "artWork": null,
     "combatStrength": 2,
@@ -263,6 +287,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 24,
     "leaderName": "Balon Greyjoy",
     "artWork": null,
     "combatStrength": 2,
@@ -274,6 +299,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 25,
     "leaderName": "Asha Greyjoy",
     "artWork": null,
     "combatStrength": 1,
@@ -285,6 +311,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 26,
     "leaderName": "Dagmar Cleftjaw",
     "artWork": null,
     "combatStrength": 1,
@@ -296,6 +323,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 27,
     "leaderName": "Aeron Damphair",
     "artWork": null,
     "combatStrength": 0,
@@ -307,6 +335,7 @@
     "house": "greyjoy"
   },
   {
+    "id": 28,
     "leaderName": "Mace Tyrell",
     "artWork": null,
     "combatStrength": 4,
@@ -318,6 +347,7 @@
     "house": "tyrell"
   },
   {
+    "id": 29,
     "leaderName": "Ser Garlan Tyrell",
     "artWork": null,
     "combatStrength": 2,
@@ -329,6 +359,7 @@
     "house": "tyrell"
   },
   {
+    "id": 30,
     "leaderName": "Randyll Tarly",
     "artWork": null,
     "combatStrength": 2,
@@ -340,6 +371,7 @@
     "house": "tyrell"
   },
   {
+    "id": 31,
     "leaderName": "Alester Florent",
     "artWork": null,
     "combatStrength": 0,
@@ -351,6 +383,7 @@
     "house": "tyrell"
   },
   {
+    "id": 32,
     "leaderName": "Margaery Tyrell",
     "artWork": null,
     "combatStrength": 0,
@@ -362,6 +395,7 @@
     "house": "tyrell"
   },
   {
+    "id": 33,
     "leaderName": "Die Dornenkönigin",
     "artWork": null,
     "combatStrength": 0,
@@ -373,6 +407,7 @@
     "house": "tyrell"
   },
   {
+    "id": 34,
     "leaderName": "Ser Loras Tyrell",
     "artWork": null,
     "combatStrength": 3,
@@ -384,6 +419,7 @@
     "house": "tyrell"
   },
   {
+    "id": 35,
     "leaderName": "Die Roter Viper",
     "artWork": null,
     "combatStrength": 4,
@@ -395,6 +431,7 @@
     "house": "martell"
   },
   {
+    "id": 36,
     "leaderName": "Aero Hotah",
     "artWork": null,
     "combatStrength": 3,
@@ -406,6 +443,7 @@
     "house": "martell"
   },
   {
+    "id": 37,
     "leaderName": "Obara Sand",
     "artWork": null,
     "combatStrength": 2,
@@ -417,6 +455,7 @@
     "house": "martell"
   },
   {
+    "id": 38,
     "leaderName": "Darkstar",
     "artWork": null,
     "combatStrength": 2,
@@ -428,6 +467,7 @@
     "house": "martell"
   },
   {
+    "id": 39,
     "leaderName": "Nymeria Sand",
     "artWork": null,
     "combatStrength": 1,
@@ -439,6 +479,7 @@
     "house": "martell"
   },
   {
+    "id": 40,
     "leaderName": "Arianne Martell",
     "artWork": null,
     "combatStrength": 1,
@@ -450,6 +491,7 @@
     "house": "martell"
   },
   {
+    "id": 41,
     "leaderName": "Doran Martell",
     "artWork": null,
     "combatStrength": 0,

@@ -14,7 +14,7 @@ export default class CombatCalculator {
         attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);
         let defenderStrength = this.calculateStrengthOfArmy(targetArea.units);
         defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken.getType(), false);
-        let combatResult = new CombatResult(sourceArea, targetArea, attackersCard, defendersCard, attackerStrength, defenderStrength);
+        let combatResult = new CombatResult(sourceArea, targetArea, attackersCard, defendersCard, attackerStrength, defenderStrength, attackersCard.sword, attackersCard.fortification, defendersCard.sword, defendersCard.fortification);
         this.resolveHouseCard(combatResult, CardExecutionPoint.beforeFight);
         return combatResult;
     }
@@ -84,7 +84,7 @@ export default class CombatCalculator {
         });
 
         cardsToResolve.forEach((card) => {
-            CardAbilities[card.abilityFn](combatResult);
+            CardAbilities[card.abilityFn](card, combatResult);
         });
     }
 }

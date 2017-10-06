@@ -12,8 +12,8 @@ export default class CombatModal {
         let modal = ModalRenderer.createModal(game);
         ModalRenderer.addText(modal, 'Attack ' + House[targetArea.controllingHouse] + ' in ' + targetArea.key, -50, 0);
         ModalRenderer.addText(modal, 'Follow my orders!', 50, -100, true, () => {
-            let attackersCard = new Card('SomeOne', null, 0, 0, 0, 'double Defense Token', 'doubleDefenseToken', House.stark, CardExecutionPoint.beforeFight);
-            let defendersCard = new Card('SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark, CardExecutionPoint.afterFight);
+            let attackersCard = new Card(1, 'SomeOne', null, 0, 0, 0, 'double Defense Token', 'doubleDefenseToken', House.stark, CardExecutionPoint.beforeFight);
+            let defendersCard = new Card(2, 'SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark, CardExecutionPoint.afterFight);
             let combatResult = CombatCalculator.calculateCombat(sourceArea, targetArea, attackersCard, defendersCard);
             CombatResultModal.showModal(game, combatResult, onCloseFn);
             modal.visible = false;

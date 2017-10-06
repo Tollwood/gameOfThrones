@@ -7,18 +7,26 @@ export default class CombatResult {
     private _attackingArea: Area;
     private _attackersCard: Card;
     private _attackerStrength: number;
+    private _attackerSword: number;
+    private _attackerFortification: number;
 
     private _defendingArea: Area;
     private _defendersCard: Card;
     private _defenderStrength: number;
+    private _defenderSword: number;
+    private _defenderFortification: number;
 
-    constructor(attackingArea: Area, defendingArea: Area, attackersCard: Card, defendersCard: Card, attackerStrength: number, defenderStrength: number) {
+    constructor(attackingArea: Area, defendingArea: Area, attackersCard: Card, defendersCard: Card, attackerStrength: number, defenderStrength: number, attackerSword: number, attackerFortification: number, defenderSword: number, defenderFortification: number) {
         this._attackingArea = attackingArea;
         this._defendingArea = defendingArea;
         this._attackersCard = attackersCard;
         this._defendersCard = defendersCard;
         this._attackerStrength = attackerStrength;
         this._defenderStrength = defenderStrength;
+        this._attackerSword = attackerSword;
+        this._attackerFortification = attackerFortification;
+        this._defenderSword = defenderSword;
+        this._defenderFortification = defenderFortification;
     }
 
     get attackingArea(): Area {
