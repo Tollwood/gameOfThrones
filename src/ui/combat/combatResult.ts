@@ -6,22 +6,19 @@ export default class CombatResult {
 
     private _attackingArea: Area;
     private _attackersCard: Card;
+    private _attackerStrength: number;
+
     private _defendingArea: Area;
     private _defendersCard: Card;
-    private _winner: House;
-    private _looser: House;
-    private _lostUnits: Array<Unit>;
+    private _defenderStrength: number;
 
-
-    constructor(attackingArea: Area, defendingArea: Area, winner: House, looser: House, lostUnits: Array<Unit>, attackersCard: Card, defendersCard: Card) {
+    constructor(attackingArea: Area, defendingArea: Area, attackersCard: Card, defendersCard: Card, attackerStrength: number, defenderStrength: number) {
         this._attackingArea = attackingArea;
         this._defendingArea = defendingArea;
-        this._winner = winner;
-        this._looser = looser;
-        this._lostUnits = lostUnits;
         this._attackersCard = attackersCard;
         this._defendersCard = defendersCard;
-
+        this._attackerStrength = attackerStrength;
+        this._defenderStrength = defenderStrength;
     }
 
     get attackingArea(): Area {
@@ -32,16 +29,12 @@ export default class CombatResult {
         return this._defendingArea;
     }
 
-    get winner(): House {
-        return this._winner;
-    }
-
     get looser(): House {
-        return this._looser;
+        return this._attackerStrength > this._defenderStrength ? this._defendingArea.controllingHouse : this._attackingArea.controllingHouse;
     }
 
     get lostUnits(): Array<Unit> {
-        return this._lostUnits;
+        return this._attackingArea.controllingHouse === this.winner ? this.defendingArea.units : this.attackingArea.units;
     }
 
     get defendersCard(): Card {
@@ -51,4 +44,25 @@ export default class CombatResult {
     get attackersCard(): Card {
         return this._attackersCard;
     }
+
+    get winner(): House {
+        return this._attackerStrength > this._defenderStrength ? this._attackingArea.controllingHouse : this._defendingArea.controllingHouse;
+    }
+
+    get defenderStrength(): number {
+        return this._defenderStrength;
+    }
+
+    set defenderStrength(value: number) {
+        this._defenderStrength = value;
+    }
+
+    get attackerStrength(): number {
+        return this._attackerStrength;
+    }
+
+    set attackerStrength(value: number) {
+        this._attackerStrength = value;
+    }
+
 }

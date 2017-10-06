@@ -3,20 +3,20 @@ import CombatResult from './combatResult';
 import {OrderTokenType} from '../../logic/orderToken';
 import {Unit, UnitType} from '../../logic/units';
 import Card from '../../cards/card';
-import {House} from '../../logic/house';
+import {CardExecutionPoint} from '../../cards/cardExecutionPoint';
+import CardAbilities from '../../cards/cardAbilities';
+import GameState from '../../logic/gameStati';
 export default class CombatCalculator {
 
-    public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
+    public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: Card, defendersCard: Card): CombatResult {
 
         let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);
         attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);
         let defenderStrength = this.calculateStrengthOfArmy(targetArea.units);
         defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken.getType(), false);
-        let winner = attackerStrength > defenderStrength ? sourceArea.controllingHouse : targetArea.controllingHouse;
-        let looser = attackerStrength > defenderStrength ? targetArea.controllingHouse : sourceArea.controllingHouse;
-        let lostUnits = sourceArea.controllingHouse === winner ? targetArea.units : sourceArea.units;
-        // remove fake cards - replace with real user selection
-        return new CombatResult(sourceArea, targetArea, winner, looser, lostUnits, new Card('SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark), new Card('SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark));
+        let combatResult = new CombatResult(sourceArea, targetArea, attackersCard, defendersCard, attackerStrength, defenderStrength);
+        this.resolveHouseCard(combatResult, CardExecutionPoint.beforeFight);
+        return combatResult;
     }
 
     private static calculateOrderTokenStrengh(orderTokenType: OrderTokenType, attacking: boolean) {
@@ -68,5 +68,23 @@ export default class CombatCalculator {
             }
         });
         return strength;
+    }
+
+    public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint) {
+        let cardsToResolve = new Array<Card>();
+        if (combatResult.attackersCard.cardExecutionPoint === cardExecutionPoint) {
+            cardsToResolve.push(combatResult.attackersCard);
+        }
+
+        if (combatResult.defendersCard.cardExecutionPoint === cardExecutionPoint) {
+            cardsToResolve.push(combatResult.defendersCard);
+        }
+        cardsToResolve.sort((a, b) => {
+            return GameState.getInstance().ironThroneSuccession.indexOf(a.house) - GameState.getInstance().ironThroneSuccession.indexOf(b.house);
+        });
+
+        cardsToResolve.forEach((card) => {
+            CardAbilities[card.abilityFn](combatResult);
+        });
     }
 }

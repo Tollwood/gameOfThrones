@@ -1,4 +1,5 @@
 import {House} from '../logic/house';
+import {CardExecutionPoint} from './cardExecutionPoint';
 export default class Card {
 
     private _leaderName: string;
@@ -9,8 +10,10 @@ export default class Card {
     private _ability: string;
     private _abilityFn: string;
     private _house: House;
+    private _played: boolean;
+    private _cardExecutionPoint: CardExecutionPoint;
 
-    constructor(leaderName: string, artWork: string, combatStrength: number, sword: number, fortification: number, ability: string, abilityFn: string, house: House) {
+    constructor(leaderName: string, artWork: string, combatStrength: number, sword: number, fortification: number, ability: string, abilityFn: string, house: House, cardExecutionPoint: CardExecutionPoint) {
         this._leaderName = leaderName;
         this._artWork = artWork;
         this._combatStrength = combatStrength;
@@ -18,7 +21,9 @@ export default class Card {
         this._fortification = fortification;
         this._ability = ability;
         this._abilityFn = abilityFn;
+        this._cardExecutionPoint = cardExecutionPoint;
         this._house = house;
+        this._played = false;
 
     }
 
@@ -52,5 +57,17 @@ export default class Card {
 
     get abilityFn(): string {
         return this._abilityFn;
+    }
+
+    get cardExecutionPoint(): CardExecutionPoint {
+        return this._cardExecutionPoint;
+    }
+
+    get played(): boolean {
+        return this._played;
+    }
+
+    set played(value: boolean) {
+        this._played = value;
     }
 }

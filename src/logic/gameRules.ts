@@ -6,8 +6,9 @@ import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
 import CombatResult from '../ui/combat/combatResult';
-import CardAbilities from '../cards/cardAbilities';
 import CardFactory from '../cards/cardFactory';
+import CombatCalculator from '../ui/combat/combatCalculator';
+import {CardExecutionPoint} from '../cards/cardExecutionPoint';
 
 export default class GameRules {
 
@@ -280,8 +281,9 @@ export default class GameRules {
     }
 
     public static resolveFight(combatResult: CombatResult) {
-        // figure out if card is immediately executed or after resolving the fight
-        CardAbilities[combatResult.attackersCard.abilityFn](combatResult);
+        combatResult.attackersCard.played = true;
+        combatResult.defendersCard.played = true;
+        CombatCalculator.resolveHouseCard(combatResult, CardExecutionPoint.afterFight);
         let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {

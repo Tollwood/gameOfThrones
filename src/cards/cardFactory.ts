@@ -21,6 +21,6 @@ export default class CardFactory {
 
     private static parse(json: any) {
         let house = <string>json.house;
-        return new Card(json.leaderName, json.artWork, json.combatStrength, json.sword, json.fortification, json.ability, json.abilityFn, House[house]);
+        return new Card(json.leaderName, json.artWork, json.combatStrength, json.sword, json.fortification, json.ability, json.abilityFn, House[house], json.cardExecutionPoint);
     }
 }

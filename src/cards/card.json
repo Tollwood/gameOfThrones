@@ -7,6 +7,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "stark"
   },
   {
@@ -17,6 +18,7 @@
     "fortification": 0,
     "ability": "Wenn du diesen Kampf verlierst nimmst du alle deine Handkarten (auch diese) wieder auf die Hand",
     "abilityFn": "getAllCardsBack",
+    "cardExecutionPoint": "afterFight",
     "house": "stark"
   },
   {
@@ -27,6 +29,7 @@
     "fortification": 0,
     "ability": "Wenn du diesen Kampf gewinnst, darfst du bestimmen, wohin sich der Gegner zurückzieht. Der Rückzug muss regelgerecht sein und die Verluste durch den Rückzug so gering wie möglich.",
     "abilityFn": "defineEnemiesRetreat",
+    "cardExecutionPoint": "afterFight",
     "house": "stark"
   },
   {
@@ -37,6 +40,7 @@
     "fortification": 2,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "stark"
   },
   {
@@ -47,6 +51,7 @@
     "fortification": 0,
     "ability": "Wenn du einen Verteidigungsbefehl im umkämpften Gebiet hast wird sein Bonus verdoppelt.",
     "abilityFn": "doubleDefenseToken",
+    "cardExecutionPoint": "beforeFight",
     "house": "stark"
   },
   {
@@ -57,6 +62,7 @@
     "fortification": 0,
     "ability": "In diesem Kampf erleidest du weder durch Hauskartenfähigkeiten, noch Schwertsymbole, noch Schlachtenglückkarte Verluste",
     "abilityFn": "noLossesDuringFight",
+    "cardExecutionPoint": "afterFight",
     "house": "stark"
   },
   {
@@ -67,6 +73,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "stark"
   },
   {
@@ -77,6 +84,7 @@
     "fortification": 0,
     "ability": "Wenn deine Hauskarte Stannis Baratheon auf dem Ablagestapel liegt erhählt diese Karte +1 Kampfstärke und 1 Schwertsymbol",
     "abilityFn": "fightForStannisBaratheon",
+    "cardExecutionPoint": "beforeFight",
     "house": "baratheon"
   },
   {
@@ -87,6 +95,7 @@
     "fortification": 0,
     "ability": "Wenn du in diesem Kampf unterstützung erhälst, ist die Kampfstärke aller Schiffe ausser deiner 0",
     "abilityFn": "navelPowerThroughSupport",
+    "cardExecutionPoint": "beforeFight",
     "house": "baratheon"
   },
   {
@@ -97,6 +106,7 @@
     "fortification": 0,
     "ability": "Am Ende des Kampfes darfst du dir die Handkarten des Gegners ansehen und eine beliebige abwerfen",
     "abilityFn": "removeAdditionalEnemiesCard",
+    "cardExecutionPoint": "afterFight",
     "house": "baratheon"
   },
   {
@@ -107,6 +117,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "baratheon"
   },
   {
@@ -117,6 +128,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "baratheon"
   },
   {
@@ -127,6 +139,7 @@
     "fortification": 0,
     "ability": "Wenn dein Gegner auf der Leiste der Thronfolge eine bessere Position hat als du, erhält diese Karte +1 Kampfstärke",
     "abilityFn": "demandForPower",
+    "cardExecutionPoint": "beforeFight",
     "house": "baratheon"
   },
   {
@@ -137,6 +150,7 @@
     "fortification": 0,
     "ability": "Wenn du diesen Kampf gewinnst, darfst du einen kämpfenden oder unterstützenden Fusssoldaten in einen Ritter umwandeln",
     "abilityFn": "accolade",
+    "cardExecutionPoint": "afterFight",
     "house": "baratheon"
   },
   {
@@ -157,6 +171,7 @@
     "fortification": 0,
     "ability": "Wenn du der Angreifer bist, haben alle deine kämpfenden und unterstützenden Fusssoldaten Kampfstärke 2 (statt 1)",
     "abilityFn": "strongAttackingFootman",
+    "cardExecutionPoint": "beforeFight",
     "house": "lannister"
   },
   {
@@ -167,6 +182,7 @@
     "fortification": 2,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "lannister"
   },
   {
@@ -177,6 +193,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "lannister"
   },
   {
@@ -187,6 +204,7 @@
     "fortification": 0,
     "ability": "Du darfst sofort die gegenerische Hauskarte abwehren und dem Gegner wieder auf die Hand geben. Er muss dann eine andere Hauskarte spielen. Wenn er keine andere auf der Hand hat darf er in diesem Kampf keine Hauskarte spielen.",
     "abilityFn": "denyEnemiesHouseCard",
+    "cardExecutionPoint": "beforeFight",
     "house": "lannister"
   },
   {
@@ -197,6 +215,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "lannister"
   },
   {
@@ -207,6 +226,7 @@
     "fortification": 0,
     "ability": "Wenn du diesen Kampf gewinnst erhälst du zwei Machtmarker",
     "abilityFn": "powerForSuccess",
+    "cardExecutionPoint": "afterFight",
     "house": "lannister"
   },
   {
@@ -217,6 +237,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "greyjoy"
   },
   {
@@ -227,6 +248,7 @@
     "fortification": 0,
     "ability": "Wenn du der Angreifer bist, haben alle deine kämpfenden und unterstützenden Schiffe Kampfstärke 2 (statt 1).",
     "abilityFn": "strongAttackingShips",
+    "cardExecutionPoint": "beforeFight",
     "house": "greyjoy"
   },
   {
@@ -237,6 +259,7 @@
     "fortification": 0,
     "ability": "Wenn du ein Gebiet mit Burg oder Festung verteidigst erhälst du +1 Kampfstärke und 1 Schwertsymbol",
     "abilityFn": "greatDefender",
+    "cardExecutionPoint": "beforeFight",
     "house": "greyjoy"
   },
   {
@@ -247,6 +270,7 @@
     "fortification": 0,
     "ability": "Die aufgedruckte Kampfstärke der gegnerischen Hauskarte wird auf 0 reduziert.",
     "abilityFn": "fearfulnessEnemy",
+    "cardExecutionPoint": "beforeFight",
     "house": "greyjoy"
   },
   {
@@ -257,6 +281,7 @@
     "fortification": 0,
     "ability": "Wenn du in diesem Kampf nicht unterstützt wirst erhälst du 2 Schwertsymbole und 1 Turmsymbol",
     "abilityFn": "lonlyFighter",
+    "cardExecutionPoint": "beforeFight",
     "house": "greyjoy"
   },
   {
@@ -267,6 +292,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "greyjoy"
   },
   {
@@ -277,6 +303,7 @@
     "fortification": 0,
     "ability": "Du kannst sofort zwei Machtmarker abgeben, um Aeron Damphair abzuwerfen und eine andere Hauskare zu spielen ( wenn du noch eine auf der Hand hast).",
     "abilityFn": "replaceHousecard",
+    "cardExecutionPoint": "beforeFight",
     "house": "greyjoy"
   },
   {
@@ -287,6 +314,7 @@
     "fortification": 0,
     "ability": "Vernichte sofort einen angreifenden oder verteidigenden Fusssoldaten.",
     "abilityFn": "agonyOfFootman",
+    "cardExecutionPoint": "beforeFight",
     "house": "tyrell"
   },
   {
@@ -297,6 +325,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "tyrell"
   },
   {
@@ -307,6 +336,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "tyrell"
   },
   {
@@ -317,6 +347,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "tyrell"
   },
   {
@@ -327,6 +358,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "tyrell"
   },
   {
@@ -337,6 +369,7 @@
     "fortification": 0,
     "ability": "Entferne sofort einen Befehlsmarker deiner Gegners aus einem Gebiet, dass an das umkäpfte Gebiet angrenzt. Das farf nicht der Marschbefehl sein, mit dem dieser Kampf ausgelöst wurde.",
     "abilityFn": "removeAdjacentEnemyOrder",
+    "cardExecutionPoint": "beforeFight",
     "house": "tyrell"
   },
   {
@@ -347,6 +380,7 @@
     "fortification": 0,
     "ability": "Wenn du der Angreifer bist und diesen Kampf gewinnst, darfst du den Marschbefehl in das umkäpfte Gebiet mitnehmen (statt ihn zu entfernen). Du kannst diesen Marschbefehl später in der Runde normal ausführen.",
     "abilityFn": "longCombat",
+    "cardExecutionPoint": "afterFight",
     "house": "tyrell"
   },
   {
@@ -357,6 +391,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "martell"
   },
   {
@@ -367,6 +402,7 @@
     "fortification": 1,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "martell"
   },
   {
@@ -377,6 +413,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "martell"
   },
   {
@@ -387,6 +424,7 @@
     "fortification": 0,
     "ability": null,
     "abilityFn": null,
+    "cardExecutionPoint": null,
     "house": "martell"
   },
   {
@@ -397,6 +435,7 @@
     "fortification": 0,
     "ability": "Wenn du der Verteidiger bist, erhält diese Karte ein Turmsymbol. Wenn du der Angreifer bist erhält diese Karte ein SchwertSymbol",
     "abilityFn": "beStrong",
+    "cardExecutionPoint": "beforeFight",
     "house": "martell"
   },
   {
@@ -407,6 +446,7 @@
     "fortification": 0,
     "ability": "Wenn du der Verteidiger bist und diesen Kampf verlierst. darf der Angreifer seine Einheiten nicht in das umkämpfte Gebiet ziehen. Er muss sie in das Gebiet ziehe, aus dem sie kamen. Deine Einheiten müssen sich normal zurückziehen.",
     "abilityFn": "thwartInvasion",
+    "cardExecutionPoint": "afterFight",
     "house": "martell"
   },
   {
@@ -417,6 +457,7 @@
     "fortification": 0,
     "ability": "Verschiebe den Einflussmarker deines Gegners sofort auf einer beliebigen Einflussleiste ganz nach hinten.",
     "abilityFn": "lostInfluence",
+    "cardExecutionPoint": "beforeFight",
     "house": "martell"
   }
 ]
