@@ -1,0 +1,422 @@
+[
+  {
+    "leaderName": "Eddard Stark",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 2,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "stark"
+  },
+  {
+    "leaderName": "Roose Bolton",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du diesen Kampf verlierst nimmst du alle deine Handkarten (auch diese) wieder auf die Hand",
+    "abilityFn": "getAllCardsBack",
+    "house": "stark"
+  },
+  {
+    "leaderName": "Robb Stark",
+    "artWork": null,
+    "combatStrength": 3,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du diesen Kampf gewinnst, darfst du bestimmen, wohin sich der Gegner zurückzieht. Der Rückzug muss regelgerecht sein und die Verluste durch den Rückzug so gering wie möglich.",
+    "abilityFn": "defineEnemiesRetreat",
+    "house": "stark"
+  },
+  {
+    "leaderName": "Sir Rodrick Cassel",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 2,
+    "ability": null,
+    "abilityFn": null,
+    "house": "stark"
+  },
+  {
+    "leaderName": "Cateyling Stark",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du einen Verteidigungsbefehl im umkämpften Gebiet hast wird sein Bonus verdoppelt.",
+    "abilityFn": "doubleDefenseToken",
+    "house": "stark"
+  },
+  {
+    "leaderName": "Der Blackfish",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "In diesem Kampf erleidest du weder durch Hauskartenfähigkeiten, noch Schwertsymbole, noch Schlachtenglückkarte Verluste",
+    "abilityFn": "noLossesDuringFight",
+    "house": "stark"
+  },
+  {
+    "leaderName": "Greation Umber",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "stark"
+  },
+  {
+    "leaderName": "Ser Davos Seaworth",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn deine Hauskarte Stannis Baratheon auf dem Ablagestapel liegt erhählt diese Karte +1 Kampfstärke und 1 Schwertsymbol",
+    "abilityFn": "fightForStannisBaratheon",
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Salladhor Saan",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du in diesem Kampf unterstützung erhälst, ist die Kampfstärke aller Schiffe ausser deiner 0",
+    "abilityFn": "navelPowerThroughSupport",
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Patchface",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Am Ende des Kampfes darfst du dir die Handkarten des Gegners ansehen und eine beliebige abwerfen",
+    "abilityFn": "removeAdditionalEnemiesCard",
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Brienne von Tarth",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Melisandre",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Stannis Baratheon",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn dein Gegner auf der Leiste der Thronfolge eine bessere Position hat als du, erhält diese Karte +1 Kampfstärke",
+    "abilityFn": "demandForPower",
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Renly Baratheon",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du diesen Kampf gewinnst, darfst du einen kämpfenden oder unterstützenden Fusssoldaten in einen Ritter umwandeln",
+    "abilityFn": "accolade",
+    "house": "baratheon"
+  },
+  {
+    "leaderName": "Cersei Lannister",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du diesen Kampf gewinnst, darfst du einen beliebigen Befehlsmarker des Verlierers vom Spielplan entfernen",
+    "abilityFn": "removeEnemiesOrderTokenForSuccess",
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Ser Kevan Lannister",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du der Angreifer bist, haben alle deine kämpfenden und unterstützenden Fusssoldaten Kampfstärke 2 (statt 1)",
+    "abilityFn": "strongAttackingFootman",
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Der Bluthund",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 0,
+    "fortification": 2,
+    "ability": null,
+    "abilityFn": null,
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Ser Jaime Lannister",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Tyrion Lannister",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Du darfst sofort die gegenerische Hauskarte abwehren und dem Gegner wieder auf die Hand geben. Er muss dann eine andere Hauskarte spielen. Wenn er keine andere auf der Hand hat darf er in diesem Kampf keine Hauskarte spielen.",
+    "abilityFn": "denyEnemiesHouseCard",
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Ser Gregor Clegane",
+    "artWork": null,
+    "combatStrength": 3,
+    "sword": 3,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Tywin Lannister",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du diesen Kampf gewinnst erhälst du zwei Machtmarker",
+    "abilityFn": "powerForSuccess",
+    "house": "lannister"
+  },
+  {
+    "leaderName": "Euron Krähenauge",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Victarion Greyjoy",
+    "artWork": null,
+    "combatStrength": 3,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du der Angreifer bist, haben alle deine kämpfenden und unterstützenden Schiffe Kampfstärke 2 (statt 1).",
+    "abilityFn": "strongAttackingShips",
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Theon Greyjoy",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du ein Gebiet mit Burg oder Festung verteidigst erhälst du +1 Kampfstärke und 1 Schwertsymbol",
+    "abilityFn": "greatDefender",
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Balon Greyjoy",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Die aufgedruckte Kampfstärke der gegnerischen Hauskarte wird auf 0 reduziert.",
+    "abilityFn": "fearfulnessEnemy",
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Asha Greyjoy",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du in diesem Kampf nicht unterstützt wirst erhälst du 2 Schwertsymbole und 1 Turmsymbol",
+    "abilityFn": "lonlyFighter",
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Dagmar Cleftjaw",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 1,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Aeron Damphair",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Du kannst sofort zwei Machtmarker abgeben, um Aeron Damphair abzuwerfen und eine andere Hauskare zu spielen ( wenn du noch eine auf der Hand hast).",
+    "abilityFn": "replaceHousecard",
+    "house": "greyjoy"
+  },
+  {
+    "leaderName": "Mace Tyrell",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Vernichte sofort einen angreifenden oder verteidigenden Fusssoldaten.",
+    "abilityFn": "agonyOfFootman",
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Ser Garlan Tyrell",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 2,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Randyll Tarly",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Alester Florent",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Margaery Tyrell",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Die Dornenkönigin",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Entferne sofort einen Befehlsmarker deiner Gegners aus einem Gebiet, dass an das umkäpfte Gebiet angrenzt. Das farf nicht der Marschbefehl sein, mit dem dieser Kampf ausgelöst wurde.",
+    "abilityFn": "removeAdjacentEnemyOrder",
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Ser Loras Tyrell",
+    "artWork": null,
+    "combatStrength": 3,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du der Angreifer bist und diesen Kampf gewinnst, darfst du den Marschbefehl in das umkäpfte Gebiet mitnehmen (statt ihn zu entfernen). Du kannst diesen Marschbefehl später in der Runde normal ausführen.",
+    "abilityFn": "longCombat",
+    "house": "tyrell"
+  },
+  {
+    "leaderName": "Die Roter Viper",
+    "artWork": null,
+    "combatStrength": 4,
+    "sword": 2,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "martell"
+  },
+  {
+    "leaderName": "Aero Hotah",
+    "artWork": null,
+    "combatStrength": 3,
+    "sword": 0,
+    "fortification": 1,
+    "ability": null,
+    "abilityFn": null,
+    "house": "martell"
+  },
+  {
+    "leaderName": "Obara Sand",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "martell"
+  },
+  {
+    "leaderName": "Darkstar",
+    "artWork": null,
+    "combatStrength": 2,
+    "sword": 1,
+    "fortification": 0,
+    "ability": null,
+    "abilityFn": null,
+    "house": "martell"
+  },
+  {
+    "leaderName": "Nymeria Sand",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du der Verteidiger bist, erhält diese Karte ein Turmsymbol. Wenn du der Angreifer bist erhält diese Karte ein SchwertSymbol",
+    "abilityFn": "beStrong",
+    "house": "martell"
+  },
+  {
+    "leaderName": "Arianne Martell",
+    "artWork": null,
+    "combatStrength": 1,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Wenn du der Verteidiger bist und diesen Kampf verlierst. darf der Angreifer seine Einheiten nicht in das umkämpfte Gebiet ziehen. Er muss sie in das Gebiet ziehe, aus dem sie kamen. Deine Einheiten müssen sich normal zurückziehen.",
+    "abilityFn": "thwartInvasion",
+    "house": "martell"
+  },
+  {
+    "leaderName": "Doran Martell",
+    "artWork": null,
+    "combatStrength": 0,
+    "sword": 0,
+    "fortification": 0,
+    "ability": "Verschiebe den Einflussmarker deines Gegners sofort auf einer beliebigen Einflussleiste ganz nach hinten.",
+    "abilityFn": "lostInfluence",
+    "house": "martell"
+  }
+]

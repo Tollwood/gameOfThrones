@@ -1,20 +1,26 @@
 import {House} from '../../logic/house';
 import {Unit} from '../../logic/units';
 import {Area} from '../../logic/area';
+import Card from '../../cards/card';
 export default class CombatResult {
 
     private _attackingArea: Area;
+    private _attackersCard: Card;
     private _defendingArea: Area;
+    private _defendersCard: Card;
     private _winner: House;
     private _looser: House;
     private _lostUnits: Array<Unit>;
 
-    constructor(attackingArea: Area, defendingArea: Area, winner: House, looser: House, lostUnits: Array<Unit>) {
+
+    constructor(attackingArea: Area, defendingArea: Area, winner: House, looser: House, lostUnits: Array<Unit>, attackersCard: Card, defendersCard: Card) {
         this._attackingArea = attackingArea;
         this._defendingArea = defendingArea;
         this._winner = winner;
         this._looser = looser;
         this._lostUnits = lostUnits;
+        this._attackersCard = attackersCard;
+        this._defendersCard = defendersCard;
 
     }
 
@@ -36,5 +42,13 @@ export default class CombatResult {
 
     get lostUnits(): Array<Unit> {
         return this._lostUnits;
+    }
+
+    get defendersCard(): Card {
+        return this._defendersCard;
+    }
+
+    get attackersCard(): Card {
+        return this._attackersCard;
     }
 }

@@ -5,7 +5,9 @@ import {OrderToken, OrderTokenType} from './orderToken';
 import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
-import FightResult from '../ui/combat/combatResult';
+import CombatResult from '../ui/combat/combatResult';
+import CardAbilities from '../cards/cardAbilities';
+import CardFactory from '../cards/cardFactory';
 
 export default class GameRules {
 
@@ -250,7 +252,7 @@ export default class GameRules {
     }
 
     public static newGame() {
-        GameState.initGame([new Player(House.stark, 5, false), new Player(House.lannister, 5, true), new Player(House.baratheon, 5, true), new Player(House.greyjoy, 5, true), new Player(House.tyrell, 5, true), new Player(House.martell, 5, true)]);
+        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getCards(House.martell))]);
     }
 
     public static isActionPhaseButNot(gamePhase: GamePhase) {
@@ -277,11 +279,12 @@ export default class GameRules {
         return ACTION_PHASES.indexOf(gamePhase) > -1;
     }
 
-    public static resolveFight(fightResult: FightResult) {
-
-        let loosingArea = fightResult.looser === fightResult.attackingArea.controllingHouse ? fightResult.attackingArea : fightResult.defendingArea;
-        let winningArea = fightResult.winner === fightResult.attackingArea.controllingHouse ? fightResult.attackingArea : fightResult.defendingArea;
-        if (fightResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
+    public static resolveFight(combatResult: CombatResult) {
+        // figure out if card is immediately executed or after resolving the fight
+        CardAbilities[combatResult.attackersCard.abilityFn](combatResult);
+        let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
+        let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
+        if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
             loosingArea.controllingHouse = winningArea.controllingHouse;
             loosingArea.orderToken == null;
             loosingArea.units = new Array<Unit>();

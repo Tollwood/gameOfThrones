@@ -13,6 +13,7 @@ import Renderer from '../ui/utils/renderer';
 import WinningModal from '../ui/modals/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
 import AssetLoader from '../ui/utils/assetLoader';
+import CardFactory from '../cards/cardFactory';
 
 import game = PIXI.game;
 
@@ -38,7 +39,7 @@ export default class Game extends Phaser.State {
 
     public create(): void {
         AssetLoader.createAssets(this.game);
-        GameState.initGame([new Player(House.stark, 5, false), new Player(House.lannister, 5, true), new Player(House.baratheon, 5, true), new Player(House.greyjoy, 5, true), new Player(House.tyrell, 5, true), new Player(House.martell, 5, true)]);
+        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getCards(House.martell))]);
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);

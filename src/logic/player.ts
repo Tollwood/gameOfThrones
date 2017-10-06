@@ -1,13 +1,17 @@
 import {House} from './house';
+import Card from '../cards/card';
 export default class Player {
+
     private _house: House;
     private _powerToken: number;
     private _computerOpponent: boolean;
+    private _cards: Array<Card>;
 
-    constructor(house: House, powerToken: number, computerOpponent: boolean) {
+    constructor(house: House, powerToken: number, computerOpponent: boolean, cards: Array<Card>) {
         this._powerToken = powerToken;
         this._house = house;
         this._computerOpponent = computerOpponent;
+        this._cards = cards;
     }
 
 
@@ -25,4 +29,7 @@ export default class Player {
         return this._computerOpponent;
     }
 
+    get cards(): Array<Card> {
+        return this._cards;
+    }
 }

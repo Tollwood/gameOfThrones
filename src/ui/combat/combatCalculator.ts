@@ -2,6 +2,8 @@ import {Area} from '../../logic/area';
 import CombatResult from './combatResult';
 import {OrderTokenType} from '../../logic/orderToken';
 import {Unit, UnitType} from '../../logic/units';
+import Card from '../../cards/card';
+import {House} from '../../logic/house';
 export default class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
@@ -13,7 +15,8 @@ export default class CombatCalculator {
         let winner = attackerStrength > defenderStrength ? sourceArea.controllingHouse : targetArea.controllingHouse;
         let looser = attackerStrength > defenderStrength ? targetArea.controllingHouse : sourceArea.controllingHouse;
         let lostUnits = sourceArea.controllingHouse === winner ? targetArea.units : sourceArea.units;
-        return new CombatResult(sourceArea, targetArea, winner, looser, lostUnits);
+        // remove fake cards - replace with real user selection
+        return new CombatResult(sourceArea, targetArea, winner, looser, lostUnits, new Card('SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark), new Card('SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark));
     }
 
     private static calculateOrderTokenStrengh(orderTokenType: OrderTokenType, attacking: boolean) {
