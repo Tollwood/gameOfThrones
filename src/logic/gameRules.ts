@@ -6,9 +6,9 @@ import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
 import CombatResult from '../ui/combat/combatResult';
-import CardFactory from '../cards/cardFactory';
+import CardFactory from '../cards/logic/cardFactory';
 import CombatCalculator from '../ui/combat/combatCalculator';
-import {CardExecutionPoint} from '../cards/cardExecutionPoint';
+import {CardExecutionPoint} from '../cards/logic/cardExecutionPoint';
 
 export default class GameRules {
 

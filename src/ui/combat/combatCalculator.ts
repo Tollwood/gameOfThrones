@@ -2,13 +2,13 @@ import {Area} from '../../logic/area';
 import CombatResult from './combatResult';
 import {OrderTokenType} from '../../logic/orderToken';
 import {Unit, UnitType} from '../../logic/units';
-import Card from '../../cards/card';
-import {CardExecutionPoint} from '../../cards/cardExecutionPoint';
-import CardAbilities from '../../cards/cardAbilities';
+import HouseCard from '../../cards/logic/houseCard';
+import {CardExecutionPoint} from '../../cards/logic/cardExecutionPoint';
+import CardAbilities from '../../cards/logic/cardAbilities';
 import GameState from '../../logic/gameStati';
 export default class CombatCalculator {
 
-    public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: Card, defendersCard: Card): CombatResult {
+    public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: HouseCard, defendersCard: HouseCard): CombatResult {
 
         let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);
         attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);
@@ -71,7 +71,7 @@ export default class CombatCalculator {
     }
 
     public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint) {
-        let cardsToResolve = new Array<Card>();
+        let cardsToResolve = new Array<HouseCard>();
         if (combatResult.attackersCard.cardExecutionPoint === cardExecutionPoint) {
             cardsToResolve.push(combatResult.attackersCard);
         }

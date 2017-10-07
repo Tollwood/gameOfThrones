@@ -13,9 +13,7 @@ import Renderer from '../ui/utils/renderer';
 import WinningModal from '../ui/modals/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
 import AssetLoader from '../ui/utils/assetLoader';
-import CardFactory from '../cards/cardFactory';
-
-import game = PIXI.game;
+import CardFactory from '../cards/logic/cardFactory';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;

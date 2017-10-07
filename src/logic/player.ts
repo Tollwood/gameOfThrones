@@ -1,5 +1,5 @@
 import {House} from './house';
-import Card from '../cards/card';
+import Card from '../cards/logic/houseCard';
 export default class Player {
 
     private _house: House;

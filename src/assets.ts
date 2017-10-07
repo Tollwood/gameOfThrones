@@ -2,13 +2,9 @@
 
 export namespace Images {
     export class ImagesCastleCastleStark {
-        static getName(): string {
-            return 'castle_stark';
-        };
+        static getName(): string { return 'castle_stark'; };
 
-        static getPNG(): string {
-            return require('assets/images/castle/castle_stark.png');
-        };
+        static getPNG(): string { return require('assets/images/castle/castle_stark.png'); };
     }
     export class ImagesGameRoundMarker {
         static getName(): string { return 'gameRoundMarker'; };

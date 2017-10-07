@@ -1,8 +1,8 @@
-import {House} from '../logic/house';
+import {House} from '../../logic/house';
 
-import * as data from './card.json';
+import * as data from './houseCard.json';
 
-import Card from './card';
+import Card from './houseCard';
 export default class CardFactory {
 
     public static getCards(house: House): Array<Card> {

@@ -1,6 +1,6 @@
-import {House} from '../logic/house';
+import {House} from '../../logic/house';
 import {CardExecutionPoint} from './cardExecutionPoint';
-export default class Card {
+export default class HousecCard {
 
     private _leaderName: string;
     private _artWork: string;
