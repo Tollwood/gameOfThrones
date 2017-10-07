@@ -11,8 +11,8 @@ export class MenuInvluence extends TopMenuItem {
     }
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Invluence', Assets.Images.ImagesInfluence.getPNG());
-        game.load.image(MENU + 'Invluence', Assets.Images.ImagesMenuInvluence.getPNG());
+        game.load.image(OVERLAY + 'Invluence', Assets.Images.ImagesTopMenuInfluenceInfluence.getPNG());
+        game.load.image(MENU + 'Invluence', Assets.Images.ImagesTopMenuMenuInvluence.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {

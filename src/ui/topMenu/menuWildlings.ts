@@ -13,8 +13,8 @@ export class MenuWildlings extends TopMenuItem {
     }
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Wildlings', Assets.Images.ImagesWildlingStatus.getPNG());
-        game.load.image(MENU + 'Wildlings', Assets.Images.ImagesMenuWildlings.getPNG());
+        game.load.image(OVERLAY + 'Wildlings', Assets.Images.ImagesTopMenuWildlingstatusWildlingStatus.getPNG());
+        game.load.image(MENU + 'Wildlings', Assets.Images.ImagesTopMenuMenuWildlings.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {

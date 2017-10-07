@@ -11,8 +11,8 @@ export class MenuSupply extends TopMenuItem {
     }
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Supply', Assets.Images.ImagesSupply.getPNG());
-        game.load.image(MENU + 'Supply', Assets.Images.ImagesMenuSupply.getPNG());
+        game.load.image(OVERLAY + 'Supply', Assets.Images.ImagesTopMenuSupplySupply.getPNG());
+        game.load.image(MENU + 'Supply', Assets.Images.ImagesTopMenuMenuSupply.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {

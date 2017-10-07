@@ -15,9 +15,9 @@ export class MenuRounds extends TopMenuItem {
     }
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Rounds', Assets.Images.ImagesGamerounds.getPNG());
-        game.load.image(MENU + 'Rounds', Assets.Images.ImagesMenuRounds.getPNG());
-        game.load.image('gameRoundMarker', Assets.Images.ImagesGameRoundMarker.getPNG());
+        game.load.image(OVERLAY + 'Rounds', Assets.Images.ImagesTopMenuGameRoundsGamerounds.getPNG());
+        game.load.image(MENU + 'Rounds', Assets.Images.ImagesTopMenuMenuRounds.getPNG());
+        game.load.image('gameRoundMarker', Assets.Images.ImagesTopMenuGameRoundsGameRoundMarker.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {

@@ -18,14 +18,14 @@ export class MenuVictory extends TopMenuItem {
     marker: Phaser.Group;
 
     public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Victory', Assets.Images.ImagesVictory.getPNG());
-        game.load.image(MENU + 'Victory', Assets.Images.ImagesMenuVictory.getPNG());
-        game.load.image(House[House.stark] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
-        game.load.image(House[House.baratheon] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
-        game.load.image(House[House.greyjoy] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
-        game.load.image(House[House.lannister] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
-        game.load.image(House[House.martell] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
-        game.load.image(House[House.tyrell] + 'Castle', Assets.Images.ImagesCastleCastleStark.getPNG());
+        game.load.image(OVERLAY + 'Victory', Assets.Images.ImagesTopMenuVictoryVictory.getPNG());
+        game.load.image(MENU + 'Victory', Assets.Images.ImagesTopMenuMenuVictory.getPNG());
+        game.load.image(House[House.stark] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.baratheon] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.greyjoy] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.lannister] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.martell] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.tyrell] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
     }
 
     renderMarker(overlay: Phaser.Sprite) {
