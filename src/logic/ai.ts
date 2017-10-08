@@ -5,17 +5,15 @@ import {OrderToken, OrderTokenType} from './orderToken';
 import {Area} from './area';
 export default class AI {
 
-    public static placeOrderTokens() {
-        let aiPlayers: Array<Player> = GameState.getInstance().players.filter((player) => {
-            return player.computerOpponent;
-        });
-        for (let aiPlayer of aiPlayers) {
-            let availableOrderToken = GameRules.getAvailableOrderToken(aiPlayer.house);
+    public static placeOrderTokens(player: Player) {
+        if (player.computerOpponent) {
+
+            let availableOrderToken = GameRules.getAvailableOrderToken(player.house);
             let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => {
-                return area.units.length > 0 && area.units[0].getHouse() === aiPlayer.house && area.orderToken === null;
+                return area.units.length > 0 && area.units[0].getHouse() === player.house && area.orderToken === null;
             });
             for (let area of areasToPlaceAToken) {
-                GameRules.addOrderToken(new OrderToken(aiPlayer.house, availableOrderToken.pop()), area.key);
+                GameRules.addOrderToken(new OrderToken(player.house, availableOrderToken.pop()), area.key);
             }
         }
     }
@@ -40,7 +38,7 @@ export default class AI {
                 return;
             }
         }
-        GameRules.nextPlayer();
+
     }
 
     private static getAreasWithToken(player: Player, orderTokens: Array<OrderTokenType>): Array<Area> {

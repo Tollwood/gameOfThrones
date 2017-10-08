@@ -3,17 +3,27 @@ import {AreaInitiator} from './initialArea';
 import {GamePhase} from './gamePhase';
 import {House} from './house';
 import Player from './player';
+import {WesterosCard} from '../cards/logic/westerosCard';
+import CardFactory from '../cards/logic/cardFactory';
+import {OrderTokenType} from './orderToken';
 export default class GameState {
 
     private static gameState: GameState;
-    private _gamePhase: GamePhase = GamePhase.PLANNING;
+
+    private _gamePhase: GamePhase = GamePhase.WESTEROS1;
     private _round: number = 1;
     private _areas: Array<Area> = new Array<Area>();
+    private _westerosCards1 = new Array<WesterosCard>();
+    private _westerosCards2 = new Array<WesterosCard>();
+    private _westerosCards3 = new Array<WesterosCard>();
     private _currentPlayer: Player;
     private _players: Array<Player> = [];
     private _ironThroneSuccession: Array<House> = [];
     private _kingscourt: Array<House> = [];
     private _fiefdom: Array<House> = [];
+    private _currentlyAllowedTokenTypes: Array<OrderTokenType>;
+
+    public static INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
 
     public static getInstance(): GameState {
         if (!this.gameState) {
@@ -22,9 +32,12 @@ export default class GameState {
         return this.gameState;
     }
 
-    public static initGame( player: Array<Player>) {
+    public static initGame(player: Array<Player>) {
         this.gameState = new GameState();
         this.gameState._areas = AreaInitiator.getInitalState(player);
+        this.gameState._westerosCards1 = CardFactory.getWesterosCards(1);
+        this.gameState._westerosCards2 = CardFactory.getWesterosCards(2);
+        this.gameState._westerosCards3 = CardFactory.getWesterosCards(3);
         this.gameState._players = player;
         this.gameState.currentPlayer = player.filter((player) => {
             return !player.computerOpponent;
@@ -32,11 +45,13 @@ export default class GameState {
         this.gameState._ironThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
         this.gameState._fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
         this.gameState._kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
+        this.gameState._currentlyAllowedTokenTypes = GameState.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
     }
 
     public static resetGame() {
         this.gameState = undefined;
     }
+
     public nextRound(): void {
         this._round++;
     }
@@ -97,4 +112,23 @@ export default class GameState {
         this._kingscourt = value;
     }
 
+    get currentlyAllowedTokenTypes(): Array<OrderTokenType> {
+        return this._currentlyAllowedTokenTypes;
+    }
+
+    set currentlyAllowedTokenTypes(value: Array<OrderTokenType>) {
+        this._currentlyAllowedTokenTypes = value;
+    }
+
+    get westerosCards3(): WesterosCard[] {
+        return this._westerosCards3;
+    }
+
+    get westerosCards2(): WesterosCard[] {
+        return this._westerosCards2;
+    }
+
+    get westerosCards1(): WesterosCard[] {
+        return this._westerosCards1;
+    }
 }

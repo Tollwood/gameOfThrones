@@ -14,6 +14,7 @@ import WinningModal from '../ui/modals/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
 import AssetLoader from '../ui/utils/assetLoader';
 import CardFactory from '../cards/logic/cardFactory';
+import CardAbilities from '../cards/logic/cardAbilities';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -37,7 +38,7 @@ export default class Game extends Phaser.State {
 
     public create(): void {
         AssetLoader.createAssets(this.game);
-        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getCards(House.martell))]);
+        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getHouseCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getHouseCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getHouseCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getHouseCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getHouseCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getHouseCards(House.martell))]);
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
@@ -60,11 +61,28 @@ export default class Game extends Phaser.State {
             PowerToken.renderControlToken(this.game);
             this.unitRenderer.renderUnits(this.game);
 
+            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS1) {
+                let card = GameRules.playWesterosCard(1);
+                CardAbilities[card.functions[0]](GameState.getInstance().westerosCards1);
+                Renderer.rerenderRequired = true;
+                GameRules.switchToNextPhase();
+                return;
+            }
+            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS2) {
+                let card = GameRules.playWesterosCard(2);
+                CardAbilities[card.functions[0]]();
+                Renderer.rerenderRequired = true;
+                GameRules.switchToNextPhase();
+                return;
+            }
+            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS3) {
+                let card = GameRules.playWesterosCard(3);
+                CardAbilities[card.functions[0]]();
+                Renderer.rerenderRequired = true;
+                GameRules.switchToNextPhase();
+                return;
+            }
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
-                AI.placeOrderTokens();
-                this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
-                this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
-                OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
                 if (GameRules.isPlanningPhaseComplete()) {
                     GameRules.switchToNextPhase();
                     OrderTokenMenuRenderer.removeOrderTokenMenu();
@@ -72,6 +90,16 @@ export default class Game extends Phaser.State {
                     Renderer.rerenderRequired = true;
                     return;
                 }
+
+                AI.placeOrderTokens(GameState.getInstance().currentPlayer);
+                if (GameRules.planningCompleteForCurrentPlayer()) {
+                    Renderer.rerenderRequired = true;
+                    GameRules.nextPlayer();
+                    return;
+                }
+                this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
+                this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
+                OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
             }
 
 
@@ -86,6 +114,7 @@ export default class Game extends Phaser.State {
 
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
                     AI.executeMoveOrder(GameState.getInstance().currentPlayer);
+                    GameRules.nextPlayer();
                     Renderer.rerenderRequired = true;
                     return;
                 }

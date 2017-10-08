@@ -1,4 +1,7 @@
 enum GamePhase {
+    WESTEROS1,
+    WESTEROS2,
+    WESTEROS3,
     PLANNING,
     ACTION_RAID,
     ACTION_MARCH,

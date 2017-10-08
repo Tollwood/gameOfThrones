@@ -11,7 +11,6 @@ import CombatCalculator from '../ui/combat/combatCalculator';
 import {CardExecutionPoint} from '../cards/logic/cardExecutionPoint';
 
 export default class GameRules {
-
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = GameRules.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
@@ -25,9 +24,9 @@ export default class GameRules {
     }
 
 
-    public static allOrderTokenPlaced(currentPlayer: House): boolean {
+    public static allOrderTokenPlaced(house?: House): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.units.length > 0 && area.units[0].getHouse() === currentPlayer && area.orderToken === null;
+                return area.units.length > 0 && (house === undefined || area.controllingHouse === house) && area.orderToken === null;
             }).length === 0;
     }
 
@@ -36,6 +35,7 @@ export default class GameRules {
         this.resetOrderToken();
         const gameState = GameState.getInstance();
         gameState.nextRound();
+        gameState.currentlyAllowedTokenTypes = GameState.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
         gameState.currentPlayer = gameState.players.filter((player) => {
             return !player.computerOpponent;
         })[0];
@@ -150,7 +150,7 @@ export default class GameRules {
     }
 
     public static isPlanningPhaseComplete(): boolean {
-        return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
+        return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced();
     }
 
     private static allMarchOrdersRevealed(): boolean {
@@ -178,7 +178,7 @@ export default class GameRules {
             return area.orderToken.getType();
         });
 
-        return [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special].filter((type) => {
+        return GameState.getInstance().currentlyAllowedTokenTypes.filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
@@ -253,7 +253,7 @@ export default class GameRules {
     }
 
     public static newGame() {
-        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getCards(House.martell))]);
+        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getHouseCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getHouseCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getHouseCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getHouseCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getHouseCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getHouseCards(House.martell))]);
     }
 
     public static isActionPhaseButNot(gamePhase: GamePhase) {
@@ -297,5 +297,42 @@ export default class GameRules {
             loosingArea.orderToken = null;
             loosingArea.controllingHouse = null;
         }
+    }
+
+    public static restrictOrderToken(notAllowedOrderTokenTypes: Array<OrderTokenType>) {
+        let allowedForThisRound = GameState.getInstance().currentlyAllowedTokenTypes.filter(function (orderToken) {
+            return notAllowedOrderTokenTypes.indexOf(orderToken) === -1;
+        });
+        GameState.getInstance().currentlyAllowedTokenTypes = allowedForThisRound;
+    }
+
+    public static consolidateAllPower() {
+        let gameState = GameState.getInstance();
+        gameState.players.forEach((player) => {
+            let additionalPower = 0;
+            gameState.areas.forEach((area) => {
+                if (area.controllingHouse === player.house) {
+                    additionalPower += area.consolidatePower;
+                }
+            });
+            player.powerToken += additionalPower;
+        });
+        // Add logic for ships in harbour
+    }
+
+    public static playWesterosCard(cardType: number) {
+        switch (cardType) {
+            case 1:
+                return CardFactory.playNextCard(GameState.getInstance().westerosCards1);
+            case 2:
+                return CardFactory.playNextCard(GameState.getInstance().westerosCards2);
+            case 3:
+                return CardFactory.playNextCard(GameState.getInstance().westerosCards3);
+        }
+    }
+
+
+    public static planningCompleteForCurrentPlayer() {
+        return this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
     }
 }

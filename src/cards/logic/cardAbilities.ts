@@ -2,6 +2,10 @@ import CombatResult from '../../ui/combat/combatResult';
 import HouseCard from './houseCard';
 import GameState from '../../logic/gameStati';
 import {House} from '../../logic/house';
+import {WesterosCard} from './westerosCard';
+import GameRules from '../../logic/gameRules';
+import {OrderTokenType} from '../../logic/orderToken';
+import CardFactory from './cardFactory';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
@@ -150,4 +154,56 @@ export default class CardAbilities {
         return combatResult;
     }
 
+    public static shuffleCards(cards: Array<WesterosCard>) {
+        CardFactory.shuffle(cards);
+    }
+
+    public static supply() {
+        console.log('supply');
+    }
+
+    public static recruit() {
+        console.log('recruit');
+    }
+
+    public static nothing() {
+        // does nothing
+    }
+
+    public static invluence() {
+        console.log('invluence');
+    }
+
+    public static power() {
+        GameRules.consolidateAllPower();
+    }
+
+    public static noDefenseOrders() {
+        let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
+        GameRules.restrictOrderToken(restrictedTokenTypes);
+    }
+
+    public static noSpecialMarchOrder() {
+        let restrictedTokenTypes = [OrderTokenType.march_special];
+        GameRules.restrictOrderToken(restrictedTokenTypes);
+    }
+
+    public static noRaidOrders() {
+        let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
+        GameRules.restrictOrderToken(restrictedTokenTypes);
+    }
+
+    public static noConsolidatePowerOrders() {
+        let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
+        GameRules.restrictOrderToken(restrictedTokenTypes);
+    }
+
+    public static noSupportOrders() {
+        let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
+        GameRules.restrictOrderToken(restrictedTokenTypes);
+    }
+
+    public static wildlingAttack() {
+        console.log('wildlingAttack');
+    }
 }
