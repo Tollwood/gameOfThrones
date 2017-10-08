@@ -375,11 +375,11 @@ export namespace Images {
     }
     export class ImagesWesterosCardAThroneMadeOfSwords {
         static getName(): string {
-            return 'AThroneMadeOfSwords';
+            return 'aThroneMadeOfSwords';
         };
 
         static getPNG(): string {
-            return require('assets/images/westerosCard/AThroneMadeOfSwords.png');
+            return require('assets/images/westerosCard/aThroneMadeOfSwords.png');
         };
     }
     export class ImagesWesterosCardAutumnrain {
@@ -436,13 +436,13 @@ export namespace Images {
             return require('assets/images/westerosCard/letTheSwordSpeak.png');
         };
     }
-    export class ImagesWesterosCardLiesandIntrigue {
+    export class ImagesWesterosCardLiesAndIntrigue {
         static getName(): string {
-            return 'liesandIntrigue';
+            return 'liesAndIntrigue';
         };
 
         static getPNG(): string {
-            return require('assets/images/westerosCard/liesandIntrigue.png');
+            return require('assets/images/westerosCard/liesAndIntrigue.png');
         };
     }
     export class ImagesWesterosCardRecruit {
@@ -483,11 +483,11 @@ export namespace Images {
     }
     export class ImagesWesterosCardSupply {
         static getName(): string {
-            return 'Supply';
+            return 'supply';
         };
 
         static getPNG(): string {
-            return require('assets/images/westerosCard/Supply.png');
+            return require('assets/images/westerosCard/supply.png');
         };
     }
     export class ImagesWesterosCardWesteros1 {

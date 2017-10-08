@@ -1,0 +1,195 @@
+[
+  {
+    "id": 1,
+    "title": "Der Winter naht",
+    "description": "Diesen Stapel komplett mischen. Dann eine neue Karte ziehen und ausführen.",
+    "artwork": "winterIsComming",
+    "cardType": 1,
+    "wildling": 0,
+    "functions": [
+      "shuffleCards"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Ein Thron aus Schwertern",
+    "description": "Der Spieler mit dem Eisernen Thron wählt eine Option: a) alle aktualisieren ihre Versorgung und passen ihre Armeen an, b) alle rekrutieren einheiten, c) nichts passiert.",
+    "artwork": "aThroneMadeOfSwords",
+    "cardType": 1,
+    "wildling": 1,
+    "functions": [
+      "supply",
+      "recruit",
+      "nothing"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Versorgung",
+    "description": "Versorgungsleiste aktualisieren. Armeen entsprechend anpassen.",
+    "artwork": "supply",
+    "cardType": 1,
+    "wildling": 0,
+    "functions": [
+      "supply"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Rekrutierung",
+    "description": "Neue Einheiten an Burgen und Festungen rekrutieren.",
+    "artwork": "recruit",
+    "cardType": 1,
+    "wildling": 0,
+    "functions": [
+      "recruit"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Die letzen Tage des Sommers",
+    "description": "Nichgs passiert",
+    "artwork": "lastDaysOfSummer",
+    "cardType": 1,
+    "wildling": 1,
+    "functions": [
+      "nothing"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Dunkle Schwingen, Dunkle Worte",
+    "description": "Der Spieler mit dem Botenraben whält eine Option: a) alle bieten um die Positionen auf den Einflussleisten, b) jeder erhält Machtmarker für Machtsymbole in eigenen Gebieten und für eigene Häfen mit Schiff, c) nichts passiert.",
+    "artwork": "darkWingsDarkWords",
+    "cardType": 2,
+    "wildling": 1,
+    "functions": [
+      "invluence",
+      "power",
+      "nothing"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Die letzen Tage des Sommers",
+    "description": "Nichgs passiert",
+    "artwork": "lastDaysOfSummer",
+    "cardType": 1,
+    "wildling": 2,
+    "functions": [
+      "nothing"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Königsfehde",
+    "description": "Um Positionen auf den Einflussleisten bieten.",
+    "artwork": "royalFeud",
+    "cardType": 2,
+    "wildling": 0,
+    "functions": [
+      "invluence"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Spiel der Throne",
+    "description": "Jeder Spieler erhält je einen Machtmarker pro Machtsymbol in eigenen Gebieten und pro eigenem Hafen mit Schiff",
+    "artwork": "gameOfThrones",
+    "cardType": 2,
+    "wildling": 0,
+    "functions": [
+      "power"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Der Winter naht",
+    "description": "Diesen Stapel komplett mischen. Dann eine neue Karte ziehen und ausführen.",
+    "artwork": "winterIsComming",
+    "cardType": 2,
+    "wildling": 0,
+    "functions": [
+      "shuffleCards"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Lasst die Schwerter sprechen",
+    "description": "Der Spieler mit der Valyrischer-Stahl-Klinge wählt eine Option: a) Verteidigungsbefehle können nicht erteilt werden, b) Marschbefehle mit +1 können nicht erteilt werden, c) keine Einschränkungen",
+    "artwork": "letTheSwordSpeak",
+    "cardType": 3,
+    "wildling": 0,
+    "functions": [
+      "noDefenseOrders",
+      "noSpecialMarchOrder",
+      "nothing"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Stürmische See",
+    "description": "In der Planungsphase können keine Überfallbefehle erteilt werden.",
+    "artwork": "stormySea",
+    "cardType": 3,
+    "wildling": 1,
+    "functions": [
+      "noRaidOrders"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Ein Fest für Krähen",
+    "description": "In der Planungsphase können keine Machtzuwachsbefehle erteilt werden.",
+    "artwork": "feastOfCrows",
+    "cardType": 3,
+    "wildling": 1,
+    "functions": [
+      "noConsolidatePowerOrders"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Herbstregen",
+    "description": "In der Planungsphase können keine Marschbefehle mit Bonus +1 erteilt werden.",
+    "artwork": "autumnrain",
+    "cardType": 3,
+    "wildling": 1,
+    "functions": [
+      "noSpecialMarchOrder"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Wildlingsangriff",
+    "description": "Die Wildlinge greifen Westeros an.",
+    "artwork": "wildlingsattack",
+    "cardType": 3,
+    "wildling": 0,
+    "functions": [
+      "wildlingAttack"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Lügen und Intriegen",
+    "description": "In dieser Planungsphase können keine Unterstützungsbefehle erteilt werden.",
+    "artwork": "liesAndIntrigue",
+    "cardType": 3,
+    "wildling": 1,
+    "functions": [
+      "noSupportOrders"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Sturm der Schwerter",
+    "description": "In dieser Planungsphase können keine Verteidigungsbefehle erteilt werden.",
+    "artwork": "letTheSwordSpeak",
+    "cardType": 3,
+    "wildling": 1,
+    "functions": [
+      "noDefenseOrders"
+    ]
+  }
+]
