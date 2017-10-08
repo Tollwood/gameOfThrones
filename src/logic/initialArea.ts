@@ -117,7 +117,7 @@ export class AreaInitiator {
         whiteHarbor.borders.push(theShiveringSea, widowsWatch, theNarrowSea, moatCailin, winterfell);
         widowsWatch.borders.push(whiteHarbor, theShiveringSea, theNarrowSea);
         theNarrowSea.borders.push(theShiveringSea, widowsWatch, whiteHarbor, moatCailin, theTwins, theFingers, TheMountainsOfTheMoon, theEyrie, crackClawPoint, shipbreakerBay);
-        moatCailin.borders.push(whiteHarbor, theNarrowSea, theTwins, seagard, greyWaterWatch);
+        moatCailin.borders.push(whiteHarbor, theNarrowSea, theTwins, seagard, greyWaterWatch, winterfell);
         greyWaterWatch.borders.push(moatCailin, seagard, ironmansBay, flintsFinger, bayOfIce);
         flintsFinger.borders.push(bayOfIce, sunsetSea, ironmansBay, greyWaterWatch);
         sunsetSea.borders.push(bayOfIce, flintsFinger, ironmansBay, theGoldenSound, searoadMarches, westSummerSea);
