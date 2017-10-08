@@ -10,6 +10,7 @@ import SplitArmyModalFactory from '../modals/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../utils/assetLoader';
 import FightModal from '../combat/combatModal';
+import GamePhaseService from '../../logic/gamePhaseService';
 
 export default class OrderTokenRenderer {
 
@@ -122,7 +123,7 @@ export default class OrderTokenRenderer {
                     };
                     let noFn = (units) => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units);
-                        GameRules.nextPlayer();
+                        GamePhaseService.nextPlayer();
                         this.removeSelectedToken(sprite);
                         Renderer.rerenderRequired = true;
                     };
@@ -133,13 +134,13 @@ export default class OrderTokenRenderer {
                     let yesFn = () => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
                         GameRules.establishControl(sourceArea);
-                        GameRules.nextPlayer();
+                        GamePhaseService.nextPlayer();
                         this.removeSelectedToken(sprite);
                         Renderer.rerenderRequired = true;
                     };
                     let noFn = () => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
-                        GameRules.nextPlayer();
+                        GamePhaseService.nextPlayer();
                         this.removeSelectedToken(sprite);
                         Renderer.rerenderRequired = true;
                     };
@@ -148,7 +149,7 @@ export default class OrderTokenRenderer {
                 }
                 // fight
                 let onCloseFn = () => {
-                    GameRules.nextPlayer();
+                    GamePhaseService.nextPlayer();
                     this.removeSelectedToken(sprite);
                     Renderer.rerenderRequired = true;
                 };

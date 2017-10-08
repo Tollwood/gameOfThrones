@@ -13,10 +13,10 @@ export default class GameState {
     private _gamePhase: GamePhase = GamePhase.WESTEROS1;
     private _round: number = 1;
     private _wildlingsCount: number = 0;
-    private _areas: Array<Area> = new Array<Area>();
-    private _westerosCards1 = new Array<WesterosCard>();
-    private _westerosCards2 = new Array<WesterosCard>();
-    private _westerosCards3 = new Array<WesterosCard>();
+    private _areas: Array<Area> = [];
+    private _westerosCards1 = [];
+    private _westerosCards2 = [];
+    private _westerosCards3 = [];
     private _currentPlayer: Player;
     private _players: Array<Player> = [];
     private _ironThroneSuccession: Array<House> = [];
@@ -140,5 +140,11 @@ export default class GameState {
 
     get wildlingsCount(): number {
         return this._wildlingsCount;
+    }
+
+    getFirstFromIronThroneSuccession(): Player {
+        return this._players.filter((player) => {
+            return player.house === this.ironThroneSuccession[0];
+        })[0];
     }
 }

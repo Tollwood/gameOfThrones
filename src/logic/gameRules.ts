@@ -2,107 +2,19 @@ import {Area, AreaKey} from './area';
 import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken, OrderTokenType} from './orderToken';
-import {ACTION_PHASES, GamePhase} from './gamePhase';
 import {Unit} from './units';
 import Player from './player';
 import CombatResult from '../ui/combat/combatResult';
 import CardFactory from '../cards/logic/cardFactory';
 import CombatCalculator from '../ui/combat/combatCalculator';
 import {CardExecutionPoint} from '../cards/logic/cardExecutionPoint';
+import GamePhaseService from './gamePhaseService';
 
 export default class GameRules {
 
-    //New Game
+    // New Game
     public static newGame() {
         GameState.initGame([new Player(House.stark, 5, false, CardFactory.getHouseCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getHouseCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getHouseCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getHouseCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getHouseCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getHouseCards(House.martell))]);
-    }
-
-    // GamePhase
-    public static isActionPhaseButNot(gamePhase: GamePhase) {
-        let currentPhase = GameState.getInstance().gamePhase;
-        return currentPhase !== gamePhase && ACTION_PHASES.indexOf(currentPhase) >= 0;
-    }
-
-    public static isStillIn(gamePhase: GamePhase) {
-        switch (gamePhase) {
-            case GamePhase.ACTION_RAID:
-                return !this.allRaidOrdersRevealed();
-            case GamePhase.ACTION_MARCH:
-                return !this.allMarchOrdersRevealed();
-            case GamePhase.ACTION_CONSOLIDATE_POWER:
-                return !this.allConsolidatePowerOrdersRevealed();
-            case GamePhase.ACTION_CLEANUP:
-                return GameState.getInstance().areas.filter((area) => {
-                        return area.orderToken;
-                    }).length > 0;
-        }
-    }
-
-    public static isActionPhase(gamePhase: GamePhase) {
-        return ACTION_PHASES.indexOf(gamePhase) > -1;
-    }
-
-    public static planningCompleteForCurrentPlayer() {
-        return this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
-    }
-
-    public static nextRound() {
-        this.switchToPhase(GamePhase.WESTEROS1);
-        this.resetOrderToken();
-        const gameState = GameState.getInstance();
-        gameState.nextRound();
-        gameState.currentlyAllowedTokenTypes = GameState.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-        gameState.currentPlayer = gameState.players.filter((player) => {
-            return !player.computerOpponent;
-        })[0];
-    }
-
-    public static switchToPhase(phase: GamePhase) {
-        GameState.getInstance().gamePhase = phase;
-    }
-
-    public static isPlanningPhaseComplete(): boolean {
-        return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced();
-    }
-
-    private static allMarchOrdersRevealed(): boolean {
-        return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.isMoveToken();
-            }).length === 0;
-    }
-
-    private static allRaidOrdersRevealed(): boolean {
-        return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.isRaidToken();
-            }).length === 0;
-    }
-
-    private static allConsolidatePowerOrdersRevealed(): boolean {
-        return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.isConsolidatePowerToken();
-            }).length === 0;
-    }
-
-    public static nextPlayer() {
-        let gamestate = GameState.getInstance();
-        let currrentIndex = gamestate.ironThroneSuccession.indexOf(gamestate.currentPlayer.house);
-        let nextIndex = gamestate.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
-        let nextHouse = gamestate.ironThroneSuccession[nextIndex];
-        gamestate.currentPlayer = gamestate.players.filter((player) => {
-            return player.house === nextHouse;
-        })[0];
-    }
-
-    public static switchToNextPhase() {
-        let gamestate = GameState.getInstance();
-        if (gamestate.gamePhase === GamePhase.ACTION_CLEANUP) {
-            gamestate.gamePhase = GamePhase.PLANNING;
-        } else {
-            gamestate.gamePhase++;
-        }
-        gamestate.currentPlayer = gamestate.players.filter((player) => {
-            return player.house === gamestate.ironThroneSuccession[0];
-        })[0];
     }
 
     // place Orders
@@ -130,18 +42,6 @@ export default class GameRules {
         area.orderToken = ordertoken;
     }
 
-    public static allOrderTokenPlaced(house?: House): boolean {
-        return GameState.getInstance().areas.filter((area) => {
-                return area.units.length > 0 && (house === undefined || area.controllingHouse === house) && area.orderToken === null;
-            }).length === 0;
-    }
-
-    private static resetOrderToken() {
-        GameState.getInstance().areas.map((area) => {
-            area.orderToken = null;
-        });
-    }
-
 
     // execute orders
     public static executeRaidOrder(source: AreaKey, target: AreaKey) {
@@ -162,7 +62,7 @@ export default class GameRules {
             })[0].powerToken++;
         }
         targetArea.orderToken = null;
-        this.nextPlayer();
+        GamePhaseService.nextPlayer();
     }
 
     public static executeAllConsolidatePowerOrders() {
@@ -230,7 +130,7 @@ export default class GameRules {
     public static skipOrder(source: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
         sourceArea.orderToken = null;
-        this.nextPlayer();
+        GamePhaseService.nextPlayer();
     }
 
 

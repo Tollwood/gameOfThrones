@@ -17,6 +17,7 @@ import CardFactory from '../cards/logic/cardFactory';
 import CardAbilities from '../cards/logic/cardAbilities';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard} from '../cards/logic/westerosCard';
+import GamePhaseService from '../logic/gamePhaseService';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -76,8 +77,8 @@ export default class Game extends Phaser.State {
                 return;
             }
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
-                if (GameRules.isPlanningPhaseComplete()) {
-                    GameRules.switchToNextPhase();
+                if (GamePhaseService.isPlanningPhaseComplete()) {
+                    GamePhaseService.switchToNextPhase();
                     OrderTokenMenuRenderer.removeOrderTokenMenu();
                     this.orderTokenRenderer.removePlaceHolder();
                     Renderer.rerenderRequired = true;
@@ -85,9 +86,9 @@ export default class Game extends Phaser.State {
                 }
 
                 AI.placeOrderTokens(GameState.getInstance().currentPlayer);
-                if (GameRules.planningCompleteForCurrentPlayer()) {
+                if (GamePhaseService.planningCompleteForCurrentPlayer()) {
                     Renderer.rerenderRequired = true;
-                    GameRules.nextPlayer();
+                    GamePhaseService.nextPlayer();
                     return;
                 }
                 this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
@@ -97,9 +98,9 @@ export default class Game extends Phaser.State {
 
 
             let currentGamePhase = GameState.getInstance().gamePhase;
-            if (GameRules.isActionPhase(currentGamePhase)) {
-                if (!GameRules.isStillIn(currentGamePhase)) {
-                    GameRules.switchToNextPhase();
+            if (GamePhaseService.isActionPhase(currentGamePhase)) {
+                if (!GamePhaseService.isStillIn(currentGamePhase)) {
+                    GamePhaseService.switchToNextPhase();
                     Renderer.rerenderRequired = true;
                 }
 
@@ -107,7 +108,7 @@ export default class Game extends Phaser.State {
 
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
                     AI.executeMoveOrder(GameState.getInstance().currentPlayer);
-                    GameRules.nextPlayer();
+                    GamePhaseService.nextPlayer();
                     Renderer.rerenderRequired = true;
                     return;
                 }
@@ -119,7 +120,7 @@ export default class Game extends Phaser.State {
                 }
 
                 if (GameState.getInstance().gamePhase === GamePhase.ACTION_CLEANUP) {
-                    GameRules.nextRound();
+                    GamePhaseService.nextRound();
                     Renderer.rerenderRequired = true;
                     return;
                 }
@@ -142,7 +143,7 @@ export default class Game extends Phaser.State {
         let closeFn = () => {
             CardAbilities[card.functions[0]](cards);
             Renderer.rerenderRequired = true;
-            GameRules.switchToNextPhase();
+            GamePhaseService.switchToNextPhase();
         };
         WesterosCardModal.showModal(this.game, card, closeFn);
         Renderer.rerenderRequired = false;
