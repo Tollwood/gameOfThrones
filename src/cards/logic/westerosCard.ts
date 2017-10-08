@@ -1,3 +1,4 @@
+import CardFunction from './cardFuncttion';
 export class WesterosCard {
 
     private _id: number;
@@ -6,21 +7,21 @@ export class WesterosCard {
     private _artwork: string;
     private _cardType: number;
     private _wildling: number;
-    private _functions: Array<string>;
+    private _options: Array<CardFunction>;
 
-    constructor(id: number, title: string, description: string, artwork: string, cardType: number, wildling: number, functions: Array<string>) {
+    constructor(id: number, title: string, description: string, artwork: string, cardType: number, wildling: number, options: Array<CardFunction>) {
         this._id = id;
         this._title = title;
         this._description = description;
         this._artwork = artwork;
         this._cardType = cardType;
         this._wildling = wildling;
-        this._functions = functions;
+        this._options = options;
 
     }
 
-    get functions(): Array<string> {
-        return this._functions;
+    get options(): Array<CardFunction> {
+        return this._options;
     }
 
     get wildling(): number {

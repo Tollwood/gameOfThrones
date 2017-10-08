@@ -14,7 +14,6 @@ import WinningModal from '../ui/modals/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
 import AssetLoader from '../ui/utils/assetLoader';
 import CardFactory from '../cards/logic/cardFactory';
-import CardAbilities from '../cards/logic/cardAbilities';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard} from '../cards/logic/westerosCard';
 import GamePhaseService from '../logic/gamePhaseService';
@@ -140,12 +139,7 @@ export default class Game extends Phaser.State {
     private showWesterosModal(type: number, cards: Array<WesterosCard>) {
 
         let card = GameRules.playWesterosCard(type);
-        let closeFn = () => {
-            CardAbilities[card.functions[0]](cards);
-            Renderer.rerenderRequired = true;
-            GamePhaseService.switchToNextPhase();
-        };
-        WesterosCardModal.showModal(this.game, card, closeFn);
+        WesterosCardModal.showModal(this.game, card, cards);
         Renderer.rerenderRequired = false;
     }
 }

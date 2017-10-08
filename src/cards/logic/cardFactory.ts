@@ -4,6 +4,7 @@ import * as houseCardData from './houseCard.json';
 import * as westerosCardData from './westeroscard.json';
 import HouseCard from './houseCard';
 import {WesterosCard} from './westerosCard';
+import CardFunction from './cardFuncttion';
 export default class CardFactory {
 
     public static getHouseCards(house: House): Array<HouseCard> {
@@ -61,7 +62,11 @@ export default class CardFactory {
     }
 
     private static parseWesterosCards(json: any): WesterosCard {
-        return new WesterosCard(json.id, json.title, json.description, json.artwork, json.cardType, json.wildling, json.functions);
+        let cardFunctions = new Array<CardFunction>();
+        json.options.forEach((option) => {
+            cardFunctions.push(new CardFunction(option.functionName, option.description));
+        });
+        return new WesterosCard(json.id, json.title, json.description, json.artwork, json.cardType, json.wildling, cardFunctions);
     }
 
 }

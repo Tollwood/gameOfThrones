@@ -1,25 +1,58 @@
 import ModalRenderer from '../../ui/modals/modalFactory';
 import {WesterosCard} from '../logic/westerosCard';
 import GameRules from '../../logic/gameRules';
+import Renderer from '../../ui/utils/renderer';
+import GamePhaseService from '../../logic/gamePhaseService';
+import CardAbilities from '../logic/cardAbilities';
 export default class WesterosCardModal {
 
-    static showModal(game: Phaser.Game, card: WesterosCard, onCloseFn: Function) {
+    static showModal(game: Phaser.Game, card: WesterosCard, cards: Array<WesterosCard>) {
 
-        let modal = ModalRenderer.createModal(game);
         let closeFn = () => {
-            onCloseFn();
+            Renderer.rerenderRequired = true;
+            GamePhaseService.switchToNextPhase();
             GameRules.increaseWildlings(card.wildling);
             modal.visible = false;
             modal.destroy();
         };
+        let modal;
+        if (card.options.length > 1) {
+            modal = ModalRenderer.createModal(game, undefined, undefined, Phaser.Color.getColor(139, 69, 19));
+            let nextTextY = 60;
+            let textYIncrement = 30;
+            card.options.forEach((cardFunction) => {
+                let onOptionCloseFn = () => {
+                    CardAbilities[cardFunction.functionName](cards);
+                    closeFn();
+                };
+                ModalRenderer.addText(modal, cardFunction.description, nextTextY, 0, true, onOptionCloseFn, '18px', 'left');
+                nextTextY += textYIncrement;
+            });
+            ModalRenderer.addText(modal, card.title, -130, 0, true);
+            ModalRenderer.addImage(modal, card.artwork, -55, 0);
+            ModalRenderer.addText(modal, card.description, 20, 0, true, undefined, '18px');
 
-        ModalRenderer.addText(modal, card.title, -100, 0, true, closeFn);
-        ModalRenderer.addClickableImage(modal, card.artwork, 0, 0, closeFn);
-        ModalRenderer.addText(modal, card.description, 100, 0, true, closeFn);
-        if (card.wildling > 0) {
-            ModalRenderer.addClickableImage(modal, 'wildlingsSymbol', -40, 130, closeFn);
+            if (card.wildling > 0) {
+                ModalRenderer.addImage(modal, 'wildlingsSymbol', -90, 130);
+            }
+            ModalRenderer.addImage(modal, 'westeros' + card.cardType, -30, 135);
+        } else {
+            let onCloseFn = () => {
+                CardAbilities[card.options[0].functionName](cards);
+                closeFn();
+            };
+            modal = ModalRenderer.createModal(game, undefined, 200, Phaser.Color.getColor(139, 69, 19));
+            ModalRenderer.addText(modal, card.title, -80, 0, true);
+            ModalRenderer.addImage(modal, card.artwork, -5, 0,);
+            ModalRenderer.addText(modal, card.description, 70, 0, true, undefined, '18px');
+            if (card.wildling > 0) {
+                ModalRenderer.addImage(modal, 'wildlingsSymbol', -40, 130);
+            }
+            ModalRenderer.addImage(modal, 'westeros' + card.cardType, 20, 135);
+            ModalRenderer.closeOnModalClick(modal, 600, 200, closeFn);
         }
-        ModalRenderer.addClickableImage(modal, 'westeros' + card.cardType, 25, 135, closeFn);
+
+
         game.world.bringToTop(modal);
         modal.visible = true;
     }

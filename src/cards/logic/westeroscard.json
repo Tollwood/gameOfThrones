@@ -6,21 +6,33 @@
     "artwork": "winterIsComming",
     "cardType": 1,
     "wildling": 0,
-    "functions": [
-      "shuffleCards"
+    "options": [
+      {
+        "functionName": "shuffleCards",
+        "description": null
+      }
     ]
   },
   {
     "id": 2,
     "title": "Ein Thron aus Schwertern",
-    "description": "Der Spieler mit dem Eisernen Thron wählt eine Option: a) alle aktualisieren ihre Versorgung und passen ihre Armeen an, b) alle rekrutieren einheiten, c) nichts passiert.",
+    "description": "Der Spieler mit dem Eisernen Thron wählt eine Option:",
     "artwork": "aThroneMadeOfSwords",
     "cardType": 1,
     "wildling": 1,
-    "functions": [
-      "supply",
-      "recruit",
-      "nothing"
+    "options": [
+      {
+        "functionName": "supply",
+        "description": "a) alle aktualisieren ihre Versorgung und passen ihre Armeen an,"
+      },
+      {
+        "functionName": "recruit",
+        "description": "b) alle rekrutieren einheiten,"
+      },
+      {
+        "functionName": "nothing",
+        "description": "c) nichts passiert."
+      }
     ]
   },
   {
@@ -30,8 +42,11 @@
     "artwork": "supply",
     "cardType": 1,
     "wildling": 0,
-    "functions": [
-      "supply"
+    "options": [
+      {
+        "functionName": "supply",
+        "description": null
+      }
     ]
   },
   {
@@ -41,8 +56,11 @@
     "artwork": "recruit",
     "cardType": 1,
     "wildling": 0,
-    "functions": [
-      "recruit"
+    "options": [
+      {
+        "functionName": "recruit",
+        "description": null
+      }
     ]
   },
   {
@@ -52,21 +70,33 @@
     "artwork": "lastDaysOfSummer",
     "cardType": 1,
     "wildling": 1,
-    "functions": [
-      "nothing"
+    "options": [
+      {
+        "functionName": "nothing",
+        "description": null
+      }
     ]
   },
   {
     "id": 6,
     "title": "Dunkle Schwingen, Dunkle Worte",
-    "description": "Der Spieler mit dem Botenraben whält eine Option: a) alle bieten um die Positionen auf den Einflussleisten, b) jeder erhält Machtmarker für Machtsymbole in eigenen Gebieten und für eigene Häfen mit Schiff, c) nichts passiert.",
+    "description": "Der Spieler mit dem Botenraben whält eine Option:",
     "artwork": "darkWingsDarkWords",
     "cardType": 2,
     "wildling": 1,
-    "functions": [
-      "invluence",
-      "power",
-      "nothing"
+    "options": [
+      {
+        "functionName": "invluence",
+        "description": "a) alle bieten um die Positionen auf den Einflussleisten,"
+      },
+      {
+        "functionName": "power",
+        "description": "b) jeder erhält Machtmarker für Machtsymbole in eigenen Gebieten und für eigene Häfen mit Schiff,"
+      },
+      {
+        "functionName": "nothing",
+        "description": "c) nichts passiert."
+      }
     ]
   },
   {
@@ -76,8 +106,11 @@
     "artwork": "lastDaysOfSummer",
     "cardType": 1,
     "wildling": 2,
-    "functions": [
-      "nothing"
+    "options": [
+      {
+        "functionName": "nothing",
+        "description": null
+      }
     ]
   },
   {
@@ -87,8 +120,11 @@
     "artwork": "royalFeud",
     "cardType": 2,
     "wildling": 0,
-    "functions": [
-      "invluence"
+    "options": [
+      {
+        "functionName": "invluence",
+        "description": null
+      }
     ]
   },
   {
@@ -98,8 +134,11 @@
     "artwork": "gameOfThrones",
     "cardType": 2,
     "wildling": 0,
-    "functions": [
-      "power"
+    "options": [
+      {
+        "functionName": "power",
+        "description": null
+      }
     ]
   },
   {
@@ -109,21 +148,33 @@
     "artwork": "winterIsComming",
     "cardType": 2,
     "wildling": 0,
-    "functions": [
-      "shuffleCards"
+    "options": [
+      {
+        "functionName": "shuffleCards",
+        "description": null
+      }
     ]
   },
   {
     "id": 11,
     "title": "Lasst die Schwerter sprechen",
-    "description": "Der Spieler mit der Valyrischer-Stahl-Klinge wählt eine Option: a) Verteidigungsbefehle können nicht erteilt werden, b) Marschbefehle mit +1 können nicht erteilt werden, c) keine Einschränkungen",
+    "description": "Der Spieler mit der Valyrischer-Stahl-Klinge wählt eine Option:",
     "artwork": "letTheSwordSpeak",
     "cardType": 3,
     "wildling": 0,
-    "functions": [
-      "noDefenseOrders",
-      "noSpecialMarchOrder",
-      "nothing"
+    "options": [
+      {
+        "functionName": "noDefenseOrders",
+        "description": " a) Verteidigungsbefehle können nicht erteilt werden,"
+      },
+      {
+        "functionName": "noSpecialMarchOrder",
+        "description": "b) Marschbefehle mit +1 können nicht erteilt werden,"
+      },
+      {
+        "functionName": "nothing",
+        "description": "c) keine Einschränkungen."
+      }
     ]
   },
   {
@@ -133,8 +184,11 @@
     "artwork": "stormySea",
     "cardType": 3,
     "wildling": 1,
-    "functions": [
-      "noRaidOrders"
+    "options": [
+      {
+        "functionName": "noRaidOrders",
+        "description": null
+      }
     ]
   },
   {
@@ -144,8 +198,11 @@
     "artwork": "feastOfCrows",
     "cardType": 3,
     "wildling": 1,
-    "functions": [
-      "noConsolidatePowerOrders"
+    "options": [
+      {
+        "functionName": "noConsolidatePowerOrders",
+        "description": null
+      }
     ]
   },
   {
@@ -155,8 +212,12 @@
     "artwork": "autumnrain",
     "cardType": 3,
     "wildling": 1,
-    "functions": [
-      "noSpecialMarchOrder"
+    "options": [
+      {
+        "functionName": "noSpecialMarchOrder",
+        "description": null
+      }
+
     ]
   },
   {
@@ -166,8 +227,12 @@
     "artwork": "wildlingsattack",
     "cardType": 3,
     "wildling": 0,
-    "functions": [
-      "wildlingAttack"
+    "options": [
+      {
+        "functionName": "wildlingAttack",
+        "description": null
+      }
+
     ]
   },
   {
@@ -177,8 +242,12 @@
     "artwork": "liesAndIntrigue",
     "cardType": 3,
     "wildling": 1,
-    "functions": [
-      "noSupportOrders"
+    "options": [
+      {
+        "functionName": "noSupportOrders",
+        "description": null
+      }
+
     ]
   },
   {
@@ -188,8 +257,11 @@
     "artwork": "letTheSwordSpeak",
     "cardType": 3,
     "wildling": 1,
-    "functions": [
-      "noDefenseOrders"
+    "options": [
+      {
+        "functionName": "noDefenseOrders",
+        "description": null
+      }
     ]
   }
 ]
