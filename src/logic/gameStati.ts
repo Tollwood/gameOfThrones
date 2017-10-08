@@ -12,6 +12,7 @@ export default class GameState {
 
     private _gamePhase: GamePhase = GamePhase.WESTEROS1;
     private _round: number = 1;
+    private _wildlingsCount: number = 0;
     private _areas: Array<Area> = new Array<Area>();
     private _westerosCards1 = new Array<WesterosCard>();
     private _westerosCards2 = new Array<WesterosCard>();
@@ -46,6 +47,7 @@ export default class GameState {
         this.gameState._fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
         this.gameState._kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
         this.gameState._currentlyAllowedTokenTypes = GameState.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
+        this.gameState._wildlingsCount = 0;
     }
 
     public static resetGame() {
@@ -130,5 +132,13 @@ export default class GameState {
 
     get westerosCards1(): WesterosCard[] {
         return this._westerosCards1;
+    }
+
+    set wildlingsCount(value: number) {
+        this._wildlingsCount = value;
+    }
+
+    get wildlingsCount(): number {
+        return this._wildlingsCount;
     }
 }

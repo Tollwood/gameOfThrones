@@ -15,6 +15,8 @@ import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
 import AssetLoader from '../ui/utils/assetLoader';
 import CardFactory from '../cards/logic/cardFactory';
 import CardAbilities from '../cards/logic/cardAbilities';
+import WesterosCardModal from '../cards/ui/westerosCardModal';
+import {WesterosCard} from '../cards/logic/westerosCard';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -62,24 +64,15 @@ export default class Game extends Phaser.State {
             this.unitRenderer.renderUnits(this.game);
 
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS1) {
-                let card = GameRules.playWesterosCard(1);
-                CardAbilities[card.functions[0]](GameState.getInstance().westerosCards1);
-                Renderer.rerenderRequired = true;
-                GameRules.switchToNextPhase();
+                this.showWesterosModal(1, GameState.getInstance().westerosCards1);
                 return;
             }
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS2) {
-                let card = GameRules.playWesterosCard(2);
-                CardAbilities[card.functions[0]]();
-                Renderer.rerenderRequired = true;
-                GameRules.switchToNextPhase();
+                this.showWesterosModal(2, GameState.getInstance().westerosCards2);
                 return;
             }
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS3) {
-                let card = GameRules.playWesterosCard(3);
-                CardAbilities[card.functions[0]]();
-                Renderer.rerenderRequired = true;
-                GameRules.switchToNextPhase();
+                this.showWesterosModal(3, GameState.getInstance().westerosCards3);
                 return;
             }
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
@@ -143,4 +136,15 @@ export default class Game extends Phaser.State {
         this.boardRenderer.handleZoom(this.game);
     }
 
+    private showWesterosModal(type: number, cards: Array<WesterosCard>) {
+
+        let card = GameRules.playWesterosCard(type);
+        let closeFn = () => {
+            CardAbilities[card.functions[0]](cards);
+            Renderer.rerenderRequired = true;
+            GameRules.switchToNextPhase();
+        };
+        WesterosCardModal.showModal(this.game, card, closeFn);
+        Renderer.rerenderRequired = false;
+    }
 }

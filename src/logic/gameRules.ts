@@ -31,7 +31,7 @@ export default class GameRules {
     }
 
     public static nextRound() {
-        this.switchToPhase(GamePhase.PLANNING);
+        this.switchToPhase(GamePhase.WESTEROS1);
         this.resetOrderToken();
         const gameState = GameState.getInstance();
         gameState.nextRound();
@@ -334,5 +334,15 @@ export default class GameRules {
 
     public static planningCompleteForCurrentPlayer() {
         return this.allOrderTokenPlaced(GameState.getInstance().currentPlayer.house);
+    }
+
+    public static increaseWildlings(wildling: number) {
+        if (GameState.getInstance().wildlingsCount + wildling >= 12) {
+            GameState.getInstance().wildlingsCount = 12;
+        } else {
+            GameState.getInstance().wildlingsCount += wildling;
+
+        }
+
     }
 }
