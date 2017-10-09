@@ -1,11 +1,12 @@
 import {Area} from '../board/logic/area';
 import CombatResult from './combatResult';
 import {OrderTokenType} from '../orderToken/logic/orderToken';
-import {Unit, UnitType} from '../units/logic/units';
 import HouseCard from '../cards/logic/houseCard';
 import {CardExecutionPoint} from '../cards/logic/cardExecutionPoint';
 import CardAbilities from '../cards/logic/cardAbilities';
 import GameState from '../board/logic/gameStati';
+import Unit from '../units/logic/units';
+import {UnitType} from '../units/logic/unitType';
 export default class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: HouseCard, defendersCard: HouseCard): CombatResult {

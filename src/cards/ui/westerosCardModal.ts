@@ -7,6 +7,7 @@ import CardAbilities from '../logic/cardAbilities';
 export default class WesterosCardModal {
 
     static showModal(game: Phaser.Game, card: WesterosCard, cards: Array<WesterosCard>) {
+        let modal;
         Renderer.playingCard = true;
         let completePhaseFn = () => {
             Renderer.rerenderRequired = true;
@@ -14,12 +15,9 @@ export default class WesterosCardModal {
             GamePhaseService.switchToNextPhase();
         };
         let closeFn = () => {
-            Renderer.rerenderRequired = true;
             GameRules.increaseWildlings(card.wildling);
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         };
-        let modal;
         if (card.options.length > 1) {
             modal = ModalRenderer.createModal(game, undefined, undefined, Phaser.Color.getColor(139, 69, 19));
             let nextTextY = 60;
@@ -57,7 +55,6 @@ export default class WesterosCardModal {
         }
 
 
-        game.world.bringToTop(modal);
-        modal.visible = true;
+        ModalRenderer.displayModal(modal);
     }
 }

@@ -2,7 +2,7 @@ import {Area, AreaKey} from './area';
 import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken, OrderTokenType} from '../../orderToken/logic/orderToken';
-import {Unit} from '../../units/logic/units';
+import Unit from '../../units/logic/units';
 import Player from './player';
 import CombatResult from '../../march/combatResult';
 import CardFactory from '../../cards/logic/cardFactory';

@@ -7,15 +7,12 @@ export default class EstablishControlModalFactory {
         ModalRenderer.addText(modal, 'Establish Control over ' + area.key, -50);
         ModalRenderer.addText(modal, 'Yes', 50, -100, true, () => {
             yesFn();
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         });
         ModalRenderer.addText(modal, 'No', 50, 100, true, () => {
             noFn();
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         });
-        game.world.bringToTop(modal);
-        modal.visible = true;
+        ModalRenderer.displayModal(modal);
     }
 }

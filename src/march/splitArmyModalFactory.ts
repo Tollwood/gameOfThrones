@@ -1,7 +1,8 @@
 import ModalRenderer from '../utils/modalFactory';
 import {House} from '../board/logic/house';
-import {Unit, UnitType} from '../units/logic/units';
 import {Area, AreaKey} from '../board/logic/area';
+import Unit from '../units/logic/units';
+import {UnitType} from '../units/logic/unitType';
 export default class SplitArmyModalFactory {
 
     static showModal(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey, yesFn: Function, noFn: Function) {
@@ -11,17 +12,15 @@ export default class SplitArmyModalFactory {
 
         let moreOrdersQuestionGroup = this.addMoreOrdersGroup(modal, noFn, yesFn, unitsToMove, sourceArea);
         let otherOrdersText = ModalRenderer.addText(modal, 'Take other orders', 100, 0, true, () => {
-            this.closeModal(modal);
+            ModalRenderer.closeFn(modal);
         });
         let allUnitsText = ModalRenderer.addText(modal, 'Move all Units', 100, 0, false, () => {
             noFn(unitsToMove);
-            this.closeModal(modal);
+            ModalRenderer.closeFn(modal);
         });
         this.addImageForEachUnit(modal, sourceArea.units, unitsToMove, moreOrdersQuestionGroup, otherOrdersText, allUnitsText);
         ModalRenderer.addText(modal, 'Select units to move from ' + sourceArea.key + ' to ' + targetAreaKey, -100);
-
-        game.world.bringToTop(modal);
-        modal.visible = true;
+        ModalRenderer.displayModal(modal);
     }
 
     private static addImageForEachUnit(modal: Phaser.Group, availableUnits: Array<Unit>, unitsToMove: Array<Unit>, moreOrdersQuestionsGroup: Phaser.Group, otherOrdersText: Phaser.Text, allUnitsText: Phaser.Text) {
@@ -67,12 +66,12 @@ export default class SplitArmyModalFactory {
         let moreOrdersQuestionGroup = modal.game.add.group();
         let noText = ModalRenderer.addText(modal, 'No', 100, 100, true, () => {
             noFn(unitsToMove);
-            this.closeModal(modal);
+            ModalRenderer.closeFn(modal);
         });
         moreOrdersQuestionGroup.add(noText);
         let yesText = ModalRenderer.addText(modal, 'Yes', 100, -100, true, () => {
             yesFn(unitsToMove);
-            this.closeModal(modal);
+            ModalRenderer.closeFn(modal);
         });
         moreOrdersQuestionGroup.add(yesText);
         let moreOrdersText = ModalRenderer.addText(modal, 'More orders for ' + sourceArea.key, 50);
@@ -83,8 +82,4 @@ export default class SplitArmyModalFactory {
         return moreOrdersQuestionGroup;
     }
 
-    private static closeModal(modal) {
-        modal.visible = false;
-        modal.destroy();
-    }
 }

@@ -1,5 +1,5 @@
 import {House} from '../board/logic/house';
-import {Unit} from '../units/logic/units';
+import Unit from '../units/logic/units';
 import {Area} from '../board/logic/area';
 import HouseCard from '../cards/logic/houseCard';
 export default class CombatResult {

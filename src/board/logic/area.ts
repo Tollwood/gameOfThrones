@@ -1,4 +1,4 @@
-import {Unit} from '../../units/logic/units';
+import Unit from '../../units/logic/units';
 import {OrderToken} from '../../orderToken/logic/orderToken';
 import {House} from './house';
 

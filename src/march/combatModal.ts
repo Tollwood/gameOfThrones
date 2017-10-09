@@ -16,17 +16,13 @@ export default class CombatModal {
             let defendersCard = new HouseCard(2, 'SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark, CardExecutionPoint.afterFight);
             let combatResult = CombatCalculator.calculateCombat(sourceArea, targetArea, attackersCard, defendersCard);
             CombatResultModal.showModal(game, combatResult, onCloseFn);
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         });
 
         ModalRenderer.addText(modal, 'No fight today', 50, 100, true, () => {
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         });
-
-        modal.visible = true;
-
+        ModalRenderer.displayModal(modal);
     }
 
 }

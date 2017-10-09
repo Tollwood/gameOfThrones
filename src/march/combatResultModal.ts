@@ -13,13 +13,9 @@ export default class CombatResultModal {
         ModalRenderer.addText(modal, 'Close', 100, 0, true, () => {
             GameRules.resolveFight(combatResult);
             onCloseFn();
-            modal.visible = false;
-            modal.destroy();
+            ModalRenderer.closeFn(modal);
         });
-
-
-        modal.visible = true;
-
+        ModalRenderer.displayModal(modal);
     }
 
 }

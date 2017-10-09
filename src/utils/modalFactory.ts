@@ -1,8 +1,9 @@
 import DisplayObjectContainer = PIXI.DisplayObjectContainer;
+import Renderer from './renderer';
 export default class ModalRenderer {
 
 
-    public static createModal(game: Phaser.Game, width = 600, height = 300, color = Phaser.Color.getColor(255, 255, 255)): Phaser.Group {
+    public static createModal(game: Phaser.Game, width: number = 600, height: number = 300, color = Phaser.Color.getColor(255, 255, 255)): Phaser.Group {
 
         let modalGroup = game.add.group();
         ModalRenderer.fixToCamera(modalGroup);
@@ -105,5 +106,16 @@ export default class ModalRenderer {
         closeOnModalClickGraphic.endFill();
         this.addCallback(closeFn, closeOnModalClickGraphic);
         this.bringToTop(modal, closeOnModalClickGraphic);
+    }
+
+    public static closeFn = (modal: Phaser.Group) => {
+        Renderer.rerenderRequired = true;
+        modal.visible = false;
+        modal.destroy();
+    };
+
+    public static displayModal(modal: Phaser.Group) {
+        modal.game.world.bringToTop(modal);
+        modal.visible = true;
     }
 }

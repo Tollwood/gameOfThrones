@@ -1,7 +1,8 @@
 import {Area} from './area';
-import {Unit, UnitType} from '../../units/logic/units';
 import {House} from './house';
 import Player from './player';
+import Unit from '../../units/logic/units';
+import {UnitType} from '../../units/logic/unitType';
 
 export class AreaInitiator {
 

@@ -1,11 +1,6 @@
 import {House} from '../../board/logic/house';
-export enum UnitType {
-    Footman = 1,
-    Horse,
-    Ship,
-    Siege
-}
-export class Unit {
+import {UnitType} from './unitType';
+export default class Unit {
     private type: UnitType;
     private house: House;
 
