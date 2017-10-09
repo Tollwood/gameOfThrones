@@ -1,4 +1,4 @@
-import {House} from '../../logic/house';
+import {House} from '../../board/logic/house';
 import {CardExecutionPoint} from './cardExecutionPoint';
 export default class HousecCard {
 

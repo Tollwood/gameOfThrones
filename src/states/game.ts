@@ -1,22 +1,22 @@
-import OrderTokenRenderer from '../ui/renderer/orderTokenRenderer';
-import BoardRenderer from '../ui/renderer/boardRenderer';
-import TopMenuRenderer from '../ui/topMenu/topMenuRenderer';
-import GameState from '../logic/gameStati';
-import UnitRenderer from '../ui/renderer/unitRenderer';
-import GameRules from '../logic/gameRules';
-import {GamePhase} from '../logic/gamePhase';
-import Player from '../logic/player';
-import {House} from '../logic/house';
-import AI from '../logic/ai';
-import PowerToken from '../ui/renderer/powerTokenRenderer';
-import Renderer from '../ui/utils/renderer';
-import WinningModal from '../ui/modals/winningModal';
-import {OrderTokenMenuRenderer} from '../ui/renderer/orderTokenMenuRenderer';
-import AssetLoader from '../ui/utils/assetLoader';
+import OrderTokenRenderer from '../orderToken/ui/orderTokenRenderer';
+import BoardRenderer from '../board/ui/boardRenderer';
+import TopMenuRenderer from '../board/ui/topMenu/topMenuRenderer';
+import GameState from '../board/logic/gameStati';
+import UnitRenderer from '../units/ui/unitRenderer';
+import GameRules from '../board/logic/gameRules';
+import {GamePhase} from '../board/logic/gamePhase';
+import Player from '../board/logic/player';
+import {House} from '../board/logic/house';
+import AI from '../ai/ai';
+import PowerToken from '../orderToken/ui/powerTokenRenderer';
+import Renderer from '../utils/renderer';
+import WinningModal from '../board/ui/winningModal';
+import {OrderTokenMenuRenderer} from '../orderToken/ui/orderTokenMenuRenderer';
+import AssetLoader from '../utils/assetLoader';
 import CardFactory from '../cards/logic/cardFactory';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard} from '../cards/logic/westerosCard';
-import GamePhaseService from '../logic/gamePhaseService';
+import GamePhaseService from '../board/logic/gamePhaseService';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -64,16 +64,13 @@ export default class Game extends Phaser.State {
             this.unitRenderer.renderUnits(this.game);
 
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS1) {
-                this.showWesterosModal(1, GameState.getInstance().westerosCards1);
-                return;
+                this.playWesterosCard(1, GameState.getInstance().westerosCards1);
             }
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS2) {
-                this.showWesterosModal(2, GameState.getInstance().westerosCards2);
-                return;
+                this.playWesterosCard(2, GameState.getInstance().westerosCards2);
             }
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS3) {
-                this.showWesterosModal(3, GameState.getInstance().westerosCards3);
-                return;
+                this.playWesterosCard(3, GameState.getInstance().westerosCards3);
             }
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
                 if (GamePhaseService.isPlanningPhaseComplete()) {
@@ -136,10 +133,10 @@ export default class Game extends Phaser.State {
         this.boardRenderer.handleZoom(this.game);
     }
 
-    private showWesterosModal(type: number, cards: Array<WesterosCard>) {
-
-        let card = GameRules.playWesterosCard(type);
-        WesterosCardModal.showModal(this.game, card, cards);
-        Renderer.rerenderRequired = false;
+    private playWesterosCard(type: number, cards: Array<WesterosCard>) {
+        if (!Renderer.playingCard) {
+            let card = GameRules.playWesterosCard(type);
+            WesterosCardModal.showModal(this.game, card, cards);
+        }
     }
 }

@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var gameRules_1 = require("../src/logic/gameRules");
-var house_1 = require("../src/logic/house");
-var orderToken_1 = require("../src/logic/orderToken");
-var gameStati_1 = require("../src/logic/gameStati");
-var units_1 = require("../src/logic/units");
+var gameRules_1 = require("../src/board/logic/gameRules");
+var house_1 = require("../src/board/logic/house");
+var orderToken_1 = require("../src/orderToken/logic/orderToken");
+var gameStati_1 = require("../src/board/logic/gameStati");
+var units_1 = require("../src/units/logic/units");
 describe('GameRules', function () {
     beforeEach(function () {
         gameStati_1.default.resetGame();

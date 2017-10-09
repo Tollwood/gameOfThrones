@@ -1,8 +1,8 @@
-import GameRules from '../src/logic/gameRules';
-import {House} from '../src/logic/house';
-import {OrderToken, OrderTokenType} from '../src/logic/orderToken';
-import GameState from '../src/logic/gameStati';
-import {Unit, UnitType} from '../src/logic/units';
+import GameRules from '../src/board/logic/gameRules';
+import {House} from '../src/board/logic/house';
+import {OrderToken, OrderTokenType} from '../src/orderToken/logic/orderToken';
+import GameState from '../src/board/logic/gameStati';
+import {Unit, UnitType} from '../src/units/logic/units';
 import Order = jasmine.Order;
 
 describe('GameRules', () => {

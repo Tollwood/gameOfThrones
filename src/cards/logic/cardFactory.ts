@@ -1,4 +1,4 @@
-import {House} from '../../logic/house';
+import {House} from '../../board/logic/house';
 
 import * as houseCardData from './houseCard.json';
 import * as westerosCardData from './westeroscard.json';
