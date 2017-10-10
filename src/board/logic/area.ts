@@ -128,6 +128,14 @@ export class Area {
         return this._consolidatePower;
     }
 
+    get stronghold(): boolean {
+        return this._stronghold;
+    }
+
+    get castle(): boolean {
+        return this._castle;
+    }
+
     hasCastleOrStronghold(): boolean {
         return this._castle || this._stronghold;
     }

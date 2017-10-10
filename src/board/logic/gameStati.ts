@@ -14,6 +14,8 @@ export default class GameState {
     private _round: number = 1;
     private _wildlingsCount: number = 0;
     private _areas: Array<Area> = [];
+    private _areasToMuster: Array<Area> = [];
+    private _currentWesterosCard: WesterosCard = null;
     private _westerosCards1 = [];
     private _westerosCards2 = [];
     private _westerosCards3 = [];
@@ -140,6 +142,22 @@ export default class GameState {
 
     get wildlingsCount(): number {
         return this._wildlingsCount;
+    }
+
+    get areasToMuster(): Array<Area> {
+        return this._areasToMuster;
+    }
+
+    set areasToMuster(value: Array<Area>) {
+        this._areasToMuster = value;
+    }
+
+    get currentWesterosCard(): WesterosCard {
+        return this._currentWesterosCard;
+    }
+
+    set currentWesterosCard(value: WesterosCard) {
+        this._currentWesterosCard = value;
     }
 
     getFirstFromIronThroneSuccession(): Player {

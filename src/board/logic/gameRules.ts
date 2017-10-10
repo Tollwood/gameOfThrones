@@ -9,6 +9,8 @@ import CardFactory from '../../cards/logic/cardFactory';
 import CombatCalculator from '../../march/combatCalculator';
 import {CardExecutionPoint} from '../../cards/logic/cardExecutionPoint';
 import GamePhaseService from './gamePhaseService';
+import {UnitType} from '../../units/logic/unitType';
+import {WesterosCard} from '../../cards/logic/westerosCard';
 
 export default class GameRules {
 
@@ -204,19 +206,21 @@ export default class GameRules {
         // Add logic for ships in harbour
     }
 
-    public static mustering(area, units) {
-        area.units.push(units);
-    }
-
     public static playWesterosCard(cardType: number) {
+        let card: WesterosCard;
         switch (cardType) {
             case 1:
-                return CardFactory.playNextCard(GameState.getInstance().westerosCards1);
+                card = CardFactory.playNextCard(GameState.getInstance().westerosCards1);
+                break;
             case 2:
-                return CardFactory.playNextCard(GameState.getInstance().westerosCards2);
+                card = CardFactory.playNextCard(GameState.getInstance().westerosCards2);
+                break;
             case 3:
-                return CardFactory.playNextCard(GameState.getInstance().westerosCards3);
+                card = CardFactory.playNextCard(GameState.getInstance().westerosCards3);
+                break;
         }
+        GameState.getInstance().currentWesterosCard = card;
+        return card;
     }
 
     public static increaseWildlings(wildling: number) {
@@ -260,9 +264,39 @@ export default class GameRules {
         })[0];
     }
 
-    public static getAllAreasForMustering(house: House) {
-        return GameState.getInstance().areas.filter((area) => {
-            return area.controllingHouse === house && area.hasCastleOrStronghold();
+    public static getAllAreasForMustering(house?: House) {
+        return GameState.getInstance().areasToMuster.filter((area) => {
+            return house === undefined || area.controllingHouse === house;
         });
+    }
+
+    public static setAreasForMustering() {
+        let areasForMustering =  GameState.getInstance().areas.filter((area) => {
+            return area.controllingHouse !== null && area.hasCastleOrStronghold();
+        });
+        GameState.getInstance().areasToMuster = areasForMustering;
+    }
+
+    public static mustering(area: Area, unitTypes: UnitType[]= []) {
+        let areasToMuster = GameState.getInstance().areasToMuster;
+        let index = areasToMuster.indexOf(area);
+        areasToMuster.splice(index,1);
+        unitTypes.forEach((unittype) => {
+            area.units.push(new Unit(unittype, area.controllingHouse));
+        });
+    }
+
+    public static stillPlayingWesterosCard() {
+        let gameState = GameState.getInstance();
+        let playingCard =  gameState.currentWesterosCard !== null;
+        if(!playingCard){
+            return false;
+        }
+        switch(gameState.currentWesterosCard.id){
+            case 4:
+                return GameState.getInstance().areasToMuster.length > 0;
+            default:
+                return true;
+        }
     }
 }

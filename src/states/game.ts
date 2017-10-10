@@ -17,6 +17,7 @@ import CardFactory from '../cards/logic/cardFactory';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard} from '../cards/logic/westerosCard';
 import GamePhaseService from '../board/logic/gamePhaseService';
+import MusteringRenderer from '../units/ui/musteringRenderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -44,6 +45,7 @@ export default class Game extends Phaser.State {
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
+        MusteringRenderer.createGroups(this.game);
         PowerToken.createGroups(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
@@ -72,6 +74,12 @@ export default class Game extends Phaser.State {
             if (GameState.getInstance().gamePhase === GamePhase.WESTEROS3) {
                 this.playWesterosCard(3, GameState.getInstance().westerosCards3);
             }
+            MusteringRenderer.highlightPossibleArea(this.game);
+            AI.musterAreas(GameRules.getAllAreasForMustering());
+            if(GameState.getInstance().gamePhase === GamePhase.WESTEROS1 && !GameRules.stillPlayingWesterosCard()){
+                GamePhaseService.switchToNextPhase();
+            }
+
             if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
                 if (GamePhaseService.isPlanningPhaseComplete()) {
                     GamePhaseService.switchToNextPhase();
@@ -134,7 +142,7 @@ export default class Game extends Phaser.State {
     }
 
     private playWesterosCard(type: number, cards: Array<WesterosCard>) {
-        if (!Renderer.playingCard) {
+        if (GameState.getInstance().currentWesterosCard === null) {
             let card = GameRules.playWesterosCard(type);
             WesterosCardModal.showModal(this.game, card, cards);
         }
