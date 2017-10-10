@@ -185,11 +185,101 @@ export namespace Images {
             return require('assets/images/topMenu/MenuWildlings.png');
         };
     }
+    export class ImagesTopMenuSupplySupplyBaratheon {
+        static getName(): string {
+            return 'supply_baratheon';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_baratheon.png');
+        };
+    }
+    export class ImagesTopMenuSupplySupplyGreyjoy {
+        static getName(): string {
+            return 'supply_greyjoy';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_greyjoy.png');
+        };
+    }
+    export class ImagesTopMenuSupplySupplyLannister {
+        static getName(): string {
+            return 'supply_lannister';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_lannister.png');
+        };
+    }
+    export class ImagesTopMenuSupplySupplyMartell {
+        static getName(): string {
+            return 'supply_martell';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_martell.png');
+        };
+    }
+    export class ImagesTopMenuSupplySupplyStark {
+        static getName(): string {
+            return 'supply_stark';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_stark.png');
+        };
+    }
+    export class ImagesTopMenuSupplySupplyTyrell {
+        static getName(): string {
+            return 'supply_tyrell';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/supply/supply_tyrell.png');
+        };
+    }
     export class ImagesTopMenuSupplySupply {
         static getName(): string { return 'Supply'; };
 
         static getPNG(): string {
             return require('assets/images/topMenu/supply/Supply.png');
+        };
+    }
+    export class ImagesTopMenuVictoryCastleBaratheon {
+        static getName(): string {
+            return 'castle_baratheon';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/victory/castle_baratheon.png');
+        };
+    }
+    export class ImagesTopMenuVictoryCastleGreyjoy {
+        static getName(): string {
+            return 'castle_greyjoy';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/victory/castle_greyjoy.png');
+        };
+    }
+    export class ImagesTopMenuVictoryCastleLannister {
+        static getName(): string {
+            return 'castle_lannister';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/victory/castle_lannister.png');
+        };
+    }
+    export class ImagesTopMenuVictoryCastleMartell {
+        static getName(): string {
+            return 'castle_martell';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/victory/castle_martell.png');
         };
     }
     export class ImagesTopMenuVictoryCastleStark {
@@ -199,6 +289,15 @@ export namespace Images {
 
         static getPNG(): string {
             return require('assets/images/topMenu/victory/castle_stark.png');
+        };
+    }
+    export class ImagesTopMenuVictoryCastleTyrell {
+        static getName(): string {
+            return 'castle_tyrell';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/topMenu/victory/castle_tyrell.png');
         };
     }
     export class ImagesTopMenuVictoryVictory {
@@ -578,6 +677,15 @@ export namespace Images {
 
         static getPNG(): string {
             return require('assets/images/westerosCard/winterIsComming.png');
+        };
+    }
+    export class ImagesWildlingMarker {
+        static getName(): string {
+            return 'WildlingMarker';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/WildlingMarker.png');
         };
     }
 }

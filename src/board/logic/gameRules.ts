@@ -235,6 +235,19 @@ export default class GameRules {
         }).length;
     }
 
+    public static getNumberOfSupply(house: House): number {
+        return GameState.getInstance().areas.filter((area: Area) => {
+            return area.controllingHouse === house && area.supply > 0;
+        }).map((area) => {
+            return area.supply
+        }).reduce(
+            (accumulator,
+             currentValue) => {
+                return accumulator + currentValue;
+            }, 0
+        );
+    }
+
     public static getWinningHouse(): House {
         let winningHouse: House = null;
         let gamestate = GameState.getInstance();

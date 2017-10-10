@@ -62,7 +62,7 @@ export class Area {
     private harbor: boolean;
     private _castle: boolean;
     private _stronghold: boolean;
-    private supply: number;
+    private _supply: number;
     private _borders: Area[];
     private _units: Array<Unit>;
     private _orderToken: OrderToken;
@@ -76,7 +76,7 @@ export class Area {
         this.harbor = harbor;
         this._castle = castle;
         this._stronghold = stronghold;
-        this.supply = supply;
+        this._supply = supply;
         this._borders = [];
         this._units = [];
         this._orderToken = null;
@@ -126,6 +126,10 @@ export class Area {
 
     get consolidatePower(): number {
         return this._consolidatePower;
+    }
+
+    get supply(): number {
+        return this._supply;
     }
 
     hasCastleOrStronghold(): boolean {
