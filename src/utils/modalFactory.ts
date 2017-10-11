@@ -28,7 +28,7 @@ export default class ModalRenderer {
 
     }
 
-    public static addClickableImage(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number, callback?: Function) {
+    public static addClickableImage(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number, callback?: Function): Phaser.Image {
         let image = this.addImage(modalGroup, content, offsetY, offsetX);
 
         let rectangleAroundImage = this.drawRectangleAroundImage(modalGroup, image);
@@ -36,6 +36,7 @@ export default class ModalRenderer {
             rectangleAroundImage.visible = !rectangleAroundImage.visible;
         }, image);
         this.addCallback(callback, image);
+        return image;
     }
 
     public static addImage(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number) {

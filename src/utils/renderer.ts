@@ -3,7 +3,6 @@ import AssetLoader from './assetLoader';
 export default class Renderer {
 
     private static _rerenderRequired = false;
-    private static _playingCard = false;
 
     static get rerenderRequired(): boolean {
         return this._rerenderRequired;
@@ -11,14 +10,6 @@ export default class Renderer {
 
     static set rerenderRequired(value: boolean) {
         this._rerenderRequired = value;
-    }
-
-    static get playingCard(): boolean {
-        return this._playingCard;
-    }
-
-    static set playingCard(value: boolean) {
-        this._playingCard = value;
     }
 
     public static drawRectangleAroundAreaName(game, areaKey: AreaKey, color: number, onInputDown: Function, group?: Phaser.Group) {

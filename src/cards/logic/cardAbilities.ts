@@ -6,7 +6,6 @@ import {WesterosCard} from './westerosCard';
 import GameRules from '../../board/logic/gameRules';
 import {OrderTokenType} from '../../orderToken/logic/orderToken';
 import CardFactory from './cardFactory';
-import Mustering from '../../units/ui/mustering';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
@@ -156,69 +155,56 @@ export default class CardAbilities {
     }
 
 
-    public static shuffleCards(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static shuffleCards(cards: Array<WesterosCard>) {
         CardFactory.shuffle(cards);
-        completeCardFn();
     }
 
-    public static supply(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static supply(cards: Array<WesterosCard>) {
         console.log('supply');
-        completeCardFn();
     }
 
-    public static recruit(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
-        Mustering.highlightPossibleArea(game);
-        console.log('recruit');
-
+    public static recruit(cards: Array<WesterosCard>) {
+        GameRules.setAreasForMustering();
     }
 
-    public static nothing(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static nothing(cards: Array<WesterosCard>) {
         // does nothing
-        completeCardFn();
     }
 
-    public static invluence(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static invluence(cards: Array<WesterosCard>) {
         console.log('invluence');
-        completeCardFn();
     }
 
-    public static power(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static power(cards: Array<WesterosCard>) {
         GameRules.consolidateAllPower();
-        completeCardFn();
     }
 
-    public static noDefenseOrders(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static noDefenseOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        completeCardFn();
     }
 
-    public static noSpecialMarchOrder(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static noSpecialMarchOrder(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.march_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        completeCardFn();
     }
 
-    public static noRaidOrders(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static noRaidOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        completeCardFn();
     }
 
-    public static noConsolidatePowerOrders(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static noConsolidatePowerOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        completeCardFn();
     }
 
-    public static noSupportOrders(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static noSupportOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        completeCardFn();
     }
 
-    public static wildlingAttack(game: Phaser.Game, completeCardFn: Function, cards: Array<WesterosCard>) {
+    public static wildlingAttack(cards: Array<WesterosCard>) {
         console.log('wildlingAttack');
-        completeCardFn();
     }
 }

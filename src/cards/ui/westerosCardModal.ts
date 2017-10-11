@@ -1,19 +1,12 @@
 import ModalRenderer from '../../utils/modalFactory';
 import {WesterosCard} from '../logic/westerosCard';
 import GameRules from '../../board/logic/gameRules';
-import Renderer from '../../utils/renderer';
-import GamePhaseService from '../../board/logic/gamePhaseService';
 import CardAbilities from '../logic/cardAbilities';
 export default class WesterosCardModal {
 
     static showModal(game: Phaser.Game, card: WesterosCard, cards: Array<WesterosCard>) {
         let modal;
-        Renderer.playingCard = true;
-        let completePhaseFn = () => {
-            Renderer.rerenderRequired = true;
-            Renderer.playingCard = false;
-            GamePhaseService.switchToNextPhase();
-        };
+
         let closeFn = () => {
             GameRules.increaseWildlings(card.wildling);
             ModalRenderer.closeFn(modal);
@@ -24,7 +17,8 @@ export default class WesterosCardModal {
             let textYIncrement = 30;
             card.options.forEach((cardFunction) => {
                 let onOptionCloseFn = () => {
-                    CardAbilities[cardFunction.functionName](game, completePhaseFn, cards);
+                    CardAbilities[cardFunction.functionName](cards);
+                    card.selectedFunction = cardFunction;
                     closeFn();
                 };
                 ModalRenderer.addText(modal, cardFunction.description, nextTextY, 0, true, onOptionCloseFn, '18px', 'left');
@@ -40,7 +34,8 @@ export default class WesterosCardModal {
             ModalRenderer.addImage(modal, 'westeros' + card.cardType, -30, 135);
         } else {
             let onCloseFn = () => {
-                CardAbilities[card.options[0].functionName](game, completePhaseFn, cards);
+                CardAbilities[card.options[0].functionName](cards);
+                card.selectedFunction = card.options[0];
                 closeFn();
             };
             modal = ModalRenderer.createModal(game, undefined, 200, Phaser.Color.getColor(139, 69, 19));

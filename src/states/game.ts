@@ -15,8 +15,9 @@ import {OrderTokenMenuRenderer} from '../orderToken/ui/orderTokenMenuRenderer';
 import AssetLoader from '../utils/assetLoader';
 import CardFactory from '../cards/logic/cardFactory';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
-import {WesterosCard} from '../cards/logic/westerosCard';
+import {WesterosCard, WesterosCardState} from '../cards/logic/westerosCard';
 import GamePhaseService from '../board/logic/gamePhaseService';
+import MusteringRenderer from '../units/ui/musteringRenderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -44,6 +45,7 @@ export default class Game extends Phaser.State {
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
+        MusteringRenderer.createGroups(this.game);
         PowerToken.createGroups(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
@@ -62,17 +64,20 @@ export default class Game extends Phaser.State {
             PowerToken.renderPowerToken(this.game);
             PowerToken.renderControlToken(this.game);
             this.unitRenderer.renderUnits(this.game);
-
-            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS1) {
+            let currentGamePhase = GameState.getInstance().gamePhase;
+            if (currentGamePhase === GamePhase.WESTEROS1) {
                 this.playWesterosCard(1, GameState.getInstance().westerosCards1);
+                MusteringRenderer.highlightPossibleArea(this.game);
+                AI.musterAreas(GameRules.getAllAreasForMustering());
             }
-            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS2) {
+            if (currentGamePhase === GamePhase.WESTEROS2) {
                 this.playWesterosCard(2, GameState.getInstance().westerosCards2);
             }
-            if (GameState.getInstance().gamePhase === GamePhase.WESTEROS3) {
+            if (currentGamePhase === GamePhase.WESTEROS3) {
                 this.playWesterosCard(3, GameState.getInstance().westerosCards3);
             }
-            if (GameState.getInstance().gamePhase === GamePhase.PLANNING) {
+
+            if (currentGamePhase === GamePhase.PLANNING) {
                 if (GamePhaseService.isPlanningPhaseComplete()) {
                     GamePhaseService.switchToNextPhase();
                     OrderTokenMenuRenderer.removeOrderTokenMenu();
@@ -80,28 +85,33 @@ export default class Game extends Phaser.State {
                     Renderer.rerenderRequired = true;
                     return;
                 }
+                // human interaction
+                this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
+                this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
+                OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
 
-                AI.placeOrderTokens(GameState.getInstance().currentPlayer);
+                // AI interaction
+                AI.placeAllOrderTokens(GameState.getInstance().currentPlayer);
+
+                //
                 if (GamePhaseService.planningCompleteForCurrentPlayer()) {
                     Renderer.rerenderRequired = true;
                     GamePhaseService.nextPlayer();
                     return;
                 }
-                this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
-                this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
-                OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
+
             }
 
-
-            let currentGamePhase = GameState.getInstance().gamePhase;
             if (GamePhaseService.isActionPhase(currentGamePhase)) {
                 if (!GamePhaseService.isStillIn(currentGamePhase)) {
                     GamePhaseService.switchToNextPhase();
                     Renderer.rerenderRequired = true;
                 }
 
+                // human interaction
                 this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
 
+                // AI interaction
                 if (GameState.getInstance().currentPlayer.computerOpponent) {
                     AI.executeMoveOrder(GameState.getInstance().currentPlayer);
                     GamePhaseService.nextPlayer();
@@ -134,9 +144,10 @@ export default class Game extends Phaser.State {
     }
 
     private playWesterosCard(type: number, cards: Array<WesterosCard>) {
-        if (!Renderer.playingCard) {
-            let card = GameRules.playWesterosCard(type);
+        let card = GameRules.getWesterosCard(type);
+        if (card.state === WesterosCardState.showCard) {
             WesterosCardModal.showModal(this.game, card, cards);
+            card.state = WesterosCardState.executeCard;
         }
     }
 }

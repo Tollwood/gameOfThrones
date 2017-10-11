@@ -3,9 +3,10 @@ import GameState from '../board/logic/gameStati';
 import GameRules from '../board/logic/gameRules';
 import {OrderToken, OrderTokenType} from '../orderToken/logic/orderToken';
 import {Area} from '../board/logic/area';
+import {House} from '../board/logic/house';
 export default class AI {
 
-    public static placeOrderTokens(player: Player) {
+    public static placeAllOrderTokens(player: Player) {
         if (player.computerOpponent) {
 
             let availableOrderToken = GameRules.getAvailableOrderToken(player.house);
@@ -46,6 +47,15 @@ export default class AI {
             return area.orderToken
                 && area.orderToken.getHouse() === player.house
                 && orderTokens.indexOf(area.orderToken.getType()) > -1;
+        });
+    }
+
+    public static musterAreas(areas: Area[]){
+        let computerPlayer: House[] = GameState.getInstance().players.filter((p)=>{ return p.computerOpponent}).map((p)=>{return p.house});
+        areas.filter((a)=>{
+            return computerPlayer.indexOf(a.controllingHouse) > -1;
+        }).forEach((area)=>{
+            GameRules.mustering(area);
         });
     }
 }
