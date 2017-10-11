@@ -260,23 +260,23 @@ export default class GameRules {
         })[0];
     }
 
-    public static getAllAreasForMustering(house?: House) {
-        return GameState.getInstance().areasToMuster.filter((area) => {
+    public static getAreasAllowedToRecruit(house?: House) {
+        return GameState.getInstance().areasAllowedToRecruit.filter((area) => {
             return house === undefined || area.controllingHouse === house;
         });
     }
 
-    public static setAreasForMustering() {
-        let areasForMustering = GameState.getInstance().areas.filter((area) => {
+    public static setAreasAllowedToRecruit() {
+        let areasForRecruiting = GameState.getInstance().areas.filter((area) => {
             return area.controllingHouse !== null && area.hasCastleOrStronghold();
         });
-        GameState.getInstance().areasToMuster = areasForMustering;
+        GameState.getInstance().areasAllowedToRecruit = areasForRecruiting;
     }
 
-    public static mustering(area: Area, unitTypes: UnitType[] = []) {
-        let areasToMuster = GameState.getInstance().areasToMuster;
-        let index = areasToMuster.indexOf(area);
-        areasToMuster.splice(index, 1);
+    public static recruit(area: Area, unitTypes: UnitType[] = []) {
+        let areasAllowedToRecruit = GameState.getInstance().areasAllowedToRecruit;
+        let index = areasAllowedToRecruit.indexOf(area);
+        areasAllowedToRecruit.splice(index, 1);
         unitTypes.forEach((unittype) => {
             area.units.push(new Unit(unittype, area.controllingHouse));
         });
@@ -295,6 +295,7 @@ export default class GameRules {
             else {
                 GamePhaseService.switchToNextPhase();
                 GameState.getInstance().currentWesterosCard = null;
+                card.state = WesterosCardState.played;
                 return card;
             }
         }
@@ -326,7 +327,7 @@ export default class GameRules {
         let gameState = GameState.getInstance();
         switch (gameState.currentWesterosCard.selectedFunction.functionName) {
             case "recruit":
-                return GameState.getInstance().areasToMuster.length > 0;
+                return GameState.getInstance().areasAllowedToRecruit.length > 0;
             default:
                 return false;
         }

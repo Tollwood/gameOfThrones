@@ -50,12 +50,12 @@ export default class AI {
         });
     }
 
-    public static musterAreas(areas: Area[]){
+    public static recruit(areas: Area[]){
         let computerPlayer: House[] = GameState.getInstance().players.filter((p)=>{ return p.computerOpponent}).map((p)=>{return p.house});
         areas.filter((a)=>{
             return computerPlayer.indexOf(a.controllingHouse) > -1;
         }).forEach((area)=>{
-            GameRules.mustering(area);
+            GameRules.recruit(area);
         });
     }
 }

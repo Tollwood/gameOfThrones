@@ -164,7 +164,7 @@ export default class CardAbilities {
     }
 
     public static recruit(cards: Array<WesterosCard>) {
-        GameRules.setAreasForMustering();
+        GameRules.setAreasAllowedToRecruit();
     }
 
     public static nothing(cards: Array<WesterosCard>) {

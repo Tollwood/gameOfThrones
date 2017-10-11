@@ -17,7 +17,7 @@ import CardFactory from '../cards/logic/cardFactory';
 import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard, WesterosCardState} from '../cards/logic/westerosCard';
 import GamePhaseService from '../board/logic/gamePhaseService';
-import MusteringRenderer from '../units/ui/musteringRenderer';
+import RecruitingRenderer from '../units/ui/recruitingRenderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -45,7 +45,7 @@ export default class Game extends Phaser.State {
         BoardRenderer.renderBoard(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
-        MusteringRenderer.createGroups(this.game);
+        RecruitingRenderer.createGroups(this.game);
         PowerToken.createGroups(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
@@ -66,15 +66,27 @@ export default class Game extends Phaser.State {
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = GameState.getInstance().gamePhase;
             if (currentGamePhase === GamePhase.WESTEROS1) {
-                this.playWesterosCard(1, GameState.getInstance().westerosCards1);
-                MusteringRenderer.highlightPossibleArea(this.game);
-                AI.musterAreas(GameRules.getAllAreasForMustering());
+                let rerenderRequired = this.playWesterosCard(1, GameState.getInstance().westerosCards1);
+                if(rerenderRequired){
+                    Renderer.rerenderRequired = true;
+                    return;
+                }
+                RecruitingRenderer.highlightPossibleArea(this.game);
+                AI.recruit(GameRules.getAreasAllowedToRecruit());
             }
             if (currentGamePhase === GamePhase.WESTEROS2) {
-                this.playWesterosCard(2, GameState.getInstance().westerosCards2);
+                let rerenderRequired  = this.playWesterosCard(2, GameState.getInstance().westerosCards2);
+                if(rerenderRequired){
+                    Renderer.rerenderRequired = true;
+                    return;
+                }
             }
             if (currentGamePhase === GamePhase.WESTEROS3) {
-                this.playWesterosCard(3, GameState.getInstance().westerosCards3);
+                let rerenderRequired  = this.playWesterosCard(3, GameState.getInstance().westerosCards3);
+                if(rerenderRequired){
+                    Renderer.rerenderRequired = true;
+                    return;
+                }
             }
 
             if (currentGamePhase === GamePhase.PLANNING) {
@@ -143,11 +155,12 @@ export default class Game extends Phaser.State {
         this.boardRenderer.handleZoom(this.game);
     }
 
-    private playWesterosCard(type: number, cards: Array<WesterosCard>) {
+    private playWesterosCard(type: number, cards: Array<WesterosCard>): boolean {
         let card = GameRules.getWesterosCard(type);
         if (card.state === WesterosCardState.showCard) {
             WesterosCardModal.showModal(this.game, card, cards);
             card.state = WesterosCardState.executeCard;
         }
+        return card.state === WesterosCardState.played;
     }
 }

@@ -14,7 +14,7 @@ export default class GameState {
     private _round: number = 1;
     private _wildlingsCount: number = 0;
     private _areas: Array<Area> = [];
-    private _areasToMuster: Array<Area> = [];
+    private _areasAllowedToRecruit: Array<Area> = [];
     private _currentWesterosCard: WesterosCard = null;
     private _westerosCards1 = [];
     private _westerosCards2 = [];
@@ -144,12 +144,12 @@ export default class GameState {
         return this._wildlingsCount;
     }
 
-    get areasToMuster(): Array<Area> {
-        return this._areasToMuster;
+    get areasAllowedToRecruit(): Array<Area> {
+        return this._areasAllowedToRecruit;
     }
 
-    set areasToMuster(value: Array<Area>) {
-        this._areasToMuster = value;
+    set areasAllowedToRecruit(value: Array<Area>) {
+        this._areasAllowedToRecruit = value;
     }
 
     get currentWesterosCard(): WesterosCard {
