@@ -157,13 +157,10 @@ export default class CardAbilities {
 
     public static shuffleCards(cards: Array<WesterosCard>) {
         CardFactory.shuffle(cards);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static supply(cards: Array<WesterosCard>) {
         console.log('supply');
-        GameState.getInstance().currentWesterosCard = null;
     }
 
     public static recruit(cards: Array<WesterosCard>) {
@@ -172,58 +169,42 @@ export default class CardAbilities {
 
     public static nothing(cards: Array<WesterosCard>) {
         // does nothing
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static invluence(cards: Array<WesterosCard>) {
         console.log('invluence');
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static power(cards: Array<WesterosCard>) {
         GameRules.consolidateAllPower();
-        GameState.getInstance().currentWesterosCard = null;
     }
 
     public static noDefenseOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static noSpecialMarchOrder(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.march_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static noRaidOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static noConsolidatePowerOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static noSupportOrders(cards: Array<WesterosCard>) {
         let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
         GameRules.restrictOrderToken(restrictedTokenTypes);
-        GameState.getInstance().currentWesterosCard = null;
-
     }
 
     public static wildlingAttack(cards: Array<WesterosCard>) {
         console.log('wildlingAttack');
-        GameState.getInstance().currentWesterosCard = null;
     }
 }

@@ -5,12 +5,12 @@ import {OrderToken, OrderTokenType} from '../../orderToken/logic/orderToken';
 import Unit from '../../units/logic/units';
 import Player from './player';
 import CombatResult from '../../march/combatResult';
-import CardFactory from '../../cards/logic/cardFactory';
 import CombatCalculator from '../../march/combatCalculator';
 import {CardExecutionPoint} from '../../cards/logic/cardExecutionPoint';
 import GamePhaseService from './gamePhaseService';
 import {UnitType} from '../../units/logic/unitType';
-import {WesterosCard} from '../../cards/logic/westerosCard';
+import {WesterosCard, WesterosCardState} from '../../cards/logic/westerosCard';
+import CardFactory from '../../cards/logic/cardFactory';
 
 export default class GameRules {
 
@@ -206,23 +206,6 @@ export default class GameRules {
         // Add logic for ships in harbour
     }
 
-    public static playWesterosCard(cardType: number) {
-        let card: WesterosCard;
-        switch (cardType) {
-            case 1:
-                card = CardFactory.playNextCard(GameState.getInstance().westerosCards1);
-                break;
-            case 2:
-                card = CardFactory.playNextCard(GameState.getInstance().westerosCards2);
-                break;
-            case 3:
-                card = CardFactory.playNextCard(GameState.getInstance().westerosCards3);
-                break;
-        }
-        GameState.getInstance().currentWesterosCard = card;
-        return card;
-    }
-
     public static increaseWildlings(wildling: number) {
         if (GameState.getInstance().wildlingsCount + wildling >= 12) {
             GameState.getInstance().wildlingsCount = 12;
@@ -271,32 +254,68 @@ export default class GameRules {
     }
 
     public static setAreasForMustering() {
-        let areasForMustering =  GameState.getInstance().areas.filter((area) => {
+        let areasForMustering = GameState.getInstance().areas.filter((area) => {
             return area.controllingHouse !== null && area.hasCastleOrStronghold();
         });
         GameState.getInstance().areasToMuster = areasForMustering;
     }
 
-    public static mustering(area: Area, unitTypes: UnitType[]= []) {
+    public static mustering(area: Area, unitTypes: UnitType[] = []) {
         let areasToMuster = GameState.getInstance().areasToMuster;
         let index = areasToMuster.indexOf(area);
-        areasToMuster.splice(index,1);
+        areasToMuster.splice(index, 1);
         unitTypes.forEach((unittype) => {
             area.units.push(new Unit(unittype, area.controllingHouse));
         });
     }
 
-    public static stillPlayingWesterosCard() {
-        let gameState = GameState.getInstance();
-        let playingCard =  gameState.currentWesterosCard !== null;
-        if(!playingCard){
-            return false;
+    public static getWesterosCard(cardType: number) {
+        let card = GameState.getInstance().currentWesterosCard;
+
+        if (card == null) {
+            card = this.playNewCard(cardType);
         }
-        switch(gameState.currentWesterosCard.id){
-            case 4:
+        else if (card !== null && card.state === WesterosCardState.executeCard) {
+            if (this.stillPlayingWesterosCard()) {
+                return card;
+            }
+            else {
+                GamePhaseService.switchToNextPhase();
+                GameState.getInstance().currentWesterosCard = null;
+                return card;
+            }
+        }
+        GameState.getInstance().currentWesterosCard = card;
+        return card;
+    }
+
+    private static playNewCard(cardType: number): WesterosCard {
+
+        let cards: WesterosCard[];
+        switch (cardType) {
+            case 1:
+                cards = GameState.getInstance().westerosCards1;
+                break;
+            case 2:
+                cards = GameState.getInstance().westerosCards2;
+                break;
+            case 3:
+                cards = GameState.getInstance().westerosCards3;
+                break;
+        }
+
+        let card = CardFactory.playNextCard(cards);
+        GameState.getInstance().currentWesterosCard = card;
+        return card;
+    }
+
+    private static stillPlayingWesterosCard() {
+        let gameState = GameState.getInstance();
+        switch (gameState.currentWesterosCard.selectedFunction.functionName) {
+            case "recruit":
                 return GameState.getInstance().areasToMuster.length > 0;
             default:
-                return true;
+                return false;
         }
     }
 }

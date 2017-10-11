@@ -6,7 +6,7 @@ import {Area} from '../board/logic/area';
 import {House} from '../board/logic/house';
 export default class AI {
 
-    public static placeOrderTokens(player: Player) {
+    public static placeAllOrderTokens(player: Player) {
         if (player.computerOpponent) {
 
             let availableOrderToken = GameRules.getAvailableOrderToken(player.house);

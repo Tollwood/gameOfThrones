@@ -18,6 +18,7 @@ export default class WesterosCardModal {
             card.options.forEach((cardFunction) => {
                 let onOptionCloseFn = () => {
                     CardAbilities[cardFunction.functionName](cards);
+                    card.selectedFunction = cardFunction;
                     closeFn();
                 };
                 ModalRenderer.addText(modal, cardFunction.description, nextTextY, 0, true, onOptionCloseFn, '18px', 'left');
@@ -34,6 +35,7 @@ export default class WesterosCardModal {
         } else {
             let onCloseFn = () => {
                 CardAbilities[card.options[0].functionName](cards);
+                card.selectedFunction = card.options[0];
                 closeFn();
             };
             modal = ModalRenderer.createModal(game, undefined, 200, Phaser.Color.getColor(139, 69, 19));
