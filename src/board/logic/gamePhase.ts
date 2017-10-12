@@ -14,4 +14,9 @@ let ACTION_PHASES = new Array(GamePhase.ACTION_RAID,
     GamePhase.ACTION_CONSOLIDATE_POWER,
     GamePhase.ACTION_CLEANUP);
 
-export {ACTION_PHASES, GamePhase};
+
+let WESTEROS_PHASES = new Array(GamePhase.WESTEROS1,
+    GamePhase.WESTEROS2,
+    GamePhase.WESTEROS3);
+
+export {WESTEROS_PHASES, ACTION_PHASES, GamePhase};

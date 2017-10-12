@@ -1,10 +1,10 @@
 import ModalRenderer from '../../utils/modalFactory';
-import {WesterosCard} from '../logic/westerosCard';
+import {WesterosCard, WesterosCardState} from '../logic/westerosCard';
 import GameRules from '../../board/logic/gameRules';
 import CardAbilities from '../logic/cardAbilities';
 export default class WesterosCardModal {
 
-    static showModal(game: Phaser.Game, card: WesterosCard, cards: Array<WesterosCard>) {
+    static showModal(game: Phaser.Game, card: WesterosCard) {
         let modal;
 
         let closeFn = () => {
@@ -17,7 +17,8 @@ export default class WesterosCardModal {
             let textYIncrement = 30;
             card.options.forEach((cardFunction) => {
                 let onOptionCloseFn = () => {
-                    CardAbilities[cardFunction.functionName](cards);
+                    CardAbilities[cardFunction.functionName](card);
+                    card.state = WesterosCardState.executeCard;
                     card.selectedFunction = cardFunction;
                     closeFn();
                 };
@@ -34,7 +35,8 @@ export default class WesterosCardModal {
             ModalRenderer.addImage(modal, 'westeros' + card.cardType, -30, 135);
         } else {
             let onCloseFn = () => {
-                CardAbilities[card.options[0].functionName](cards);
+                CardAbilities[card.options[0].functionName](card);
+                card.state = WesterosCardState.executeCard;
                 card.selectedFunction = card.options[0];
                 closeFn();
             };

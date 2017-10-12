@@ -1,16 +1,19 @@
 import {House} from './house';
 import Card from '../../cards/logic/houseCard';
+import AI from '../../ai/ai';
 export default class Player {
 
     private _house: House;
     private _powerToken: number;
-    private _computerOpponent: boolean;
-    private _cards: Array<Card>;
 
-    constructor(house: House, powerToken: number, computerOpponent: boolean, cards: Array<Card>) {
+    private _cards: Array<Card>;
+    private _ai: AI;
+
+    constructor(house: House, powerToken: number, ai: AI, cards: Array<Card>) {
         this._powerToken = powerToken;
         this._house = house;
-        this._computerOpponent = computerOpponent;
+        this._ai = ai || null;
+
         this._cards = cards;
     }
 
@@ -25,11 +28,12 @@ export default class Player {
     get house(): House {
         return this._house;
     }
-    get computerOpponent(): boolean {
-        return this._computerOpponent;
-    }
 
     get cards(): Array<Card> {
         return this._cards;
+    }
+
+    get ai(): AI {
+        return this._ai;
     }
 }

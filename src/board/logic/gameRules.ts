@@ -3,7 +3,6 @@ import GameState from './gameStati';
 import {House} from './house';
 import {OrderToken, OrderTokenType} from '../../orderToken/logic/orderToken';
 import Unit from '../../units/logic/units';
-import Player from './player';
 import CombatResult from '../../march/combatResult';
 import CombatCalculator from '../../march/combatCalculator';
 import {CardExecutionPoint} from '../../cards/logic/cardExecutionPoint';
@@ -11,12 +10,19 @@ import GamePhaseService from './gamePhaseService';
 import {UnitType} from '../../units/logic/unitType';
 import {WesterosCard, WesterosCardState} from '../../cards/logic/westerosCard';
 import CardFactory from '../../cards/logic/cardFactory';
+import {AreaInitiator} from './initialArea';
+import Player from './player';
+import AI from '../../ai/ai';
+import PlayerSetup from './playerSetup';
 
 export default class GameRules {
 
+    static INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
+    private static INITIAL_POWER_TOKEN: number = 5;
+
     // New Game
     public static newGame() {
-        GameState.initGame([new Player(House.stark, 5, false, CardFactory.getHouseCards(House.stark)), new Player(House.lannister, 5, true, CardFactory.getHouseCards(House.lannister)), new Player(House.baratheon, 5, true, CardFactory.getHouseCards(House.baratheon)), new Player(House.greyjoy, 5, true, CardFactory.getHouseCards(House.greyjoy)), new Player(House.tyrell, 5, true, CardFactory.getHouseCards(House.tyrell)), new Player(House.martell, 5, true, CardFactory.getHouseCards(House.martell))]);
+        this.initGame([new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)]);
     }
 
     // place Orders
@@ -332,4 +338,31 @@ export default class GameRules {
                 return false;
         }
     }
+
+    public static initGame(playerSetup: Array<PlayerSetup>) {
+        let gameState = GameState.getInstance();
+        let player = new Array<Player>();
+        playerSetup.forEach((config) => {
+            let ai: AI;
+            if (config.ai) {
+                ai = new AI(config.house);
+            }
+            player.push(new Player(config.house, this.INITIAL_POWER_TOKEN, ai, CardFactory.getHouseCards(config.house)));
+        });
+
+        gameState.areas = AreaInitiator.getInitalState(player);
+        gameState.westerosCards1 = CardFactory.getWesterosCards(1);
+        gameState.westerosCards2 = CardFactory.getWesterosCards(2);
+        gameState.westerosCards3 = CardFactory.getWesterosCards(3);
+        gameState.players = player;
+        gameState.ironThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
+        gameState.fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
+        gameState.kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
+        gameState.currentlyAllowedTokenTypes = this.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
+        gameState.wildlingsCount = 0;
+        gameState.currentPlayer = player.filter((player) => {
+            return player.house === gameState.ironThroneSuccession[0];
+        })[0];
+    }
+
 }

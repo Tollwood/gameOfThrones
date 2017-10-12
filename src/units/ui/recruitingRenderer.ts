@@ -10,16 +10,17 @@ export default class RecruitingRenderer {
         this.areasToRecruit = game.add.group();
     }
 
-    public static highlightPossibleArea(game: Phaser.Game) {
+    public static highlightPossibleArea(game: Phaser.Game): number {
         this.areasToRecruit.removeChildren();
         let areasAllowedToRecruit = GameRules.getAreasAllowedToRecruit(GameState.getInstance().currentPlayer.house);
         areasAllowedToRecruit.forEach((area) => {
             let showModalFn = () => {
-                RecruitingModal.showModal(game, area,);
+                RecruitingModal.showModal(game, area);
             };
 
             Renderer.drawRectangleAroundAreaName(game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
         });
+        return areasAllowedToRecruit.length;
     }
 
     public  static removeChildren() {

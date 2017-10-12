@@ -31,12 +31,16 @@ export default class OrderTokenRenderer {
         this.areasToPlaceToken.removeChildren();
     }
 
-    public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House) {
+    public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House): number {
         this.areasToPlaceToken.removeChildren();
-        AssetLoader.getAreaTokens().forEach((areaToken: UiArea) => {
-            if (GameRules.isAllowedToPlaceOrderToken(house, areaToken.name))
-                game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, house, this.areasToPlaceToken);
+        let areas = AssetLoader.getAreaTokens().filter((areaToken: UiArea) => {
+            return GameRules.isAllowedToPlaceOrderToken(house, areaToken.name);
         });
+        areas.forEach((areaToken) => {
+            game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, house, this.areasToPlaceToken);
+
+        });
+        return areas.length;
     }
 
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {

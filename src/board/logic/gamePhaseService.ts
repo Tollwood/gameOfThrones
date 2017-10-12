@@ -1,6 +1,7 @@
-import {ACTION_PHASES, GamePhase} from './gamePhase';
+import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
 import GameState from './gameStati';
 import {House} from './house';
+import GameRules from './gameRules';
 
 export default class GamePhaseService {
 
@@ -21,6 +22,10 @@ export default class GamePhaseService {
 
     public static isActionPhase(gamePhase: GamePhase) {
         return ACTION_PHASES.indexOf(gamePhase) > -1;
+    }
+
+    public static isWesterosPhase(gamePhase: GamePhase) {
+        return WESTEROS_PHASES.indexOf(gamePhase) > -1;
     }
 
     public static planningCompleteForCurrentPlayer() {
@@ -63,7 +68,7 @@ export default class GamePhaseService {
             area.orderToken = null;
         });
         gameState.nextRound();
-        gameState.currentlyAllowedTokenTypes = GameState.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
+        gameState.currentlyAllowedTokenTypes = GameRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
         gameState.currentPlayer = gameState.getFirstFromIronThroneSuccession();
     }
 

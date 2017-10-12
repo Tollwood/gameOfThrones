@@ -70,6 +70,7 @@ export class WesterosCard {
 
 export enum WesterosCardState {
     showCard,
+    displayCard,
     executeCard,
     played
 }

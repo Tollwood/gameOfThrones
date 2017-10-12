@@ -6,21 +6,25 @@ import {Area} from '../board/logic/area';
 import {House} from '../board/logic/house';
 export default class AI {
 
-    public static placeAllOrderTokens(player: Player) {
-        if (player.computerOpponent) {
+    private house: House;
 
-            let availableOrderToken = GameRules.getAvailableOrderToken(player.house);
-            let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => {
-                return area.units.length > 0 && area.units[0].getHouse() === player.house && area.orderToken === null;
-            });
-            for (let area of areasToPlaceAToken) {
-                GameRules.addOrderToken(new OrderToken(player.house, availableOrderToken.pop()), area.key);
-            }
+    constructor(house: House) {
+        this.house = house;
+    }
+
+    public placeAllOrderTokens() {
+
+        let availableOrderToken = GameRules.getAvailableOrderToken(this.house);
+        let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => {
+            return area.units.length > 0 && area.units[0].getHouse() === this.house && area.orderToken === null;
+        });
+        for (let area of areasToPlaceAToken) {
+            GameRules.addOrderToken(new OrderToken(this.house, availableOrderToken.pop()), area.key);
         }
     }
 
 
-    public static executeMoveOrder(player: Player) {
+    public executeMoveOrder(player: Player) {
 
         let areasWithMoveToken = this.getAreasWithToken(player, [OrderTokenType.march_special, OrderTokenType.march_zero, OrderTokenType.march_minusOne]);
 
@@ -42,7 +46,7 @@ export default class AI {
 
     }
 
-    private static getAreasWithToken(player: Player, orderTokens: Array<OrderTokenType>): Array<Area> {
+    private getAreasWithToken(player: Player, orderTokens: Array<OrderTokenType>): Array<Area> {
         return GameState.getInstance().areas.filter((area) => {
             return area.orderToken
                 && area.orderToken.getHouse() === player.house
@@ -50,11 +54,10 @@ export default class AI {
         });
     }
 
-    public static recruit(areas: Area[]){
-        let computerPlayer: House[] = GameState.getInstance().players.filter((p)=>{ return p.computerOpponent}).map((p)=>{return p.house});
-        areas.filter((a)=>{
-            return computerPlayer.indexOf(a.controllingHouse) > -1;
-        }).forEach((area)=>{
+    public recruit(areas: Area[]) {
+        areas.filter((a) => {
+            return this.house === a.controllingHouse;
+        }).forEach((area) => {
             GameRules.recruit(area);
         });
     }
