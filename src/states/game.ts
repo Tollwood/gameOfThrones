@@ -105,8 +105,13 @@ export default class Game extends Phaser.State {
                     if (currentPlayer.ai === null) {
                         this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
                         this.checkForWinner();
+                        if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentPlayer.house)) ||
+                            (currentGamePhase === GamePhase.ACTION_MARCH && GamePhaseService.allMarchOrdersRevealed(currentPlayer.house))) {
+                            GamePhaseService.nextPlayer();
+                            return;
+                        }
                     } else {
-                        currentPlayer.ai.executeMoveOrder(GameState.getInstance().currentPlayer);
+                        currentPlayer.ai.executeOrder(currentGamePhase);
                         GamePhaseService.nextPlayer();
                         this.checkForWinner();
                         return;
@@ -119,7 +124,7 @@ export default class Game extends Phaser.State {
                     return;
                 }
 
-                if (GameState.getInstance().gamePhase === GamePhase.ACTION_CLEANUP) {
+                if (currentGamePhase === GamePhase.ACTION_CLEANUP) {
                     GamePhaseService.nextRound();
                     Renderer.rerenderRequired = true;
                     return;

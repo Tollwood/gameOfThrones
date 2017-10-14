@@ -36,15 +36,15 @@ export default class GamePhaseService {
         return GameState.getInstance().gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced();
     }
 
-    private static allMarchOrdersRevealed(): boolean {
+    public static allMarchOrdersRevealed(house?: House): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.isMoveToken();
+                return area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
-    private static allRaidOrdersRevealed(): boolean {
+    public static allRaidOrdersRevealed(house?: House): boolean {
         return GameState.getInstance().areas.filter((area) => {
-                return area.orderToken && area.orderToken.isRaidToken();
+                return area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
