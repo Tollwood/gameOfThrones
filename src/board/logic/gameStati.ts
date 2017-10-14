@@ -4,6 +4,8 @@ import {House} from './house';
 import Player from './player';
 import {WesterosCard} from '../../cards/logic/westerosCard';
 import {OrderTokenType} from '../../orderToken/logic/orderToken';
+import {TSMap} from 'typescript-map';
+
 export default class GameState {
 
     private static gameState: GameState;
@@ -23,6 +25,7 @@ export default class GameState {
     private _kingscourt: Array<House> = [];
     private _fiefdom: Array<House> = [];
     private _currentlyAllowedTokenTypes: Array<OrderTokenType>;
+    private _currentlyAllowedSupply: TSMap<House, number>;
 
     public static getInstance(): GameState {
         if (!this.gameState) {
@@ -153,6 +156,14 @@ export default class GameState {
 
     set players(value: Array<Player>) {
         this._players = value;
+    }
+
+    get currentlyAllowedSupply(): TSMap<House, number> {
+        return this._currentlyAllowedSupply;
+    }
+
+    set currentlyAllowedSupply(value: TSMap<House, number>) {
+        this._currentlyAllowedSupply = value;
     }
 
     getFirstFromIronThroneSuccession(): Player {

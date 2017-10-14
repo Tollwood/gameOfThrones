@@ -159,7 +159,7 @@ export default class CardAbilities {
     }
 
     public static supply(card: WesterosCard) {
-        console.log('supply');
+        GameRules.updateSupply();
     }
 
     public static recruit(card: WesterosCard) {

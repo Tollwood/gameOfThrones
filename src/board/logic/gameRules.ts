@@ -14,6 +14,7 @@ import {AreaInitiator} from './initialArea';
 import Player from './player';
 import PlayerSetup from './playerSetup';
 import AiPlayer from '../../ai/aiPlayer';
+import {TSMap} from 'typescript-map';
 
 export default class GameRules {
 
@@ -247,6 +248,13 @@ export default class GameRules {
         );
     }
 
+    public static updateSupply() {
+        let updatedSupply = new TSMap<House, number>();
+        GameState.getInstance().players.forEach((player) => {
+            updatedSupply.set(player.house, this.getNumberOfSupply(player.house));
+        });
+        GameState.getInstance().currentlyAllowedSupply = updatedSupply;
+    }
     public static getWinningHouse(): House {
         let winningHouse: House = null;
         let gamestate = GameState.getInstance();
@@ -371,6 +379,7 @@ export default class GameRules {
         gameState.currentPlayer = player.filter((player) => {
             return player.house === gameState.ironThroneSuccession[0];
         })[0];
+        GameRules.updateSupply();
     }
 
     public static getAllAreasAllowedToMarchTo(sourceArea: Area): Array<Area> {
