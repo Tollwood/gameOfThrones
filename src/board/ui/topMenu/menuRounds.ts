@@ -13,7 +13,7 @@ export class MenuRounds extends TopMenuItem {
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + 'Rounds') {
-            let marker = overlay.game.add.sprite(overlay.x + this.getPositionForGameMarker(), overlay.y + 45, 'gameRoundMarker', undefined, this.marker);
+            let marker = overlay.game.add.sprite(overlay.x + this.getPositionForGameMarker(), 90, 'gameRoundMarker', undefined, this.marker);
             marker.fixedToCamera = true;
         }
     }

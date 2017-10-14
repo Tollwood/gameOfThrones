@@ -4,7 +4,7 @@ import GameRules from '../../logic/gameRules';
 import GameState from '../../logic/gameStati';
 import TopMenuRenderer from './topMenuRenderer';
 
-const POSITION_X = [0, 0, 90, 187, 260, 340, 420, 500];
+const POSITION_X = [20, 100, 180, 260, 340, 420, 500];
 
 export class MenuVictory extends TopMenuItem {
 
@@ -18,7 +18,7 @@ export class MenuVictory extends TopMenuItem {
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY) {
             GameState.getInstance().players.forEach((player) => {
-                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house) + (player.house * 10), overlay.y + 45 + (player.house * 10), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
+                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house), 120 + (player.house * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;
             });
         }
@@ -26,6 +26,6 @@ export class MenuVictory extends TopMenuItem {
 
     private getPositionForHouse(house: House): number {
         let numOfCastlesAndStrongholds = GameRules.getVictoryPositionFor(house);
-        return POSITION_X[numOfCastlesAndStrongholds];
+        return POSITION_X[numOfCastlesAndStrongholds - 1];
     }
 }

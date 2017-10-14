@@ -13,7 +13,7 @@ export class MenuWildlings extends TopMenuItem {
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + 'Wildlings') {
             let wildlingsCount = GameState.getInstance().wildlingsCount;
-            let marker = overlay.game.add.image(overlay.x + POSITION_X[wildlingsCount], overlay.y + 45, 'gameRoundMarker', undefined, this.marker);
+            let marker = overlay.game.add.image(overlay.x + POSITION_X[wildlingsCount], 80, 'gameRoundMarker', undefined, this.marker);
             marker.fixedToCamera = true;
         }
     }
