@@ -1,16 +1,20 @@
+import TopMenuRenderer from './topMenuRenderer';
 const MENU = 'menu',
     OVERLAY = 'overlay',
     FADE_DURATION: number = 200;
 
 export abstract class TopMenuItem extends Phaser.Sprite {
     private overlay: Phaser.Sprite;
+    marker: Phaser.Group;
 
-    constructor(game: Phaser.Game, x: number, y: number, menuItem: string) {
+    constructor(game: Phaser.Game, x: number, y: number, menuItem: string, topMenuRenderer: TopMenuRenderer) {
         super(game, x, y, MENU + menuItem);
         this.fixedToCamera = true;
         this.inputEnabled = true;
         this.overlay = this.createOverlay(game, OVERLAY + menuItem, this.height);
+        this.marker = game.add.group();
         this.events.onInputDown.add(function () {
+            topMenuRenderer.hideOverlayIfNotClicked();
             this.fadeInOrOut(this.overlay);
         }.bind(this));
     }
@@ -30,7 +34,7 @@ export abstract class TopMenuItem extends Phaser.Sprite {
             this.renderMarker(sprite);
         } else if (sprite.alpha === 1) {
             this.tween(sprite, 0);
-            this.hideMarker(sprite);
+            this.marker.removeChildren();
         }
     }
 
@@ -41,9 +45,11 @@ export abstract class TopMenuItem extends Phaser.Sprite {
 
     abstract renderMarker(overlay: Phaser.Sprite);
 
-    abstract hideMarker(overlay: Phaser.Sprite);
-
     public getOverlay(): Phaser.Sprite {
         return this.overlay;
+    }
+
+    public getMarker(): Phaser.Group {
+        return this.marker;
     }
 }

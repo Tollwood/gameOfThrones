@@ -1,44 +1,27 @@
-import * as Assets from '../../../assets';
 import {TopMenuItem} from './topMenuItem';
 import {House} from '../../logic/house';
 import GameRules from '../../logic/gameRules';
 import GameState from '../../logic/gameStati';
+import TopMenuRenderer from './topMenuRenderer';
 
-const MENU = 'menu',
-    OVERLAY = 'overlay',
-    POSITION_X = [0, 0, 90, 187, 260, 340, 420, 500];
+const POSITION_X = [0, 0, 90, 187, 260, 340, 420, 500];
 
 export class MenuVictory extends TopMenuItem {
 
-    constructor(game: Phaser.Game, x: number, y: number) {
-        super(game, x, y, 'Victory');
+    constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
+        super(game, x, y, TopMenuRenderer.VICTORY, topMenuRenderer);
         this.marker = game.add.group();
     }
 
-    marker: Phaser.Group;
 
-    public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Victory', Assets.Images.ImagesTopMenuVictoryVictory.getPNG());
-        game.load.image(MENU + 'Victory', Assets.Images.ImagesTopMenuMenuVictory.getPNG());
-        game.load.image(House[House.stark] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
-        game.load.image(House[House.baratheon] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleBaratheon.getPNG());
-        game.load.image(House[House.greyjoy] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleGreyjoy.getPNG());
-        game.load.image(House[House.lannister] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleLannister.getPNG());
-        game.load.image(House[House.martell] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleMartell.getPNG());
-        game.load.image(House[House.tyrell] + 'Castle', Assets.Images.ImagesTopMenuVictoryCastleTyrell.getPNG());
-    }
 
     renderMarker(overlay: Phaser.Sprite) {
-        if (overlay.key === OVERLAY + 'Victory') {
+        if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY) {
             GameState.getInstance().players.forEach((player) => {
-                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house) + (player.house * 10), overlay.y + 45 + (player.house * 10), House[player.house] + 'Castle', undefined, this.marker);
+                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house) + (player.house * 10), overlay.y + 45 + (player.house * 10), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;
             });
         }
-    }
-
-    hideMarker(overlay: Phaser.Sprite) {
-        this.marker.removeChildren();
     }
 
     private getPositionForHouse(house: House): number {

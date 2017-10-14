@@ -1,35 +1,20 @@
-import * as Assets from '../../../assets';
 import {TopMenuItem} from './topMenuItem';
 import GameState from '../../logic/gameStati';
+import TopMenuRenderer from './topMenuRenderer';
 
-const MENU = 'menu',
-    OVERLAY = 'overlay',
-    POSITION_X = [20, 63, 104, 145, 187, 229, 271, 312, 354, 396];
+const POSITION_X = [20, 63, 104, 145, 187, 229, 271, 312, 354, 396];
 
 export class MenuRounds extends TopMenuItem {
 
-    private gameRoundMarker: Phaser.Sprite;
 
-    constructor(game: Phaser.Game, x: number, y: number) {
-        super(game, x, y, 'Rounds');
-    }
-
-    public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Rounds', Assets.Images.ImagesTopMenuGameRoundsGamerounds.getPNG());
-        game.load.image(MENU + 'Rounds', Assets.Images.ImagesTopMenuMenuRounds.getPNG());
-        game.load.image('gameRoundMarker', Assets.Images.ImagesTopMenuGameRoundsGameRoundMarker.getPNG());
+    constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
+        super(game, x, y, 'Rounds', topMenuRenderer);
     }
 
     renderMarker(overlay: Phaser.Sprite) {
-        if (overlay.key === OVERLAY + 'Rounds') {
-            this.gameRoundMarker = overlay.game.add.sprite(overlay.x + this.getPositionForGameMarker(), overlay.y + 45, 'gameRoundMarker');
-            this.gameRoundMarker.fixedToCamera = true;
-        }
-    }
-
-    hideMarker(overlay: Phaser.Sprite) {
-        if (overlay.key === OVERLAY + 'Rounds' && this.gameRoundMarker) {
-            this.gameRoundMarker.destroy();
+        if (overlay.key === TopMenuRenderer.OVERLAY + 'Rounds') {
+            let marker = overlay.game.add.sprite(overlay.x + this.getPositionForGameMarker(), overlay.y + 45, 'gameRoundMarker', undefined, this.marker);
+            marker.fixedToCamera = true;
         }
     }
 

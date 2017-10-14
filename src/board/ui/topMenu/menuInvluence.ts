@@ -1,25 +1,15 @@
-import * as Assets from '../../../assets';
 import {TopMenuItem} from './topMenuItem';
+import TopMenuRenderer from './topMenuRenderer';
 
-const MENU = 'menu',
-    OVERLAY = 'overlay';
 
 export class MenuInvluence extends TopMenuItem {
 
-    constructor(game: Phaser.Game, x: number, y: number) {
-        super(game, x, y, 'Invluence');
-    }
-
-    public static loadAssets(game: Phaser.Game) {
-        game.load.image(OVERLAY + 'Invluence', Assets.Images.ImagesTopMenuInfluenceInfluence.getPNG());
-        game.load.image(MENU + 'Invluence', Assets.Images.ImagesTopMenuMenuInvluence.getPNG());
+    constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
+        super(game, x, y, TopMenuRenderer.INFLUENCE, topMenuRenderer);
     }
 
     renderMarker(overlay: Phaser.Sprite) {
 
     }
 
-    hideMarker(overlay: Phaser.Sprite) {
-
-    }
 }
