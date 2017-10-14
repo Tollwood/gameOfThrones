@@ -18,7 +18,7 @@ export class OrderTokenMenuRenderer {
 
     public static renderOrderTokenInMenu(game: Phaser.Game, validAreaToPlaceAnOrder: Array<UiArea>) {
         this.removeOrderTokenMenu();
-        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, 'menubackground', 0, this.placeableOrderTokenBackground);
+        let menu = game.add.tileSprite(0, window.innerHeight - 60, 50 * 15 + 10, window.innerHeight, AssetLoader.ORDER_TOKEN_MENU_BACKGROUND, 0, this.placeableOrderTokenBackground);
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
 

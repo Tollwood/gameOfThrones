@@ -18,7 +18,7 @@ export class MenuVictory extends TopMenuItem {
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY) {
             GameState.getInstance().players.forEach((player) => {
-                let marker = overlay.game.add.sprite(overlay.x + this.getPositionForHouse(player.house), 120 + (player.house * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
+                let marker = overlay.game.add.sprite(overlay.x - overlay.game.camera.x + this.getPositionForHouse(player.house), 120 + (player.house * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;
             });
         }
