@@ -5,7 +5,6 @@ import GameState from '../board/logic/gameStati';
 import UnitRenderer from '../units/ui/unitRenderer';
 import GameRules from '../board/logic/gameRules';
 import {GamePhase} from '../board/logic/gamePhase';
-import Player from '../board/logic/player';
 import PowerToken from '../orderToken/ui/powerTokenRenderer';
 import Renderer from '../utils/renderer';
 import WinningModal from '../board/ui/winningModal';
@@ -15,6 +14,7 @@ import WesterosCardModal from '../cards/ui/westerosCardModal';
 import {WesterosCard, WesterosCardState} from '../cards/logic/westerosCard';
 import GamePhaseService from '../board/logic/gamePhaseService';
 import RecruitingRenderer from '../units/ui/recruitingRenderer';
+import AiPlayer from '../ai/aiPlayer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -63,10 +63,11 @@ export default class Game extends Phaser.State {
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = GameState.getInstance().gamePhase;
             let currentPlayer = GameState.getInstance().currentPlayer;
+            let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
 
 
             if (GamePhaseService.isWesterosPhase(currentGamePhase)) {
-                let rerender = this.renderWesterosPhase(currentGamePhase, currentPlayer);
+                let rerender = this.renderWesterosPhase(currentGamePhase, currentAiPlayer);
                 if (rerender) {
                     return;
                 }
@@ -80,7 +81,7 @@ export default class Game extends Phaser.State {
                     return;
                 }
 
-                if (currentPlayer.ai === null) {
+                if (currentAiPlayer === null) {
                     this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
                     OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
                     let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameState.getInstance().currentPlayer.house);
@@ -89,7 +90,7 @@ export default class Game extends Phaser.State {
                         return;
                     }
                 } else {
-                    currentPlayer.ai.placeAllOrderTokens();
+                    currentAiPlayer.placeAllOrderTokens();
                     GamePhaseService.nextPlayer();
                     return;
                 }
@@ -102,7 +103,7 @@ export default class Game extends Phaser.State {
                 }
 
                 if (currentGamePhase === GamePhase.ACTION_RAID || currentGamePhase === GamePhase.ACTION_MARCH) {
-                    if (currentPlayer.ai === null) {
+                    if (currentAiPlayer === null) {
                         this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
                         this.checkForWinner();
                         if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentPlayer.house)) ||
@@ -111,7 +112,7 @@ export default class Game extends Phaser.State {
                             return;
                         }
                     } else {
-                        currentPlayer.ai.executeOrder(currentGamePhase);
+                        currentAiPlayer.executeOrder(currentGamePhase);
                         GamePhaseService.nextPlayer();
                         this.checkForWinner();
                         return;
@@ -145,7 +146,7 @@ export default class Game extends Phaser.State {
         }
     }
 
-    private renderWesterosPhase(currentGamePhase: GamePhase, currentPlayer: Player): boolean {
+    private renderWesterosPhase(currentGamePhase: GamePhase, currentAiPlayer: AiPlayer): boolean {
 
         let card: WesterosCard;
 
@@ -169,11 +170,11 @@ export default class Game extends Phaser.State {
             return true;
         }
 
-        if (currentPlayer.ai !== null && card.state === WesterosCardState.executeCard) {
-            currentPlayer.ai.recruit(GameRules.getAreasAllowedToRecruit());
+        if (currentAiPlayer !== null && card.state === WesterosCardState.executeCard) {
+            currentAiPlayer.recruit(GameRules.getAreasAllowedToRecruit());
             GamePhaseService.nextPlayer();
             return true;
-        } else if (currentPlayer.ai === null && card.state === WesterosCardState.executeCard) {
+        } else if (currentAiPlayer === null && card.state === WesterosCardState.executeCard) {
             let remainingAreas = RecruitingRenderer.highlightPossibleArea(this.game);
             if (remainingAreas === 0) {
                 GamePhaseService.nextPlayer();

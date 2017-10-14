@@ -12,8 +12,8 @@ import {WesterosCard, WesterosCardState} from '../../cards/logic/westerosCard';
 import CardFactory from '../../cards/logic/cardFactory';
 import {AreaInitiator} from './initialArea';
 import Player from './player';
-import AI from '../../ai/ai';
 import PlayerSetup from './playerSetup';
+import AiPlayer from '../../ai/aiPlayer';
 
 export default class GameRules {
 
@@ -22,6 +22,7 @@ export default class GameRules {
     public static DEFEND_ORDER_TOKENS = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
     public static SUPPORT_ORDER_TOKENS = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
+    public static INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
 
     private static INITIAL_POWER_TOKEN: number = 5;
 
@@ -348,11 +349,13 @@ export default class GameRules {
         let gameState = GameState.getInstance();
         let player = new Array<Player>();
         playerSetup.forEach((config) => {
-            let ai: AI;
+
             if (config.ai) {
-                ai = new AI(config.house);
+                player.push(new AiPlayer(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
             }
-            player.push(new Player(config.house, this.INITIAL_POWER_TOKEN, ai, CardFactory.getHouseCards(config.house)));
+            else {
+                player.push(new Player(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+            }
         });
 
         gameState.areas = AreaInitiator.getInitalState(player);
@@ -370,4 +373,14 @@ export default class GameRules {
         })[0];
     }
 
+    public static getAllAreasAllowedToMarchTo(sourceArea: Area): Array<Area> {
+
+        if (sourceArea.units.length === 0) {
+            return new Array<Area>();
+        }
+        return GameState.getInstance().areas
+            .filter((area) => {
+                return GameRules.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
+            });
+    }
 }

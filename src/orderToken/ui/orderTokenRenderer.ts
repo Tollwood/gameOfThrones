@@ -151,10 +151,7 @@ export default class OrderTokenRenderer {
                 }
                 Renderer.rerenderRequired = true;
             };
-            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
-                .filter((area) => {
-                    return GameRules.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
-                });
+            let areasAllowedToExecuteOrder: Array<Area> = GameRules.getAllAreasAllowedToMarchTo(sourceArea);
             this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_MARCH);
             Renderer.rerenderRequired = true;
 
