@@ -3,27 +3,37 @@ import {House} from '../board/logic/house';
 import {Area, AreaKey} from '../board/logic/area';
 import Unit from '../units/logic/units';
 import {UnitType} from '../units/logic/unitType';
+import GameState from '../board/logic/gameStati';
 export default class SplitArmyModalFactory {
 
     static showModal(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey, yesFn: Function, noFn: Function) {
 
         let modal = ModalRenderer.createModal(game);
         let unitsToMove: Array<Unit> = [];
+        let establishControl = false;
 
         let moreOrdersQuestionGroup = this.addMoreOrdersGroup(modal, noFn, yesFn, unitsToMove, sourceArea);
-        let otherOrdersText = ModalRenderer.addText(modal, 'Take other orders', 100, 0, true, () => {
+        let otherOrdersText = ModalRenderer.addText(modal, 'Take other orders', 80, 0, true, () => {
             ModalRenderer.closeFn(modal);
         });
-        let allUnitsText = ModalRenderer.addText(modal, 'Move all Units', 100, 0, false, () => {
-            noFn(unitsToMove);
+        let allUnitsText = ModalRenderer.addText(modal, 'Move all Units', 130, 0, false, () => {
+            noFn(unitsToMove, establishControl);
             ModalRenderer.closeFn(modal);
         });
-        this.addImageForEachUnit(modal, sourceArea.units, unitsToMove, moreOrdersQuestionGroup, otherOrdersText, allUnitsText);
+        let hasOnePowerToken = GameState.getInstance().currentPlayer.powerToken > 0;
+        let establishControlText = null;
+        if (hasOnePowerToken) {
+            establishControlText = ModalRenderer.addToggleText(modal, 'Establish Control', 80, 0, false, () => {
+                establishControl = !establishControl;
+            });
+
+        }
+        this.addImageForEachUnit(modal, sourceArea.units, unitsToMove, moreOrdersQuestionGroup, otherOrdersText, allUnitsText, establishControlText);
         ModalRenderer.addText(modal, 'Select units to move from ' + sourceArea.key + ' to ' + targetAreaKey, -100);
         ModalRenderer.displayModal(modal);
     }
 
-    private static addImageForEachUnit(modal: Phaser.Group, availableUnits: Array<Unit>, unitsToMove: Array<Unit>, moreOrdersQuestionsGroup: Phaser.Group, otherOrdersText: Phaser.Text, allUnitsText: Phaser.Text) {
+    private static addImageForEachUnit(modal: Phaser.Group, availableUnits: Array<Unit>, unitsToMove: Array<Unit>, moreOrdersQuestionsGroup: Phaser.Group, otherOrdersText: Phaser.Text, allUnitsText: Phaser.Text, establishControlText: Phaser.Text) {
         let offsetXIncrement = 60;
         let offsetX = -1 * offsetXIncrement * availableUnits.length / 2;
         availableUnits.forEach((unit) => {
@@ -43,16 +53,19 @@ export default class SplitArmyModalFactory {
                     moreOrdersQuestionsGroup.visible = false;
                     otherOrdersText.visible = true;
                     allUnitsText.visible = false;
+                    establishControlText !== null ? establishControlText.visible = false : null;
                 }
                 else if (unitsToMove.length === availableUnits.length) {
                     moreOrdersQuestionsGroup.visible = false;
                     otherOrdersText.visible = false;
                     allUnitsText.visible = true;
+                    establishControlText !== null ? establishControlText.visible = true : null;
                 }
                 else {
                     moreOrdersQuestionsGroup.visible = true;
                     otherOrdersText.visible = false;
                     allUnitsText.visible = false;
+                    establishControlText !== null ? establishControlText.visible = false : null;
                 }
 
             });

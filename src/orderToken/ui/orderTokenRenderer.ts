@@ -114,8 +114,11 @@ export default class OrderTokenRenderer {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units, false);
                         Renderer.rerenderRequired = true;
                     };
-                    let noFn = (units) => {
+                    let noFn = (units, establishControl) => {
                         GameRules.moveUnits(sourceArea.key, targetAreaKey, units);
+                        if (establishControl) {
+                            GameRules.establishControl(sourceArea);
+                        }
                         GamePhaseService.nextPlayer();
                         this.removeSelectedToken(sprite);
                         Renderer.rerenderRequired = true;

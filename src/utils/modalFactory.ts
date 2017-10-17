@@ -28,6 +28,17 @@ export default class ModalRenderer {
 
     }
 
+    public static addToggleText(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number = 0, visible = true, callback?: Function, fontSize: string = '22px', align: string = 'left'): Phaser.Text {
+
+        let text = this.addText(modalGroup, content, offsetY, offsetX, visible, callback, fontSize, align);
+        let rectangleAroundImage = this.drawRectangleAroundImage(modalGroup, text);
+        this.addCallback(() => {
+            rectangleAroundImage.visible = !rectangleAroundImage.visible;
+        }, text);
+        this.addCallback(callback, text);
+        return text;
+
+    }
     public static addClickableImage(modalGroup: Phaser.Group, content: string, offsetY: number, offsetX: number, callback?: Function): Phaser.Image {
         let image = this.addImage(modalGroup, content, offsetY, offsetX);
 
