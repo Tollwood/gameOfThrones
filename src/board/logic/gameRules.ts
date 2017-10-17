@@ -25,6 +25,7 @@ export default class GameRules {
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
     public static INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
 
+    private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
     private static INITIAL_POWER_TOKEN: number = 5;
 
     // New Game
@@ -255,6 +256,7 @@ export default class GameRules {
         });
         GameState.getInstance().currentlyAllowedSupply = updatedSupply;
     }
+
     public static getWinningHouse(): House {
         let winningHouse: House = null;
         let gamestate = GameState.getInstance();
@@ -280,9 +282,11 @@ export default class GameRules {
         })[0];
     }
 
-    public static getAreasAllowedToRecruit(house?: House) {
+
+    public static getAreasAllowedToRecruit(house?: House): Array<Area> {
         return GameState.getInstance().areasAllowedToRecruit.filter((area) => {
-            return house === undefined || area.controllingHouse === house;
+            let maxArmySize = this.allowedMaxSizeBasedOnSupply(area.controllingHouse);
+            return ( house === undefined || area.controllingHouse === house) && area.units.length < maxArmySize;
         });
     }
 
@@ -291,6 +295,26 @@ export default class GameRules {
             return area.controllingHouse !== null && area.hasCastleOrStronghold();
         });
         GameState.getInstance().areasAllowedToRecruit = areasForRecruiting;
+    }
+
+    public static allowedMaxSizeBasedOnSupply(house: House): number {
+        let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(house);
+        let numOfSupply = GameState.getInstance().currentlyAllowedSupply.get(house);
+        let maxSize = 0;
+        GameRules.SUPPLY_VS_ARMY_SIZE[numOfSupply].forEach((largestPossibleSize) => {
+            armiesForHouse.forEach((largestArmy) => {
+                if (largestArmy !== largestPossibleSize) {
+                    maxSize = largestPossibleSize;
+                    return;
+                }
+
+            });
+            if (maxSize > 0) {
+                return;
+            }
+        });
+        return maxSize;
+
     }
 
     public static recruit(area: Area, unitTypes: UnitType[] = []) {
@@ -392,4 +416,17 @@ export default class GameRules {
                 return GameRules.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
             });
     }
+
+    private static getArmiesBySizeForHouse(house: House): Array<number> {
+        return GameState.getInstance().areas.filter((area) => {
+            // an army of one unit does not count as an army
+            return area.controllingHouse === house && area.units.length > 1;
+        }).map((area) => {
+            return area.units.length;
+        }).sort((a, b) => {
+            return b - a;
+        });
+    }
+
+
 }

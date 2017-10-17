@@ -113,12 +113,17 @@ export default class RecruitingModal {
     }
 
     private static updateModal(area: Area, unitsToRecruit: RecruitingUnit[], textSkipRecruiting: Phaser.Text, textRecruitingUnits: Phaser.Text, textRecruitingPoints: Phaser.Text, recruitingPointsText: string) {
-        let unitsSelected = unitsToRecruit.filter((ru) => {
-                return ru.selected
-            }).length > 0;
+        let numOfSelectedUnits = unitsToRecruit.filter((unit) => {
+            return unit.selected === true;
+        }).length;
+        let unitsSelected = numOfSelectedUnits > 0;
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
+        let maxArmySize = GameRules.allowedMaxSizeBasedOnSupply(area.controllingHouse);
+        if (area.units.length + numOfSelectedUnits === maxArmySize) {
+            remainingRecruitingPoints = 0;
+        }
         this.changeVisibiltyOfImages(remainingRecruitingPoints, unitsToRecruit);
         textRecruitingPoints.setText(recruitingPointsText + remainingRecruitingPoints);
     }
