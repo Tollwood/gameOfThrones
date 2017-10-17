@@ -165,11 +165,14 @@ export default class GameRules {
                 return unit.getHouse() !== unitToCheck.getHouse();
             }).length !== 0;
         let connectedUsingShipTransport = GameRules.connectedUsingShipTransport(source, target);
+        let atleastOneUnitCanMove = target.units.length + 1 <= GameRules.allowedMaxSizeBasedOnSupply(source.controllingHouse);
+        let enoughSupplyForArmySize = target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
         return source.key !== target.key
             && hasUnitsToMove
             && hasUnitOfSameTypeToMove
             && (this.isConnectedArea(source, target) || connectedUsingShipTransport)
-            && (moveOnLand || moveOnSea);
+            && (moveOnLand || moveOnSea)
+            && enoughSupplyForArmySize;
     }
 
     public static connectedUsingShipTransport(source: Area, target: Area): boolean {
