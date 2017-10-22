@@ -1,28 +1,27 @@
-import ModalRenderer from '../utils/modalFactory';
 import {Area} from '../board/logic/area';
 import {House} from '../board/logic/house';
 import CombatResultModal from './combatResultModal';
 import CombatCalculator from './combatCalculator';
 import HouseCard from '../cards/logic/houseCard';
 import {CardExecutionPoint} from '../cards/logic/cardExecutionPoint';
-export default class CombatModal {
+import Modal from '../utils/modal';
+export default class CombatModal extends Modal {
 
-    public static showModal(game: Phaser.Game, sourceArea: Area, targetArea: Area, onCloseFn: Function) {
-
-        let modal = ModalRenderer.createModal(game);
-        ModalRenderer.addText(modal, 'Attack ' + House[targetArea.controllingHouse] + ' in ' + targetArea.key, -50, 0);
-        ModalRenderer.addText(modal, 'Follow my orders!', 50, -100, true, () => {
+    constructor(game: Phaser.Game, sourceArea: Area, targetArea: Area, onCloseFn: Function) {
+        super(game);
+        this.addText('Attack ' + House[targetArea.controllingHouse] + ' in ' + targetArea.key, -50, 0);
+        this.addText('Follow my orders!', 50, -100, true, () => {
             let attackersCard = new HouseCard(1, 'SomeOne', null, 0, 0, 0, 'double Defense Token', 'doubleDefenseToken', House.stark, CardExecutionPoint.beforeFight);
             let defendersCard = new HouseCard(2, 'SomeOne', null, 0, 0, 0, 'get all cards back', 'getAllCardsBack', House.stark, CardExecutionPoint.afterFight);
             let combatResult = CombatCalculator.calculateCombat(sourceArea, targetArea, attackersCard, defendersCard);
-            CombatResultModal.showModal(game, combatResult, onCloseFn);
-            ModalRenderer.closeFn(modal);
+            let modal = new CombatResultModal(game, combatResult, onCloseFn);
+            modal.show();
+            this.close();
         });
 
-        ModalRenderer.addText(modal, 'No fight today', 50, 100, true, () => {
-            ModalRenderer.closeFn(modal);
+        this.addText('No fight today', 50, 100, true, () => {
+            this.close();
         });
-        ModalRenderer.displayModal(modal);
     }
 
 }

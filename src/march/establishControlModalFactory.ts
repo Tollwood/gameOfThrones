@@ -1,18 +1,21 @@
-import ModalRenderer from '../utils/modalFactory';
-import {Area} from '../board/logic/area';
-export default class EstablishControlModalFactory {
+import {Area, AreaKey} from '../board/logic/area';
+import Modal from '../utils/modal';
+import GameRules from '../board/logic/gameRules';
+import GamePhaseService from '../board/logic/gamePhaseService';
+export default class EstablishControlModal extends Modal {
 
-    static showModal(game, area: Area, yesFn: Function, noFn: Function) {
-        let modal = ModalRenderer.createModal(game);
-        ModalRenderer.addText(modal, 'Establish Control over ' + area.key, -50);
-        ModalRenderer.addText(modal, 'Yes', 50, -100, true, () => {
-            yesFn();
-            ModalRenderer.closeFn(modal);
+    constructor(game, sourceArea: Area, targetAreaKey: AreaKey) {
+        super(game);
+        this.addText('Establish Control over ' + sourceArea.key, -50);
+        this.addText('Yes', 50, -100, true, () => {
+            GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units, true, true);
+            GamePhaseService.nextPlayer();
+            this.close();
         });
-        ModalRenderer.addText(modal, 'No', 50, 100, true, () => {
-            noFn();
-            ModalRenderer.closeFn(modal);
+        this.addText('No', 50, 100, true, () => {
+            GameRules.moveUnits(sourceArea.key, targetAreaKey, sourceArea.units);
+            GamePhaseService.nextPlayer();
+            this.close();
         });
-        ModalRenderer.displayModal(modal);
     }
 }

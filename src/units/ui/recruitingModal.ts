@@ -1,31 +1,29 @@
 import {Area} from '../../board/logic/area';
-import ModalRenderer from '../../utils/modalFactory';
 import {UnitType} from '../logic/unitType';
 import {House} from '../../board/logic/house';
 import GameRules from '../../board/logic/gameRules';
 import RecruitingRenderer from './recruitingRenderer';
-export default class RecruitingModal {
+import Modal from '../../utils/modal';
+export default class RecruitingModal extends Modal {
 
-    public static showModal(game: Phaser.Game, area: Area) {
+    constructor(game: Phaser.Game, area: Area) {
+        super(game);
+        this.addText('Recruit new Units: ', -80, 0, true);
+        this.addNewUnits(area);
 
-        let modal = ModalRenderer.createModal(game);
-        ModalRenderer.addText(modal, 'Recruit new Units: ', -80, 0, true);
-        this.addNewUnits(modal, area);
-
-        ModalRenderer.displayModal(modal);
     }
 
 
-    private static addNewUnits(modal: Phaser.Group, area: Area) {
+    private addNewUnits(area: Area) {
         let unitsToRecruit = new Array<RecruitingUnit>();
         let recruitingPointsText = 'recruit points left: ';
 
-        let textSkipRecruiting = ModalRenderer.addText(modal, 'skip recruit for this area', 100, 0, true, () => {
+        let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
             GameRules.recruit(area);
             RecruitingRenderer.removeChildren();
-            ModalRenderer.closeFn(modal);
+            this.close();
         });
-        let textRecruitNewUnits = ModalRenderer.addText(modal, 'Recruit new units', 100, 0, true, () => {
+        let textRecruitNewUnits = this.addText('Recruit new units', 100, 0, true, () => {
             let unitTypesToRecruit = unitsToRecruit.filter((ru) => {
                 return ru.selected;
             }).map((ru) => {
@@ -33,11 +31,11 @@ export default class RecruitingModal {
             });
             GameRules.recruit(area, unitTypesToRecruit);
             RecruitingRenderer.removeChildren();
-            ModalRenderer.closeFn(modal);
+            this.close();
         });
 
 
-        let textRecruitingPoints = ModalRenderer.addText(modal, recruitingPointsText + this.getRemainingRecruitingPoints(area, unitsToRecruit), -100, 0, true);
+        let textRecruitingPoints = this.addText(recruitingPointsText + this.getRemainingRecruitingPoints(area, unitsToRecruit), -100, 0, true);
         let availableUnitsToRecruit = [UnitType.Footman, UnitType.Footman, UnitType.Horse, UnitType.Siege];
         let nextX = -110;
         availableUnitsToRecruit.forEach((unitType) => {
@@ -48,7 +46,7 @@ export default class RecruitingModal {
                 this.updateModal(area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
             };
 
-            let unit = ModalRenderer.addClickableImage(modal, House[area.controllingHouse] + UnitType[unitType], 0, nextX, onUnitSelectFn);
+            let unit = this.addClickableImage(House[area.controllingHouse] + UnitType[unitType], 0, nextX, onUnitSelectFn);
             recruitingUnit = new RecruitingUnit(unitType, unit);
             unitsToRecruit.push(recruitingUnit);
             nextX += 50;
@@ -56,7 +54,7 @@ export default class RecruitingModal {
         this.updateModal(area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
     }
 
-    private static getRemainingRecruitingPoints(area: Area, unitsToRecruit: RecruitingUnit[]) {
+    private  getRemainingRecruitingPoints(area: Area, unitsToRecruit: RecruitingUnit[]) {
         let remainingPoints = area.stronghold ? 2 : area.castle ? 1 : 0;
         unitsToRecruit.filter((ru) => {
             return ru.selected;
@@ -79,7 +77,7 @@ export default class RecruitingModal {
         return remainingPoints;
     }
 
-    private static changeVisibiltyOfImages(remainingRecruitingPoints: number, unitsToRecruit: RecruitingUnit[]) {
+    private  changeVisibiltyOfImages(remainingRecruitingPoints: number, unitsToRecruit: RecruitingUnit[]) {
         switch (remainingRecruitingPoints) {
             case 2:
                 unitsToRecruit.forEach((imageAndType) => {
@@ -112,7 +110,7 @@ export default class RecruitingModal {
         }
     }
 
-    private static updateModal(area: Area, unitsToRecruit: RecruitingUnit[], textSkipRecruiting: Phaser.Text, textRecruitingUnits: Phaser.Text, textRecruitingPoints: Phaser.Text, recruitingPointsText: string) {
+    private  updateModal(area: Area, unitsToRecruit: RecruitingUnit[], textSkipRecruiting: Phaser.Text, textRecruitingUnits: Phaser.Text, textRecruitingPoints: Phaser.Text, recruitingPointsText: string) {
         let numOfSelectedUnits = unitsToRecruit.filter((unit) => {
             return unit.selected === true;
         }).length;

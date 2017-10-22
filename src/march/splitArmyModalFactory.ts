@@ -1,98 +1,205 @@
-import ModalRenderer from '../utils/modalFactory';
 import {House} from '../board/logic/house';
 import {Area, AreaKey} from '../board/logic/area';
 import Unit from '../units/logic/units';
 import {UnitType} from '../units/logic/unitType';
 import GameState from '../board/logic/gameStati';
-export default class SplitArmyModalFactory {
+import GameRules from '../board/logic/gameRules';
+import GamePhaseService from '../board/logic/gamePhaseService';
+import Modal from '../utils/modal';
+export default class SplitArmyModal extends Modal {
 
-    static showModal(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey, yesFn: Function, noFn: Function) {
+    // business
+    private _establishControl = false;
+    private _sourceArea: Area;
+    private _targetAreaKey: AreaKey;
 
-        let modal = ModalRenderer.createModal(game);
-        let unitsToMove: Array<Unit> = [];
-        let establishControl = false;
+    // business + ui
+    private _selectableUnits: Array<MovingUnit> = [];
 
-        let moreOrdersQuestionGroup = this.addMoreOrdersGroup(modal, noFn, yesFn, unitsToMove, sourceArea);
-        let otherOrdersText = ModalRenderer.addText(modal, 'Take other orders', 80, 0, true, () => {
-            ModalRenderer.closeFn(modal);
-        });
-        let allUnitsText = ModalRenderer.addText(modal, 'Move all Units', 130, 0, false, () => {
-            noFn(unitsToMove, establishControl);
-            ModalRenderer.closeFn(modal);
-        });
-        let hasOnePowerToken = GameState.getInstance().currentPlayer.powerToken > 0;
-        let establishControlText = null;
-        if (hasOnePowerToken) {
-            establishControlText = ModalRenderer.addToggleText(modal, 'Establish Control', 80, 0, false, () => {
-                establishControl = !establishControl;
-            });
+    //ui
+    private _game: Phaser.Game;
+    private _otherOrdersText: Phaser.Text;
+    private _moveAllUnitsText: Phaser.Text;
+    private _moreOrdersQuestionGroup: Phaser.Group;
+    private _establishControlText: Phaser.Text;
+    private _rectangleAroundEstablishControlText: Phaser.Graphics;
 
-        }
-        this.addImageForEachUnit(modal, sourceArea.units, unitsToMove, moreOrdersQuestionGroup, otherOrdersText, allUnitsText, establishControlText);
-        ModalRenderer.addText(modal, 'Select units to move from ' + sourceArea.key + ' to ' + targetAreaKey, -100);
-        ModalRenderer.displayModal(modal);
+    constructor(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey) {
+        super(game);
+        this._game = game;
+        this._sourceArea = sourceArea;
+        this._targetAreaKey = targetAreaKey;
     }
 
-    private static addImageForEachUnit(modal: Phaser.Group, availableUnits: Array<Unit>, unitsToMove: Array<Unit>, moreOrdersQuestionsGroup: Phaser.Group, otherOrdersText: Phaser.Text, allUnitsText: Phaser.Text, establishControlText: Phaser.Text) {
+    public show() {
+        this.addText('Select units to move from ' + this._sourceArea.key + ' to ' + this._targetAreaKey, -100);
+        this.addImageForEachUnit();
+
+        this._moreOrdersQuestionGroup = this.addMoreOrdersGroup();
+        this._otherOrdersText = this.addText('Take other orders', 80, 0, true, () => this.close());
+        this._moveAllUnitsText = this.addText('Move all Units', 130, 0, false, () => this.moveAllUnits());
+        this._establishControlText = this.addText('Establish Control', 80, 0, false, () => this.toggleEstablishControl());
+        this._rectangleAroundEstablishControlText = this.drawRectangleAroundObject(this._establishControlText);
+        Modal.addInputDownCallback(() => {
+            this._rectangleAroundEstablishControlText.visible = !this._rectangleAroundEstablishControlText.visible;
+        }, this._establishControlText);
+        super.show();
+    }
+
+    private addImageForEachUnit() {
         let offsetXIncrement = 60;
+        let availableUnits = this._sourceArea.units;
         let offsetX = -1 * offsetXIncrement * availableUnits.length / 2;
         availableUnits.forEach((unit) => {
+            let movingUnit: MovingUnit;
+            let onUnitSelectFn = () => {
+                movingUnit.selected = !movingUnit.selected;
+                this.updateModal();
+            };
             let content = House[unit.getHouse()] + UnitType[unit.getType()];
-            let selected = false;
-            ModalRenderer.addClickableImage(modal, content, 0, offsetX, () => {
-                selected = !selected;
-                if (selected) {
-                    unitsToMove.push(unit);
-                }
-                else {
-                    let index = unitsToMove.indexOf(unit);
-                    unitsToMove.splice(index, 1);
-                }
-
-                if (unitsToMove.length === 0) {
-                    moreOrdersQuestionsGroup.visible = false;
-                    otherOrdersText.visible = true;
-                    allUnitsText.visible = false;
-                    establishControlText !== null ? establishControlText.visible = false : null;
-                }
-                else if (unitsToMove.length === availableUnits.length) {
-                    moreOrdersQuestionsGroup.visible = false;
-                    otherOrdersText.visible = false;
-                    allUnitsText.visible = true;
-                    establishControlText !== null ? establishControlText.visible = true : null;
-                }
-                else {
-                    moreOrdersQuestionsGroup.visible = true;
-                    otherOrdersText.visible = false;
-                    allUnitsText.visible = false;
-                    establishControlText !== null ? establishControlText.visible = false : null;
-                }
-
-            });
+            let unitImage = this.addClickableImage(content, 0, offsetX, onUnitSelectFn);
+            movingUnit = new MovingUnit(unit, unitImage);
+            this._selectableUnits.push(movingUnit);
 
             offsetX += offsetXIncrement;
         });
     }
 
+    private updateModal() {
+        let availableUnits = this._sourceArea.units;
+        let targetAreaArmySize = GameRules.getAreaByKey(this._targetAreaKey).units.length;
 
-    private static addMoreOrdersGroup(modal: Phaser.Group, noFn: Function, yesFn: Function, unitsToMove: Array<Unit>, sourceArea: Area) {
-        let moreOrdersQuestionGroup = modal.game.add.group();
-        let noText = ModalRenderer.addText(modal, 'No', 100, 100, true, () => {
-            noFn(unitsToMove);
-            ModalRenderer.closeFn(modal);
-        });
-        moreOrdersQuestionGroup.add(noText);
-        let yesText = ModalRenderer.addText(modal, 'Yes', 100, -100, true, () => {
-            yesFn(unitsToMove);
-            ModalRenderer.closeFn(modal);
-        });
-        moreOrdersQuestionGroup.add(yesText);
-        let moreOrdersText = ModalRenderer.addText(modal, 'More orders for ' + sourceArea.key, 50);
-        moreOrdersQuestionGroup.add(moreOrdersText);
+        let selectedUnits = this.getSelectedUnits();
+        let maxArmySize = GameRules.allowedMaxSizeBasedOnSupply(availableUnits[0].getHouse());
+        let maxArmySizeReached = targetAreaArmySize + selectedUnits.length === maxArmySize;
+
+
+        if (maxArmySizeReached) {
+            this._moreOrdersQuestionGroup.visible = true;
+            this._otherOrdersText.visible = false;
+            this._moveAllUnitsText.visible = false;
+            this._establishControlText.visible = false;
+            this.setVisibility(this._selectableUnits, false);
+        }
+        else {
+            this.setVisibility(this._selectableUnits, true);
+        }
+
+        if (selectedUnits.length === 0) {
+            this._moreOrdersQuestionGroup.visible = false;
+            this._otherOrdersText.visible = true;
+            this._moveAllUnitsText.visible = false;
+            this._establishControlText.visible = false;
+        }
+        else {
+            this._establishControl = false;
+            this._rectangleAroundEstablishControlText.visible = false;
+        }
+
+        if (selectedUnits.length === availableUnits.length) {
+            this._moreOrdersQuestionGroup.visible = false;
+            this._otherOrdersText.visible = false;
+            this._moveAllUnitsText.visible = true;
+            this._establishControlText.visible = GameState.getInstance().currentPlayer.powerToken > 0;
+        }
+        else {
+            this._moreOrdersQuestionGroup.visible = true;
+            this._otherOrdersText.visible = false;
+            this._moveAllUnitsText.visible = false;
+            this._establishControlText.visible = false;
+        }
+
+    };
+
+    private addMoreOrdersGroup(): Phaser.Group {
+        let moreOrdersQuestionGroup = this.game.add.group();
         moreOrdersQuestionGroup.visible = false;
-        modal.add(moreOrdersQuestionGroup);
-        modal.bringToTop(moreOrdersQuestionGroup);
+        this.add(moreOrdersQuestionGroup);
+        this.bringToTop(moreOrdersQuestionGroup);
+
+
+        let moreOrdersText = this.addText('More orders for ' + this._sourceArea.key, 50);
+        moreOrdersQuestionGroup.add(moreOrdersText);
+
+        let yesText = this.addText('Yes', 100, -100, true, () => this.moveUnits());
+        moreOrdersQuestionGroup.add(yesText);
+
+        let orderCompleteText = this.addText('No', 100, 100, true, () => this.orderComplete());
+        moreOrdersQuestionGroup.add(orderCompleteText);
+
         return moreOrdersQuestionGroup;
     }
 
+    private setVisibility(unitsToMove: Array<MovingUnit>, visible: boolean) {
+        unitsToMove.filter((unitToMove) => {
+            return !unitToMove.selected;
+        }).forEach((unitToMove) => {
+            unitToMove.image.visible = visible;
+        })
+    }
+
+
+    private moveAllUnits() {
+        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
+            return movingUnit.unit;
+        }), true, this._establishControl);
+
+        GamePhaseService.nextPlayer();
+        this.close();
+    }
+
+    private toggleEstablishControl() {
+        this._establishControl = !this._establishControl;
+    }
+
+
+    private moveUnits() {
+        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false);
+        this.close();
+    }
+
+    private getSelectedUnits(): Array<Unit> {
+        return this._selectableUnits
+            .filter((unit) => {
+                return unit.selected;
+            })
+            .map((movingUnit) => {
+                return movingUnit.unit;
+            });
+    }
+
+    private orderComplete() {
+        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits());
+        GamePhaseService.nextPlayer();
+        this.close();
+
+    }
+}
+
+class MovingUnit {
+    private _unit: Unit;
+    private _image: Phaser.Image;
+    private _selected: boolean;
+
+    constructor(unit: Unit, image: Phaser.Image, selected: boolean = false) {
+        this._unit = unit;
+        this._image = image;
+        this._selected = selected;
+    }
+
+    get selected(): boolean {
+        return this._selected;
+    }
+
+    set selected(value: boolean) {
+        this._selected = value;
+    }
+
+    get image(): Phaser.Image {
+        return this._image;
+    }
+
+    get unit(): Unit {
+        return this._unit;
+    }
 }

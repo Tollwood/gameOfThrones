@@ -64,7 +64,9 @@ export default class Game extends Phaser.State {
             let currentGamePhase = GameState.getInstance().gamePhase;
             let currentPlayer = GameState.getInstance().currentPlayer;
             let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
-
+            if (currentAiPlayer !== null) {
+                this.orderTokenRenderer.removePlacedToken();
+            }
 
             if (GamePhaseService.isWesterosPhase(currentGamePhase)) {
                 let rerender = this.renderWesterosPhase(currentGamePhase, currentAiPlayer);
@@ -142,7 +144,8 @@ export default class Game extends Phaser.State {
     private checkForWinner() {
         let winningHouse = GameRules.getWinningHouse();
         if (winningHouse !== null) {
-            WinningModal.showWinningModal(this.game, winningHouse);
+            let winningModal = new WinningModal(this.game, winningHouse);
+            winningModal.show();
         }
     }
 
@@ -163,7 +166,8 @@ export default class Game extends Phaser.State {
         }
 
         if (card.state === WesterosCardState.showCard) {
-            WesterosCardModal.showModal(this.game, card);
+            let modal = new WesterosCardModal(this.game, card);
+            modal.show();
             card.state = WesterosCardState.displayCard;
         }
         if (card.state === WesterosCardState.played) {

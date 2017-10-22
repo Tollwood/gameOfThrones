@@ -15,7 +15,8 @@ export default class RecruitingRenderer {
         let areasAllowedToRecruit = GameRules.getAreasAllowedToRecruit(GameState.getInstance().currentPlayer.house);
         areasAllowedToRecruit.forEach((area) => {
             let showModalFn = () => {
-                RecruitingModal.showModal(game, area);
+                let modal = new RecruitingModal(game, area);
+                modal.show();
             };
 
             Renderer.drawRectangleAroundAreaName(game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);

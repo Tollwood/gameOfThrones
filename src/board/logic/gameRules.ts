@@ -105,7 +105,7 @@ export default class GameRules {
         });
     }
 
-    public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true) {
+    public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
         let sourceArea = this.getAreaByKey(source);
         let targetArea = this.getAreaByKey(target);
 
@@ -121,6 +121,9 @@ export default class GameRules {
         }
         if (completeOrder) {
             sourceArea.orderToken = null;
+        }
+        if (completeOrder && establishControl) {
+            sourceArea.controllingHouse = targetArea.controllingHouse;
         }
     }
 
@@ -293,14 +296,19 @@ export default class GameRules {
         });
     }
 
-    public static setAreasAllowedToRecruit() {
-        let areasForRecruiting = GameState.getInstance().areas.filter((area) => {
-            return area.controllingHouse !== null && area.hasCastleOrStronghold();
+    public static setAreasAllowedToRecruit(areasForRecruiting: Array<Area> = GameState.getInstance().areas) {
+
+        GameState.getInstance().areasAllowedToRecruit = areasForRecruiting.filter((area) => {
+            return area.controllingHouse !== null
+                && area.hasCastleOrStronghold()
+                && this.allowedMaxSizeBasedOnSupply(area.controllingHouse) > area.units.length;
         });
-        GameState.getInstance().areasAllowedToRecruit = areasForRecruiting;
     }
 
-    public static allowedMaxSizeBasedOnSupply(house: House): number {
+    public static allowedMaxSizeBasedOnSupply(house?: House): number {
+        if (!house) {
+            house = GameState.getInstance().currentPlayer.house;
+        }
         let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(house);
         let numOfSupply = GameState.getInstance().currentlyAllowedSupply.get(house);
         let maxSize = 0;
@@ -324,6 +332,7 @@ export default class GameRules {
         let areasAllowedToRecruit = GameState.getInstance().areasAllowedToRecruit;
         let index = areasAllowedToRecruit.indexOf(area);
         areasAllowedToRecruit.splice(index, 1);
+        this.setAreasAllowedToRecruit(areasAllowedToRecruit);
         unitTypes.forEach((unittype) => {
             area.units.push(new Unit(unittype, area.controllingHouse));
         });
@@ -374,7 +383,8 @@ export default class GameRules {
         let gameState = GameState.getInstance();
         switch (gameState.currentWesterosCard.selectedFunction.functionName) {
             case "recruit":
-                return GameState.getInstance().areasAllowedToRecruit.length > 0;
+                let areasAllowedToRecruit = GameState.getInstance().areasAllowedToRecruit;
+                return areasAllowedToRecruit.length > 0;
             default:
                 return false;
         }

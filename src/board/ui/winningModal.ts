@@ -1,16 +1,14 @@
 import {House} from '../logic/house';
-import ModalRenderer from '../../utils/modalFactory';
 import GameRules from '../logic/gameRules';
-export default class WinningModal {
+import Modal from '../../utils/modal';
+export default class WinningModal extends Modal {
 
-    public static showWinningModal(game: Phaser.Game, house: House) {
-
-        let modal = ModalRenderer.createModal(game);
-        ModalRenderer.addText(modal, House[house] + ' won the game', -50, 0);
-        ModalRenderer.addText(modal, 'New Game', 50, 0, true, () => {
+    constructor(game: Phaser.Game, house: House) {
+        super(game);
+        this.addText(House[house] + ' won the game', -50, 0);
+        this.addText('New Game', 50, 0, true, () => {
             GameRules.newGame();
-            ModalRenderer.closeFn(modal);
+            this.close();
         });
-        ModalRenderer.displayModal(modal);
     }
 }
