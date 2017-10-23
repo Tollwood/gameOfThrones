@@ -5,7 +5,7 @@ module.exports = function (config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-            'test/*.ts'
+            'test/**/*.ts'
         ],
         exclude: [],
         preprocessors: {

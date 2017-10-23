@@ -1,6 +1,7 @@
 import {TopMenuItem} from './topMenuItem';
-import GameState from '../../logic/gameStati';
+
 import TopMenuRenderer from './topMenuRenderer';
+import GameRules from '../../logic/gameRules/gameRules';
 
 const POSITION_X = [40, 80, 120, 150, 190, 230, 260, 300, 340, 370, 410, 450];
 
@@ -12,7 +13,7 @@ export class MenuWildlings extends TopMenuItem {
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + 'Wildlings') {
-            let wildlingsCount = GameState.getInstance().wildlingsCount;
+            let wildlingsCount = GameRules.gameState.wildlingsCount;
             let marker = overlay.game.add.image(overlay.x - overlay.game.camera.x + POSITION_X[wildlingsCount], 80, 'gameRoundMarker', undefined, this.marker);
             marker.fixedToCamera = true;
         }

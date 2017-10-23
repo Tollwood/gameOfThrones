@@ -1,7 +1,8 @@
 import {House} from '../../board/logic/house';
-import GameState from '../../board/logic/gameStati';
+
 import {Area} from '../../board/logic/area';
 import AssetLoader from '../../utils/assetLoader';
+import GameRules from '../../board/logic/gameRules/gameRules';
 
 export default class PowerTokenRenderer {
     private static powerTokenGroup: Phaser.Group;
@@ -18,7 +19,7 @@ export default class PowerTokenRenderer {
         for (let text of this.texts) {
             text.destroy();
         }
-        for (let player of GameState.getInstance().players) {
+        for (let player of GameRules.gameState.players) {
             let cachedImage = game.cache.getImage(this.getImageNameByHouse(player.house));
             let image = game.add.image(player.house * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
             image.fixedToCamera = true;
@@ -37,7 +38,7 @@ export default class PowerTokenRenderer {
     public static renderControlToken(game: Phaser.Game) {
         this.controlMarkerGroup.removeChildren();
 
-        GameState.getInstance().areas
+        GameRules.gameState.areas
             .filter((area: Area) => {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })

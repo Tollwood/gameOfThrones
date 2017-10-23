@@ -2,10 +2,11 @@ import {House} from '../board/logic/house';
 import {Area, AreaKey} from '../board/logic/area';
 import Unit from '../units/logic/units';
 import {UnitType} from '../units/logic/unitType';
-import GameState from '../board/logic/gameStati';
-import GameRules from '../board/logic/gameRules';
+import GameRules from '../board/logic/gameRules/gameRules';
 import GamePhaseService from '../board/logic/gamePhaseService';
 import Modal from '../utils/modal';
+import MovementRules from '../board/logic/gameRules/movementRules';
+import SupplyRules from '../board/logic/gameRules/supplyRules';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -16,7 +17,7 @@ export default class SplitArmyModal extends Modal {
     // business + ui
     private _selectableUnits: Array<MovingUnit> = [];
 
-    //ui
+    // ui
     private _game: Phaser.Game;
     private _otherOrdersText: Phaser.Text;
     private _moveAllUnitsText: Phaser.Text;
@@ -70,7 +71,7 @@ export default class SplitArmyModal extends Modal {
         let targetAreaArmySize = GameRules.getAreaByKey(this._targetAreaKey).units.length;
 
         let selectedUnits = this.getSelectedUnits();
-        let maxArmySize = GameRules.allowedMaxSizeBasedOnSupply(availableUnits[0].getHouse());
+        let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(availableUnits[0].getHouse());
         let maxArmySizeReached = targetAreaArmySize + selectedUnits.length === maxArmySize;
 
 
@@ -100,7 +101,7 @@ export default class SplitArmyModal extends Modal {
             this._moreOrdersQuestionGroup.visible = false;
             this._otherOrdersText.visible = false;
             this._moveAllUnitsText.visible = true;
-            this._establishControlText.visible = GameState.getInstance().currentPlayer.powerToken > 0;
+            this._establishControlText.visible = GameRules.gameState.currentPlayer.powerToken > 0;
         }
         else {
             this._moreOrdersQuestionGroup.visible = true;
@@ -135,12 +136,12 @@ export default class SplitArmyModal extends Modal {
             return !unitToMove.selected;
         }).forEach((unitToMove) => {
             unitToMove.image.visible = visible;
-        })
+        });
     }
 
 
     private moveAllUnits() {
-        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
+        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
             return movingUnit.unit;
         }), true, this._establishControl);
 
@@ -154,7 +155,7 @@ export default class SplitArmyModal extends Modal {
 
 
     private moveUnits() {
-        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false);
+        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false);
         this.close();
     }
 
@@ -169,7 +170,7 @@ export default class SplitArmyModal extends Modal {
     }
 
     private orderComplete() {
-        GameRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits());
+        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits());
         GamePhaseService.nextPlayer();
         this.close();
 

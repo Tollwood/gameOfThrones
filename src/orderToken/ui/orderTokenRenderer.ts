@@ -1,6 +1,6 @@
-import GameRules from '../../board/logic/gameRules';
+import GameRules from '../../board/logic/gameRules/gameRules';
 import {House} from '../../board/logic/house';
-import GameState from '../../board/logic/gameStati';
+
 import {GamePhase} from '../../board/logic/gamePhase';
 import UiArea from '../../utils/UiArea';
 import {Area, AreaKey} from '../../board/logic/area';
@@ -11,6 +11,8 @@ import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import FightModal from '../../march/combatModal';
 import GamePhaseService from '../../board/logic/gamePhaseService';
+import TokenPlacementRules from '../../board/logic/gameRules/tokenPlacementRules';
+import MovementRules from '../../board/logic/gameRules/movementRules';
 
 export default class OrderTokenRenderer {
 
@@ -40,7 +42,7 @@ export default class OrderTokenRenderer {
     public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House): number {
         this.areasToPlaceToken.removeChildren();
         let areas = AssetLoader.getAreaTokens().filter((areaToken: UiArea) => {
-            return GameRules.isAllowedToPlaceOrderToken(house, areaToken.name);
+            return TokenPlacementRules.isAllowedToPlaceOrderToken(house, areaToken.name);
         });
         areas.forEach((areaToken) => {
             game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, house, this.areasToPlaceToken);
@@ -51,13 +53,13 @@ export default class OrderTokenRenderer {
 
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
         this.placedTokens.removeChildren();
-        GameState.getInstance().areas
+        GameRules.gameState.areas
             .filter((area: Area) => {
                 return area.orderToken !== null;
             })
             .map((sourceArea: Area) => {
                 let sourceAreaToken: UiArea = AssetLoader.getAreaTokenByKey(sourceArea.key);
-                if (sourceArea.controllingHouse === GameState.getInstance().currentPlayer.house) {
+                if (sourceArea.controllingHouse === GameRules.gameState.currentPlayer.house) {
                     let placedToken: Phaser.Sprite = game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS, sourceArea.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
                     if (sourceArea.orderToken.isMoveToken()) {
@@ -101,7 +103,7 @@ export default class OrderTokenRenderer {
 
     private highlightAreaNameToSkipOrder(sprite: Phaser.Sprite, areaKey: AreaKey) {
         let skipOrderFn = () => {
-            GameRules.skipOrder(areaKey);
+            TokenPlacementRules.skipOrder(areaKey);
             this.removeSelectedToken(sprite);
             Renderer.rerenderRequired = true;
         };
@@ -114,12 +116,12 @@ export default class OrderTokenRenderer {
             let moveUnitFunction = (targetAreaKey) => {
                 // splitArmy
                 let targetArea = GameRules.getAreaByKey(targetAreaKey);
-                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameState.getInstance().currentPlayer.house || (targetArea.controllingHouse !== GameState.getInstance().currentPlayer.house && targetArea.units.length === 0) )) {
+                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameRules.gameState.currentPlayer.house || (targetArea.controllingHouse !== GameRules.gameState.currentPlayer.house && targetArea.units.length === 0) )) {
                     let modal = new SplitArmyModalFactory(game, sourceArea, targetAreaKey);
                     modal.show();
                 }
                 // establish Control
-                if (sourceArea.units.length === 1 && GameState.getInstance().currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameState.getInstance().currentPlayer.house)) {
+                if (sourceArea.units.length === 1 && GameRules.gameState.currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameRules.gameState.currentPlayer.house)) {
 
                     let establishControlModal = new EstablishControlModalFactory(game, sourceArea, targetAreaKey);
                     establishControlModal.show();
@@ -130,13 +132,13 @@ export default class OrderTokenRenderer {
                     this.removeSelectedToken(sprite);
                     Renderer.rerenderRequired = true;
                 };
-                if (targetArea.controllingHouse !== GameState.getInstance().currentPlayer.house && targetArea.units.length > 0) {
+                if (targetArea.controllingHouse !== GameRules.gameState.currentPlayer.house && targetArea.units.length > 0) {
                     let modal = new FightModal(game, sourceArea, targetArea, onCloseFn);
                     modal.show();
                 }
                 Renderer.rerenderRequired = true;
             };
-            let areasAllowedToExecuteOrder: Array<Area> = GameRules.getAllAreasAllowedToMarchTo(sourceArea);
+            let areasAllowedToExecuteOrder: Array<Area> = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
             this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_MARCH);
             Renderer.rerenderRequired = true;
 
@@ -147,13 +149,13 @@ export default class OrderTokenRenderer {
         placedToken.events.onInputDown.add((sprite) => {
 
             let raidAreaFunction = (targetAreaKey) => {
-                GameRules.executeRaidOrder(areaKey, targetAreaKey);
+                TokenPlacementRules.executeRaidOrder(areaKey, targetAreaKey);
                 this.removeSelectedToken(sprite);
             };
             let areaToPlaceToken = GameRules.getAreaByKey(areaKey);
-            let areasAllowedToExecuteOrder: Array<Area> = GameState.getInstance().areas
+            let areasAllowedToExecuteOrder: Array<Area> = GameRules.gameState.areas
                 .filter((area) => {
-                    return GameRules.isAllowedToRaid(areaToPlaceToken, area);
+                    return TokenPlacementRules.isAllowedToRaid(areaToPlaceToken, area);
                 });
             this.highlightDuringActionPhase(sprite, areaKey, raidAreaFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_RAID);
         });
@@ -167,7 +169,7 @@ export default class OrderTokenRenderer {
 
     private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder, gamePhase: GamePhase) {
         let areaToken = AssetLoader.getAreaTokenByKey(areaKey);
-        if (GameState.getInstance().gamePhase === gamePhase) {
+        if (GameRules.gameState.gamePhase === gamePhase) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
             this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);

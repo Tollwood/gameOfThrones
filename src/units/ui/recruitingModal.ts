@@ -1,9 +1,10 @@
 import {Area} from '../../board/logic/area';
 import {UnitType} from '../logic/unitType';
 import {House} from '../../board/logic/house';
-import GameRules from '../../board/logic/gameRules';
 import RecruitingRenderer from './recruitingRenderer';
 import Modal from '../../utils/modal';
+import RecruitingRules from '../../board/logic/gameRules/recruitingRules';
+import SupplyRules from '../../board/logic/gameRules/supplyRules';
 export default class RecruitingModal extends Modal {
 
     constructor(game: Phaser.Game, area: Area) {
@@ -19,7 +20,7 @@ export default class RecruitingModal extends Modal {
         let recruitingPointsText = 'recruit points left: ';
 
         let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
-            GameRules.recruit(area);
+            RecruitingRules.recruit(area);
             RecruitingRenderer.removeChildren();
             this.close();
         });
@@ -29,7 +30,7 @@ export default class RecruitingModal extends Modal {
             }).map((ru) => {
                 return ru.unitType;
             });
-            GameRules.recruit(area, unitTypesToRecruit);
+            RecruitingRules.recruit(area, unitTypesToRecruit);
             RecruitingRenderer.removeChildren();
             this.close();
         });
@@ -118,7 +119,7 @@ export default class RecruitingModal extends Modal {
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
-        let maxArmySize = GameRules.allowedMaxSizeBasedOnSupply(area.controllingHouse);
+        let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse);
         if (area.units.length + numOfSelectedUnits === maxArmySize) {
             remainingRecruitingPoints = 0;
         }

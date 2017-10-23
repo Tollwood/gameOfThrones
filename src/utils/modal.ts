@@ -54,7 +54,7 @@ export default class Modal extends Phaser.Group {
         this.cameraOffset.y = 0;
     }
 
-    //-------
+    // -------
 
 
     addText(content: string, offsetY: number, offsetX: number = 0, visible = true, callback?: Function, fontSize: string = '22px', align: string = 'left'): Phaser.Text {

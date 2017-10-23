@@ -1,5 +1,5 @@
 import {House} from '../logic/house';
-import GameRules from '../logic/gameRules';
+import GameRules from '../logic/gameRules/gameRules';
 import Modal from '../../utils/modal';
 export default class WinningModal extends Modal {
 

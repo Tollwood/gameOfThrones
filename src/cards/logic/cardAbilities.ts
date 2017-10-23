@@ -1,14 +1,17 @@
 import CombatResult from '../../march/combatResult';
 import HouseCard from './houseCard';
-import GameState from '../../board/logic/gameStati';
+
 import {House} from '../../board/logic/house';
 import {WesterosCard} from './westerosCard';
-import GameRules from '../../board/logic/gameRules';
 import {OrderTokenType} from '../../orderToken/logic/orderToken';
+import SupplyRules from '../../board/logic/gameRules/supplyRules';
+import RecruitingRules from '../../board/logic/gameRules/recruitingRules';
+import TokenPlacementRules from '../../board/logic/gameRules/tokenPlacementRules';
+import GameRules from '../../board/logic/gameRules/gameRules';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        GameState.getInstance().players
+        GameRules.gameState.players
             .filter((player) => {
                 player.house === currentCard.house;
             })
@@ -41,7 +44,7 @@ export default class CardAbilities {
     }
 
     public static fightForStannisBaratheon(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        GameState.getInstance().players
+        GameRules.gameState.players
             .filter((player) => {
                 player.house === currentCard.house;
             })
@@ -66,7 +69,7 @@ export default class CardAbilities {
     public static demandForPower(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
         let opponent: House = combatResult.attackersCard.house === currentCard.house ? combatResult.defendersCard.house : combatResult.attackersCard.house;
 
-        if (GameState.getInstance().ironThroneSuccession.indexOf(currentCard.house) > GameState.getInstance().ironThroneSuccession.indexOf(opponent)) {
+        if (GameRules.gameState.ironThroneSuccession.indexOf(currentCard.house) > GameRules.gameState.ironThroneSuccession.indexOf(opponent)) {
 
         }
         if (currentCard.house === combatResult.attackersCard.house) {
@@ -159,11 +162,11 @@ export default class CardAbilities {
     }
 
     public static supply(card: WesterosCard) {
-        GameRules.updateSupply();
+        SupplyRules.updateSupply();
     }
 
     public static recruit(card: WesterosCard) {
-        GameRules.setAreasAllowedToRecruit();
+        RecruitingRules.setAreasAllowedToRecruit();
     }
 
     public static nothing(card: WesterosCard) {
@@ -175,32 +178,32 @@ export default class CardAbilities {
     }
 
     public static power(card: WesterosCard) {
-        GameRules.consolidateAllPower();
+        TokenPlacementRules.consolidateAllPower();
     }
 
     public static noDefenseOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
-        GameRules.restrictOrderToken(restrictedTokenTypes);
+        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
     }
 
     public static noSpecialMarchOrder(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.march_special];
-        GameRules.restrictOrderToken(restrictedTokenTypes);
+        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
     }
 
     public static noRaidOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
-        GameRules.restrictOrderToken(restrictedTokenTypes);
+        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
     }
 
     public static noConsolidatePowerOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
-        GameRules.restrictOrderToken(restrictedTokenTypes);
+        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
     }
 
     public static noSupportOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
-        GameRules.restrictOrderToken(restrictedTokenTypes);
+        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
     }
 
     public static wildlingAttack(card: WesterosCard) {

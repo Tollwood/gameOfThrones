@@ -1,6 +1,6 @@
 import {TopMenuItem} from './topMenuItem';
-import GameState from '../../logic/gameStati';
 import TopMenuRenderer from './topMenuRenderer';
+import GameRules from '../../logic/gameRules/gameRules';
 
 const POSITION_X = [20, 63, 104, 145, 187, 229, 271, 312, 354, 396];
 
@@ -19,7 +19,7 @@ export class MenuRounds extends TopMenuItem {
     }
 
     private getPositionForGameMarker() {
-        let currentRound = GameState.getInstance().round;
+        let currentRound = GameRules.gameState.round;
         return POSITION_X[currentRound - 1];
     }
 }

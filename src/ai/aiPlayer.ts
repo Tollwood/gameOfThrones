@@ -1,5 +1,4 @@
-import GameState from '../board/logic/gameStati';
-import GameRules from '../board/logic/gameRules';
+import GameRules from '../board/logic/gameRules/gameRules';
 import {OrderToken} from '../orderToken/logic/orderToken';
 import {Area} from '../board/logic/area';
 import {House} from '../board/logic/house';
@@ -7,6 +6,9 @@ import {GamePhase} from '../board/logic/gamePhase';
 import Player from '../board/logic/player';
 import HousecCard from '../cards/logic/houseCard';
 import AiCalculator from './aiCalculator';
+import TokenPlacementRules from '../board/logic/gameRules/tokenPlacementRules';
+import MovementRules from '../board/logic/gameRules/movementRules';
+import RecruitingRules from '../board/logic/gameRules/recruitingRules';
 export default class AiPlayer extends Player {
 
     constructor(house: House, powerToken: number, cards: HousecCard[]) {
@@ -15,9 +17,9 @@ export default class AiPlayer extends Player {
     }
 
     public placeAllOrderTokens() {
-        let availableOrderToken = GameRules.getAvailableOrderToken(this.house);
-        let areasToPlaceAToken = GameState.getInstance().areas.filter((area) => {
-            return GameRules.isAllowedToPlaceOrderToken(this.house, area.key);
+        let availableOrderToken = TokenPlacementRules.getAvailableOrderToken(this.house);
+        let areasToPlaceAToken = GameRules.gameState.areas.filter((area) => {
+            return TokenPlacementRules.isAllowedToPlaceOrderToken(this.house, area.key);
         });
         // TODO: consider already placed token when calculating further best moves
         let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area) => {
@@ -25,25 +27,25 @@ export default class AiPlayer extends Player {
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
-            GameRules.addOrderToken(new OrderToken(this.house, bestMove.orderTokenType), bestMove.sourceArea.key);
+            TokenPlacementRules.addOrderToken(new OrderToken(this.house, bestMove.orderTokenType), bestMove.sourceArea.key);
         }
     }
 
     public executeOrder(gamePhase: GamePhase) {
 
         if (gamePhase === GamePhase.ACTION_MARCH) {
-            let areasWithMoveToken = AiCalculator.getAreasWithToken(this.house, GameRules.MARCH_ORDER_TOKENS);
+            let areasWithMoveToken = AiCalculator.getAreasWithToken(this.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 // TODO: Pick most important moveToken first
                 let sourceArea = areasWithMoveToken[0];
                 let bestMove = AiCalculator.getBestMove(this, sourceArea, [sourceArea.orderToken.getType()]);
 
                 if (bestMove === null) {
-                    GameRules.skipOrder(sourceArea.key);
+                    TokenPlacementRules.skipOrder(sourceArea.key);
                     return;
                 }
                 if (bestMove.targetArea !== null) {
-                    GameRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units);
+                    MovementRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units);
                     this.establishControl(sourceArea);
                     return;
                 }
@@ -51,10 +53,10 @@ export default class AiPlayer extends Player {
         }
 
         if (gamePhase === GamePhase.ACTION_RAID) {
-            let areasWithRaidToken = AiCalculator.getAreasWithToken(this.house, GameRules.RAID_ORDER_TOKENS);
+            let areasWithRaidToken = AiCalculator.getAreasWithToken(this.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
-                GameRules.skipOrder(areasWithRaidToken[0].key);
+                TokenPlacementRules.skipOrder(areasWithRaidToken[0].key);
             }
         }
 
@@ -66,7 +68,7 @@ export default class AiPlayer extends Player {
             return this.house === a.controllingHouse;
         }).forEach((area) => {
             // TODO: Add Logic to recruit new units
-            GameRules.recruit(area);
+            RecruitingRules.recruit(area);
         });
     }
 
@@ -127,7 +129,7 @@ export default class AiPlayer extends Player {
 
     private establishControl(sourceArea: Area) {
         if (sourceArea.units.length === 0 && (sourceArea.hasCastleOrStronghold() || sourceArea.supply > 0 || sourceArea.consolidatePower > 0 )) {
-            GameRules.establishControl(sourceArea);
+            MovementRules.establishControl(sourceArea);
         }
     }
 

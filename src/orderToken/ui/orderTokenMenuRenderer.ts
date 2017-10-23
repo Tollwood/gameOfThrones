@@ -1,11 +1,12 @@
-import GameRules from '../../board/logic/gameRules';
-import GameState from '../../board/logic/gameStati';
+import GameRules from '../../board/logic/gameRules/gameRules';
+
 import Renderer from '../../utils/renderer';
 import {OrderToken} from '../logic/orderToken';
 import {House} from '../../board/logic/house';
 import UiArea from '../../utils/UiArea';
 import DragAndDropSupport from '../../utils/dragAndDropSupport';
 import AssetLoader from '../../utils/assetLoader';
+import TokenPlacementRules from '../../board/logic/gameRules/tokenPlacementRules';
 export class OrderTokenMenuRenderer {
 
     private static placableOrderTokens: Phaser.Group;
@@ -22,7 +23,7 @@ export class OrderTokenMenuRenderer {
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
 
-        let availableOrderToken = GameRules.getAvailableOrderToken(GameState.getInstance().currentPlayer.house);
+        let availableOrderToken = TokenPlacementRules.getAvailableOrderToken(GameRules.gameState.currentPlayer.house);
 
         this.placableOrderTokens.createMultiple(1, AssetLoader.ORDER_TOKENS, availableOrderToken, true);
         this.placableOrderTokens.align(0, 0, 50, 45);
@@ -50,8 +51,8 @@ export class OrderTokenMenuRenderer {
             let relativeX = area.x - currentSprite.game.camera.x;
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-            if (Phaser.Rectangle.intersects(boundsA, boundsB) && GameRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                GameRules.addOrderToken(new OrderToken(GameState.getInstance().currentPlayer.house, currentSprite.frame), area.name);
+            if (Phaser.Rectangle.intersects(boundsA, boundsB) && TokenPlacementRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
+                TokenPlacementRules.addOrderToken(new OrderToken(GameRules.gameState.currentPlayer.house, currentSprite.frame), area.name);
             }
         });
     }

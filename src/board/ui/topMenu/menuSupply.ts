@@ -1,7 +1,7 @@
 import {TopMenuItem} from './topMenuItem';
-import GameState from '../../logic/gameStati';
 import {House} from '../../logic/house';
 import TopMenuRenderer from './topMenuRenderer';
+import GameRules from '../../logic/gameRules/gameRules';
 
 const POSITION_X = [0, 35, 70, 105, 140, 175];
 
@@ -14,7 +14,7 @@ export class MenuSupply extends TopMenuItem {
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.SUPPLY) {
-            GameState.getInstance().players.forEach((player) => {
+            GameRules.gameState.players.forEach((player) => {
                 let marker = overlay.game.add.sprite(overlay.x - overlay.game.camera.x + this.getPositionForHouse(player.house), 160 + (player.house * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;
             });
@@ -22,7 +22,7 @@ export class MenuSupply extends TopMenuItem {
     }
 
     private getPositionForHouse(house: House): number {
-        let numOfSupplys = GameState.getInstance().currentlyAllowedSupply.get(house);
+        let numOfSupplys = GameRules.gameState.currentlyAllowedSupply.get(house);
         if (numOfSupplys > 6) {
             numOfSupplys = 6;
         }

@@ -1,10 +1,10 @@
 import {Area} from '../board/logic/area';
 import {House} from '../board/logic/house';
-import GameState from '../board/logic/gameStati';
 import {OrderTokenType} from '../orderToken/logic/orderToken';
 import PossibleMove from './possibleMove';
 import AiPlayer from './aiPlayer';
-import GameRules from '../board/logic/gameRules';
+import GameRules from '../board/logic/gameRules/gameRules';
+import MovementRules from '../board/logic/gameRules/movementRules';
 export default class AiCalculator {
 
     public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {
@@ -16,7 +16,7 @@ export default class AiCalculator {
     }
 
     public static getAreasWithToken(house: House, orderTokens: Array<OrderTokenType>): Array<Area> {
-        return GameState.getInstance().areas.filter((area) => {
+        return GameRules.gameState.areas.filter((area) => {
             return area.orderToken
                 && area.orderToken.getHouse() === house
                 && orderTokens.indexOf(area.orderToken.getType()) > -1;
@@ -56,7 +56,7 @@ export default class AiCalculator {
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
-                    GameRules.getAllAreasAllowedToMarchTo(area).forEach((possibleArea) => {
+                    MovementRules.getAllAreasAllowedToMarchTo(area).forEach((possibleArea) => {
                         possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForMarchOrders(area, possibleArea), possibleArea));
 
                     });
