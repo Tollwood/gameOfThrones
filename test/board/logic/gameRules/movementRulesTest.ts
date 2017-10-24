@@ -6,8 +6,9 @@ import MovementRules from '../../../../src/board/logic/gameRules/movementRules';
 import GameState from '../../../../src/board/logic/gameState/GameState';
 import SupplyRules from '../../../../src/board/logic/gameRules/supplyRules';
 import Player from '../../../../src/board/logic/player';
-import TestUtil from '../../../testUtil';
+import AreaBuilder from '../../../areaBuilder';
 import Order = jasmine.Order;
+import game = PIXI.game;
 
 describe('MovementRules', () => {
 
@@ -19,8 +20,12 @@ describe('MovementRules', () => {
 
     it('should be allowed to move units from one area to another connected area', () => {
         // given
-        let karhold = TestUtil.defineArea(gameState, 'Karhold', null, [], [], null);
-        let winterfell = TestUtil.defineArea(gameState, 'Winterfell', House.stark, [UnitType.Footman], [karhold], OrderTokenType.march_minusOne);
+        let karhold = new AreaBuilder('Karhold').addToGameState(gameState).build();
+        let winterfell = new AreaBuilder('Winterfell').addToGameState(gameState).withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withBorders([karhold])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -33,8 +38,12 @@ describe('MovementRules', () => {
 
     it('should not be allowed to move units if areas are not connected via borders', () => {
         // given
-        let karhold = TestUtil.defineArea(gameState, 'Karhold', null, [], [], null);
-        let winterfell = TestUtil.defineArea(gameState, 'Winterfell', House.stark, [UnitType.Footman], [], OrderTokenType.march_minusOne);
+        let karhold = new AreaBuilder('Karhold').addToGameState(gameState).build();
+        let winterfell = new AreaBuilder('Winterfell').addToGameState(gameState)
+            .withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -47,8 +56,12 @@ describe('MovementRules', () => {
 
     it('should not be allowed to move units if sourceArea has no Units', () => {
         // given
-        let karhold = TestUtil.defineArea(gameState, 'Karhold', null, [], [], null);
-        let winterfell = TestUtil.defineArea(gameState, 'Winterfell', House.stark, [], [karhold], OrderTokenType.march_minusOne);
+        let karhold = new AreaBuilder('Karhold').addToGameState(gameState).build();
+        let winterfell = new AreaBuilder('Winterfell').addToGameState(gameState)
+            .withHouse(House.stark)
+            .withBorders([karhold])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -61,9 +74,16 @@ describe('MovementRules', () => {
 
     it('should be allowed to move land units from WhiteHarbor via theShiveringsea using a friendly ship to castleBlack', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', null, [], [], undefined);
-        let theSiveringSea = TestUtil.defineArea(gameState, 'TheShiveringSea', House.stark, [UnitType.Ship], [castleBlack], null, false);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman], [theSiveringSea], OrderTokenType.march_minusOne);
+        let castleBlack = new AreaBuilder('CastleBlack').addToGameState(gameState).build();
+        let theSiveringSea = new AreaBuilder('TheShiveringSea').withHouse(House.stark).withUnits([UnitType.Ship])
+            .withBorders([castleBlack])
+            .isSeaArea()
+            .addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor').withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withBorders([theSiveringSea])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         //when
         GameRules.load(gameState);
@@ -76,10 +96,22 @@ describe('MovementRules', () => {
 
     it('should be allowed to move land units from WhiteHarbor via two sea ereas using a friendly ship to castleBlack', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', null, [], [], undefined);
-        let theSiveringSea = TestUtil.defineArea(gameState, 'TheShiveringSea', House.stark, [UnitType.Ship], [castleBlack], null, false);
-        let theStonyShore = TestUtil.defineArea(gameState, 'TheStonyShore', House.stark, [UnitType.Ship], [theSiveringSea], null, false);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman], [theStonyShore], OrderTokenType.march_minusOne);
+        let castleBlack = new AreaBuilder('CastleBlack').addToGameState(gameState).build();
+        let theSiveringSea = new AreaBuilder('TheShiveringSea').withHouse(House.stark)
+            .withUnits([UnitType.Ship])
+            .withBorders([castleBlack])
+            .isSeaArea().addToGameState(gameState).build();
+
+        let theStonyShore = new AreaBuilder('TheStonyShore').withHouse(House.stark)
+            .withUnits([UnitType.Ship])
+            .withBorders([theSiveringSea])
+            .isSeaArea()
+            .addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor')
+            .withHouse(House.stark).withUnits([UnitType.Footman])
+            .withBorders([theStonyShore])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         //when
         GameRules.load(gameState);
@@ -92,8 +124,12 @@ describe('MovementRules', () => {
 
     it('should be allowed to move unit into an enemy area with establish control of other player', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', House.baratheon, [], [], undefined);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman], [castleBlack], OrderTokenType.march_minusOne);
+        let castleBlack = new AreaBuilder('CastleBlack').withHouse(House.baratheon).addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor').withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withBorders([castleBlack])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
         //when
         GameRules.load(gameState);
@@ -106,8 +142,11 @@ describe('MovementRules', () => {
 
     it('should not be allowed to move units into an occupied area', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', House.baratheon, [UnitType.Footman], [], undefined);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman], [castleBlack], OrderTokenType.march_minusOne);
+        let castleBlack = new AreaBuilder('CastleBlack').withHouse(House.baratheon)
+            .withUnits([UnitType.Footman]).addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor').withHouse(House.stark)
+            .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
         //when
         GameRules.load(gameState);
@@ -120,8 +159,12 @@ describe('MovementRules', () => {
 
     it('should not move land unit into a sea area ', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', null, [], [], undefined, false);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman], [castleBlack], OrderTokenType.march_minusOne);
+        let castleBlack = new AreaBuilder('CastleBlack').isSeaArea().addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor').withHouse(House.stark)
+            .withUnits([UnitType.Footman])
+            .withBorders([castleBlack])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         //when
         GameRules.load(gameState);
@@ -134,8 +177,11 @@ describe('MovementRules', () => {
 
     it('should not move sea unit into a land area ', () => {
         // given
-        let castleBlack = TestUtil.defineArea(gameState, 'CastleBlack', null, [], [], undefined);
-        let whiteHarbor = TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Ship], [castleBlack], OrderTokenType.march_minusOne, false);
+        let castleBlack = new AreaBuilder('CastleBlack').addToGameState(gameState).build();
+        let whiteHarbor = new AreaBuilder('WhiteHarbor').withHouse(House.stark).withUnits([UnitType.Ship])
+            .withBorders([castleBlack])
+            .withOrderToken(OrderTokenType.march_minusOne)
+            .isSeaArea().addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         //when
         GameRules.load(gameState);

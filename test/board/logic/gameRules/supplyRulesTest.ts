@@ -3,8 +3,8 @@ import {House} from '../../../../src/board/logic/house';
 import {UnitType} from '../../../../src/units/logic/unitType';
 import SupplyRules from '../../../../src/board/logic/gameRules/supplyRules';
 import GameState from '../../../../src/board/logic/gameState/GameState';
-import TestUtil from '../../../testUtil';
 import Player from '../../../../src/board/logic/player';
+import AreaBuilder from '../../../areaBuilder';
 import Order = jasmine.Order;
 
 describe('SupplyRules', () => {
@@ -18,10 +18,12 @@ describe('SupplyRules', () => {
     it('should return the size of each army sorted by size', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [UnitType.Footman, UnitType.Footman], [], null);
-        TestUtil.defineArea(gameState, 'Winterfell', House.stark, [UnitType.Footman, UnitType.Footman, UnitType.Footman], [], null);
-        TestUtil.defineArea(gameState, 'WhiteHarbor', House.stark, [UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman], [], null);
+        new AreaBuilder('Karhold').withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
+        new AreaBuilder('Winterfell').withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
+        new AreaBuilder('WhiteHarbor').withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
+
         GameRules.load(gameState);
+
         //when
         let actual = SupplyRules.getArmiesBySizeForHouse(House.stark);
 
@@ -33,7 +35,8 @@ describe('SupplyRules', () => {
     it('should return 3 if house has one army of size 2 and supply 1', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [UnitType.Footman, UnitType.Footman], [], null, true, 1);
+        new AreaBuilder('Karhold').withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
+            .withSupply(1).addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -48,7 +51,8 @@ describe('SupplyRules', () => {
     it('should return 3 if house has no army and supply 1', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [], [], null, true, 1);
+        new AreaBuilder('Karhold').withHouse(House.stark)
+            .withSupply(1).addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -63,7 +67,9 @@ describe('SupplyRules', () => {
     it('should return 2 if house has one army of size 3 and supply 1', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [UnitType.Footman, UnitType.Footman, UnitType.Footman], [], null, true, 1);
+        new AreaBuilder('Karhold').withHouse(House.stark)
+            .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -78,8 +84,10 @@ describe('SupplyRules', () => {
     it('should return 3 if house has two armies of size 2 and supply 1', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [UnitType.Footman, UnitType.Footman], [], null, true, 1);
-        TestUtil.defineArea(gameState, 'Winterfell', House.stark, [UnitType.Footman, UnitType.Footman], [], null, true);
+        new AreaBuilder('Karhold').withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).withSupply(1)
+            .addToGameState(gameState).build();
+        new AreaBuilder('Winterfell').withHouse(House.stark)
+            .withUnits([UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -94,7 +102,8 @@ describe('SupplyRules', () => {
     it('should return 3 if house has no armyies and supply 1', () => {
 
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [], [], null, true, 1);
+        new AreaBuilder('Karhold').withHouse(House.stark).withSupply(1)
+            .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
@@ -108,7 +117,7 @@ describe('SupplyRules', () => {
 
     it('should return empty array for house with no army', () => {
         // given
-        TestUtil.defineArea(gameState, 'Karhold', House.stark, [], [], null, true, 1);
+        new AreaBuilder('Karhold').withHouse(House.stark).withSupply(1).addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();

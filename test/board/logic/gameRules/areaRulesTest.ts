@@ -1,10 +1,9 @@
-import GameRules from '../../../../src/board/logic/gameRules/gameRules';
-import GameState from '../../../../src/board/logic/gameState/GameState';
-import TestUtil from '../../../testUtil';
-import Order = jasmine.Order;
 import AreaRules from '../../../../src/board/logic/gameRules/AreaRules';
+import GameState from '../../../../src/board/logic/gameState/GameState';
+import GameRules from '../../../../src/board/logic/gameRules/gameRules';
+import AreaBuilder from '../../../areaBuilder';
 
-describe('SupplyRules', () => {
+describe('AreaRules', () => {
 
     let gameState: GameState;
 
@@ -15,8 +14,8 @@ describe('SupplyRules', () => {
     it('should return the true for adjacent areas', () => {
 
         // given
-        let karhold = TestUtil.defineArea(gameState, 'Karhold', null, [], [], null);
-        let winterfell = TestUtil.defineArea(gameState, 'Winterfell', null, [], [karhold], null);
+        let karhold = new AreaBuilder('Karhold').addToGameState(gameState).build();
+        let winterfell = new AreaBuilder('Winterfell').addToGameState(gameState).withBorders([karhold]).build();
         GameRules.load(gameState);
         //when
         let actual = AreaRules.isConnectedArea(winterfell, karhold);
@@ -29,8 +28,8 @@ describe('SupplyRules', () => {
     it('should return the false for non adjacent areas', () => {
 
         // given
-        let karhold = TestUtil.defineArea(gameState, 'Karhold', null, [], [], null);
-        let winterfell = TestUtil.defineArea(gameState, 'Winterfell', null, [], [karhold], null);
+        let karhold = new AreaBuilder('Karhold').addToGameState(gameState).build();
+        let winterfell = new AreaBuilder('Winterfell').addToGameState(gameState).withBorders([karhold]).build();
         GameRules.load(gameState);
         //when
         let actual = AreaRules.isConnectedArea( karhold, winterfell);
