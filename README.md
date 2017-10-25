@@ -1,3 +1,4 @@
+![build status](https://travis-ci.org/Tollwood/gameOfThrones.svg?branch=master)
 # Game of Thrones learning by doing
 
 # Features:
