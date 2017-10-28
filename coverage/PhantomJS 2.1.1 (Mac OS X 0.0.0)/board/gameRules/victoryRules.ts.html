@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for board/gameRules/victoryRules.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">board/gameRules/</a> victoryRules.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.48% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.33% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40.91% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>9/22</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/victoryRules.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var gameRules_1 = require("./gameRules");
+var VictoryRules = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function VictoryRules() {</span>
+    }
+    VictoryRules.getVictoryPositionFor = <span class="fstat-no" title="function not covered" >function (house) {</span>
+<span class="cstat-no" title="statement not covered" >        return gameRules_1.default.gameState.areas.filter(<span class="fstat-no" title="function not covered" >function (area) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return area.controllingHouse === house &amp;&amp; area.hasCastleOrStronghold();</span>
+        }).length;
+    };
+    VictoryRules.getWinningHouse = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var winningHouse = null;</span>
+<span class="cstat-no" title="statement not covered" >        var gamestate = gameRules_1.default.gameState;</span>
+<span class="cstat-no" title="statement not covered" >        gamestate.players.forEach(<span class="fstat-no" title="function not covered" >function (player) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (_this.getVictoryPositionFor(player.house) === 7) {</span>
+<span class="cstat-no" title="statement not covered" >                winningHouse = player.house;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        if (gamestate.round === 10) {</span>
+<span class="cstat-no" title="statement not covered" >            var sortedPlayersByVictoryPoints = gamestate.players.sort(<span class="fstat-no" title="function not covered" >function (a, b) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return _this.getVictoryPositionFor(b.house) - _this.getVictoryPositionFor(a.house);</span>
+            });
+<span class="cstat-no" title="statement not covered" >            winningHouse = sortedPlayersByVictoryPoints[0].house;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return winningHouse;</span>
+    };
+    return VictoryRules;
+}());
+exports.default = VictoryRules;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidmljdG9yeVJ1bGVzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsidmljdG9yeVJ1bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEseUNBQW9DO0FBQ3BDO0lBQUE7SUF5QkEsQ0FBQztJQXZCaUIsa0NBQXFCLEdBQW5DLFVBQW9DLEtBQVk7UUFDNUMsTUFBTSxDQUFDLG1CQUFTLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUMsVUFBQyxJQUFVO1lBQy9DLE1BQU0sQ0FBQyxJQUFJLENBQUMsZ0JBQWdCLEtBQUssS0FBSyxJQUFJLElBQUksQ0FBQyxxQkFBcUIsRUFBRSxDQUFDO1FBQzNFLENBQUMsQ0FBQyxDQUFDLE1BQU0sQ0FBQztJQUNkLENBQUM7SUFHYSw0QkFBZSxHQUE3QjtRQUFBLGlCQWVDO1FBZEcsSUFBSSxZQUFZLEdBQVUsSUFBSSxDQUFDO1FBQy9CLElBQUksU0FBUyxHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDO1FBQ3BDLFNBQVMsQ0FBQyxPQUFPLENBQUMsT0FBTyxDQUFDLFVBQUMsTUFBTTtZQUM3QixFQUFFLENBQUMsQ0FBQyxLQUFJLENBQUMscUJBQXFCLENBQUMsTUFBTSxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDLENBQUM7Z0JBQ2pELFlBQVksR0FBRyxNQUFNLENBQUMsS0FBSyxDQUFDO1lBQ2hDLENBQUM7UUFDTCxDQUFDLENBQUMsQ0FBQztRQUNILEVBQUUsQ0FBQyxDQUFDLFNBQVMsQ0FBQyxLQUFLLEtBQUssRUFBRSxDQUFDLENBQUMsQ0FBQztZQUN6QixJQUFJLDRCQUE0QixHQUFHLFNBQVMsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLFVBQUMsQ0FBQyxFQUFFLENBQUM7Z0JBQzNELE1BQU0sQ0FBQyxLQUFJLENBQUMscUJBQXFCLENBQUMsQ0FBQyxDQUFDLEtBQUssQ0FBQyxHQUFHLEtBQUksQ0FBQyxxQkFBcUIsQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDLENBQUM7WUFDckYsQ0FBQyxDQUFDLENBQUM7WUFDSCxZQUFZLEdBQUcsNEJBQTRCLENBQUMsQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDO1FBQ3pELENBQUM7UUFDRCxNQUFNLENBQUMsWUFBWSxDQUFDO0lBQ3hCLENBQUM7SUFDTCxtQkFBQztBQUFELENBQUMsQUF6QkQsSUF5QkMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge0hvdXNlfSBmcm9tICcuLi9ob3VzZSc7XG5pbXBvcnQge0FyZWF9IGZyb20gJy4uL2FyZWEnO1xuaW1wb3J0IEdhbWVSdWxlcyBmcm9tICcuL2dhbWVSdWxlcyc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBWaWN0b3J5UnVsZXMge1xuXG4gICAgcHVibGljIHN0YXRpYyBnZXRWaWN0b3J5UG9zaXRpb25Gb3IoaG91c2U6IEhvdXNlKSB7XG4gICAgICAgIHJldHVybiBHYW1lUnVsZXMuZ2FtZVN0YXRlLmFyZWFzLmZpbHRlcigoYXJlYTogQXJlYSkgPT4ge1xuICAgICAgICAgICAgcmV0dXJuIGFyZWEuY29udHJvbGxpbmdIb3VzZSA9PT0gaG91c2UgJiYgYXJlYS5oYXNDYXN0bGVPclN0cm9uZ2hvbGQoKTtcbiAgICAgICAgfSkubGVuZ3RoO1xuICAgIH1cblxuXG4gICAgcHVibGljIHN0YXRpYyBnZXRXaW5uaW5nSG91c2UoKTogSG91c2Uge1xuICAgICAgICBsZXQgd2lubmluZ0hvdXNlOiBIb3VzZSA9IG51bGw7XG4gICAgICAgIGxldCBnYW1lc3RhdGUgPSBHYW1lUnVsZXMuZ2FtZVN0YXRlO1xuICAgICAgICBnYW1lc3RhdGUucGxheWVycy5mb3JFYWNoKChwbGF5ZXIpID0+IHtcbiAgICAgICAgICAgIGlmICh0aGlzLmdldFZpY3RvcnlQb3NpdGlvbkZvcihwbGF5ZXIuaG91c2UpID09PSA3KSB7XG4gICAgICAgICAgICAgICAgd2lubmluZ0hvdXNlID0gcGxheWVyLmhvdXNlO1xuICAgICAgICAgICAgfVxuICAgICAgICB9KTtcbiAgICAgICAgaWYgKGdhbWVzdGF0ZS5yb3VuZCA9PT0gMTApIHtcbiAgICAgICAgICAgIGxldCBzb3J0ZWRQbGF5ZXJzQnlWaWN0b3J5UG9pbnRzID0gZ2FtZXN0YXRlLnBsYXllcnMuc29ydCgoYSwgYikgPT4ge1xuICAgICAgICAgICAgICAgIHJldHVybiB0aGlzLmdldFZpY3RvcnlQb3NpdGlvbkZvcihiLmhvdXNlKSAtIHRoaXMuZ2V0VmljdG9yeVBvc2l0aW9uRm9yKGEuaG91c2UpO1xuICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICB3aW5uaW5nSG91c2UgPSBzb3J0ZWRQbGF5ZXJzQnlWaWN0b3J5UG9pbnRzWzBdLmhvdXNlO1xuICAgICAgICB9XG4gICAgICAgIHJldHVybiB3aW5uaW5nSG91c2U7XG4gICAgfVxufSJdfQ==
+},'src/logic/board/gameRules/victoryRules.ts',{"../house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","../area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","./gameRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/gameRules.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

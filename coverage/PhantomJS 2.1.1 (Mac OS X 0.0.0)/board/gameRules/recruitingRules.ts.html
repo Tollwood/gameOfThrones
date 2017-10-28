@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for board/gameRules/recruitingRules.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">board/gameRules/</a> recruitingRules.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.43% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>13/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">30% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">48% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>12/25</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/recruitingRules.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var supplyRules_1 = require("./supplyRules");
+var units_1 = require("../../units/units");
+var gameRules_1 = require("./gameRules");
+var RecruitingRules = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function RecruitingRules() {</span>
+    }
+    RecruitingRules.recruit = <span class="fstat-no" title="function not covered" >function (area, unitTypes) {</span>
+<span class="cstat-no" title="statement not covered" >        if (unitTypes === void 0) { <span class="cstat-no" title="statement not covered" >unitTypes = []; </span>}</span>
+<span class="cstat-no" title="statement not covered" >        var areasAllowedToRecruit = gameRules_1.default.gameState.areasAllowedToRecruit;</span>
+<span class="cstat-no" title="statement not covered" >        var index = areasAllowedToRecruit.indexOf(area);</span>
+<span class="cstat-no" title="statement not covered" >        areasAllowedToRecruit.splice(index, 1);</span>
+<span class="cstat-no" title="statement not covered" >        this.setAreasAllowedToRecruit(areasAllowedToRecruit);</span>
+<span class="cstat-no" title="statement not covered" >        unitTypes.forEach(<span class="fstat-no" title="function not covered" >function (unittype) {</span></span>
+<span class="cstat-no" title="statement not covered" >            area.units.push(new units_1.default(unittype, area.controllingHouse));</span>
+        });
+    };
+    RecruitingRules.getAreasAllowedToRecruit = <span class="fstat-no" title="function not covered" >function (house) {</span>
+<span class="cstat-no" title="statement not covered" >        return gameRules_1.default.gameState.areasAllowedToRecruit.filter(<span class="fstat-no" title="function not covered" >function (area) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var maxArmySize = supplyRules_1.default.allowedMaxSizeBasedOnSupply(area.controllingHouse);</span>
+<span class="cstat-no" title="statement not covered" >            return (house === undefined || area.controllingHouse === house) &amp;&amp; area.units.length &lt; maxArmySize;</span>
+        });
+    };
+    RecruitingRules.setAreasAllowedToRecruit = <span class="fstat-no" title="function not covered" >function (areasForRecruiting) {</span>
+<span class="cstat-no" title="statement not covered" >        if (areasForRecruiting === void 0) { <span class="cstat-no" title="statement not covered" >areasForRecruiting = gameRules_1.default.gameState.areas; </span>}</span>
+<span class="cstat-no" title="statement not covered" >        gameRules_1.default.gameState.areasAllowedToRecruit = areasForRecruiting.filter(<span class="fstat-no" title="function not covered" >function (area) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return area.controllingHouse !== null</span>
+                &amp;&amp; area.hasCastleOrStronghold()
+                &amp;&amp; supplyRules_1.default.allowedMaxSizeBasedOnSupply(area.controllingHouse) &gt; area.units.length;
+        });
+    };
+    return RecruitingRules;
+}());
+exports.default = RecruitingRules;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVjcnVpdGluZ1J1bGVzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsicmVjcnVpdGluZ1J1bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEsNkNBQXdDO0FBRXhDLDJDQUFxQztBQUNyQyx5Q0FBb0M7QUFFcEM7SUFBQTtJQTJCQSxDQUFDO0lBekJpQix1QkFBTyxHQUFyQixVQUFzQixJQUFVLEVBQUUsU0FBMEI7UUFBMUIsMEJBQUEsRUFBQSxjQUEwQjtRQUN4RCxJQUFJLHFCQUFxQixHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDLHFCQUFxQixDQUFDO1FBQ3RFLElBQUksS0FBSyxHQUFHLHFCQUFxQixDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUNoRCxxQkFBcUIsQ0FBQyxNQUFNLENBQUMsS0FBSyxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3ZDLElBQUksQ0FBQyx3QkFBd0IsQ0FBQyxxQkFBcUIsQ0FBQyxDQUFDO1FBQ3JELFNBQVMsQ0FBQyxPQUFPLENBQUMsVUFBQyxRQUFRO1lBQ3ZCLElBQUksQ0FBQyxLQUFLLENBQUMsSUFBSSxDQUFDLElBQUksZUFBSSxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsZ0JBQWdCLENBQUMsQ0FBQyxDQUFDO1FBQy9ELENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVhLHdDQUF3QixHQUF0QyxVQUF1QyxLQUFhO1FBQ2hELE1BQU0sQ0FBQyxtQkFBUyxDQUFDLFNBQVMsQ0FBQyxxQkFBcUIsQ0FBQyxNQUFNLENBQUMsVUFBQyxJQUFJO1lBQ3pELElBQUksV0FBVyxHQUFHLHFCQUFXLENBQUMsMkJBQTJCLENBQUMsSUFBSSxDQUFDLGdCQUFnQixDQUFDLENBQUM7WUFDakYsTUFBTSxDQUFDLENBQUUsS0FBSyxLQUFLLFNBQVMsSUFBSSxJQUFJLENBQUMsZ0JBQWdCLEtBQUssS0FBSyxDQUFDLElBQUksSUFBSSxDQUFDLEtBQUssQ0FBQyxNQUFNLEdBQUcsV0FBVyxDQUFDO1FBQ3hHLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVhLHdDQUF3QixHQUF0QyxVQUF1QyxrQkFBMkQ7UUFBM0QsbUNBQUEsRUFBQSxxQkFBa0MsbUJBQVMsQ0FBQyxTQUFTLENBQUMsS0FBSztRQUU5RixtQkFBUyxDQUFDLFNBQVMsQ0FBQyxxQkFBcUIsR0FBRyxrQkFBa0IsQ0FBQyxNQUFNLENBQUMsVUFBQyxJQUFJO1lBQ3ZFLE1BQU0sQ0FBQyxJQUFJLENBQUMsZ0JBQWdCLEtBQUssSUFBSTttQkFDOUIsSUFBSSxDQUFDLHFCQUFxQixFQUFFO21CQUM1QixxQkFBVyxDQUFDLDJCQUEyQixDQUFDLElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxHQUFHLElBQUksQ0FBQyxLQUFLLENBQUMsTUFBTSxDQUFDO1FBQzlGLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUNMLHNCQUFDO0FBQUQsQ0FBQyxBQTNCRCxJQTJCQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SG91c2V9IGZyb20gJy4uL2hvdXNlJztcbmltcG9ydCB7QXJlYX0gZnJvbSAnLi4vYXJlYSc7XG5pbXBvcnQgU3VwcGx5UnVsZXMgZnJvbSAnLi9zdXBwbHlSdWxlcyc7XG5pbXBvcnQge1VuaXRUeXBlfSBmcm9tICcuLi8uLi91bml0cy91bml0VHlwZSc7XG5pbXBvcnQgVW5pdCBmcm9tICcuLi8uLi91bml0cy91bml0cyc7XG5pbXBvcnQgR2FtZVJ1bGVzIGZyb20gJy4vZ2FtZVJ1bGVzJztcblxuZXhwb3J0IGRlZmF1bHQgY2xhc3MgUmVjcnVpdGluZ1J1bGVzIHtcblxuICAgIHB1YmxpYyBzdGF0aWMgcmVjcnVpdChhcmVhOiBBcmVhLCB1bml0VHlwZXM6IFVuaXRUeXBlW10gPSBbXSkge1xuICAgICAgICBsZXQgYXJlYXNBbGxvd2VkVG9SZWNydWl0ID0gR2FtZVJ1bGVzLmdhbWVTdGF0ZS5hcmVhc0FsbG93ZWRUb1JlY3J1aXQ7XG4gICAgICAgIGxldCBpbmRleCA9IGFyZWFzQWxsb3dlZFRvUmVjcnVpdC5pbmRleE9mKGFyZWEpO1xuICAgICAgICBhcmVhc0FsbG93ZWRUb1JlY3J1aXQuc3BsaWNlKGluZGV4LCAxKTtcbiAgICAgICAgdGhpcy5zZXRBcmVhc0FsbG93ZWRUb1JlY3J1aXQoYXJlYXNBbGxvd2VkVG9SZWNydWl0KTtcbiAgICAgICAgdW5pdFR5cGVzLmZvckVhY2goKHVuaXR0eXBlKSA9PiB7XG4gICAgICAgICAgICBhcmVhLnVuaXRzLnB1c2gobmV3IFVuaXQodW5pdHR5cGUsIGFyZWEuY29udHJvbGxpbmdIb3VzZSkpO1xuICAgICAgICB9KTtcbiAgICB9XG5cbiAgICBwdWJsaWMgc3RhdGljIGdldEFyZWFzQWxsb3dlZFRvUmVjcnVpdChob3VzZT86IEhvdXNlKTogQXJyYXk8QXJlYT4ge1xuICAgICAgICByZXR1cm4gR2FtZVJ1bGVzLmdhbWVTdGF0ZS5hcmVhc0FsbG93ZWRUb1JlY3J1aXQuZmlsdGVyKChhcmVhKSA9PiB7XG4gICAgICAgICAgICBsZXQgbWF4QXJteVNpemUgPSBTdXBwbHlSdWxlcy5hbGxvd2VkTWF4U2l6ZUJhc2VkT25TdXBwbHkoYXJlYS5jb250cm9sbGluZ0hvdXNlKTtcbiAgICAgICAgICAgIHJldHVybiAoIGhvdXNlID09PSB1bmRlZmluZWQgfHwgYXJlYS5jb250cm9sbGluZ0hvdXNlID09PSBob3VzZSkgJiYgYXJlYS51bml0cy5sZW5ndGggPCBtYXhBcm15U2l6ZTtcbiAgICAgICAgfSk7XG4gICAgfVxuXG4gICAgcHVibGljIHN0YXRpYyBzZXRBcmVhc0FsbG93ZWRUb1JlY3J1aXQoYXJlYXNGb3JSZWNydWl0aW5nOiBBcnJheTxBcmVhPiA9IEdhbWVSdWxlcy5nYW1lU3RhdGUuYXJlYXMpIHtcblxuICAgICAgICBHYW1lUnVsZXMuZ2FtZVN0YXRlLmFyZWFzQWxsb3dlZFRvUmVjcnVpdCA9IGFyZWFzRm9yUmVjcnVpdGluZy5maWx0ZXIoKGFyZWEpID0+IHtcbiAgICAgICAgICAgIHJldHVybiBhcmVhLmNvbnRyb2xsaW5nSG91c2UgIT09IG51bGxcbiAgICAgICAgICAgICAgICAmJiBhcmVhLmhhc0Nhc3RsZU9yU3Ryb25naG9sZCgpXG4gICAgICAgICAgICAgICAgJiYgU3VwcGx5UnVsZXMuYWxsb3dlZE1heFNpemVCYXNlZE9uU3VwcGx5KGFyZWEuY29udHJvbGxpbmdIb3VzZSkgPiBhcmVhLnVuaXRzLmxlbmd0aDtcbiAgICAgICAgfSk7XG4gICAgfVxufSJdfQ==
+},'src/logic/board/gameRules/recruitingRules.ts',{"../house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","../area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","./supplyRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/supplyRules.ts","../../units/unitType":"/Users/taamato1/pdev/gameOfThrones/src/logic/units/unitType.ts","../../units/units":"/Users/taamato1/pdev/gameOfThrones/src/logic/units/units.ts","./gameRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/gameRules.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

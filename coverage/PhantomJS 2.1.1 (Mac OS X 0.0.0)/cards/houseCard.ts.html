@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for cards/houseCard.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">cards/</a> houseCard.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.17% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>30/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>29/40</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1260×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/cards/houseCard.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var HousecCard = /** @class */ (function () {
+    function HousecCard(id, leaderName, artWork, combatStrength, sword, fortification, ability, abilityFn, house, cardExecutionPoint) {
+        this._id = id;
+        this._leaderName = leaderName;
+        this._artWork = artWork;
+        this._combatStrength = combatStrength;
+        this._sword = sword;
+        this._fortification = fortification;
+        this._ability = ability;
+        this._abilityFn = abilityFn;
+        this._cardExecutionPoint = cardExecutionPoint;
+        this._house = house;
+        this._played = false;
+    }
+    Object.defineProperty(HousecCard.prototype, "id", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._id;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "house", {
+        get: function () {
+            return this._house;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "ability", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._ability;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "fortification", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._fortification;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "sword", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._sword;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "combatStrength", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._combatStrength;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "artWork", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._artWork;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "leaderName", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._leaderName;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "abilityFn", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._abilityFn;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "cardExecutionPoint", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._cardExecutionPoint;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HousecCard.prototype, "played", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._played;</span>
+        },
+        set: <span class="fstat-no" title="function not covered" >function (value) {</span>
+<span class="cstat-no" title="statement not covered" >            this._played = value;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return HousecCard;
+}());
+exports.default = HousecCard;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaG91c2VDYXJkLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiaG91c2VDYXJkLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUE7SUFjSSxvQkFBWSxFQUFVLEVBQUUsVUFBa0IsRUFBRSxPQUFlLEVBQUUsY0FBc0IsRUFBRSxLQUFhLEVBQUUsYUFBcUIsRUFBRSxPQUFlLEVBQUUsU0FBaUIsRUFBRSxLQUFZLEVBQUUsa0JBQXNDO1FBQy9NLElBQUksQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDO1FBQ2QsSUFBSSxDQUFDLFdBQVcsR0FBRyxVQUFVLENBQUM7UUFDOUIsSUFBSSxDQUFDLFFBQVEsR0FBRyxPQUFPLENBQUM7UUFDeEIsSUFBSSxDQUFDLGVBQWUsR0FBRyxjQUFjLENBQUM7UUFDdEMsSUFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUM7UUFDcEIsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLFFBQVEsR0FBRyxPQUFPLENBQUM7UUFDeEIsSUFBSSxDQUFDLFVBQVUsR0FBRyxTQUFTLENBQUM7UUFDNUIsSUFBSSxDQUFDLG1CQUFtQixHQUFHLGtCQUFrQixDQUFDO1FBQzlDLElBQUksQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO1FBQ3BCLElBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0lBRXpCLENBQUM7SUFFRCxzQkFBSSwwQkFBRTthQUFOO1lBQ0ksTUFBTSxDQUFDLElBQUksQ0FBQyxHQUFHLENBQUM7UUFDcEIsQ0FBQzs7O09BQUE7SUFHRCxzQkFBSSw2QkFBSzthQUFUO1lBQ0ksTUFBTSxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUM7UUFDdkIsQ0FBQzs7O09BQUE7SUFFRCxzQkFBSSwrQkFBTzthQUFYO1lBQ0ksTUFBTSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUM7UUFDekIsQ0FBQzs7O09BQUE7SUFFRCxzQkFBSSxxQ0FBYTthQUFqQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsY0FBYyxDQUFDO1FBQy9CLENBQUM7OztPQUFBO0lBRUQsc0JBQUksNkJBQUs7YUFBVDtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsTUFBTSxDQUFDO1FBQ3ZCLENBQUM7OztPQUFBO0lBRUQsc0JBQUksc0NBQWM7YUFBbEI7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGVBQWUsQ0FBQztRQUNoQyxDQUFDOzs7T0FBQTtJQUVELHNCQUFJLCtCQUFPO2FBQVg7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQztRQUN6QixDQUFDOzs7T0FBQTtJQUVELHNCQUFJLGtDQUFVO2FBQWQ7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQztRQUM1QixDQUFDOzs7T0FBQTtJQUVELHNCQUFJLGlDQUFTO2FBQWI7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQztRQUMzQixDQUFDOzs7T0FBQTtJQUVELHNCQUFJLDBDQUFrQjthQUF0QjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsbUJBQW1CLENBQUM7UUFDcEMsQ0FBQzs7O09BQUE7SUFHRCxzQkFBSSw4QkFBTTthQUFWO1lBQ0ksTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUM7UUFDeEIsQ0FBQzthQUVELFVBQVcsS0FBYztZQUNyQixJQUFJLENBQUMsT0FBTyxHQUFHLEtBQUssQ0FBQztRQUN6QixDQUFDOzs7T0FKQTtJQUtMLGlCQUFDO0FBQUQsQ0FBQyxBQTlFRCxJQThFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SG91c2V9IGZyb20gJy4uL2JvYXJkL2hvdXNlJztcbmltcG9ydCB7Q2FyZEV4ZWN1dGlvblBvaW50fSBmcm9tICcuL2NhcmRFeGVjdXRpb25Qb2ludCc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBIb3VzZWNDYXJkIHtcblxuICAgIHByaXZhdGUgX2xlYWRlck5hbWU6IHN0cmluZztcbiAgICBwcml2YXRlIF9hcnRXb3JrOiBzdHJpbmc7XG4gICAgcHJpdmF0ZSBfY29tYmF0U3RyZW5ndGg6IG51bWJlcjtcbiAgICBwcml2YXRlIF9zd29yZDogbnVtYmVyO1xuICAgIHByaXZhdGUgX2ZvcnRpZmljYXRpb246IG51bWJlcjtcbiAgICBwcml2YXRlIF9hYmlsaXR5OiBzdHJpbmc7XG4gICAgcHJpdmF0ZSBfYWJpbGl0eUZuOiBzdHJpbmc7XG4gICAgcHJpdmF0ZSBfaG91c2U6IEhvdXNlO1xuICAgIHByaXZhdGUgX3BsYXllZDogYm9vbGVhbjtcbiAgICBwcml2YXRlIF9jYXJkRXhlY3V0aW9uUG9pbnQ6IENhcmRFeGVjdXRpb25Qb2ludDtcbiAgICBwcml2YXRlIF9pZDogbnVtYmVyO1xuXG4gICAgY29uc3RydWN0b3IoaWQ6IG51bWJlciwgbGVhZGVyTmFtZTogc3RyaW5nLCBhcnRXb3JrOiBzdHJpbmcsIGNvbWJhdFN0cmVuZ3RoOiBudW1iZXIsIHN3b3JkOiBudW1iZXIsIGZvcnRpZmljYXRpb246IG51bWJlciwgYWJpbGl0eTogc3RyaW5nLCBhYmlsaXR5Rm46IHN0cmluZywgaG91c2U6IEhvdXNlLCBjYXJkRXhlY3V0aW9uUG9pbnQ6IENhcmRFeGVjdXRpb25Qb2ludCkge1xuICAgICAgICB0aGlzLl9pZCA9IGlkO1xuICAgICAgICB0aGlzLl9sZWFkZXJOYW1lID0gbGVhZGVyTmFtZTtcbiAgICAgICAgdGhpcy5fYXJ0V29yayA9IGFydFdvcms7XG4gICAgICAgIHRoaXMuX2NvbWJhdFN0cmVuZ3RoID0gY29tYmF0U3RyZW5ndGg7XG4gICAgICAgIHRoaXMuX3N3b3JkID0gc3dvcmQ7XG4gICAgICAgIHRoaXMuX2ZvcnRpZmljYXRpb24gPSBmb3J0aWZpY2F0aW9uO1xuICAgICAgICB0aGlzLl9hYmlsaXR5ID0gYWJpbGl0eTtcbiAgICAgICAgdGhpcy5fYWJpbGl0eUZuID0gYWJpbGl0eUZuO1xuICAgICAgICB0aGlzLl9jYXJkRXhlY3V0aW9uUG9pbnQgPSBjYXJkRXhlY3V0aW9uUG9pbnQ7XG4gICAgICAgIHRoaXMuX2hvdXNlID0gaG91c2U7XG4gICAgICAgIHRoaXMuX3BsYXllZCA9IGZhbHNlO1xuXG4gICAgfVxuXG4gICAgZ2V0IGlkKCk6IG51bWJlciB7XG4gICAgICAgIHJldHVybiB0aGlzLl9pZDtcbiAgICB9XG5cblxuICAgIGdldCBob3VzZSgpOiBIb3VzZSB7XG4gICAgICAgIHJldHVybiB0aGlzLl9ob3VzZTtcbiAgICB9XG5cbiAgICBnZXQgYWJpbGl0eSgpOiBzdHJpbmcge1xuICAgICAgICByZXR1cm4gdGhpcy5fYWJpbGl0eTtcbiAgICB9XG5cbiAgICBnZXQgZm9ydGlmaWNhdGlvbigpOiBudW1iZXIge1xuICAgICAgICByZXR1cm4gdGhpcy5fZm9ydGlmaWNhdGlvbjtcbiAgICB9XG5cbiAgICBnZXQgc3dvcmQoKTogbnVtYmVyIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX3N3b3JkO1xuICAgIH1cblxuICAgIGdldCBjb21iYXRTdHJlbmd0aCgpOiBudW1iZXIge1xuICAgICAgICByZXR1cm4gdGhpcy5fY29tYmF0U3RyZW5ndGg7XG4gICAgfVxuXG4gICAgZ2V0IGFydFdvcmsoKTogc3RyaW5nIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2FydFdvcms7XG4gICAgfVxuXG4gICAgZ2V0IGxlYWRlck5hbWUoKTogc3RyaW5nIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2xlYWRlck5hbWU7XG4gICAgfVxuXG4gICAgZ2V0IGFiaWxpdHlGbigpOiBzdHJpbmcge1xuICAgICAgICByZXR1cm4gdGhpcy5fYWJpbGl0eUZuO1xuICAgIH1cblxuICAgIGdldCBjYXJkRXhlY3V0aW9uUG9pbnQoKTogQ2FyZEV4ZWN1dGlvblBvaW50IHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2NhcmRFeGVjdXRpb25Qb2ludDtcbiAgICB9XG5cblxuICAgIGdldCBwbGF5ZWQoKTogYm9vbGVhbiB7XG4gICAgICAgIHJldHVybiB0aGlzLl9wbGF5ZWQ7XG4gICAgfVxuXG4gICAgc2V0IHBsYXllZCh2YWx1ZTogYm9vbGVhbikge1xuICAgICAgICB0aGlzLl9wbGF5ZWQgPSB2YWx1ZTtcbiAgICB9XG59Il19
+},'src/logic/cards/houseCard.ts',{"../board/house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","./cardExecutionPoint":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/cardExecutionPoint.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

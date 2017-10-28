@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for board/initialArea.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">board/</a> initialArea.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>209/209</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">66.67% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>208/208</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/board/initialArea.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var area_1 = require("./area");
+var house_1 = require("./house");
+var units_1 = require("../units/units");
+var unitType_1 = require("../units/unitType");
+var AreaInitiator = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function AreaInitiator() {</span>
+    }
+    AreaInitiator.getInitalState = function (players) {
+        var areas = new Array();
+        var castleBlack = new area_1.Area('CastleBlack', 1, false, false, false, true, 0);
+        areas.push(castleBlack);
+        var karhold = new area_1.Area('Karhold', 1, false, false, false, true, 0);
+        areas.push(karhold);
+        var theShiveringSea = new area_1.Area('TheShiveringSea', 0, false, false, false, false, 0);
+        areas.push(theShiveringSea);
+        var bayOfIce = new area_1.Area('BayOfIce', 0, false, false, false, false, 0);
+        areas.push(bayOfIce);
+        var winterfell = new area_1.Area('Winterfell', 1, true, false, true, true, 1);
+        areas.push(winterfell);
+        var theStonyShore = new area_1.Area('TheStonyShore', 1, false, false, false, true, 1);
+        areas.push(theStonyShore);
+        var whiteHarbor = new area_1.Area('WhiteHarbor', 0, true, true, false, true, 0);
+        areas.push(whiteHarbor);
+        var widowsWatch = new area_1.Area('WidowsWatch', 0, false, false, false, true, 1);
+        areas.push(widowsWatch);
+        var flintsFinger = new area_1.Area('FlintsFinger', 0, false, true, false, true, 0);
+        areas.push(flintsFinger);
+        var pyke = new area_1.Area('Pyke', 1, true, false, true, true, 1);
+        areas.push(pyke);
+        var greyWaterWatch = new area_1.Area('GreyWaterWatch', 0, false, false, false, true, 1);
+        areas.push(greyWaterWatch);
+        var ironmansBay = new area_1.Area('IronmansBay', 0, false, false, false, false, 0);
+        areas.push(ironmansBay);
+        var theNarrowSea = new area_1.Area('TheNarrowSea', 0, false, false, false, false, 0);
+        areas.push(theNarrowSea);
+        var moatCailin = new area_1.Area('MoatCailin', 0, false, true, false, true, 0);
+        areas.push(moatCailin);
+        var seagard = new area_1.Area('Seagard', 1, false, false, true, true, 1);
+        areas.push(seagard);
+        var theTwins = new area_1.Area('TheTwins', 1, false, false, false, true, 0);
+        areas.push(theTwins);
+        var theFingers = new area_1.Area('TheFingers', 0, false, false, false, true, 1);
+        areas.push(theFingers);
+        var theEyrie = new area_1.Area('TheEyrie', 1, false, true, false, true, 1);
+        areas.push(theEyrie);
+        var sunsetSea = new area_1.Area('SunsetSea', 0, false, false, false, false, 0);
+        areas.push(sunsetSea);
+        var lannisport = new area_1.Area('Lannisport', 0, true, false, true, true, 2);
+        areas.push(lannisport);
+        var theGoldenSound = new area_1.Area('TheGoldenSound', 0, false, false, false, false, 0);
+        areas.push(theGoldenSound);
+        var stoneySept = new area_1.Area('StoneySept', 1, false, false, false, true, 0);
+        areas.push(stoneySept);
+        var riverrun = new area_1.Area('Riverrun', 1, false, false, true, true, 1);
+        areas.push(riverrun);
+        var TheMountainsOfTheMoon = new area_1.Area('TheMountainsOfTheMoon', 0, false, false, false, true, 1);
+        areas.push(TheMountainsOfTheMoon);
+        var harrenhal = new area_1.Area('Harrenhal', 1, false, true, false, true, 0);
+        areas.push(harrenhal);
+        var crackClawPoint = new area_1.Area('CrackClawPoint', 0, false, true, false, true, 0);
+        areas.push(crackClawPoint);
+        var blackwaterBay = new area_1.Area('BlackwaterBay', 0, false, false, false, false, 0);
+        areas.push(blackwaterBay);
+        var dragonStone = new area_1.Area('Dragonstone', 1, true, false, true, true, 1);
+        areas.push(dragonStone);
+        var shipbreakerBay = new area_1.Area('ShipbreakerBay', 0, false, false, false, false, 0);
+        areas.push(shipbreakerBay);
+        var kingswood = new area_1.Area('Kingswood', 1, false, false, false, true, 1);
+        areas.push(kingswood);
+        var kingsLanding = new area_1.Area('KingsLanding', 2, false, false, true, true, 0);
+        areas.push(kingsLanding);
+        var blackwater = new area_1.Area('Blackwater', 0, false, false, false, true, 2);
+        areas.push(blackwater);
+        var searoadMarches = new area_1.Area('SearoadMarches', 0, false, false, false, true, 1);
+        areas.push(searoadMarches);
+        var highgarden = new area_1.Area('Highgarden', 0, false, false, true, true, 2);
+        areas.push(highgarden);
+        var dornishMarches = new area_1.Area('DornishMarches', 1, false, false, false, true, 0);
+        areas.push(dornishMarches);
+        var redwyneStraights = new area_1.Area('RedwyneStraights', 0, false, false, false, false, 0);
+        areas.push(redwyneStraights);
+        var stormsEnd = new area_1.Area('StormsEnd', 0, true, true, false, true, 0);
+        areas.push(stormsEnd);
+        var theBoneway = new area_1.Area('TheBoneway', 1, false, false, false, true, 0);
+        areas.push(theBoneway);
+        var oldtown = new area_1.Area('Oldtown', 0, true, false, true, true, 0);
+        areas.push(oldtown);
+        var threeTowers = new area_1.Area('ThreeTowers', 0, false, false, false, true, 1);
+        areas.push(threeTowers);
+        var princesPass = new area_1.Area('PrincesPass', 1, false, false, false, true, 1);
+        areas.push(princesPass);
+        var yronwood = new area_1.Area('Yronwood', 0, false, true, false, true, 0);
+        areas.push(yronwood);
+        var sunspear = new area_1.Area('Sunspear', 1, true, false, true, true, 1);
+        areas.push(sunspear);
+        var saltShore = new area_1.Area('SaltShore', 0, false, false, false, true, 1);
+        areas.push(saltShore);
+        var seaOfDorne = new area_1.Area('SeaOfDorne', 0, false, false, false, false, 0);
+        areas.push(seaOfDorne);
+        var starfall = new area_1.Area('Starfall', 0, false, true, false, true, 1);
+        areas.push(starfall);
+        var theArbor = new area_1.Area('TheArbor', 1, false, false, false, true, 0);
+        areas.push(theArbor);
+        var westSummerSea = new area_1.Area('WestSummerSea', 0, false, false, false, false, 0);
+        areas.push(westSummerSea);
+        var eastSummerSea = new area_1.Area('EastSummerSea', 0, false, false, false, false, 0);
+        areas.push(eastSummerSea);
+        var theReach = new area_1.Area('TheReach', 0, false, true, false, true, 0);
+        areas.push(theReach);
+        castleBlack.borders.push(theShiveringSea, karhold, winterfell, bayOfIce);
+        karhold.borders.push(theShiveringSea, winterfell);
+        theShiveringSea.borders.push(castleBlack, karhold, winterfell, whiteHarbor, widowsWatch, theNarrowSea);
+        bayOfIce.borders.push(sunsetSea, theStonyShore, winterfell, castleBlack);
+        winterfell.borders.push(castleBlack, karhold, whiteHarbor, theShiveringSea, moatCailin, theStonyShore, bayOfIce);
+        theStonyShore.borders.push(winterfell, bayOfIce);
+        whiteHarbor.borders.push(theShiveringSea, widowsWatch, theNarrowSea, moatCailin, winterfell);
+        widowsWatch.borders.push(whiteHarbor, theShiveringSea, theNarrowSea);
+        theNarrowSea.borders.push(theShiveringSea, widowsWatch, whiteHarbor, moatCailin, theTwins, theFingers, TheMountainsOfTheMoon, theEyrie, crackClawPoint, shipbreakerBay);
+        moatCailin.borders.push(whiteHarbor, theNarrowSea, theTwins, seagard, greyWaterWatch, winterfell);
+        greyWaterWatch.borders.push(moatCailin, seagard, ironmansBay, flintsFinger, bayOfIce);
+        flintsFinger.borders.push(bayOfIce, sunsetSea, ironmansBay, greyWaterWatch);
+        sunsetSea.borders.push(bayOfIce, flintsFinger, ironmansBay, theGoldenSound, searoadMarches, westSummerSea);
+        ironmansBay.borders.push(sunsetSea, flintsFinger, greyWaterWatch, seagard, riverrun, theGoldenSound, pyke);
+        pyke.borders.push(ironmansBay);
+        seagard.borders.push(greyWaterWatch, moatCailin, theTwins, riverrun, ironmansBay);
+        theTwins.borders.push(moatCailin, theNarrowSea, theFingers, TheMountainsOfTheMoon);
+        theFingers.borders.push(theNarrowSea, TheMountainsOfTheMoon, theTwins);
+        TheMountainsOfTheMoon.borders.push(theTwins, theFingers, theNarrowSea, theEyrie, crackClawPoint);
+        theEyrie.borders.push(TheMountainsOfTheMoon, theNarrowSea);
+        riverrun.borders.push(seagard, harrenhal, stoneySept, lannisport, theGoldenSound, ironmansBay);
+        lannisport.borders.push(theGoldenSound, riverrun, stoneySept, searoadMarches);
+        theGoldenSound.borders.push(ironmansBay, riverrun, lannisport, searoadMarches);
+        theStonyShore.borders.push();
+        harrenhal.borders.push(crackClawPoint, blackwater, stoneySept, riverrun);
+        crackClawPoint.borders.push(TheMountainsOfTheMoon, theNarrowSea, shipbreakerBay, blackwaterBay, kingsLanding, blackwater, harrenhal);
+        shipbreakerBay.borders.push(theNarrowSea, dragonStone, eastSummerSea, stormsEnd, kingswood, blackwaterBay, crackClawPoint);
+        dragonStone.borders.push(shipbreakerBay);
+        kingsLanding.borders.push(crackClawPoint, blackwaterBay, kingswood, blackwater, theReach);
+        blackwater.borders.push(harrenhal, crackClawPoint, kingsLanding, theReach, searoadMarches, stoneySept);
+        searoadMarches.borders.push(lannisport, stoneySept, blackwater, theReach, highgarden, westSummerSea, sunsetSea, theGoldenSound);
+        westSummerSea.borders.push(sunsetSea, searoadMarches, highgarden, redwyneStraights, threeTowers, starfall, eastSummerSea, theArbor);
+        highgarden.borders.push(searoadMarches, theReach, dornishMarches, oldtown, redwyneStraights, westSummerSea);
+        theReach.borders.push(blackwater, kingsLanding, kingswood, theBoneway, dornishMarches, highgarden, searoadMarches);
+        kingswood.borders.push(blackwaterBay, shipbreakerBay, stormsEnd, theBoneway, theReach, kingsLanding);
+        stormsEnd.borders.push(kingswood, shipbreakerBay, eastSummerSea, seaOfDorne, theBoneway);
+        theBoneway.borders.push(kingswood, stormsEnd, seaOfDorne, yronwood, princesPass, dornishMarches, theReach);
+        seaOfDorne.borders.push(stormsEnd, eastSummerSea, sunspear, yronwood, theBoneway);
+        dornishMarches.borders.push(theReach, theBoneway, princesPass, threeTowers, oldtown, highgarden);
+        oldtown.borders.push(highgarden, dornishMarches, threeTowers, redwyneStraights);
+        redwyneStraights.borders.push(highgarden, oldtown, threeTowers, westSummerSea, theArbor);
+        theArbor.borders.push(redwyneStraights, westSummerSea);
+        threeTowers.borders.push(oldtown, dornishMarches, princesPass, westSummerSea, redwyneStraights);
+        princesPass.borders.push(dornishMarches, theBoneway, yronwood, starfall, threeTowers);
+        starfall.borders.push(princesPass, yronwood, saltShore, eastSummerSea, westSummerSea);
+        yronwood.borders.push(theBoneway, seaOfDorne, sunspear, saltShore, starfall, princesPass);
+        saltShore.borders.push(yronwood, sunspear, eastSummerSea, starfall);
+        eastSummerSea.borders.push(starfall, saltShore, sunspear, seaOfDorne, shipbreakerBay, westSummerSea);
+        sunspear.borders.push(seaOfDorne, eastSummerSea, saltShore, yronwood);
+        for (var _i = 0, players_1 = players; _i &lt; players_1.length; _i++) {
+            var player = players_1[_i];
+            switch (player.house) {
+                case house_1.House.stark:
+                    theShiveringSea.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.stark)];
+                    theShiveringSea.controllingHouse = house_1.House.stark;
+                    winterfell.units = [new units_1.default(unitType_1.UnitType.Horse, house_1.House.stark), new units_1.default(unitType_1.UnitType.Footman, house_1.House.stark)];
+                    winterfell.controllingHouse = house_1.House.stark;
+                    whiteHarbor.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.stark)];
+                    whiteHarbor.controllingHouse = house_1.House.stark;
+                    break;
+                case house_1.House.lannister:
+                    lannisport.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.lannister), new units_1.default(unitType_1.UnitType.Horse, house_1.House.lannister)];
+                    lannisport.controllingHouse = house_1.House.lannister;
+                    theGoldenSound.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.lannister)];
+                    theGoldenSound.controllingHouse = house_1.House.lannister;
+                    stoneySept.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.lannister)];
+                    stoneySept.controllingHouse = house_1.House.lannister;
+                    break;
+                case house_1.House.baratheon:
+                    dragonStone.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.baratheon), new units_1.default(unitType_1.UnitType.Horse, house_1.House.baratheon)];
+                    dragonStone.controllingHouse = house_1.House.baratheon;
+                    shipbreakerBay.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.baratheon), new units_1.default(unitType_1.UnitType.Ship, house_1.House.baratheon)];
+                    shipbreakerBay.controllingHouse = house_1.House.baratheon;
+                    kingswood.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.baratheon)];
+                    kingswood.controllingHouse = house_1.House.baratheon;
+                    break;
+                case house_1.House.greyjoy:
+                    pyke.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.greyjoy), new units_1.default(unitType_1.UnitType.Horse, house_1.House.greyjoy)];
+                    pyke.controllingHouse = house_1.House.greyjoy;
+                    greyWaterWatch.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.greyjoy)];
+                    greyWaterWatch.controllingHouse = house_1.House.greyjoy;
+                    ironmansBay.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.greyjoy), new units_1.default(unitType_1.UnitType.Ship, house_1.House.greyjoy)];
+                    ironmansBay.controllingHouse = house_1.House.greyjoy;
+                    break;
+                case house_1.House.tyrell:
+                    highgarden.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.tyrell), new units_1.default(unitType_1.UnitType.Horse, house_1.House.tyrell)];
+                    highgarden.controllingHouse = house_1.House.tyrell;
+                    dornishMarches.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.tyrell)];
+                    dornishMarches.controllingHouse = house_1.House.tyrell;
+                    redwyneStraights.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.tyrell)];
+                    redwyneStraights.controllingHouse = house_1.House.tyrell;
+                    break;
+                case house_1.House.martell:
+                    sunspear.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.martell), new units_1.default(unitType_1.UnitType.Horse, house_1.House.martell)];
+                    sunspear.controllingHouse = house_1.House.martell;
+                    saltShore.units = [new units_1.default(unitType_1.UnitType.Footman, house_1.House.martell)];
+                    saltShore.controllingHouse = house_1.House.martell;
+                    seaOfDorne.units = [new units_1.default(unitType_1.UnitType.Ship, house_1.House.martell)];
+                    seaOfDorne.controllingHouse = house_1.House.martell;
+                    break;
+            }
+        }
+        return areas;
+    };
+    AreaInitiator.addInitialUnits = <span class="fstat-no" title="function not covered" >function (areas, players) {</span>
+    };
+    return AreaInitiator;
+}());
+exports.AreaInitiator = AreaInitiator;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5pdGlhbEFyZWEuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbml0aWFsQXJlYS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLCtCQUE0QjtBQUM1QixpQ0FBOEI7QUFFOUIsd0NBQWtDO0FBQ2xDLDhDQUEyQztBQUUzQztJQUFBO0lBd05BLENBQUM7SUF0TmlCLDRCQUFjLEdBQTVCLFVBQTZCLE9BQXNCO1FBQy9DLElBQUksS0FBSyxHQUFnQixJQUFJLEtBQUssRUFBRSxDQUFDO1FBQ3JDLElBQUksV0FBVyxHQUFHLElBQUksV0FBSSxDQUFDLGFBQWEsRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQzNFLEtBQUssQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDLENBQUM7UUFDeEIsSUFBSSxPQUFPLEdBQUcsSUFBSSxXQUFJLENBQUMsU0FBUyxFQUFFLENBQUMsRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDbkUsS0FBSyxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQztRQUNwQixJQUFJLGVBQWUsR0FBRyxJQUFJLFdBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3BGLEtBQUssQ0FBQyxJQUFJLENBQUMsZUFBZSxDQUFDLENBQUM7UUFDNUIsSUFBSSxRQUFRLEdBQUcsSUFBSSxXQUFJLENBQUMsVUFBVSxFQUFFLENBQUMsRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDdEUsS0FBSyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztRQUNyQixJQUFJLFVBQVUsR0FBRyxJQUFJLFdBQUksQ0FBQyxZ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VUFBVSxHQUFHLElBQUksV0FBSSxDQUFDLFlBQVksRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3pFLEtBQUssQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7UUFDdkIsSUFBSSxRQUFRLEdBQUcsSUFBSSxXQUFJLENBQUMsVUFBVSxFQUFFLENBQUMsRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDcEUsS0FBSyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztRQUNyQixJQUFJLFNBQVMsR0FBRyxJQUFJLFdBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxDQUFDLENBQUMsQ0FBQztRQUN4RSxLQUFLLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDO1FBQ3RCLElBQUksVUFBVSxHQUFHLElBQUksV0FBSSxDQUFDLFlBQVksRUFBRSxDQUFDLEVBQUUsSUFBSSxFQUFFLEtBQUssRUFBRSxJQUFJLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3ZFLEtBQUssQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7UUFDdkIsSUFBSSxjQUFjLEdBQUcsSUFBSSxXQUFJLENBQUMsZ0JBQWdCLEVBQUUsQ0FBQyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxDQUFDLENBQUMsQ0FBQztRQUNsRixLQUFLLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxDQUFDO1FBQzNCLElBQUksVUFBVSxHQUFHLElBQUksV0FBSSxDQUFDLFlBQVksRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3pFLEtBQUssQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENB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QUUsQ0FBQyxDQUFDLENBQUM7UUFDM0UsS0FBSyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztRQUN4QixJQUFJLFdBQVcsR0FBRyxJQUFJLFdBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxDQUFDLENBQUMsQ0FBQztRQUMzRSxLQUFLLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxDQUFDO1FBQ3hCLElBQUksUUFBUSxHQUFHLElBQUksV0FBSSxDQUFDLFVBQVUsRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQ3BFLEtBQUssQ0FBQyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUM7UUFDckIsSUFBSSxRQUFRLEdBQUcsSUFBSSxXQUFJLENBQUMsVUFBVSxFQUFFLENBQUMsRUFBRSxJQUFJLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDbkUsS0FBSyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztRQUNyQixJQUFJLFNBQVMsR0FBRyxJQUFJLFdBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxDQUFDLENBQUMsQ0FBQztRQUN2RSxLQUFLLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDO1FBQ3RCLElBQUksVUFBVSxHQUFHLElBQUksV0FBSSxDQUFDLFlBQVksRUFBRSxDQUFDLEVBQUUsS0FBSyxFQUFFLEtBQUssRUFBRSxLQUFLLEVBQUUsS0FBSyxFQUFFLENBQUMsQ0FBQyxDQUFDO1FBQzFFLEtBQUssQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7UUFDdkIsSUFBSSxRQUFRLEdBQUcsSUFBSSxXQUFJLENBQUMsVUFBVSxFQUFFLENBQUMsRUFBRSxLQUFLLEVBQUUsSUFBSSxFQUFFLEtBQUss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QyxPQUFPO29CQUNkLFFBQVEsQ0FBQyxLQUFLLEdBQUcsQ0FBQyxJQUFJLGVBQUksQ0FBQyxtQkFBUSxDQUFDLE9BQU8sRUFBRSxhQUFLLENBQUMsT0FBTyxDQUFDLEVBQUUsSUFBSSxlQUFJLENBQUMsbUJBQVEsQ0FBQyxLQUFLLEVBQUUsYUFBSyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUM7b0JBQ3RHLFFBQVEsQ0FBQyxnQkFBZ0IsR0FBRyxhQUFLLENBQUMsT0FBTyxDQUFDO29CQUMxQyxTQUFTLENBQUMsS0FBSyxHQUFHLENBQUMsSUFBSSxlQUFJLENBQUMsbUJBQVEsQ0FBQyxPQUFPLEVBQUUsYUFBSyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUM7b0JBQzlELFNBQVMsQ0FBQyxnQkFBZ0IsR0FBRyxhQUFLLENBQUMsT0FBTyxDQUFDO29CQUMzQyxVQUFVLENBQUMsS0FBSyxHQUFHLENBQUMsSUFBSSxlQUFJLENBQUMsbUJBQVEsQ0FBQyxJQUFJLEVBQUUsYUFBSyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUM7b0JBQzVELFVBQVUsQ0FBQyxnQkFBZ0IsR0FBRyxhQUFLLENBQUMsT0FBTyxDQUFDO29CQUM1QyxLQUFLLENBQUM7WUFDZCxDQUFDO1NBRUo7UUFFRCxNQUFNLENBQUMsS0FBSyxDQUFDO0lBQ2pCLENBQUM7SUFFYyw2QkFBZSxHQUE5QixVQUErQixLQUFrQixFQUFFLE9BQXNCO0lBR3pFLENBQUM7SUFDTCxvQkFBQztBQUFELENBQUMsQUF4TkQsSUF3TkM7QUF4Tlksc0NBQWEiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge0FyZWF9IGZyb20gJy4vYXJlYSc7XG5pbXBvcnQge0hvdXNlfSBmcm9tICcuL2hvdXNlJztcbmltcG9ydCBQbGF5ZXIgZnJvbSAnLi9wbGF5ZXInO1xuaW1wb3J0IFVuaXQgZnJvbSAnLi4vdW5pdHMvdW5pdHMnO1xuaW1wb3J0IHtVbml0VHlwZX0gZnJvbSAnLi4vdW5pdHMvdW5pdFR5cGUnO1xuXG5leHBvcnQgY2xhc3MgQXJlYUluaXRpYXRvciB7XG5cbiAgICBwdWJsaWMgc3RhdGljIGdldEluaXRhbFN0YXRlKHBsYXllcnM6IEFycmF5PFBsYXllcj4pOiBBcnJheTxBcmVhPiB7XG4gICAgICAgIGxldCBhcmVhczogQXJyYXk8QXJlYT4gPSBuZXcgQXJyYXkoKTtcbiAgICAgICAgbGV0IGNhc3RsZUJsYWNrID0gbmV3IEFyZWEoJ0Nhc3RsZUJsYWNrJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goY2FzdGxlQmxhY2spO1xuICAgICAgICBsZXQga2FyaG9sZCA9IG5ldyBBcmVhKCdLYXJob2xkJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goa2FyaG9sZCk7XG4gICAgICAgIGxldCB0aGVTaGl2ZXJpbmdTZWEgPSBuZXcgQXJlYSgnVGhlU2hpdmVyaW5nU2VhJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZVNoaXZlcmluZ1NlYSk7XG4gICAgICAgIGxldCBiYXlPZkljZSA9IG5ldyBBcmVhKCdCYXlPZkljZScsIDAsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaChiYXlPZkljZSk7XG4gICAgICAgIGxldCB3aW50ZXJmZWxsID0gbmV3IEFyZWEoJ1dpbnRlcmZlbGwnLCAxLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2god2ludGVyZmVsbCk7XG4gICAgICAgIGxldCB0aGVTdG9ueVNob3JlID0gbmV3IEFyZWEoJ1RoZVN0b255U2hvcmUnLCAxLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCAxKTtcbiAgICAgICAgYXJlYXMucHVzaCh0aGVTdG9ueVNob3JlKTtcbiAgICAgICAgbGV0IHdoaXRlSGFyYm9yID0gbmV3IEFyZWEoJ1doaXRlSGFyYm9yJywgMCwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHdoaXRlSGFyYm9yKTtcbiAgICAgICAgbGV0IHdpZG93c1dhdGNoID0gbmV3IEFyZWEoJ1dpZG93c1dhdGNoJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2god2lkb3dzV2F0Y2gpO1xuICAgICAgICBsZXQgZmxpbnRzRmluZ2VyID0gbmV3IEFyZWEoJ0ZsaW50c0ZpbmdlcicsIDAsIGZhbHNlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goZmxpbnRzRmluZ2VyKTtcbiAgICAgICAgbGV0IHB5a2UgPSBuZXcgQXJlYSgnUHlrZScsIDEsIHRydWUsIGZhbHNlLCB0cnVlLCB0cnVlLCAxKTtcbiAgICAgICAgYXJlYXMucHVzaChweWtlKTtcbiAgICAgICAgbGV0IGdyZXlXYXRlcldhdGNoID0gbmV3IEFyZWEoJ0dyZXlXYXRlcldhdGNoJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2goZ3JleVdhdGVyV2F0Y2gpO1xuICAgICAgICBsZXQgaXJvbm1hbnNCYXkgPSBuZXcgQXJlYSgnSXJvbm1hbnNCYXknLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goaXJvbm1hbnNCYXkpO1xuICAgICAgICBsZXQgdGhlTmFycm93U2VhID0gbmV3IEFyZWEoJ1RoZU5hcnJvd1NlYScsIDAsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaCh0aGVOYXJyb3dTZWEpO1xuICAgICAgICBsZXQgbW9hdENhaWxpbiA9IG5ldyBBcmVhKCdNb2F0Q2FpbGluJywgMCwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaChtb2F0Q2FpbGluKTtcbiAgICAgICAgbGV0IHNlYWdhcmQgPSBuZXcgQXJlYSgnU2VhZ2FyZCcsIDEsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2goc2VhZ2FyZCk7XG4gICAgICAgIGxldCB0aGVUd2lucyA9IG5ldyBBcmVhKCdUaGVUd2lucycsIDEsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZVR3aW5zKTtcbiAgICAgICAgbGV0IHRoZUZpbmdlcnMgPSBuZXcgQXJlYSgnVGhlRmluZ2VycycsIDAsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZUZpbmdlcnMpO1xuICAgICAgICBsZXQgdGhlRXlyaWUgPSBuZXcgQXJlYSgnVGhlRXlyaWUnLCAxLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZUV5cmllKTtcbiAgICAgICAgbGV0IHN1bnNldFNlYSA9IG5ldyBBcmVhKCdTdW5zZXRTZWEnLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goc3Vuc2V0U2VhKTtcbiAgICAgICAgbGV0IGxhbm5pc3BvcnQgPSBuZXcgQXJlYSgnTGFubmlzcG9ydCcsIDAsIHRydWUsIGZhbHNlLCB0cnVlLCB0cnVlLCAyKTtcbiAgICAgICAgYXJlYXMucHVzaChsYW5uaXNwb3J0KTtcbiAgICAgICAgbGV0IHRoZUdvbGRlblNvdW5kID0gbmV3IEFyZWEoJ1RoZUdvbGRlblNvdW5kJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZUdvbGRlblNvdW5kKTtcbiAgICAgICAgbGV0IHN0b25leVNlcHQgPSBuZXcgQXJlYSgnU3RvbmV5U2VwdCcsIDEsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHN0b25leVNlcHQpO1xuICAgICAgICBsZXQgcml2ZXJydW4gPSBuZXcgQXJlYSgnUml2ZXJydW4nLCAxLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHJpdmVycnVuKTtcbiAgICAgICAgbGV0IFRoZU1vdW50YWluc09mVGhlTW9vbiA9IG5ldyBBcmVhKCdUaGVNb3VudGFpbnNPZlRoZU1vb24nLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCAxKTtcbiAgICAgICAgYXJlYXMucHVzaChUaGVNb3VudGFpbnNPZlRoZU1vb24pO1xuICAgICAgICBsZXQgaGFycmVuaGFsID0gbmV3IEFyZWEoJ0hhcnJlbmhhbCcsIDEsIGZhbHNlLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goaGFycmVuaGFsKTtcbiAgICAgICAgbGV0IGNyYWNrQ2xhd1BvaW50ID0gbmV3IEFyZWEoJ0NyYWNrQ2xhd1BvaW50JywgMCwgZmFsc2UsIHRydWUsIGZhbHNlLCB0cnVlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaChjcmFja0NsYXdQb2ludCk7XG4gICAgICAgIGxldCBibGFja3dhdGVyQmF5ID0gbmV3IEFyZWEoJ0JsYWNrd2F0ZXJCYXknLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goYmxhY2t3YXRlckJheSk7XG4gICAgICAgIGxldCBkcmFnb25TdG9uZSA9IG5ldyBBcmVhKCdEcmFnb25zdG9uZScsIDEsIHRydWUsIGZhbHNlLCB0cnVlLCB0cnVlLCAxKTtcbiAgICAgICAgYXJlYXMucHVzaChkcmFnb25TdG9uZSk7XG4gICAgICAgIGxldCBzaGlwYnJlYWtlckJheSA9IG5ldyBBcmVhKCdTaGlwYnJlYWtlckJheScsIDAsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaChzaGlwYnJlYWtlckJheSk7XG4gICAgICAgIGxldCBraW5nc3dvb2QgPSBuZXcgQXJlYSgnS2luZ3N3b29kJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2goa2luZ3N3b29kKTtcbiAgICAgICAgbGV0IGtpbmdzTGFuZGluZyA9IG5ldyBBcmVhKCdLaW5nc0xhbmRpbmcnLCAyLCBmYWxzZSwgZmFsc2UsIHRydWUsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKGtpbmdzTGFuZGluZyk7XG4gICAgICAgIGxldCBibGFja3dhdGVyID0gbmV3IEFyZWEoJ0JsYWNrd2F0ZXInLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCAyKTtcbiAgICAgICAgYXJlYXMucHVzaChibGFja3dhdGVyKTtcbiAgICAgICAgbGV0IHNlYXJvYWRNYXJjaGVzID0gbmV3IEFyZWEoJ1NlYXJvYWRNYXJjaGVzJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2goc2Vhcm9hZE1hcmNoZXMpO1xuICAgICAgICBsZXQgaGlnaGdhcmRlbiA9IG5ldyBBcmVhKCdIaWdoZ2FyZGVuJywgMCwgZmFsc2UsIGZhbHNlLCB0cnVlLCB0cnVlLCAyKTtcbiAgICAgICAgYXJlYXMucHVzaChoaWdoZ2FyZGVuKTtcbiAgICAgICAgbGV0IGRvcm5pc2hNYXJjaGVzID0gbmV3IEFyZWEoJ0Rvcm5pc2hNYXJjaGVzJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2goZG9ybmlzaE1hcmNoZXMpO1xuICAgICAgICBsZXQgcmVkd3luZVN0cmFpZ2h0cyA9IG5ldyBBcmVhKCdSZWR3eW5lU3RyYWlnaHRzJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHJlZHd5bmVTdHJhaWdodHMpO1xuICAgICAgICBsZXQgc3Rvcm1zRW5kID0gbmV3IEFyZWEoJ1N0b3Jtc0VuZCcsIDAsIHRydWUsIHRydWUsIGZhbHNlLCB0cnVlLCAwKTtcbiAgICAgICAgYXJlYXMucHVzaChzdG9ybXNFbmQpO1xuICAgICAgICBsZXQgdGhlQm9uZXdheSA9IG5ldyBBcmVhKCdUaGVCb25ld2F5JywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2godGhlQm9uZXdheSk7XG4gICAgICAgIGxldCBvbGR0b3duID0gbmV3IEFyZWEoJ09sZHRvd24nLCAwLCB0cnVlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2gob2xkdG93bik7XG4gICAgICAgIGxldCB0aHJlZVRvd2VycyA9IG5ldyBBcmVhKCdUaHJlZVRvd2VycycsIDAsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHRocmVlVG93ZXJzKTtcbiAgICAgICAgbGV0IHByaW5jZXNQYXNzID0gbmV3IEFyZWEoJ1ByaW5jZXNQYXNzJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMSk7XG4gICAgICAgIGFyZWFzLnB1c2gocHJpbmNlc1Bhc3MpO1xuICAgICAgICBsZXQgeXJvbndvb2QgPSBuZXcgQXJlYSgnWXJvbndvb2QnLCAwLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHlyb253b29kKTtcbiAgICAgICAgbGV0IHN1bnNwZWFyID0gbmV3IEFyZWEoJ1N1bnNwZWFyJywgMSwgdHJ1ZSwgZmFsc2UsIHRydWUsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHN1bnNwZWFyKTtcbiAgICAgICAgbGV0IHNhbHRTaG9yZSA9IG5ldyBBcmVhKCdTYWx0U2hvcmUnLCAwLCBmYWxzZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCAxKTtcbiAgICAgICAgYXJlYXMucHVzaChzYWx0U2hvcmUpO1xuICAgICAgICBsZXQgc2VhT2ZEb3JuZSA9IG5ldyBBcmVhKCdTZWFPZkRvcm5lJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHNlYU9mRG9ybmUpO1xuICAgICAgICBsZXQgc3RhcmZhbGwgPSBuZXcgQXJlYSgnU3RhcmZhbGwnLCAwLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIDEpO1xuICAgICAgICBhcmVhcy5wdXNoKHN0YXJmYWxsKTtcbiAgICAgICAgbGV0IHRoZUFyYm9yID0gbmV3IEFyZWEoJ1RoZUFyYm9yJywgMSwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgdHJ1ZSwgMCk7XG4gICAgICAgIGFyZWFzLnB1c2godGhlQXJib3IpO1xuICAgICAgICBsZXQgd2VzdFN1bW1lclNlYSA9IG5ldyBBcmVhKCdXZXN0U3VtbWVyU2VhJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHdlc3RTdW1tZXJTZWEpO1xuICAgICAgICBsZXQgZWFzdFN1bW1lclNlYSA9IG5ldyBBcmVhKCdFYXN0U3VtbWVyU2VhJywgMCwgZmFsc2UsIGZhbHNlLCBmYWxzZSwgZmFsc2UsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKGVhc3RTdW1tZXJTZWEpO1xuICAgICAgICBsZXQgdGhlUmVhY2ggPSBuZXcgQXJlYSgnVGhlUmVhY2gnLCAwLCBmYWxzZSwgdHJ1ZSwgZmFsc2UsIHRydWUsIDApO1xuICAgICAgICBhcmVhcy5wdXNoKHRoZVJlYWNoKTtcblxuICAgICAgICBjYXN0bGVCbGFjay5ib3JkZXJzLnB1c2godGhlU2hpdmVyaW5nU2VhLCBrYXJob2xkLCB3aW50ZXJmZWxsLCBiYXlPZkljZSk7XG4gICAgICAgIGthcmhvbGQuYm9yZGVycy5wdXNoKHRoZVNoaXZlcmluZ1NlYSwgd2ludGVyZmVsbCk7XG4gICAgICAgIHRoZVNoaXZlcmluZ1NlYS5ib3JkZXJzLnB1c2goY2FzdGxlQmxhY2ssIGthcmhvbGQsIHdpbnRlcmZlbGwsIHdoaXRlSGFyYm9yLCB3aWRvd3NXYXRjaCwgdGhlTmFycm93U2VhKTtcbiAgICAgICAgYmF5T2ZJY2UuYm9yZGVycy5wdXNoKHN1bnNldFNlYSwgdGhlU3RvbnlTaG9yZSwgd2ludGVyZmVsbCwgY2FzdGxlQmxhY2spO1xuICAgICAgICB3aW50ZXJmZWxsLmJvcmRlcnMucHVzaChjYXN0bGVCbGFjaywga2FyaG9sZCwgd2hpdGVIYXJib3IsIHRoZVNoaXZlcmluZ1NlYSwgbW9hdENhaWxpbiwgdGhlU3RvbnlTaG9yZSwgYmF5T2ZJY2UpO1xuICAgICAgICB0aGVTdG9ueVNob3JlLmJvcmRlcnMucHVzaCh3aW50ZXJmZWxsLCBiYXlPZkljZSk7XG4gICAgICAgIHdoaXRlSGFyYm9yLmJvcmRlcnMucHVzaCh0aGVTaGl2ZXJpbmdTZWEsIHdpZG93c1dhdGNoLCB0aGVOYXJyb3dTZWEsIG1vYXRDYWlsaW4sIHdpbnRlcmZlbGwpO1xuICAgICAgICB3aWRvd3NXYXRjaC5ib3JkZXJzLnB1c2god2hpdGVIYXJib3IsIHRoZVNoaXZlcmluZ1NlYSwgdGhlTmFycm93U2VhKTtcbiAgICAgICAgdGhlTmFycm93U2VhLmJvcmRlcnMucHVzaCh0aGVTaGl2ZXJpbmdTZWEsIHdpZG93c1dhdGNoLCB3aGl0ZUhhcmJvciwgbW9hdENhaWxpbiwgdGhlVHdpbnMsIHRoZUZpbmdlcnMsIFRoZU1vdW50YWluc09mVGhlTW9vbiwgdGhlRXlyaWUsIGNyYWNrQ2xhd1BvaW50LCBzaGlwYnJlYWtlckJheSk7XG4gICAgICAgIG1vYXRDYWlsaW4uYm9yZGVycy5wdXNoKHdoaXRlSGFyYm9yLCB0aGVOYXJyb3dTZWEsIHRoZVR3aW5zLCBzZWFnYXJkLCBncmV5V2F0ZXJXYXRjaCwgd2ludGVyZmVsbCk7XG4gICAgICAgIGdyZXlXYXRlcldhdGNoLmJvcmRlcnMucHVzaChtb2F0Q2FpbGluLCBzZWFnYXJkLCBpcm9ubWFuc0JheSwgZmxpbnRzRmluZ2VyLCBiYXlPZkljZSk7XG4gICAgICAgIGZsaW50c0Zpbmdlci5ib3JkZXJzLnB1c2goYmF5T2ZJY2UsIHN1bnNldFNlYSwgaXJvbm1hbnNCYXksIGdyZXlXYXRlcldhdGNoKTtcbiAgICAgICAgc3Vuc2V0U2VhLmJvcmRlcnMucHVzaChiYXlPZkljZSwgZmxpbnRzRmluZ2VyLCBpcm9ubWFuc0JheSwgdGhlR29sZGVuU291bmQsIHNlYXJvYWRNYXJjaGVzLCB3ZXN0U3VtbWVyU2VhKTtcbiAgICAgICAgaXJvbm1hbnNCYXkuYm9yZGVycy5wdXNoKHN1bnNldFNlYSwgZmxpbnRzRmluZ2VyLCBncmV5V2F0ZXJXYXRjaCwgc2VhZ2FyZCwgcml2ZXJydW4sIHRoZUdvbGRlblNvdW5kLCBweWtlKTtcbiAgICAgICAgcHlrZS5ib3JkZXJzLnB1c2goaXJvbm1hbnNCYXkpO1xuICAgICAgICBzZWFnYXJkLmJvcmRlcnMucHVzaChncmV5V2F0ZXJXYXRjaCwgbW9hdENhaWxpbiwgdGhlVHdpbnMsIHJpdmVycnVuLCBpcm9ubWFuc0JheSk7XG4gICAgICAgIHRoZVR3aW5zLmJvcmRlcnMucHVzaChtb2F0Q2FpbGluLCB0aGVOYXJyb3dTZWEsIHRoZUZpbmdlcnMsIFRoZU1vdW50YWluc09mVGhlTW9vbik7XG4gICAgICAgIHRoZUZpbmdlcnMuYm9yZGVycy5wdXNoKHRoZU5hcnJvd1NlYSwgVGhlTW91bnRhaW5zT2ZUaGVNb29uLCB0aGVUd2lucyk7XG4gICAgICAgIFRoZU1vdW50YWluc09mVGhlTW9vbi5ib3JkZXJzLnB1c2godGhlVHdpbnMsIHRoZUZpbmdlcnMsIHRoZU5hcnJvd1NlYSwgdGhlRXlyaWUsIGNyYWNrQ2xhd1BvaW50KTtcbiAgICAgICAgdGhlRXlyaWUuYm9yZGVycy5wdXNoKFRoZU1vdW50YWluc09mVGhlTW9vbiwgdGhlTmFycm93U2VhKTtcbiAgICAgICAgcml2ZXJydW4uYm9yZGVycy5wdXNoKHNlYWdhcmQsIGhhcnJlbmhhbCwgc3RvbmV5U2VwdCwgbGFubmlzcG9ydCwgdGhlR29sZGVuU291bmQsIGlyb25tYW5zQmF5KTtcbiAgICAgICAgbGFubmlzcG9ydC5ib3JkZXJzLnB1c2godGhlR29sZGVuU291bmQsIHJpdmVycnVuLCBzdG9uZXlTZXB0LCBzZWFyb2FkTWFyY2hlcyk7XG4gICAgICAgIHRoZUdvbGRlblNvdW5kLmJvcmRlcnMucHVzaChpcm9ubWFuc0JheSwgcml2ZXJydW4sIGxhbm5pc3BvcnQsIHNlYXJvYWRNYXJjaGVzKTtcbiAgICAgICAgdGhlU3RvbnlTaG9yZS5ib3JkZXJzLnB1c2goKTtcbiAgICAgICAgaGFycmVuaGFsLmJvcmRlcnMucHVzaChjcmFja0NsYXdQb2ludCwgYmxhY2t3YXRlciwgc3RvbmV5U2VwdCwgcml2ZXJydW4pO1xuICAgICAgICBjcmFja0NsYXdQb2ludC5ib3JkZXJzLnB1c2goVGhlTW91bnRhaW5zT2ZUaGVNb29uLCB0aGVOYXJyb3dTZWEsIHNoaXBicmVha2VyQmF5LCBibGFja3dhdGVyQmF5LCBraW5nc0xhbmRpbmcsIGJsYWNrd2F0ZXIsIGhhcnJlbmhhbCk7XG4gICAgICAgIHNoaXBicmVha2VyQmF5LmJvcmRlcnMucHVzaCh0aGVOYXJyb3dTZWEsIGRyYWdvblN0b25lLCBlYXN0U3VtbWVyU2VhLCBzdG9ybXNFbmQsIGtpbmdzd29vZCwgYmxhY2t3YXRlckJheSwgY3JhY2tDbGF3UG9pbnQpO1xuICAgICAgICBkcmFnb25TdG9uZS5ib3JkZXJzLnB1c2goc2hpcGJyZWFrZXJCYXkpO1xuICAgICAgICBraW5nc0xhbmRpbmcuYm9yZGVycy5wdXNoKGNyYWNrQ2xhd1BvaW50LCBibGFja3dhdGVyQmF5LCBraW5nc3dvb2QsIGJsYWNrd2F0ZXIsIHRoZVJlYWNoKTtcbiAgICAgICAgYmxhY2t3YXRlci5ib3JkZXJzLnB1c2goaGFycmVuaGFsLCBjcmFja0NsYXdQb2ludCwga2luZ3NMYW5kaW5nLCB0aGVSZWFjaCwgc2Vhcm9hZE1hcmNoZXMsIHN0b25leVNlcHQpO1xuICAgICAgICBzZWFyb2FkTWFyY2hlcy5ib3JkZXJzLnB1c2gobGFubmlzcG9ydCwgc3RvbmV5U2VwdCwgYmxhY2t3YXRlciwgdGhlUmVhY2gsIGhpZ2hnYXJkZW4sIHdlc3RTdW1tZXJTZWEsIHN1bnNldFNlYSwgdGhlR29sZGVuU291bmQpO1xuICAgICAgICB3ZXN0U3VtbWVyU2VhLmJvcmRlcnMucHVzaChzdW5zZXRTZWEsIHNlYXJvYWRNYXJjaGVzLCBoaWdoZ2FyZGVuLCByZWR3eW5lU3RyYWlnaHRzLCB0aHJlZVRvd2Vycywgc3RhcmZhbGwsIGVhc3RTdW1tZXJTZWEsIHRoZUFyYm9yKTtcbiAgICAgICAgaGlnaGdhcmRlbi5ib3JkZXJzLnB1c2goc2Vhcm9hZE1hcmNoZXMsIHRoZVJlYWNoLCBkb3JuaXNoTWFyY2hlcywgb2xkdG93biwgcmVkd3luZVN0cmFpZ2h0cywgd2VzdFN1bW1lclNlYSk7XG4gICAgICAgIHRoZVJlYWNoLmJvcmRlcnMucHVzaChibGFja3dhdGVyLCBraW5nc0xhbmRpbmcsIGtpbmdzd29vZCwgdGhlQm9uZXdheSwgZG9ybmlzaE1hcmNoZXMsIGhpZ2hnYXJkZW4sIHNlYXJvYWRNYXJjaGVzKTtcbiAgICAgICAga2luZ3N3b29kLmJvcmRlcnMucHVzaChibGFja3dhdGVyQmF5LCBzaGlwYnJlYWtlckJheSwgc3Rvcm1zRW5kLCB0aGVCb25ld2F5LCB0aGVSZWFjaCwga2luZ3NMYW5kaW5nKTtcbiAgICAgICAgc3Rvcm1zRW5kLmJvcmRlcnMucHVzaChraW5nc3dvb2QsIHNoaXBicmVha2VyQmF5LCBlYXN0U3VtbWVyU2VhLCBzZWFPZkRvcm5lLCB0aGVCb25ld2F5KTtcbiAgICAgICAgdGhlQm9uZXdheS5ib3JkZXJzLnB1c2goa2luZ3N3b29kLCBzdG9ybXNFbmQsIHNlYU9mRG9ybmUsIHlyb253b29kLCBwcmluY2VzUGFzcywgZG9ybmlzaE1hcmNoZXMsIHRoZVJlYWNoKTtcbiAgICAgICAgc2VhT2ZEb3JuZS5ib3JkZXJzLnB1c2goc3Rvcm1zRW5kLCBlYXN0U3VtbWVyU2VhLCBzdW5zcGVhciwgeXJvbndvb2QsIHRoZUJvbmV3YXkpO1xuICAgICAgICBkb3JuaXNoTWFyY2hlcy5ib3JkZXJzLnB1c2godGhlUmVhY2gsIHRoZUJvbmV3YXksIHByaW5jZXNQYXNzLCB0aHJlZVRvd2Vycywgb2xkdG93biwgaGlnaGdhcmRlbik7XG4gICAgICAgIG9sZHRvd24uYm9yZGVycy5wdXNoKGhpZ2hnYXJkZW4sIGRvcm5pc2hNYXJjaGVzLCB0aHJlZVRvd2VycywgcmVkd3luZVN0cmFpZ2h0cyk7XG4gICAgICAgIHJlZHd5bmVTdHJhaWdodHMuYm9yZGVycy5wdXNoKGhpZ2hnYXJkZW4sIG9sZHRvd24sIHRocmVlVG93ZXJzLCB3ZXN0U3VtbWVyU2VhLCB0aGVBcmJvcik7XG4gICAgICAgIHRoZUFyYm9yLmJvcmRlcnMucHVzaChyZWR3eW5lU3RyYWlnaHRzLCB3ZXN0U3VtbWVyU2VhKTtcbiAgICAgICAgdGhyZWVUb3dlcnMuYm9yZGVycy5wdXNoKG9sZHRvd24sIGRvcm5pc2hNYXJjaGVzLCBwcmluY2VzUGFzcywgd2VzdFN1bW1lclNlYSwgcmVkd3luZVN0cmFpZ2h0cyk7XG4gICAgICAgIHByaW5jZXNQYXNzLmJvcmRlcnMucHVzaChkb3JuaXNoTWFyY2hlcywgdGhlQm9uZXdheSwgeXJvbndvb2QsIHN0YXJmYWxsLCB0aHJlZVRvd2Vycyk7XG4gICAgICAgIHN0YXJmYWxsLmJvcmRlcnMucHVzaChwcmluY2VzUGFzcywgeXJvbndvb2QsIHNhbHRTaG9yZSwgZWFzdFN1bW1lclNlYSwgd2VzdFN1bW1lclNlYSk7XG4gICAgICAgIHlyb253b29kLmJvcmRlcnMucHVzaCh0aGVCb25ld2F5LCBzZWFPZkRvcm5lLCBzdW5zcGVhciwgc2FsdFNob3JlLCBzdGFyZmFsbCwgcHJpbmNlc1Bhc3MpO1xuICAgICAgICBzYWx0U2hvcmUuYm9yZGVycy5wdXNoKHlyb253b29kLCBzdW5zcGVhciwgZWFzdFN1bW1lclNlYSwgc3RhcmZhbGwpO1xuICAgICAgICBlYXN0U3VtbWVyU2VhLmJvcmRlcnMucHVzaChzdGFyZmFsbCwgc2FsdFNob3JlLCBzdW5zcGVhciwgc2VhT2ZEb3JuZSwgc2hpcGJyZWFrZXJCYXksIHdlc3RTdW1tZXJTZWEpO1xuICAgICAgICBzdW5zcGVhci5ib3JkZXJzLnB1c2goc2VhT2ZEb3JuZSwgZWFzdFN1bW1lclNlYSwgc2FsdFNob3JlLCB5cm9ud29vZCk7XG5cbiAgICAgICAgZm9yIChsZXQgcGxheWVyIG9mIHBsYXllcnMpe1xuICAgICAgICAgICAgc3dpdGNoIChwbGF5ZXIuaG91c2UpIHtcbiAgICAgICAgICAgICAgICBjYXNlIEhvdXNlLnN0YXJrOlxuICAgICAgICAgICAgICAgICAgICB0aGVTaGl2ZXJpbmdTZWEudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuU2hpcCwgSG91c2Uuc3RhcmspXTtcbiAgICAgICAgICAgICAgICAgICAgdGhlU2hpdmVyaW5nU2VhLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5zdGFyaztcbiAgICAgICAgICAgICAgICAgICAgd2ludGVyZmVsbC51bml0cyA9IFtuZXcgVW5pdChVbml0VHlwZS5Ib3JzZSwgSG91c2Uuc3RhcmspLCBuZXcgVW5pdChVbml0VHlwZS5Gb290bWFuLCBIb3VzZS5zdGFyayldO1xuICAgICAgICAgICAgICAgICAgICB3aW50ZXJmZWxsLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5zdGFyaztcbiAgICAgICAgICAgICAgICAgICAgd2hpdGVIYXJib3IudW5pdHMgPSAgW25ldyBVbml0KFVuaXRUeXBlLkZvb3RtYW4sIEhvdXNlLnN0YXJrKV07XG4gICAgICAgICAgICAgICAgICAgIHdoaXRlSGFyYm9yLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5zdGFyaztcbiAgICAgICAgICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgICAgICAgY2FzZSBIb3VzZS5sYW5uaXN0ZXI6XG4gICAgICAgICAgICAgICAgICAgIGxhbm5pc3BvcnQudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuRm9vdG1hbiwgSG91c2UubGFubmlzdGVyKSwgbmV3IFVuaXQoVW5pdFR5cGUuSG9yc2UsIEhvdXNlLmxhbm5pc3RlcildO1xuICAgICAgICAgICAgICAgICAgICBsYW5uaXNwb3J0LmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5sYW5uaXN0ZXI7XG4gICAgICAgICAgICAgICAgICAgIHRoZUdvbGRlblNvdW5kLnVuaXRzID0gIFtuZXcgVW5pdChVbml0VHlwZS5TaGlwLCBIb3VzZS5sYW5uaXN0ZXIpXTtcbiAgICAgICAgICAgICAgICAgICAgdGhlR29sZGVuU291bmQuY29udHJvbGxpbmdIb3VzZSA9IEhvdXNlLmxhbm5pc3RlcjtcbiAgICAgICAgICAgICAgICAgICAgc3RvbmV5U2VwdC51bml0cyA9IFtuZXcgVW5pdChVbml0VHlwZS5Gb290bWFuLCBIb3VzZS5sYW5uaXN0ZXIpXTtcbiAgICAgICAgICAgICAgICAgICAgc3RvbmV5U2VwdC5jb250cm9sbGluZ0hvdXNlID0gSG91c2UubGFubmlzdGVyO1xuICAgICAgICAgICAgICAgICAgICBicmVhaztcbiAgICAgICAgICAgICAgICBjYXNlIEhvdXNlLmJhcmF0aGVvbjpcbiAgICAgICAgICAgICAgICAgICAgZHJhZ29uU3RvbmUudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuRm9vdG1hbiwgSG91c2UuYmFyYXRoZW9uKSwgbmV3IFVuaXQoVW5pdFR5cGUuSG9yc2UsIEhvdXNlLmJhcmF0aGVvbildO1xuICAgICAgICAgICAgICAgICAgICBkcmFnb25TdG9uZS5jb250cm9sbGluZ0hvdXNlID0gSG91c2UuYmFyYXRoZW9uO1xuICAgICAgICAgICAgICAgICAgICBzaGlwYnJlYWtlckJheS51bml0cyA9IFtuZXcgVW5pdChVbml0VHlwZS5TaGlwLCBIb3VzZS5iYXJhdGhlb24pLCBuZXcgVW5pdChVbml0VHlwZS5TaGlwLCBIb3VzZS5iYXJhdGhlb24pXTtcbiAgICAgICAgICAgICAgICAgICAgc2hpcGJyZWFrZXJCYXkuY29udHJvbGxpbmdIb3VzZSA9IEhvdXNlLmJhcmF0aGVvbjtcbiAgICAgICAgICAgICAgICAgICAga2luZ3N3b29kLnVuaXRzID0gW25ldyBVbml0KFVuaXRUeXBlLkZvb3RtYW4sIEhvdXNlLmJhcmF0aGVvbildO1xuICAgICAgICAgICAgICAgICAgICBraW5nc3dvb2QuY29udHJvbGxpbmdIb3VzZSA9IEhvdXNlLmJhcmF0aGVvbjtcbiAgICAgICAgICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgICAgICAgY2FzZSBIb3VzZS5ncmV5am95OlxuICAgICAgICAgICAgICAgICAgICBweWtlLnVuaXRzID0gW25ldyBVbml0KFVuaXRUeXBlLkZvb3RtYW4sIEhvdXNlLmdyZXlqb3kpLCBuZXcgVW5pdChVbml0VHlwZS5Ib3JzZSwgSG91c2UuZ3JleWpveSldO1xuICAgICAgICAgICAgICAgICAgICBweWtlLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5ncmV5am95O1xuICAgICAgICAgICAgICAgICAgICBncmV5V2F0ZXJXYXRjaC51bml0cyA9IFtuZXcgVW5pdChVbml0VHlwZS5Gb290bWFuLCBIb3VzZS5ncmV5am95KV07XG4gICAgICAgICAgICAgICAgICAgIGdyZXlXYXRlcldhdGNoLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5ncmV5am95O1xuICAgICAgICAgICAgICAgICAgICBpcm9ubWFuc0JheS51bml0cyA9IFtuZXcgVW5pdChVbml0VHlwZS5TaGlwLCBIb3VzZS5ncmV5am95KSwgbmV3IFVuaXQoVW5pdFR5cGUuU2hpcCwgSG91c2UuZ3JleWpveSldO1xuICAgICAgICAgICAgICAgICAgICBpcm9ubWFuc0JheS5jb250cm9sbGluZ0hvdXNlID0gSG91c2UuZ3JleWpveTtcbiAgICAgICAgICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgICAgICAgICAgY2FzZSBIb3VzZS50eXJlbGw6XG4gICAgICAgICAgICAgICAgICAgIGhpZ2hnYXJkZW4udW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuRm9vdG1hbiwgSG91c2UudHlyZWxsKSwgbmV3IFVuaXQoVW5pdFR5cGUuSG9yc2UsIEhvdXNlLnR5cmVsbCldO1xuICAgICAgICAgICAgICAgICAgICBoaWdoZ2FyZGVuLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS50eXJlbGw7XG4gICAgICAgICAgICAgICAgICAgIGRvcm5pc2hNYXJjaGVzLnVuaXRzID0gW25ldyBVbml0KFVuaXRUeXBlLkZvb3RtYW4sIEhvdXNlLnR5cmVsbCldO1xuICAgICAgICAgICAgICAgICAgICBkb3JuaXNoTWFyY2hlcy5jb250cm9sbGluZ0hvdXNlID0gSG91c2UudHlyZWxsO1xuICAgICAgICAgICAgICAgICAgICByZWR3eW5lU3RyYWlnaHRzLnVuaXRzID0gW25ldyBVbml0KFVuaXRUeXBlLlNoaXAsIEhvdXNlLnR5cmVsbCldO1xuICAgICAgICAgICAgICAgICAgICByZWR3eW5lU3RyYWlnaHRzLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS50eXJlbGw7XG4gICAgICAgICAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgICAgICAgIGNhc2UgSG91c2UubWFydGVsbDpcbiAgICAgICAgICAgICAgICAgICAgc3Vuc3BlYXIudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuRm9vdG1hbiwgSG91c2UubWFydGVsbCksIG5ldyBVbml0KFVuaXRUeXBlLkhvcnNlLCBIb3VzZS5tYXJ0ZWxsKV07XG4gICAgICAgICAgICAgICAgICAgIHN1bnNwZWFyLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5tYXJ0ZWxsO1xuICAgICAgICAgICAgICAgICAgICBzYWx0U2hvcmUudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuRm9vdG1hbiwgSG91c2UubWFydGVsbCldO1xuICAgICAgICAgICAgICAgICAgICBzYWx0U2hvcmUuY29udHJvbGxpbmdIb3VzZSA9IEhvdXNlLm1hcnRlbGw7XG4gICAgICAgICAgICAgICAgICAgIHNlYU9mRG9ybmUudW5pdHMgPSBbbmV3IFVuaXQoVW5pdFR5cGUuU2hpcCwgSG91c2UubWFydGVsbCldO1xuICAgICAgICAgICAgICAgICAgICBzZWFPZkRvcm5lLmNvbnRyb2xsaW5nSG91c2UgPSBIb3VzZS5tYXJ0ZWxsO1xuICAgICAgICAgICAgICAgICAgICBicmVhaztcbiAgICAgICAgICAgIH1cblxuICAgICAgICB9XG5cbiAgICAgICAgcmV0dXJuIGFyZWFzO1xuICAgIH1cblxuICAgIHByaXZhdGUgc3RhdGljIGFkZEluaXRpYWxVbml0cyhhcmVhczogQXJyYXk8QXJlYT4sIHBsYXllcnM6IEFycmF5PFBsYXllcj4pIHtcblxuXG4gICAgfVxufVxuIl19
+},'src/logic/board/initialArea.ts',{"./area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","./house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","./player":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/player.ts","../units/units":"/Users/taamato1/pdev/gameOfThrones/src/logic/units/units.ts","../units/unitType":"/Users/taamato1/pdev/gameOfThrones/src/logic/units/unitType.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

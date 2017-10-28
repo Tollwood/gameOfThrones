@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ai/aiCalculator.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ai/</a> aiCalculator.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.43% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>11/35</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">10% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.43% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>11/35</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">import {Area} from '../board/area';
+import {House} from '../board/house';
+import {OrderTokenType} from '../orderToken/orderToken';
+import PossibleMove from './possibleMove';
+import AiPlayer from './aiPlayer';
+import GameRules from '../board/gameRules/gameRules';
+import MovementRules from '../board/gameRules/movementRules';
+export default class AiCalculator {
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House)</span> {
+<span class="cstat-no" title="statement not covered" >        return area.controllingHouse !== null &amp;&amp; area.controllingHouse !== house &amp;&amp; area.units.length &gt; 0;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static noEnemies(area: Area, house: House)</span> {
+<span class="cstat-no" title="statement not covered" >        return (area.controllingHouse === null || area.controllingHouse !== null &amp;&amp; area.controllingHouse !== house) &amp;&amp; area.units.length === 0;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static getAreasWithToken(house: House, orderTokens: Array&lt;OrderTokenType&gt;)</span>: Array&lt;Area&gt; {
+<span class="cstat-no" title="statement not covered" >        return GameRules.gameState.areas.filter(<span class="fstat-no" title="function not covered" >(area)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return area.orderToken</span>
+                &amp;&amp; area.orderToken.getHouse() === house
+                &amp;&amp; orderTokens.indexOf(area.orderToken.getType()) &gt; -1;
+        });
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    private static getAllPossibleMoves(aiPlayer: AiPlayer, area: Area, availableOrderToken: Array&lt;OrderTokenType&gt;)</span> {
+<span class="cstat-no" title="statement not covered" >        let possibleMoves = new Array&lt;PossibleMove&gt;();</span>
+<span class="cstat-no" title="statement not covered" >        availableOrderToken.forEach(<span class="fstat-no" title="function not covered" >(orderTokenType)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            switch (orderTokenType) {</span>
+                case OrderTokenType.consolidatePower_0:
+                case OrderTokenType.consolidatePower_1:
+                case OrderTokenType.consolidatePower_special:
+                    // TODO Add logic when to consolidate power
+<span class="cstat-no" title="statement not covered" >                    possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForConsolidatePowerOrder(area)));</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case OrderTokenType.defend_0:
+                case OrderTokenType.defend_1:
+                case OrderTokenType.defend_special:
+<span class="cstat-no" title="statement not covered" >                    possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForDefendingOrders(area)));</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+&nbsp;
+                case OrderTokenType.support_0:
+                case OrderTokenType.support_1:
+                case OrderTokenType.support_special:
+                    // TODO add logic when to support units (this feature is not yet implemented in the game)
+<span class="cstat-no" title="statement not covered" >                    possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForSupportOrder(area)));</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+&nbsp;
+                case OrderTokenType.raid_0:
+                case OrderTokenType.raid_1:
+                case OrderTokenType.raid_special:
+                    // TODO: Filter areas where it is allowed to raid (land units can not raid sea areas)
+<span class="cstat-no" title="statement not covered" >                    possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForRaidOrders(area)));</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+&nbsp;
+                case OrderTokenType.march_zero:
+                case OrderTokenType.march_minusOne:
+                case OrderTokenType.march_special:
+<span class="cstat-no" title="statement not covered" >                    MovementRules.getAllAreasAllowedToMarchTo(area).forEach(<span class="fstat-no" title="function not covered" >(possibleArea)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        possibleMoves.push(new PossibleMove(orderTokenType, area, aiPlayer.calculateValueForMarchOrders(area, possibleArea), possibleArea));</span>
+&nbsp;
+                    });
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+            }
+&nbsp;
+        });
+<span class="cstat-no" title="statement not covered" >        return possibleMoves;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static getBestMove(aiPlayer: AiPlayer, area: Area, availableOrderToken: OrderTokenType[])</span>: PossibleMove {
+<span class="cstat-no" title="statement not covered" >        let allPossibleMoves = this.getAllPossibleMoves(aiPlayer, area, availableOrderToken);</span>
+<span class="cstat-no" title="statement not covered" >        if (allPossibleMoves.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >            return null;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        return allPossibleMoves.sort(<span class="fstat-no" title="function not covered" >(a, b)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return b.value - a.value;</span>
+        })[0];
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for march/combatResult.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">march/</a> combatResult.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">43.24% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>16/37</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">41.67% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>15/36</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/march/combatResult.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CombatResult = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function CombatResult(attackingArea, defendingArea, attackersCard, defendersCard, attackerStrength, defenderStrength, attackerSword, attackerFortification, defenderSword, defenderFortification) {</span>
+<span class="cstat-no" title="statement not covered" >        this._attackingArea = attackingArea;</span>
+<span class="cstat-no" title="statement not covered" >        this._defendingArea = defendingArea;</span>
+<span class="cstat-no" title="statement not covered" >        this._attackersCard = attackersCard;</span>
+<span class="cstat-no" title="statement not covered" >        this._defendersCard = defendersCard;</span>
+<span class="cstat-no" title="statement not covered" >        this._attackerStrength = attackerStrength;</span>
+<span class="cstat-no" title="statement not covered" >        this._defenderStrength = defenderStrength;</span>
+<span class="cstat-no" title="statement not covered" >        this._attackerSword = attackerSword;</span>
+<span class="cstat-no" title="statement not covered" >        this._attackerFortification = attackerFortification;</span>
+<span class="cstat-no" title="statement not covered" >        this._defenderSword = defenderSword;</span>
+<span class="cstat-no" title="statement not covered" >        this._defenderFortification = defenderFortification;</span>
+    }
+    Object.defineProperty(CombatResult.prototype, "attackingArea", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackingArea;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "defendingArea", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._defendingArea;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "looser", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackerStrength &gt; this._defenderStrength ? this._defendingArea.controllingHouse : this._attackingArea.controllingHouse;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "lostUnits", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackingArea.controllingHouse === this.winner ? this.defendingArea.units : this.attackingArea.units;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "defendersCard", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._defendersCard;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "attackersCard", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackersCard;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "winner", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackerStrength &gt; this._defenderStrength ? this._attackingArea.controllingHouse : this._defendingArea.controllingHouse;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "defenderStrength", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._defenderStrength;</span>
+        },
+        set: <span class="fstat-no" title="function not covered" >function (value) {</span>
+<span class="cstat-no" title="statement not covered" >            this._defenderStrength = value;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CombatResult.prototype, "attackerStrength", {
+        get: <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this._attackerStrength;</span>
+        },
+        set: <span class="fstat-no" title="function not covered" >function (value) {</span>
+<span class="cstat-no" title="statement not covered" >            this._attackerStrength = value;</span>
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return CombatResult;
+}());
+exports.default = CombatResult;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29tYmF0UmVzdWx0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiY29tYmF0UmVzdWx0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBSUE7SUFjSSxzQkFBWSxhQUFtQixFQUFFLGFBQW1CLEVBQUUsYUFBd0IsRUFBRSxhQUF3QixFQUFFLGdCQUF3QixFQUFFLGdCQUF3QixFQUFFLGFBQXFCLEVBQUUscUJBQTZCLEVBQUUsYUFBcUIsRUFBRSxxQkFBNkI7UUFDcFEsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLGlCQUFpQixHQUFHLGdCQUFnQixDQUFDO1FBQzFDLElBQUksQ0FBQyxpQkFBaUIsR0FBRyxnQkFBZ0IsQ0FBQztRQUMxQyxJQUFJLENBQUMsY0FBYyxHQUFHLGFBQWEsQ0FBQztRQUNwQyxJQUFJLENBQUMsc0JBQXNCLEdBQUcscUJBQXFCLENBQUM7UUFDcEQsSUFBSSxDQUFDLGNBQWMsR0FBRyxhQUFhLENBQUM7UUFDcEMsSUFBSSxDQUFDLHNCQUFzQixHQUFHLHFCQUFxQixDQUFDO0lBQ3hELENBQUM7SUFFRCxzQkFBSSx1Q0FBYTthQUFqQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsY0FBYyxDQUFDO1FBQy9CLENBQUM7OztPQUFBO0lBRUQsc0JBQUksdUNBQWE7YUFBakI7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQztRQUMvQixDQUFDOzs7T0FBQTtJQUVELHNCQUFJLGdDQUFNO2FBQVY7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGlCQUFpQixHQUFHLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxnQkFBZ0IsQ0FBQztRQUN6SSxDQUFDOzs7T0FBQTtJQUVELHNCQUFJLG1DQUFTO2FBQWI7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxnQkFBZ0IsS0FBSyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxLQUFLLENBQUM7UUFDdEgsQ0FBQzs7O09BQUE7SUFFRCxzQkFBSSx1Q0FBYTthQUFqQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsY0FBYyxDQUFDO1FBQy9CLENBQUM7OztPQUFBO0lBRUQsc0JBQUksdUNBQWE7YUFBakI7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQztRQUMvQixDQUFDOzs7T0FBQTtJQUVELHNCQUFJLGdDQUFNO2FBQVY7WUFDSSxNQUFNLENBQUMsSUFBSSxDQUFDLGlCQUFpQixHQUFHLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxnQkFBZ0IsQ0FBQztRQUN6SSxDQUFDOzs7T0FBQTtJQUVELHNCQUFJLDBDQUFnQjthQUFwQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsaUJBQWlCLENBQUM7UUFDbEMsQ0FBQzthQUVELFVBQXFCLEtBQWE7WUFDOUIsSUFBSSxDQUFDLGlCQUFpQixHQUFHLEtBQUssQ0FBQztRQUNuQyxDQUFDOzs7T0FKQTtJQU1ELHNCQUFJLDBDQUFnQjthQUFwQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsaUJBQWlCLENBQUM7UUFDbEMsQ0FBQzthQUVELFVBQXFCLEtBQWE7WUFDOUIsSUFBSSxDQUFDLGlCQUFpQixHQUFHLEtBQUssQ0FBQztRQUNuQyxDQUFDOzs7T0FKQTtJQU1MLG1CQUFDO0FBQUQsQ0FBQyxBQXZFRCxJQXVFQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7SG91c2V9IGZyb20gJy4uL2JvYXJkL2hvdXNlJztcbmltcG9ydCBVbml0IGZyb20gJy4uL3VuaXRzL3VuaXRzJztcbmltcG9ydCB7QXJlYX0gZnJvbSAnLi4vYm9hcmQvYXJlYSc7XG5pbXBvcnQgSG91c2VDYXJkIGZyb20gJy4uL2NhcmRzL2hvdXNlQ2FyZCc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBDb21iYXRSZXN1bHQge1xuXG4gICAgcHJpdmF0ZSBfYXR0YWNraW5nQXJlYTogQXJlYTtcbiAgICBwcml2YXRlIF9hdHRhY2tlcnNDYXJkOiBIb3VzZUNhcmQ7XG4gICAgcHJpdmF0ZSBfYXR0YWNrZXJTdHJlbmd0aDogbnVtYmVyO1xuICAgIHByaXZhdGUgX2F0dGFja2VyU3dvcmQ6IG51bWJlcjtcbiAgICBwcml2YXRlIF9hdHRhY2tlckZvcnRpZmljYXRpb246IG51bWJlcjtcblxuICAgIHByaXZhdGUgX2RlZmVuZGluZ0FyZWE6IEFyZWE7XG4gICAgcHJpdmF0ZSBfZGVmZW5kZXJzQ2FyZDogSG91c2VDYXJkO1xuICAgIHByaXZhdGUgX2RlZmVuZGVyU3RyZW5ndGg6IG51bWJlcjtcbiAgICBwcml2YXRlIF9kZWZlbmRlclN3b3JkOiBudW1iZXI7XG4gICAgcHJpdmF0ZSBfZGVmZW5kZXJGb3J0aWZpY2F0aW9uOiBudW1iZXI7XG5cbiAgICBjb25zdHJ1Y3RvcihhdHRhY2tpbmdBcmVhOiBBcmVhLCBkZWZlbmRpbmdBcmVhOiBBcmVhLCBhdHRhY2tlcnNDYXJkOiBIb3VzZUNhcmQsIGRlZmVuZGVyc0NhcmQ6IEhvdXNlQ2FyZCwgYXR0YWNrZXJTdHJlbmd0aDogbnVtYmVyLCBkZWZlbmRlclN0cmVuZ3RoOiBudW1iZXIsIGF0dGFja2VyU3dvcmQ6IG51bWJlciwgYXR0YWNrZXJGb3J0aWZpY2F0aW9uOiBudW1iZXIsIGRlZmVuZGVyU3dvcmQ6IG51bWJlciwgZGVmZW5kZXJGb3J0aWZpY2F0aW9uOiBudW1iZXIpIHtcbiAgICAgICAgdGhpcy5fYXR0YWNraW5nQXJlYSA9IGF0dGFja2luZ0FyZWE7XG4gICAgICAgIHRoaXMuX2RlZmVuZGluZ0FyZWEgPSBkZWZlbmRpbmdBcmVhO1xuICAgICAgICB0aGlzLl9hdHRhY2tlcnNDYXJkID0gYXR0YWNrZXJzQ2FyZDtcbiAgICAgICAgdGhpcy5fZGVmZW5kZXJzQ2FyZCA9IGRlZmVuZGVyc0NhcmQ7XG4gICAgICAgIHRoaXMuX2F0dGFja2VyU3RyZW5ndGggPSBhdHRhY2tlclN0cmVuZ3RoO1xuICAgICAgICB0aGlzLl9kZWZlbmRlclN0cmVuZ3RoID0gZGVmZW5kZXJTdHJlbmd0aDtcbiAgICAgICAgdGhpcy5fYXR0YWNrZXJTd29yZCA9IGF0dGFja2VyU3dvcmQ7XG4gICAgICAgIHRoaXMuX2F0dGFja2VyRm9ydGlmaWNhdGlvbiA9IGF0dGFja2VyRm9ydGlmaWNhdGlvbjtcbiAgICAgICAgdGhpcy5fZGVmZW5kZXJTd29yZCA9IGRlZmVuZGVyU3dvcmQ7XG4gICAgICAgIHRoaXMuX2RlZmVuZGVyRm9ydGlmaWNhdGlvbiA9IGRlZmVuZGVyRm9ydGlmaWNhdGlvbjtcbiAgICB9XG5cbiAgICBnZXQgYXR0YWNraW5nQXJlYSgpOiBBcmVhIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2F0dGFja2luZ0FyZWE7XG4gICAgfVxuXG4gICAgZ2V0IGRlZmVuZGluZ0FyZWEoKTogQXJlYSB7XG4gICAgICAgIHJldHVybiB0aGlzLl9kZWZlbmRpbmdBcmVhO1xuICAgIH1cblxuICAgIGdldCBsb29zZXIoKTogSG91c2Uge1xuICAgICAgICByZXR1cm4gdGhpcy5fYXR0YWNrZXJTdHJlbmd0aCA+IHRoaXMuX2RlZmVuZGVyU3RyZW5ndGggPyB0aGlzLl9kZWZlbmRpbmdBcmVhLmNvbnRyb2xsaW5nSG91c2UgOiB0aGlzLl9hdHRhY2tpbmdBcmVhLmNvbnRyb2xsaW5nSG91c2U7XG4gICAgfVxuXG4gICAgZ2V0IGxvc3RVbml0cygpOiBBcnJheTxVbml0PiB7XG4gICAgICAgIHJldHVybiB0aGlzLl9hdHRhY2tpbmdBcmVhLmNvbnRyb2xsaW5nSG91c2UgPT09IHRoaXMud2lubmVyID8gdGhpcy5kZWZlbmRpbmdBcmVhLnVuaXRzIDogdGhpcy5hdHRhY2tpbmdBcmVhLnVuaXRzO1xuICAgIH1cblxuICAgIGdldCBkZWZlbmRlcnNDYXJkKCk6IEhvdXNlQ2FyZCB7XG4gICAgICAgIHJldHVybiB0aGlzLl9kZWZlbmRlcnNDYXJkO1xuICAgIH1cblxuICAgIGdldCBhdHRhY2tlcnNDYXJkKCk6IEhvdXNlQ2FyZCB7XG4gICAgICAgIHJldHVybiB0aGlzLl9hdHRhY2tlcnNDYXJkO1xuICAgIH1cblxuICAgIGdldCB3aW5uZXIoKTogSG91c2Uge1xuICAgICAgICByZXR1cm4gdGhpcy5fYXR0YWNrZXJTdHJlbmd0aCA+IHRoaXMuX2RlZmVuZGVyU3RyZW5ndGggPyB0aGlzLl9hdHRhY2tpbmdBcmVhLmNvbnRyb2xsaW5nSG91c2UgOiB0aGlzLl9kZWZlbmRpbmdBcmVhLmNvbnRyb2xsaW5nSG91c2U7XG4gICAgfVxuXG4gICAgZ2V0IGRlZmVuZGVyU3RyZW5ndGgoKTogbnVtYmVyIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2RlZmVuZGVyU3RyZW5ndGg7XG4gICAgfVxuXG4gICAgc2V0IGRlZmVuZGVyU3RyZW5ndGgodmFsdWU6IG51bWJlcikge1xuICAgICAgICB0aGlzLl9kZWZlbmRlclN0cmVuZ3RoID0gdmFsdWU7XG4gICAgfVxuXG4gICAgZ2V0IGF0dGFja2VyU3RyZW5ndGgoKTogbnVtYmVyIHtcbiAgICAgICAgcmV0dXJuIHRoaXMuX2F0dGFja2VyU3RyZW5ndGg7XG4gICAgfVxuXG4gICAgc2V0IGF0dGFja2VyU3RyZW5ndGgodmFsdWU6IG51bWJlcikge1xuICAgICAgICB0aGlzLl9hdHRhY2tlclN0cmVuZ3RoID0gdmFsdWU7XG4gICAgfVxuXG59Il19
+},'src/logic/march/combatResult.ts',{"../board/house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","../units/units":"/Users/taamato1/pdev/gameOfThrones/src/logic/units/units.ts","../board/area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","../cards/houseCard":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/houseCard.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

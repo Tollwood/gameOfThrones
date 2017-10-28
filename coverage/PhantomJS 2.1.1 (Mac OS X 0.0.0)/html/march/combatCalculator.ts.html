@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for march/combatCalculator.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">march/</a> combatCalculator.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">21.82% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>12/55</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">12.5% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">21.82% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>12/55</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">import {Area} from '../board/area';
+import CombatResult from './combatResult';
+import {OrderTokenType} from '../orderToken/orderToken';
+import HouseCard from '../cards/houseCard';
+import {CardExecutionPoint} from '../cards/cardExecutionPoint';
+import CardAbilities from '../cards/cardAbilities';
+import Unit from '../units/units';
+import {UnitType} from '../units/unitType';
+import GameRules from '../board/gameRules/gameRules';
+export default class CombatCalculator {
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: HouseCard, defendersCard: HouseCard)</span>: CombatResult {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);</span>
+<span class="cstat-no" title="statement not covered" >        attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);</span>
+<span class="cstat-no" title="statement not covered" >        let defenderStrength = this.calculateStrengthOfArmy(targetArea.units);</span>
+<span class="cstat-no" title="statement not covered" >        defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken.getType(), false);</span>
+<span class="cstat-no" title="statement not covered" >        let combatResult = new CombatResult(sourceArea, targetArea, attackersCard, defendersCard, attackerStrength, defenderStrength, attackersCard.sword, attackersCard.fortification, defendersCard.sword, defendersCard.fortification);</span>
+<span class="cstat-no" title="statement not covered" >        this.resolveHouseCard(combatResult, CardExecutionPoint.beforeFight);</span>
+<span class="cstat-no" title="statement not covered" >        return combatResult;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    private static calculateOrderTokenStrengh(orderTokenType: OrderTokenType, attacking: boolean)</span> {
+<span class="cstat-no" title="statement not covered" >        let strength = 0;</span>
+<span class="cstat-no" title="statement not covered" >        if (attacking) {</span>
+<span class="cstat-no" title="statement not covered" >            switch (orderTokenType) {</span>
+                case OrderTokenType.march_minusOne:
+<span class="cstat-no" title="statement not covered" >                    strength -= 1;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case OrderTokenType.march_special:
+<span class="cstat-no" title="statement not covered" >                    strength += 1;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                default:
+<span class="cstat-no" title="statement not covered" >                    strength += 0;</span>
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            switch (orderTokenType) {</span>
+                case OrderTokenType.defend_1:
+                case OrderTokenType.defend_0:
+<span class="cstat-no" title="statement not covered" >                    strength += 1;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case OrderTokenType.defend_special:
+<span class="cstat-no" title="statement not covered" >                    strength += 2;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                default:
+<span class="cstat-no" title="statement not covered" >                    strength += 0;</span>
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return strength;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    private static calculateStrengthOfArmy(units: Array&lt;Unit&gt;)</span>: number {
+<span class="cstat-no" title="statement not covered" >        let strength = 0;</span>
+<span class="cstat-no" title="statement not covered" >        units.forEach(<span class="fstat-no" title="function not covered" >(unit)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            switch (unit.getType()) {</span>
+                case UnitType.Footman:
+<span class="cstat-no" title="statement not covered" >                    strength += 1;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case UnitType.Horse:
+<span class="cstat-no" title="statement not covered" >                    strength += 2;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case UnitType.Siege:
+<span class="cstat-no" title="statement not covered" >                    strength += 4;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+                case UnitType.Ship:
+<span class="cstat-no" title="statement not covered" >                    strength += 1;</span>
+<span class="cstat-no" title="statement not covered" >                    break;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return strength;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint)</span> {
+<span class="cstat-no" title="statement not covered" >        let cardsToResolve = new Array&lt;HouseCard&gt;();</span>
+<span class="cstat-no" title="statement not covered" >        if (combatResult.attackersCard.cardExecutionPoint === cardExecutionPoint) {</span>
+<span class="cstat-no" title="statement not covered" >            cardsToResolve.push(combatResult.attackersCard);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (combatResult.defendersCard.cardExecutionPoint === cardExecutionPoint) {</span>
+<span class="cstat-no" title="statement not covered" >            cardsToResolve.push(combatResult.defendersCard);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        cardsToResolve.sort(<span class="fstat-no" title="function not covered" >(a, b)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return GameRules.gameState.ironThroneSuccession.indexOf(a.house) - GameRules.gameState.ironThroneSuccession.indexOf(b.house);</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        cardsToResolve.forEach(<span class="fstat-no" title="function not covered" >(card)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            CardAbilities[card.abilityFn](card, combatResult);</span>
+        });
+    }
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

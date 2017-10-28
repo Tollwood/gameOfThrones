@@ -2,7 +2,7 @@ import * as Assets from '../assets';
 import UiArea from './UiArea';
 import {House} from '../board/logic/house';
 import {AreaKey} from '../board/logic/area';
-import {UnitType} from '../units/logic/unitType';
+import {UnitType} from '../logic/units/unitType';
 
 export default class AssetManager {
 

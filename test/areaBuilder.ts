@@ -1,9 +1,9 @@
-import GameState from '../src/board/logic/gameState/GameState';
-import {Area, AreaKey} from '../src/board/logic/area';
-import {House} from '../src/board/logic/house';
-import {UnitType} from '../src/units/logic/unitType';
-import {OrderToken, OrderTokenType} from '../src/orderToken/logic/orderToken';
-import Unit from '../src/units/logic/units';
+import GameState from '../src/logic/board/gameState/GameState';
+import {Area, AreaKey} from '../src/logic/board/area';
+import {House} from '../src/logic/board/house';
+import {UnitType} from '../src/logic/units/unitType';
+import {OrderToken, OrderTokenType} from '../src/logic/orderToken/orderToken';
+import Unit from '../src/logic/units/units';
 export default class AreaBuilder {
 
     private _key: AreaKey;

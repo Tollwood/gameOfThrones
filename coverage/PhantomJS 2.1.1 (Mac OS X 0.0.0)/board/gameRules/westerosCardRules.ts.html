@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for board/gameRules/westerosCardRules.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">board/gameRules/</a> westerosCardRules.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.33% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/42</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/13</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">42.86% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">31.71% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>13/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/westerosCardRules.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var westerosCard_1 = require("../../cards/westerosCard");
+var gamePhaseService_1 = require("../gamePhaseService");
+var cardFactory_1 = require("../../cards/cardFactory");
+var gameRules_1 = require("./gameRules");
+var WesterosCardRules = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function WesterosCardRules() {</span>
+    }
+    WesterosCardRules.getWesterosCard = <span class="fstat-no" title="function not covered" >function (cardType) {</span>
+<span class="cstat-no" title="statement not covered" >        var card = gameRules_1.default.gameState.currentWesterosCard;</span>
+<span class="cstat-no" title="statement not covered" >        if (card == null) {</span>
+<span class="cstat-no" title="statement not covered" >            card = this.playNewCard(cardType);</span>
+        }
+        else <span class="cstat-no" title="statement not covered" >if (card !== null &amp;&amp; card.state === westerosCard_1.WesterosCardState.executeCard) {</span>
+<span class="cstat-no" title="statement not covered" >            if (this.stillPlayingWesterosCard()) {</span>
+<span class="cstat-no" title="statement not covered" >                return card;</span>
+            }
+            else {
+<span class="cstat-no" title="statement not covered" >                gamePhaseService_1.default.switchToNextPhase();</span>
+<span class="cstat-no" title="statement not covered" >                gameRules_1.default.gameState.currentWesterosCard = null;</span>
+<span class="cstat-no" title="statement not covered" >                card.state = westerosCard_1.WesterosCardState.played;</span>
+<span class="cstat-no" title="statement not covered" >                return card;</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        gameRules_1.default.gameState.currentWesterosCard = card;</span>
+<span class="cstat-no" title="statement not covered" >        return card;</span>
+    };
+    WesterosCardRules.playNewCard = <span class="fstat-no" title="function not covered" >function (cardType) {</span>
+<span class="cstat-no" title="statement not covered" >        var cards;</span>
+<span class="cstat-no" title="statement not covered" >        switch (cardType) {</span>
+            case 1:
+<span class="cstat-no" title="statement not covered" >                cards = gameRules_1.default.gameState.westerosCards1;</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+            case 2:
+<span class="cstat-no" title="statement not covered" >                cards = gameRules_1.default.gameState.westerosCards2;</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+            case 3:
+<span class="cstat-no" title="statement not covered" >                cards = gameRules_1.default.gameState.westerosCards3;</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        var card = cardFactory_1.default.playNextCard(cards);</span>
+<span class="cstat-no" title="statement not covered" >        gameRules_1.default.gameState.currentWesterosCard = card;</span>
+<span class="cstat-no" title="statement not covered" >        return card;</span>
+    };
+    WesterosCardRules.stillPlayingWesterosCard = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var gameState = gameRules_1.default.gameState;</span>
+<span class="cstat-no" title="statement not covered" >        switch (gameState.currentWesterosCard.selectedFunction.functionName) {</span>
+            case 'recruit':
+<span class="cstat-no" title="statement not covered" >                var areasAllowedToRecruit = gameRules_1.default.gameState.areasAllowedToRecruit;</span>
+<span class="cstat-no" title="statement not covered" >                return areasAllowedToRecruit.length &gt; 0;</span>
+            default:
+<span class="cstat-no" title="statement not covered" >                return false;</span>
+        }
+    };
+    return WesterosCardRules;
+}());
+exports.default = WesterosCardRules;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoid2VzdGVyb3NDYXJkUnVsZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJ3ZXN0ZXJvc0NhcmRSdWxlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHlEQUF5RTtBQUN6RSx3REFBbUQ7QUFDbkQsdURBQWtEO0FBQ2xELHlDQUFvQztBQUdwQztJQUFBO0lBdURBLENBQUM7SUFwRGlCLGlDQUFlLEdBQTdCLFVBQThCLFFBQWdCO1FBQzFDLElBQUksSUFBSSxHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDLG1CQUFtQixDQUFDO1FBRW5ELEVBQUUsQ0FBQyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsQ0FBQyxDQUFDO1lBQ2YsSUFBSSxHQUFHLElBQUksQ0FBQyxXQUFXLENBQUMsUUFBUSxDQUFDLENBQUM7UUFDdEMsQ0FBQztRQUNELElBQUksQ0FBQyxFQUFFLENBQUMsQ0FBQyxJQUFJLEtBQUssSUFBSSxJQUFJLElBQUksQ0FBQyxLQUFLLEtBQUssZ0NBQWlCLENBQUMsV0FBVyxDQUFDLENBQUMsQ0FBQztZQUNyRSxFQUFFLENBQUMsQ0FBQyxJQUFJLENBQUMsd0JBQXdCLEVBQUUsQ0FBQyxDQUFDLENBQUM7Z0JBQ2xDLE1BQU0sQ0FBQyxJQUFJLENBQUM7WUFDaEIsQ0FBQztZQUNELElBQUksQ0FBQyxDQUFDO2dCQUNGLDBCQUFnQixDQUFDLGlCQUFpQixFQUFFLENBQUM7Z0JBQ3JDLG1CQUFTLENBQUMsU0FBUyxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQztnQkFDL0MsSUFBSSxDQUFDLEtBQUssR0FBRyxnQ0FBaUIsQ0FBQyxNQUFNLENBQUM7Z0JBQ3RDLE1BQU0sQ0FBQyxJQUFJLENBQUM7WUFDaEIsQ0FBQztRQUNMLENBQUM7UUFDRCxtQkFBUyxDQUFDLFNBQVMsQ0FBQyxtQkFBbUIsR0FBRyxJQUFJLENBQUM7UUFDL0MsTUFBTSxDQUFDLElBQUksQ0FBQztJQUNoQixDQUFDO0lBRWMsNkJBQVcsR0FBMUIsVUFBMkIsUUFBZ0I7UUFFdkMsSUFBSSxLQUFxQixDQUFDO1FBQzFCLE1BQU0sQ0FBQyxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7WUFDZixLQUFLLENBQUM7Z0JBQ0YsS0FBSyxHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDLGNBQWMsQ0FBQztnQkFDM0MsS0FBSyxDQUFDO1lBQ1YsS0FBSyxDQUFDO2dCQUNGLEtBQUssR0FBRyxtQkFBUyxDQUFDLFNBQVMsQ0FBQyxjQUFjLENBQUM7Z0JBQzNDLEtBQUssQ0FBQztZQUNWLEtBQUssQ0FBQztnQkFDRixLQUFLLEdBQUcsbUJBQVMsQ0FBQyxTQUFTLENBQUMsY0FBYyxDQUFDO2dCQUMzQyxLQUFLLENBQUM7UUFDZCxDQUFDO1FBRUQsSUFBSSxJQUFJLEdBQUcscUJBQVcsQ0FBQyxZQUFZLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDM0MsbUJBQVMsQ0FBQyxTQUFTLENBQUMsbUJBQW1CLEdBQUcsSUFBSSxDQUFDO1FBQy9DLE1BQU0sQ0FBQyxJQUFJLENBQUM7SUFDaEIsQ0FBQztJQUVjLDBDQUF3QixHQUF2QztRQUNJLElBQUksU0FBUyxHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDO1FBQ3BDLE1BQU0sQ0FBQyxDQUFDLFNBQVMsQ0FBQyxtQkFBbUIsQ0FBQyxnQkFBZ0IsQ0FBQyxZQUFZLENBQUMsQ0FBQyxDQUFDO1lBQ2xFLEtBQUssU0FBUztnQkFDVixJQUFJLHFCQUFxQixHQUFHLG1CQUFTLENBQUMsU0FBUyxDQUFDLHFCQUFxQixDQUFDO2dCQUN0RSxNQUFNLENBQUMscUJBQXFCLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQztZQUM1QztnQkFDSSxNQUFNLENBQUMsS0FBSyxDQUFDO1FBQ3JCLENBQUM7SUFDTCxDQUFDO0lBRUwsd0JBQUM7QUFBRCxDQUFDLEFBdkRELElBdURDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtXZXN0ZXJvc0NhcmQsIFdlc3Rlcm9zQ2FyZFN0YXRlfSBmcm9tICcuLi8uLi9jYXJkcy93ZXN0ZXJvc0NhcmQnO1xuaW1wb3J0IEdhbWVQaGFzZVNlcnZpY2UgZnJvbSAnLi4vZ2FtZVBoYXNlU2VydmljZSc7XG5pbXBvcnQgQ2FyZEZhY3RvcnkgZnJvbSAnLi4vLi4vY2FyZHMvY2FyZEZhY3RvcnknO1xuaW1wb3J0IEdhbWVSdWxlcyBmcm9tICcuL2dhbWVSdWxlcyc7XG5cblxuZXhwb3J0IGRlZmF1bHQgY2xhc3MgV2VzdGVyb3NDYXJkUnVsZXMge1xuXG5cbiAgICBwdWJsaWMgc3RhdGljIGdldFdlc3Rlcm9zQ2FyZChjYXJkVHlwZTogbnVtYmVyKSB7XG4gICAgICAgIGxldCBjYXJkID0gR2FtZVJ1bGVzLmdhbWVTdGF0ZS5jdXJyZW50V2VzdGVyb3NDYXJkO1xuXG4gICAgICAgIGlmIChjYXJkID09IG51bGwpIHtcbiAgICAgICAgICAgIGNhcmQgPSB0aGlzLnBsYXlOZXdDYXJkKGNhcmRUeXBlKTtcbiAgICAgICAgfVxuICAgICAgICBlbHNlIGlmIChjYXJkICE9PSBudWxsICYmIGNhcmQuc3RhdGUgPT09IFdlc3Rlcm9zQ2FyZFN0YXRlLmV4ZWN1dGVDYXJkKSB7XG4gICAgICAgICAgICBpZiAodGhpcy5zdGlsbFBsYXlpbmdXZXN0ZXJvc0NhcmQoKSkge1xuICAgICAgICAgICAgICAgIHJldHVybiBjYXJkO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgZWxzZSB7XG4gICAgICAgICAgICAgICAgR2FtZVBoYXNlU2VydmljZS5zd2l0Y2hUb05leHRQaGFzZSgpO1xuICAgICAgICAgICAgICAgIEdhbWVSdWxlcy5nYW1lU3RhdGUuY3VycmVudFdlc3Rlcm9zQ2FyZCA9IG51bGw7XG4gICAgICAgICAgICAgICAgY2FyZC5zdGF0ZSA9IFdlc3Rlcm9zQ2FyZFN0YXRlLnBsYXllZDtcbiAgICAgICAgICAgICAgICByZXR1cm4gY2FyZDtcbiAgICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgICBHYW1lUnVsZXMuZ2FtZVN0YXRlLmN1cnJlbnRXZXN0ZXJvc0NhcmQgPSBjYXJkO1xuICAgICAgICByZXR1cm4gY2FyZDtcbiAgICB9XG5cbiAgICBwcml2YXRlIHN0YXRpYyBwbGF5TmV3Q2FyZChjYXJkVHlwZTogbnVtYmVyKTogV2VzdGVyb3NDYXJkIHtcblxuICAgICAgICBsZXQgY2FyZHM6IFdlc3Rlcm9zQ2FyZFtdO1xuICAgICAgICBzd2l0Y2ggKGNhcmRUeXBlKSB7XG4gICAgICAgICAgICBjYXNlIDE6XG4gICAgICAgICAgICAgICAgY2FyZHMgPSBHYW1lUnVsZXMuZ2FtZVN0YXRlLndlc3Rlcm9zQ2FyZHMxO1xuICAgICAgICAgICAgICAgIGJyZWFrO1xuICAgICAgICAgICAgY2FzZSAyOlxuICAgICAgICAgICAgICAgIGNhcmRzID0gR2FtZVJ1bGVzLmdhbWVTdGF0ZS53ZXN0ZXJvc0NhcmRzMjtcbiAgICAgICAgICAgICAgICBicmVhaztcbiAgICAgICAgICAgIGNhc2UgMzpcbiAgICAgICAgICAgICAgICBjYXJkcyA9IEdhbWVSdWxlcy5nYW1lU3RhdGUud2VzdGVyb3NDYXJkczM7XG4gICAgICAgICAgICAgICAgYnJlYWs7XG4gICAgICAgIH1cblxuICAgICAgICBsZXQgY2FyZCA9IENhcmRGYWN0b3J5LnBsYXlOZXh0Q2FyZChjYXJkcyk7XG4gICAgICAgIEdhbWVSdWxlcy5nYW1lU3RhdGUuY3VycmVudFdlc3Rlcm9zQ2FyZCA9IGNhcmQ7XG4gICAgICAgIHJldHVybiBjYXJkO1xuICAgIH1cblxuICAgIHByaXZhdGUgc3RhdGljIHN0aWxsUGxheWluZ1dlc3Rlcm9zQ2FyZCgpIHtcbiAgICAgICAgbGV0IGdhbWVTdGF0ZSA9IEdhbWVSdWxlcy5nYW1lU3RhdGU7XG4gICAgICAgIHN3aXRjaCAoZ2FtZVN0YXRlLmN1cnJlbnRXZXN0ZXJvc0NhcmQuc2VsZWN0ZWRGdW5jdGlvbi5mdW5jdGlvbk5hbWUpIHtcbiAgICAgICAgICAgIGNhc2UgJ3JlY3J1aXQnOlxuICAgICAgICAgICAgICAgIGxldCBhcmVhc0FsbG93ZWRUb1JlY3J1aXQgPSBHYW1lUnVsZXMuZ2FtZVN0YXRlLmFyZWFzQWxsb3dlZFRvUmVjcnVpdDtcbiAgICAgICAgICAgICAgICByZXR1cm4gYXJlYXNBbGxvd2VkVG9SZWNydWl0Lmxlbmd0aCA+IDA7XG4gICAgICAgICAgICBkZWZhdWx0OlxuICAgICAgICAgICAgICAgIHJldHVybiBmYWxzZTtcbiAgICAgICAgfVxuICAgIH1cblxufSJdfQ==
+},'src/logic/board/gameRules/westerosCardRules.ts',{"../../cards/westerosCard":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/westerosCard.ts","../gamePhaseService":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gamePhaseService.ts","../../cards/cardFactory":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/cardFactory.ts","./gameRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/gameRules.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

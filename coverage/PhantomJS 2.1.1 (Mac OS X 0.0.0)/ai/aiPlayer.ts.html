@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ai/aiPlayer.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ai/</a> aiPlayer.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">35.05% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>34/97</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">16.98% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>9/53</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">32% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/25</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">34.41% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>32/93</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/ai/aiPlayer.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+var __extends = (this &amp;&amp; this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array &amp;&amp; function (d, b) { d.__proto__ = b; }) ||
+<span class="fstat-no" title="function not covered" ><span class="branch-3 cbranch-no" title="branch not covered" >        function (d, b) {</span> <span class="cstat-no" title="statement not covered" >for (var p in b) <span class="cstat-no" title="statement not covered" >if (b.hasOwnProperty(p)) <span class="cstat-no" title="statement not covered" >d[p] = b[p]; </span></span></span>};</span>
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.create(b) </span>: (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var gameRules_1 = require("../board/gameRules/gameRules");
+var orderToken_1 = require("../orderToken/orderToken");
+var gamePhase_1 = require("../board/gamePhase");
+var player_1 = require("../board/player");
+var aiCalculator_1 = require("./aiCalculator");
+var tokenPlacementRules_1 = require("../board/gameRules/tokenPlacementRules");
+var movementRules_1 = require("../board/gameRules/movementRules");
+var recruitingRules_1 = require("../board/gameRules/recruitingRules");
+var AiPlayer = /** @class */ (function (_super) {
+    __extends(AiPlayer, _super);
+    function AiPlayer(house, powerToken, cards) {
+        return _super.call(this, house, powerToken, cards) || this;
+    }
+    AiPlayer.prototype.placeAllOrderTokens = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var availableOrderToken = tokenPlacementRules_1.default.getAvailableOrderToken(this.house);</span>
+<span class="cstat-no" title="statement not covered" >        var areasToPlaceAToken = gameRules_1.default.gameState.areas.filter(<span class="fstat-no" title="function not covered" >function (area) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return tokenPlacementRules_1.default.isAllowedToPlaceOrderToken(_this.house, area.key);</span>
+        });
+        // TODO: consider already placed token when calculating further best moves
+<span class="cstat-no" title="statement not covered" >        var bestMovesForAllPlaceableToken = areasToPlaceAToken.map(<span class="fstat-no" title="function not covered" >function (area) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return aiCalculator_1.default.getBestMove(_this, area, availableOrderToken);</span>
+        });
+<span class="cstat-no" title="statement not covered" >        for (var _i = 0, bestMovesForAllPlaceableToken_1 = bestMovesForAllPlaceableToken; _i &lt; bestMovesForAllPlaceableToken_1.length; _i++) {</span>
+<span class="cstat-no" title="statement not covered" >            var bestMove = bestMovesForAllPlaceableToken_1[_i];</span>
+<span class="cstat-no" title="statement not covered" >            tokenPlacementRules_1.default.addOrderToken(new orderToken_1.OrderToken(this.house, bestMove.orderTokenType), bestMove.sourceArea.key);</span>
+        }
+    };
+    AiPlayer.prototype.executeOrder = <span class="fstat-no" title="function not covered" >function (gamePhase) {</span>
+<span class="cstat-no" title="statement not covered" >        if (gamePhase === gamePhase_1.GamePhase.ACTION_MARCH) {</span>
+<span class="cstat-no" title="statement not covered" >            var areasWithMoveToken = aiCalculator_1.default.getAreasWithToken(this.house, tokenPlacementRules_1.default.MARCH_ORDER_TOKENS);</span>
+<span class="cstat-no" title="statement not covered" >            if (areasWithMoveToken.length &gt; 0) {</span>
+                // TODO: Pick most important moveToken first
+<span class="cstat-no" title="statement not covered" >                var sourceArea = areasWithMoveToken[0];</span>
+<span class="cstat-no" title="statement not covered" >                var bestMove = aiCalculator_1.default.getBestMove(this, sourceArea, [sourceArea.orderToken.getType()]);</span>
+<span class="cstat-no" title="statement not covered" >                if (bestMove === null) {</span>
+<span class="cstat-no" title="statement not covered" >                    tokenPlacementRules_1.default.skipOrder(sourceArea.key);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (bestMove.targetArea !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                    movementRules_1.default.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units);</span>
+<span class="cstat-no" title="statement not covered" >                    this.establishControl(sourceArea);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        if (gamePhase === gamePhase_1.GamePhase.ACTION_RAID) {</span>
+<span class="cstat-no" title="statement not covered" >            var areasWithRaidToken = aiCalculator_1.default.getAreasWithToken(this.house, tokenPlacementRules_1.default.RAID_ORDER_TOKENS);</span>
+            // TODO add logic to Execute RAID Order
+<span class="cstat-no" title="statement not covered" >            if (areasWithRaidToken.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                tokenPlacementRules_1.default.skipOrder(areasWithRaidToken[0].key);</span>
+            }
+        }
+    };
+    AiPlayer.prototype.recruit = <span class="fstat-no" title="function not covered" >function (areas) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        areas.filter(<span class="fstat-no" title="function not covered" >function (a) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _this.house === a.controllingHouse;</span>
+        }).forEach(<span class="fstat-no" title="function not covered" >function (area) {</span>
+            // TODO: Add Logic to recruit new units
+<span class="cstat-no" title="statement not covered" >            recruitingRules_1.default.recruit(area);</span>
+        });
+    };
+    AiPlayer.prototype.calculateValueForDefendingOrders = <span class="fstat-no" title="function not covered" >function (area) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        area.borders.forEach(<span class="fstat-no" title="function not covered" >function (borderArea) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null &amp;&amp; borderArea.controllingHouse !== _this.house &amp;&amp; borderArea.units.length &gt; 0;</span>
+<span class="cstat-no" title="statement not covered" >            if (controlledByOtherPlayerWithEnemyUnits) {</span>
+                // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >                value += 0.1;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    };
+    AiPlayer.prototype.calculateValueForRaidOrders = <span class="fstat-no" title="function not covered" >function (area) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        area.borders.forEach(<span class="fstat-no" title="function not covered" >function (borderArea) {</span></span>
+<span class="cstat-no" title="statement not covered" >            var controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null &amp;&amp; borderArea.controllingHouse !== _this.house &amp;&amp; borderArea.units.length &gt; 0;</span>
+<span class="cstat-no" title="statement not covered" >            if (controlledByOtherPlayerWithEnemyUnits) {</span>
+                // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >                value += 0.1;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    };
+    AiPlayer.prototype.calculateValueForMarchOrders = <span class="fstat-no" title="function not covered" >function (sourceArea, targetArea) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        var value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        var numberOfEnemiesAtBorder = sourceArea.borders.filter(<span class="fstat-no" title="function not covered" >function (borderArea) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return aiCalculator_1.default.controlledByOtherPlayerWithEnemyUnits(borderArea, _this.house);</span>
+        }).length;
+<span class="cstat-no" title="statement not covered" >        var noEnemies = aiCalculator_1.default.noEnemies(targetArea, this.house);</span>
+<span class="cstat-no" title="statement not covered" >        if (targetArea.hasCastleOrStronghold() &amp;&amp; noEnemies) {</span>
+            // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >            value += 0.9;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (targetArea.supply &gt; 0 &amp;&amp; noEnemies) {</span>
+<span class="cstat-no" title="statement not covered" >            value += (0.1 * targetArea.supply);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (targetArea.consolidatePower &gt; 0 &amp;&amp; noEnemies) {</span>
+<span class="cstat-no" title="statement not covered" >            value += (0.1 * targetArea.consolidatePower);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        value -= (numberOfEnemiesAtBorder * 0.1);</span>
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    };
+    AiPlayer.prototype.calculateValueForConsolidatePowerOrder = <span class="fstat-no" title="function not covered" >function (area) {</span>
+<span class="cstat-no" title="statement not covered" >        return 0.1;</span>
+    };
+    AiPlayer.prototype.calculateValueForSupportOrder = <span class="fstat-no" title="function not covered" >function (area) {</span>
+<span class="cstat-no" title="statement not covered" >        return 0;</span>
+    };
+    AiPlayer.prototype.establishControl = <span class="fstat-no" title="function not covered" >function (sourceArea) {</span>
+<span class="cstat-no" title="statement not covered" >        if (sourceArea.units.length === 0 &amp;&amp; (sourceArea.hasCastleOrStronghold() || sourceArea.supply &gt; 0 || sourceArea.consolidatePower &gt; 0)) {</span>
+<span class="cstat-no" title="statement not covered" >            movementRules_1.default.establishControl(sourceArea);</span>
+        }
+    };
+    return AiPlayer;
+}(player_1.default));
+exports.default = AiPlayer;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYWlQbGF5ZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJhaVBsYXllci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSwwREFBcUQ7QUFDckQsdURBQW9EO0FBR3BELGdEQUE2QztBQUM3QywwQ0FBcUM7QUFFckMsK0NBQTBDO0FBQzFDLDhFQUF5RTtBQUN6RSxrRUFBNkQ7QUFDN0Qsc0VBQWlFO0FBQ2pFO0lBQXNDLDRCQUFNO0lBRXhDLGtCQUFZLEtBQVksRUFBRSxVQUFrQixFQUFFLEtBQW1CO2VBQzdELGtCQUFNLEtBQUssRUFBRSxVQUFVLEVBQUUsS0FBSyxDQUFDO0lBRW5DLENBQUM7SUFFTSxzQ0FBbUIsR0FBMUI7UUFBQSxpQkFhQztRQVpHLElBQUksbUJBQW1CLEdBQUcsNkJBQW1CLENBQUMsc0JBQXNCLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQ2pGLElBQUksa0JBQWtCLEdBQUcsbUJBQVMsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxVQUFDLElBQUk7WUFDM0QsTUFBTSxDQUFDLDZCQUFtQixDQUFDLDBCQUEwQixDQUFDLEtBQUksQ0FBQyxLQUFLLEVBQUUsSUFBSSxDQUFDLEdBQUcsQ0FBQyxDQUFDO1FBQ2hGLENBQUMsQ0FBQyxDQUFDO1FBQ0gsMEVBQTBFO1FBQzFFLElBQUksNkJBQTZCLEdBQUcsa0JBQWtCLENBQUMsR0FBRyxDQUFDLFVBQUMsSUFBSTtZQUM1RCxNQUFNLENBQUMsc0JBQVksQ0FBQyxXQUFXLENBQUMsS0FBSSxFQUFFLElBQUksRUFBRSxtQkFBbUIsQ0FBQyxDQUFDO1FBQ3JFLENBQUMsQ0FBQyxDQUFDO1FBRUgsR0FBRyxDQUFDLENBQWlCLFVBQTZCLEVBQTdCLCtEQUE2QixFQUE3QiwyQ0FBNkIsRUFBN0IsSUFBNkI7WUFBN0MsSUFBSSxRQUFRLHNDQUFBO1lBQ2IsNkJBQW1CLENBQUMsYUFBYSxDQUFDLElBQUksdUJBQVUsQ0FBQyxJQUFJ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b2FyZC9nYW1lUnVsZXMvZ2FtZVJ1bGVzJztcbmltcG9ydCB7T3JkZXJUb2tlbn0gZnJvbSAnLi4vb3JkZXJUb2tlbi9vcmRlclRva2VuJztcbmltcG9ydCB7QXJlYX0gZnJvbSAnLi4vYm9hcmQvYXJlYSc7XG5pbXBvcnQge0hvdXNlfSBmcm9tICcuLi9ib2FyZC9ob3VzZSc7XG5pbXBvcnQge0dhbWVQaGFzZX0gZnJvbSAnLi4vYm9hcmQvZ2FtZVBoYXNlJztcbmltcG9ydCBQbGF5ZXIgZnJvbSAnLi4vYm9hcmQvcGxheWVyJztcbmltcG9ydCBIb3VzZWNDYXJkIGZyb20gJy4uL2NhcmRzL2hvdXNlQ2FyZCc7XG5pbXBvcnQgQWlDYWxjdWxhdG9yIGZyb20gJy4vYWlDYWxjdWxhdG9yJztcbmltcG9ydCBUb2tlblBsYWNlbWVudFJ1bGVzIGZyb20gJy4uL2JvYXJkL2dhbWVSdWxlcy90b2tlblBsYWNlbWVudFJ1bGVzJztcbmltcG9ydCBNb3ZlbWVudFJ1bGVzIGZyb20gJy4uL2JvYXJkL2dhbWVSdWxlcy9tb3ZlbWVudFJ1bGVzJztcbmltcG9ydCBSZWNydWl0aW5nUnVsZXMgZnJvbSAnLi4vYm9hcmQvZ2FtZVJ1bGVzL3JlY3J1aXRpbmdSdWxlcyc7XG5leHBvcnQgZGVmYXVsdCBjbGFzcyBBaVBsYXllciBleHRlbmRzIFBsYXllciB7XG5cbiAgICBjb25zdHJ1Y3Rvcihob3VzZTogSG91c2UsIHBvd2VyVG9rZW46IG51bWJlciwgY2FyZHM6IEhvdXNlY0NhcmRbXSkge1xuICAgICAgICBzdXBlcihob3VzZSwgcG93ZXJUb2tlbiwgY2FyZHMpO1xuXG4gICAgfVxuXG4gICAgcHVibGljIHBsYWNlQWxsT3JkZXJUb2tlbnMoKSB7XG4gICAgICAgIGxldCBhdmFpbGFibGVPcmRlclRva2VuID0gVG9rZW5QbGFjZW1lbnRSdWxlcy5nZXRBdmFpbGFibGVPcmRlclRva2VuKHRoaXMuaG91c2UpO1xuICAgICAgICBsZXQgYXJlYXNUb1BsYWNlQVRva2VuID0gR2FtZVJ1bGVzLmdhbWVTdGF0ZS5hcmVhcy5maWx0ZXIoKGFyZWEpID0+IHtcbiAgICAgICAgICAgIHJldHVybiBUb2tlblBsYWNlbWVudFJ1bGVzLmlzQWxsb3dlZFRvUGxhY2VPcmRlclRva2VuKHRoaXMuaG91c2UsIGFyZWEua2V5KTtcbiAgICAgICAgfSk7XG4gICAgICAgIC8vIFRPRE86IGNvbnNpZGVyIGFscmVhZHkgcGxhY2VkIHRva2VuIHdoZW4gY2FsY3VsYXRpbmcgZnVydGhlciBiZXN0IG1vdmVzXG4gICAgICAgIGxldCBiZXN0TW92ZXNGb3JBbGxQbGFjZWFibGVUb2tlbiA9IGFyZWFzVG9QbGFjZUFUb2tlbi5tYXAoKGFyZWEpID0+IHtcbiAgICAgICAgICAgIHJldHVybiBBaUNhbGN1bGF0b3IuZ2V0QmVzdE1vdmUodGhpcywgYXJlYSwgYXZhaWxhYmxlT3JkZXJUb2tlbik7XG4gICAgICAgIH0pO1xuXG4gICAgICAgIGZvciAobGV0IGJlc3RNb3ZlIG9mIGJlc3RNb3Zlc0ZvckFsbFBsYWNlYWJsZVRva2VuKSB7XG4gICAgICAgICAgICBUb2tlblBsYWNlbWVudFJ1bGVzLmFkZE9yZGVyVG9rZW4obmV3IE9yZGVyVG9rZW4odGhpcy5ob3VzZSwgYmVzdE1vdmUub3JkZXJUb2tlblR5cGUpLCBiZXN0TW92ZS5zb3VyY2VBcmVhLmtleSk7XG4gICAgICAgIH1cbiAgICB9XG5cbiAgICBwdWJsaWMgZXhlY3V0ZU9yZGVyKGdhbWVQaGFzZTogR2FtZVBoYXNlKSB7XG5cbiAgICAgICAgaWYgKGdhbWVQaGFzZSA9PT0gR2FtZVBoYXNlLkFDVElPTl9NQVJDSCkge1xuICAgICAgICAgICAgbGV0IGFyZWFzV2l0aE1vdmVUb2tlbiA9IEFpQ2FsY3VsYXRvci5nZXRBcmVhc1dpdGhUb2tlbih0aGlzLmhvdXNlLCBUb2tlblBsYWNlbWVudFJ1bGVzLk1BUkNIX09SREVSX1RPS0VOUyk7XG4gICAgICAgICAgICBpZiAoYXJlYXNXaXRoTW92ZVRva2VuLmxlbmd0aCA+IDApIHtcbiAgICAgICAgICAgICAgICAvLyBUT0RPOiBQaWNrIG1vc3QgaW1wb3J0YW50IG1vdmVUb2tlbiBmaXJzdFxuICAgICAgICAgICAgICAgIGxldCBzb3VyY2VBcmVhID0gYXJlYXNXaXRoTW92ZVRva2VuWzBdO1xuICAgICAgICAgICAgICAgIGxldCBiZXN0TW92ZSA9IEFpQ2FsY3VsYXRvci5nZXRCZXN0TW92ZSh0aGlzLCBzb3VyY2VBcmVhLCBbc291cmNlQXJlYS5vcmRlclRva2VuLmdldFR5cGUoKV0pO1xuXG4gICAgICAgICAgICAgICAgaWYgKGJlc3RNb3ZlID09PSBudWxsKSB7XG4gICAgICAgICAgICAgICAgICAgIFRva2VuUGxhY2VtZW50UnVsZXMuc2tpcE9yZGVyKHNvdXJjZUFyZWEua2V5KTtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuO1xuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICBpZiAoYmVzdE1vdmUudGFyZ2V0QXJlYSAhPT0gbnVsbCkge1xuICAgICAgICAgICAgICAgICAgICBNb3ZlbWVudFJ1bGVzLm1vdmVVbml0cyhzb3VyY2VBcmVhLmtleSwgYmVzdE1vdmUudGFyZ2V0QXJlYS5rZXksIHNvdXJjZUFyZWEudW5pdHMpO1xuICAgICAgICAgICAgICAgICAgICB0aGlzLmVzdGFibGlzaENvbnRyb2woc291cmNlQXJlYSk7XG4gICAgICAgICAgICAgICAgICAgIHJldHVybjtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9XG4gICAgICAgIH1cblxuICAgICAgICBpZiAoZ2FtZVBoYXNlID09PSBHYW1lUGhhc2UuQUNUSU9OX1JBSUQpIHtcbiAgICAgICAgICAgIGxldCBhcmVhc1dpdGhSYWlkVG9rZW4gPSBBaUNhbGN1bGF0b3IuZ2V0QXJlYXNXaXRoVG9rZW4odGhpcy5ob3VzZSwgVG9rZW5QbGFjZW1lbnRSdWxlcy5SQUlEX09SREVSX1RPS0VOUyk7XG4gICAgICAgICAgICAvLyBUT0RPIGFkZCBsb2dpYyB0byBFeGVjdXRlIFJBSUQgT3JkZXJcbiAgICAgICAgICAgIGlmIChhcmVhc1dpdGhSYWlkVG9rZW4ubGVuZ3RoID4gMCkge1xuICAgICAgICAgICAgICAgIFRva2VuUGxhY2VtZW50UnVsZXMuc2tpcE9yZGVyKGFyZWFzV2l0aFJhaWRUb2tlblswXS5rZXkpO1xuICAgICAgICAgICAgfVxuICAgICAgICB9XG5cblxuICAgIH1cblxuICAgIHB1YmxpYyByZWNydWl0KGFyZWFzOiBBcmVhW10pIHtcbiAgICAgICAgYXJlYXMuZmlsdGVyKChhKSA9PiB7XG4gICAgICAgICAgICByZXR1cm4gdGhpcy5ob3VzZSA9PT0gYS5jb250cm9sbGluZ0hvdXNlO1xuICAgICAgICB9KS5mb3JFYWNoKChhcmVhKSA9PiB7XG4gICAgICAgICAgICAvLyBUT0RPOiBBZGQgTG9naWMgdG8gcmVjcnVpdCBuZXcgdW5pdHNcbiAgICAgICAgICAgIFJlY3J1aXRpbmdSdWxlcy5yZWNydWl0KGFyZWEpO1xuICAgICAgICB9KTtcbiAgICB9XG5cbiAgICBwdWJsaWMgY2FsY3VsYXRlVmFsdWVGb3JEZWZlbmRpbmdPcmRlcnMoYXJlYTogQXJlYSk6IG51bWJlciB7XG4gICAgICAgIGxldCB2YWx1ZSA9IDA7XG4gICAgICAgIGFyZWEuYm9yZGVycy5mb3JFYWNoKChib3JkZXJBcmVhKSA9PiB7XG4gICAgICAgICAgICBsZXQgY29udHJvbGxlZEJ5T3RoZXJQbGF5ZXJXaXRoRW5lbXlVbml0cyA9IGJvcmRlckFyZWEuY29udHJvbGxpbmdIb3VzZSAhPT0gbnVsbCAmJiBib3JkZXJBcmVhLmNvbnRyb2xsaW5nSG91c2UgIT09IHRoaXMuaG91c2UgJiYgYm9yZGVyQXJlYS51bml0cy5sZW5ndGggPiAwO1xuICAgICAgICAgICAgaWYgKGNvbnRyb2xsZWRCeU90aGVyUGxheWVyV2l0aEVuZW15VW5pdHMpIHtcbiAgICAgICAgICAgICAgICAvLyBUT0RPIGNyZWF0ZSB2YWx1ZSBNYXAgYW5kIGFkZCBkaWZmZXJlbnQgQWlQbGF5ZXIgZGlmZmljdWx0aWVzIGFwcHlsaW5nIGRpZmZlcmVudCB2YWx1ZXNcbiAgICAgICAgICAgICAgICB2YWx1ZSArPSAwLjE7XG4gICAgICAgICAgICB9XG4gICAgICAgIH0pO1xuICAgICAgICByZXR1cm4gdmFsdWU7XG4gICAgfVxuXG4gICAgcHVibGljIGNhbGN1bGF0ZVZhbHVlRm9yUmFpZE9yZGVycyhhcmVhOiBBcmVhKSB7XG5cbiAgICAgICAgbGV0IHZhbHVlID0gMDtcbiAgICAgICAgYXJlYS5ib3JkZXJzLmZvckVhY2goKGJvcmRlckFyZWEpID0+IHtcbiAgICAgICAgICAgIGxldCBjb250cm9sbGVkQnlPdGhlclBsYXllcldpdGhFbmVteVVuaXRzID0gYm9yZGVyQXJlYS5jb250cm9sbGluZ0hvdXNlICE9PSBudWxsICYmIGJvcmRlckFyZWEuY29udHJvbGxpbmdIb3VzZSAhPT0gdGhpcy5ob3VzZSAmJiBib3JkZXJBcmVhLnVuaXRzLmxlbmd0aCA+IDA7XG4gICAgICAgICAgICBpZiAoY29udHJvbGxlZEJ5T3RoZXJQbGF5ZXJXaXRoRW5lbXlVbml0cykge1xuICAgICAgICAgICAgICAgIC8vIFRPRE8gY3JlYXRlIHZhbHVlIE1hcCBhbmQgYWRkIGRpZmZlcmVudCBBaVBsYXllciBkaWZmaWN1bHRpZXMgYXBweWxpbmcgZGlmZmVyZW50IHZhbHVlc1xuICAgICAgICAgICAgICAgIHZhbHVlICs9IDAuMTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgfSk7XG4gICAgICAgIHJldHVybiB2YWx1ZTtcbiAgICB9XG5cbiAgICBwdWJsaWMgY2FsY3VsYXRlVmFsdWVGb3JNYXJjaE9yZGVycyhzb3VyY2VBcmVhOiBBcmVhLCB0YXJnZXRBcmVhOiBBcmVhKSB7XG4gICAgICAgIGxldCB2YWx1ZSA9IDA7XG4gICAgICAgIGxldCBudW1iZXJPZkVuZW1pZXNBdEJvcmRlciA9IHNvdXJjZUFyZWEuYm9yZGVycy5maWx0ZXIoKGJvcmRlckFyZWEpID0+IHtcbiAgICAgICAgICAgIHJldHVybiBBaUNhbGN1bGF0b3IuY29udHJvbGxlZEJ5T3RoZXJQbGF5ZXJXaXRoRW5lbXlVbml0cyhib3JkZXJBcmVhLCB0aGlzLmhvdXNlKTtcbiAgICAgICAgfSkubGVuZ3RoO1xuXG4gICAgICAgIGxldCBub0VuZW1pZXMgPSBBaUNhbGN1bGF0b3Iubm9FbmVtaWVzKHRhcmdldEFyZWEsIHRoaXMuaG91c2UpO1xuICAgICAgICBpZiAodGFyZ2V0QXJlYS5oYXNDYXN0bGVPclN0cm9uZ2hvbGQoKSAmJiBub0VuZW1pZXMpIHtcbiAgICAgICAgICAgIC8vIFRPRE8gY3JlYXRlIHZhbHVlIE1hcCBhbmQgYWRkIGRpZmZlcmVudCBBaVBsYXllciBkaWZmaWN1bHRpZXMgYXBweWxpbmcgZGlmZmVyZW50IHZhbHVlc1xuICAgICAgICAgICAgdmFsdWUgKz0gMC45O1xuICAgICAgICB9XG4gICAgICAgIGlmICh0YXJnZXRBcmVhLnN1cHBseSA+IDAgJiYgbm9FbmVtaWVzKSB7XG4gICAgICAgICAgICB2YWx1ZSArPSAoMC4xICogdGFyZ2V0QXJlYS5zdXBwbHkpO1xuICAgICAgICB9XG4gICAgICAgIGlmICh0YXJnZXRBcmVhLmNvbnNvbGlkYXRlUG93ZXIgPiAwICYmIG5vRW5lbWllcykge1xuICAgICAgICAgICAgdmFsdWUgKz0gKDAuMSAqIHRhcmdldEFyZWEuY29uc29saWRhdGVQb3dlcik7XG4gICAgICAgIH1cbiAgICAgICAgdmFsdWUgLT0gKG51bWJlck9mRW5lbWllc0F0Qm9yZGVyICogMC4xKTtcblxuICAgICAgICByZXR1cm4gdmFsdWU7XG4gICAgfVxuXG4gICAgcHVibGljIGNhbGN1bGF0ZVZhbHVlRm9yQ29uc29saWRhdGVQb3dlck9yZGVyKGFyZWE6IEFyZWEpOiBudW1iZXIge1xuICAgICAgICByZXR1cm4gMC4xO1xuICAgIH1cblxuICAgIHB1YmxpYyBjYWxjdWxhdGVWYWx1ZUZvclN1cHBvcnRPcmRlcihhcmVhOiBBcmVhKTogbnVtYmVyIHtcbiAgICAgICAgcmV0dXJuIDA7XG4gICAgfVxuXG4gICAgcHJpdmF0ZSBlc3RhYmxpc2hDb250cm9sKHNvdXJjZUFyZWE6IEFyZWEpIHtcbiAgICAgICAgaWYgKHNvdXJjZUFyZWEudW5pdHMubGVuZ3RoID09PSAwICYmIChzb3VyY2VBcmVhLmhhc0Nhc3RsZU9yU3Ryb25naG9sZCgpIHx8IHNvdXJjZUFyZWEuc3VwcGx5ID4gMCB8fCBzb3VyY2VBcmVhLmNvbnNvbGlkYXRlUG93ZXIgPiAwICkpIHtcbiAgICAgICAgICAgIE1vdmVtZW50UnVsZXMuZXN0YWJsaXNoQ29udHJvbChzb3VyY2VBcmVhKTtcbiAgICAgICAgfVxuICAgIH1cblxuXG59Il19
+},'src/logic/ai/aiPlayer.ts',{"../board/gameRules/gameRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/gameRules.ts","../orderToken/orderToken":"/Users/taamato1/pdev/gameOfThrones/src/logic/orderToken/orderToken.ts","../board/area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","../board/house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","../board/gamePhase":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gamePhase.ts","../board/player":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/player.ts","../cards/houseCard":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/houseCard.ts","./aiCalculator":"/Users/taamato1/pdev/gameOfThrones/src/logic/ai/aiCalculator.ts","../board/gameRules/tokenPlacementRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/tokenPlacementRules.ts","../board/gameRules/movementRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/movementRules.ts","../board/gameRules/recruitingRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/recruitingRules.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

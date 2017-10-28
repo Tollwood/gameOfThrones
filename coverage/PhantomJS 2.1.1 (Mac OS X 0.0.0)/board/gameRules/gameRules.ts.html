@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for board/gameRules/gameRules.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">board/gameRules/</a> gameRules.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.98% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>53/57</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.33% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">92.86% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>52/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">250×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">(function(global){global.wrappers['/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/gameRules.ts']=[function(require,module,exports,__dirname,__filename){ "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var house_1 = require("../house");
+var cardFactory_1 = require("../../cards/cardFactory");
+var initialArea_1 = require("../initialArea");
+var player_1 = require("../player");
+var playerSetup_1 = require("../playerSetup");
+var aiPlayer_1 = require("../../ai/aiPlayer");
+var supplyRules_1 = require("./supplyRules");
+var tokenPlacementRules_1 = require("./tokenPlacementRules");
+var gamePhase_1 = require("../gamePhase");
+var GameState_1 = require("../gameState/GameState");
+var GameRules = /** @class */ (function () {
+<span class="fstat-no" title="function not covered" >    function GameRules() {</span>
+    }
+    Object.defineProperty(GameRules, "gameState", {
+        get: function () {
+            return this._gameState;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // New Game
+    GameRules.newGame = function () {
+        this.initGame([new playerSetup_1.default(house_1.House.stark, false), new playerSetup_1.default(house_1.House.lannister, true), new playerSetup_1.default(house_1.House.baratheon, true), new playerSetup_1.default(house_1.House.greyjoy, true), new playerSetup_1.default(house_1.House.tyrell, true), new playerSetup_1.default(house_1.House.martell, true)]);
+    };
+    GameRules.initGame = function (playerSetup) {
+        var _this = this;
+        this._gameState = new GameState_1.default();
+        var player = [];
+        playerSetup.forEach(function (config) {
+            if (config.ai) {
+                player.push(new aiPlayer_1.default(config.house, _this.INITIAL_POWER_TOKEN, cardFactory_1.default.getHouseCards(config.house)));
+            }
+            else {
+                player.push(new player_1.default(config.house, _this.INITIAL_POWER_TOKEN, cardFactory_1.default.getHouseCards(config.house)));
+            }
+        });
+        this._gameState.gamePhase = gamePhase_1.GamePhase.WESTEROS1;
+        this._gameState.round = 1;
+        this._gameState.wildlingsCount = 0;
+        this._gameState.areas = initialArea_1.AreaInitiator.getInitalState(player);
+        this._gameState.westerosCards1 = cardFactory_1.default.getWesterosCards(1);
+        this._gameState.westerosCards2 = cardFactory_1.default.getWesterosCards(2);
+        this._gameState.westerosCards3 = cardFactory_1.default.getWesterosCards(3);
+        this._gameState.players = player;
+        this._gameState.ironThroneSuccession = [house_1.House.baratheon, house_1.House.lannister, house_1.House.stark, house_1.House.martell, house_1.House.tyrell, house_1.House.greyjoy];
+        this._gameState.fiefdom = [house_1.House.greyjoy, house_1.House.tyrell, house_1.House.martell, house_1.House.stark, house_1.House.baratheon, house_1.House.greyjoy];
+        this._gameState.kingscourt = [house_1.House.lannister, house_1.House.stark, house_1.House.martell, house_1.House.baratheon, house_1.House.tyrell, house_1.House.greyjoy];
+        this._gameState.currentlyAllowedTokenTypes = tokenPlacementRules_1.default.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
+        this._gameState.wildlingsCount = 0;
+        this._gameState.currentPlayer = player.filter(function (player) {
+            return player.house === _this._gameState.ironThroneSuccession[0];
+        })[0];
+        supplyRules_1.default.updateSupply();
+    };
+    GameRules.load = function (gameState) {
+        this._gameState = gameState;
+    };
+    GameRules.nextRound = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        this._gameState.round++;</span>
+    };
+    GameRules.getFirstFromIronThroneSuccession = <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        var _this = this;</span>
+<span class="cstat-no" title="statement not covered" >        return this._gameState.players.filter(<span class="fstat-no" title="function not covered" >function (player) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return player.house === _this._gameState.ironThroneSuccession[0];</span>
+        })[0];
+    };
+    GameRules.getAreaByKey = function (areaKey) {
+        return this._gameState.areas.filter(function (area) {
+            return area.key === areaKey;
+        })[0];
+    };
+    GameRules.INITIAL_POWER_TOKEN = 5;
+    return GameRules;
+}());
+exports.default = GameRules;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2FtZVJ1bGVzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZ2FtZVJ1bGVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0Esa0NBQStCO0FBQy9CLHVEQUFrRDtBQUNsRCw4Q0FBNkM7QUFDN0Msb0NBQStCO0FBQy9CLDhDQUF5QztBQUN6Qyw4Q0FBeUM7QUFDekMsNkNBQXdDO0FBQ3hDLDZEQUF3RDtBQUN4RCwwQ0FBdUM7QUFDdkMsb0RBQStDO0FBRS9DO0lBQUE7SUFpRUEsQ0FBQztJQWhFRyxzQkFBVyxzQkFBUzthQUFwQjtZQUNJLE1BQU0sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDO1FBQzNCLENBQUM7OztPQUFBO0lBSUQsV0FBVztJQUNHLGlCQUFPLEdBQXJCO1FBQ0ksSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsS0FBSyxFQUFFLEtBQUssQ0FBQyxFQUFFLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsU0FBUyxFQUFFLElBQUksQ0FBQyxFQUFFLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsU0FBUyxFQUFFLElBQUksQ0FBQyxFQUFFLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxFQUFFLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsTUFBTSxFQUFFLElBQUksQ0FBQyxFQUFFLElBQUkscUJBQVcsQ0FBQyxhQUFLLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUMxUCxDQUFDO0lBRWEsa0JBQVEsR0FBdEIsVUFBdUIsV0FBK0I7UUFBdEQsaUJBOEJDO1FBN0JHLElBQUksQ0FBQyxVQUFVLEdBQUcsSUFBSSxtQkFBUyxFQUFFLENBQUM7UUFDbEMsSUFBSSxNQUFNLEdBQUcsRUFBRSxDQUFDO1FBQ2hCLFdBQVcsQ0FBQyxPQUFPLENBQUMsVUFBQyxNQUFNO1lBRXZCLEVBQUUsQ0FBQyxDQUFDLE1BQU0sQ0FB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QUFDLEtBQUssRUFBRSxDQUFDO0lBQzVCLENBQUM7SUFFYSwwQ0FBZ0MsR0FBOUM7UUFBQSxpQkFJQztRQUhHLE1BQU0sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLE9BQU8sQ0FBQyxNQUFNLENBQUMsVUFBQyxNQUFNO1lBQ3pDLE1BQU0sQ0FBQyxNQUFNLENBQUMsS0FBSyxLQUFLLEtBQUksQ0FBQyxVQUFVLENBQUMsb0JBQW9CLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFDcEUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUM7SUFDVixDQUFDO0lBRWEsc0JBQVksR0FBMUIsVUFBMkIsT0FBZ0I7UUFDdkMsTUFBTSxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxVQUFDLElBQUk7WUFDckMsTUFBTSxDQUFDLElBQUksQ0FBQyxHQUFHLEtBQUssT0FBTyxDQUFDO1FBQ2hDLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDO0lBQ1YsQ0FBQztJQTFEYyw2QkFBbUIsR0FBVyxDQUFDLENBQUM7SUE0RG5ELGdCQUFDO0NBQUEsQUFqRUQsSUFpRUM7a0JBakVvQixTQUFTIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtBcmVhLCBBcmVhS2V5fSBmcm9tICcuLi9hcmVhJztcbmltcG9ydCB7SG91c2V9IGZyb20gJy4uL2hvdXNlJztcbmltcG9ydCBDYXJkRmFjdG9yeSBmcm9tICcuLi8uLi9jYXJkcy9jYXJkRmFjdG9yeSc7XG5pbXBvcnQge0FyZWFJbml0aWF0b3J9IGZyb20gJy4uL2luaXRpYWxBcmVhJztcbmltcG9ydCBQbGF5ZXIgZnJvbSAnLi4vcGxheWVyJztcbmltcG9ydCBQbGF5ZXJTZXR1cCBmcm9tICcuLi9wbGF5ZXJTZXR1cCc7XG5pbXBvcnQgQWlQbGF5ZXIgZnJvbSAnLi4vLi4vYWkvYWlQbGF5ZXInO1xuaW1wb3J0IFN1cHBseVJ1bGVzIGZyb20gJy4vc3VwcGx5UnVsZXMnO1xuaW1wb3J0IFRva2VuUGxhY2VtZW50UnVsZXMgZnJvbSAnLi90b2tlblBsYWNlbWVudFJ1bGVzJztcbmltcG9ydCB7R2FtZVBoYXNlfSBmcm9tICcuLi9nYW1lUGhhc2UnO1xuaW1wb3J0IEdhbWVTdGF0ZSBmcm9tICcuLi9nYW1lU3RhdGUvR2FtZVN0YXRlJztcblxuZXhwb3J0IGRlZmF1bHQgY2xhc3MgR2FtZVJ1bGVzIHtcbiAgICBzdGF0aWMgZ2V0IGdhbWVTdGF0ZSgpOiBHYW1lU3RhdGUge1xuICAgICAgICByZXR1cm4gdGhpcy5fZ2FtZVN0YXRlO1xuICAgIH1cblxuICAgIHByaXZhdGUgc3RhdGljIElOSVRJQUxfUE9XRVJfVE9LRU46IG51bWJlciA9IDU7XG4gICAgcHJpdmF0ZSBzdGF0aWMgX2dhbWVTdGF0ZTogR2FtZVN0YXRlO1xuICAgIC8vIE5ldyBHYW1lXG4gICAgcHVibGljIHN0YXRpYyBuZXdHYW1lKCkge1xuICAgICAgICB0aGlzLmluaXRHYW1lKFtuZXcgUGxheWVyU2V0dXAoSG91c2Uuc3RhcmssIGZhbHNlKSwgbmV3IFBsYXllclNldHVwKEhvdXNlLmxhbm5pc3RlciwgdHJ1ZSksIG5ldyBQbGF5ZXJTZXR1cChIb3VzZS5iYXJhdGhlb24sIHRydWUpLCBuZXcgUGxheWVyU2V0dXAoSG91c2UuZ3JleWpveSwgdHJ1ZSksIG5ldyBQbGF5ZXJTZXR1cChIb3VzZS50eXJlbGwsIHRydWUpLCBuZXcgUGxheWVyU2V0dXAoSG91c2UubWFydGVsbCwgdHJ1ZSldKTtcbiAgICB9XG5cbiAgICBwdWJsaWMgc3RhdGljIGluaXRHYW1lKHBsYXllclNldHVwOiBBcnJheTxQbGF5ZXJTZXR1cD4pIHtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlID0gbmV3IEdhbWVTdGF0ZSgpO1xuICAgICAgICBsZXQgcGxheWVyID0gW107XG4gICAgICAgIHBsYXllclNldHVwLmZvckVhY2goKGNvbmZpZykgPT4ge1xuXG4gICAgICAgICAgICBpZiAoY29uZmlnLmFpKSB7XG4gICAgICAgICAgICAgICAgcGxheWVyLnB1c2gobmV3IEFpUGxheWVyKGNvbmZpZy5ob3VzZSwgdGhpcy5JTklUSUFMX1BPV0VSX1RPS0VOLCBDYXJkRmFjdG9yeS5nZXRIb3VzZUNhcmRzKGNvbmZpZy5ob3VzZSkpKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIGVsc2Uge1xuICAgICAgICAgICAgICAgIHBsYXllci5wdXNoKG5ldyBQbGF5ZXIoY29uZmlnLmhvdXNlLCB0aGlzLklOSVRJQUxfUE9XRVJfVE9LRU4sIENhcmRGYWN0b3J5LmdldEhvdXNlQ2FyZHMoY29uZmlnLmhvdXNlKSkpO1xuICAgICAgICAgICAgfVxuICAgICAgICB9KTtcblxuICAgICAgICB0aGlzLl9nYW1lU3RhdGUuZ2FtZVBoYXNlID0gR2FtZVBoYXNlLldFU1RFUk9TMTtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLnJvdW5kID0gMTtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLndpbGRsaW5nc0NvdW50ID0gMDtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLmFyZWFzID0gQXJlYUluaXRpYXRvci5nZXRJbml0YWxTdGF0ZShwbGF5ZXIpO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUud2VzdGVyb3NDYXJkczEgPSBDYXJkRmFjdG9yeS5nZXRXZXN0ZXJvc0NhcmRzKDEpO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUud2VzdGVyb3NDYXJkczIgPSBDYXJkRmFjdG9yeS5nZXRXZXN0ZXJvc0NhcmRzKDIpO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUud2VzdGVyb3NDYXJkczMgPSBDYXJkRmFjdG9yeS5nZXRXZXN0ZXJvc0NhcmRzKDMpO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUucGxheWVycyA9IHBsYXllcjtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLmlyb25UaHJvbmVTdWNjZXNzaW9uID0gW0hvdXNlLmJhcmF0aGVvbiwgSG91c2UubGFubmlzdGVyLCBIb3VzZS5zdGFyaywgSG91c2UubWFydGVsbCwgSG91c2UudHlyZWxsLCBIb3VzZS5ncmV5am95XTtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLmZpZWZkb20gPSBbSG91c2UuZ3JleWpveSwgSG91c2UudHlyZWxsLCBIb3VzZS5tYXJ0ZWxsLCBIb3VzZS5zdGFyaywgSG91c2UuYmFyYXRoZW9uLCBIb3VzZS5ncmV5am95XTtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlLmtpbmdzY291cnQgPSBbSG91c2UubGFubmlzdGVyLCBIb3VzZS5zdGFyaywgSG91c2UubWFydGVsbCwgSG91c2UuYmFyYXRoZW9uLCBIb3VzZS50eXJlbGwsIEhvdXNlLmdyZXlqb3ldO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUuY3VycmVudGx5QWxsb3dlZFRva2VuVHlwZXMgPSBUb2tlblBsYWNlbWVudFJ1bGVzLklOSVRJQUxMWV9BTExPV0VEX09SREVSX1RPS0VOX1RZUEVTO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUud2lsZGxpbmdzQ291bnQgPSAwO1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUuY3VycmVudFBsYXllciA9IHBsYXllci5maWx0ZXIoKHBsYXllcikgPT4ge1xuICAgICAgICAgICAgcmV0dXJuIHBsYXllci5ob3VzZSA9PT0gdGhpcy5fZ2FtZVN0YXRlLmlyb25UaHJvbmVTdWNjZXNzaW9uWzBdO1xuICAgICAgICB9KVswXTtcbiAgICAgICAgU3VwcGx5UnVsZXMudXBkYXRlU3VwcGx5KCk7XG4gICAgfVxuXG5cbiAgICBwdWJsaWMgc3RhdGljIGxvYWQoZ2FtZVN0YXRlOiBHYW1lU3RhdGUpIHtcbiAgICAgICAgdGhpcy5fZ2FtZVN0YXRlID0gZ2FtZVN0YXRlO1xuICAgIH1cblxuICAgIHB1YmxpYyBzdGF0aWMgbmV4dFJvdW5kKCk6IHZvaWQge1xuICAgICAgICB0aGlzLl9nYW1lU3RhdGUucm91bmQrKztcbiAgICB9XG5cbiAgICBwdWJsaWMgc3RhdGljIGdldEZpcnN0RnJvbUlyb25UaHJvbmVTdWNjZXNzaW9uKCk6IFBsYXllciB7XG4gICAgICAgIHJldHVybiB0aGlzLl9nYW1lU3RhdGUucGxheWVycy5maWx0ZXIoKHBsYXllcikgPT4ge1xuICAgICAgICAgICAgcmV0dXJuIHBsYXllci5ob3VzZSA9PT0gdGhpcy5fZ2FtZVN0YXRlLmlyb25UaHJvbmVTdWNjZXNzaW9uWzBdO1xuICAgICAgICB9KVswXTtcbiAgICB9XG5cbiAgICBwdWJsaWMgc3RhdGljIGdldEFyZWFCeUtleShhcmVhS2V5OiBBcmVhS2V5KTogQXJlYSB7XG4gICAgICAgIHJldHVybiB0aGlzLl9nYW1lU3RhdGUuYXJlYXMuZmlsdGVyKChhcmVhKSA9PiB7XG4gICAgICAgICAgICByZXR1cm4gYXJlYS5rZXkgPT09IGFyZWFLZXk7XG4gICAgICAgIH0pWzBdO1xuICAgIH1cblxufSJdfQ==
+},'src/logic/board/gameRules/gameRules.ts',{"../area":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/area.ts","../house":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/house.ts","../../cards/cardFactory":"/Users/taamato1/pdev/gameOfThrones/src/logic/cards/cardFactory.ts","../initialArea":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/initialArea.ts","../player":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/player.ts","../playerSetup":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/playerSetup.ts","../../ai/aiPlayer":"/Users/taamato1/pdev/gameOfThrones/src/logic/ai/aiPlayer.ts","./supplyRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/supplyRules.ts","./tokenPlacementRules":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameRules/tokenPlacementRules.ts","../gamePhase":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gamePhase.ts","../gameState/GameState":"/Users/taamato1/pdev/gameOfThrones/src/logic/board/gameState/GameState.ts"}];})(this);
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

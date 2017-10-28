@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ai/aiPlayer.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ai/</a> aiPlayer.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25.93% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/81</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">4.76% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/42</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">11.11% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">27.03% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/74</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">import GameRules from '../board/gameRules/gameRules';
+import {OrderToken} from '../orderToken/orderToken';
+import {Area} from '../board/area';
+import {House} from '../board/house';
+import {GamePhase} from '../board/gamePhase';
+import Player from '../board/player';
+import HousecCard from '../cards/houseCard';
+import AiCalculator from './aiCalculator';
+import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
+import MovementRules from '../board/gameRules/movementRules';
+import RecruitingRules from '../board/gameRules/recruitingRules';
+export default class AiPlayer extends Player {
+&nbsp;
+    constructor(house: House, powerToken: number, cards: HousecCard[]) {
+        super(house, powerToken, cards);
+&nbsp;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public placeAllOrderTokens() {</span></span>
+<span class="cstat-no" title="statement not covered" >        let availableOrderToken = TokenPlacementRules.getAvailableOrderToken(this.house);</span>
+<span class="cstat-no" title="statement not covered" >        let areasToPlaceAToken = GameRules.gameState.areas.filter(<span class="fstat-no" title="function not covered" >(area)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return TokenPlacementRules.isAllowedToPlaceOrderToken(this.house, area.key);</span>
+        });
+        // TODO: consider already placed token when calculating further best moves
+<span class="cstat-no" title="statement not covered" >        let bestMovesForAllPlaceableToken = areasToPlaceAToken.map(<span class="fstat-no" title="function not covered" >(area)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return AiCalculator.getBestMove(this, area, availableOrderToken);</span>
+        });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (<span class="cstat-no" title="statement not covered" >let bestMove </span>of bestMovesForAllPlaceableToken) {</span>
+<span class="cstat-no" title="statement not covered" >            TokenPlacementRules.addOrderToken(new OrderToken(this.house, bestMove.orderTokenType), bestMove.sourceArea.key);</span>
+        }
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public executeOrder(gamePhase: GamePhase)</span> {
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (gamePhase === GamePhase.ACTION_MARCH) {</span>
+<span class="cstat-no" title="statement not covered" >            let areasWithMoveToken = AiCalculator.getAreasWithToken(this.house, TokenPlacementRules.MARCH_ORDER_TOKENS);</span>
+<span class="cstat-no" title="statement not covered" >            if (areasWithMoveToken.length &gt; 0) {</span>
+                // TODO: Pick most important moveToken first
+<span class="cstat-no" title="statement not covered" >                let sourceArea = areasWithMoveToken[0];</span>
+<span class="cstat-no" title="statement not covered" >                let bestMove = AiCalculator.getBestMove(this, sourceArea, [sourceArea.orderToken.getType()]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if (bestMove === null) {</span>
+<span class="cstat-no" title="statement not covered" >                    TokenPlacementRules.skipOrder(sourceArea.key);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+<span class="cstat-no" title="statement not covered" >                if (bestMove.targetArea !== null) {</span>
+<span class="cstat-no" title="statement not covered" >                    MovementRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units);</span>
+<span class="cstat-no" title="statement not covered" >                    this.establishControl(sourceArea);</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            }
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (gamePhase === GamePhase.ACTION_RAID) {</span>
+<span class="cstat-no" title="statement not covered" >            let areasWithRaidToken = AiCalculator.getAreasWithToken(this.house, TokenPlacementRules.RAID_ORDER_TOKENS);</span>
+            // TODO add logic to Execute RAID Order
+<span class="cstat-no" title="statement not covered" >            if (areasWithRaidToken.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >                TokenPlacementRules.skipOrder(areasWithRaidToken[0].key);</span>
+            }
+        }
+&nbsp;
+&nbsp;
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public recruit(areas: Area[])</span> {</span>
+<span class="cstat-no" title="statement not covered" >        areas.filter(<span class="fstat-no" title="function not covered" >(a)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return this.house === a.controllingHouse;</span>
+        }).forEach(<span class="fstat-no" title="function not covered" >(area)</span> =&gt; {
+            // TODO: Add Logic to recruit new units
+<span class="cstat-no" title="statement not covered" >            RecruitingRules.recruit(area);</span>
+        });
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public calculateValueForDefendingOrders(area: Area)</span>: number {</span>
+<span class="cstat-no" title="statement not covered" >        let value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        area.borders.forEach(<span class="fstat-no" title="function not covered" >(borderArea)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            let controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null &amp;&amp; borderArea.controllingHouse !== this.house &amp;&amp; borderArea.units.length &gt; 0;</span>
+<span class="cstat-no" title="statement not covered" >            if (controlledByOtherPlayerWithEnemyUnits) {</span>
+                // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >                value += 0.1;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public calculateValueForRaidOrders(area: Area)</span> {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        let value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        area.borders.forEach(<span class="fstat-no" title="function not covered" >(borderArea)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            let controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null &amp;&amp; borderArea.controllingHouse !== this.house &amp;&amp; borderArea.units.length &gt; 0;</span>
+<span class="cstat-no" title="statement not covered" >            if (controlledByOtherPlayerWithEnemyUnits) {</span>
+                // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >                value += 0.1;</span>
+            }
+        });
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    public calculateValueForMarchOrders(sourceArea: Area, targetArea: Area)</span> {</span>
+<span class="cstat-no" title="statement not covered" >        let value = 0;</span>
+<span class="cstat-no" title="statement not covered" >        let numberOfEnemiesAtBorder = sourceArea.borders.filter(<span class="fstat-no" title="function not covered" >(borderArea)</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, this.house);</span>
+        }).length;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        let noEnemies = AiCalculator.noEnemies(targetArea, this.house);</span>
+<span class="cstat-no" title="statement not covered" >        if (targetArea.hasCastleOrStronghold() &amp;&amp; noEnemies) {</span>
+            // TODO create value Map and add different AiPlayer difficulties appyling different values
+<span class="cstat-no" title="statement not covered" >            value += 0.9;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (targetArea.supply &gt; 0 &amp;&amp; noEnemies) {</span>
+<span class="cstat-no" title="statement not covered" >            value += (0.1 * targetArea.supply);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        if (targetArea.consolidatePower &gt; 0 &amp;&amp; noEnemies) {</span>
+<span class="cstat-no" title="statement not covered" >            value += (0.1 * targetArea.consolidatePower);</span>
+        }
+<span class="cstat-no" title="statement not covered" >        value -= (numberOfEnemiesAtBorder * 0.1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return value;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public calculateValueForConsolidatePowerOrder(area: Area)</span>: number {
+<span class="cstat-no" title="statement not covered" >        return 0.1;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    public calculateValueForSupportOrder(area: Area)</span>: number {
+<span class="cstat-no" title="statement not covered" >        return 0;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    private establishControl(sourceArea: Area)</span> {
+<span class="cstat-no" title="statement not covered" >        if (sourceArea.units.length === 0 &amp;&amp; (sourceArea.hasCastleOrStronghold() || sourceArea.supply &gt; 0 || sourceArea.consolidatePower &gt; 0 )) {</span>
+<span class="cstat-no" title="statement not covered" >            MovementRules.establishControl(sourceArea);</span>
+        }
+    }
+&nbsp;
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Oct 28 2017 18:03:52 GMT+0200 (CEST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
