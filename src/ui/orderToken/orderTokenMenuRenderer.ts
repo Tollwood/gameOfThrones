@@ -1,12 +1,12 @@
-import GameRules from '../../board/logic/gameRules/gameRules';
+import GameRules from '../../logic/board/gameRules/gameRules';
 
 import Renderer from '../../utils/renderer';
 import {OrderToken} from '../../logic/orderToken/orderToken';
-import {House} from '../../board/logic/house';
+import {House} from '../../logic/board/house';
 import UiArea from '../../utils/UiArea';
 import DragAndDropSupport from '../../utils/dragAndDropSupport';
 import AssetLoader from '../../utils/assetLoader';
-import TokenPlacementRules from '../../board/logic/gameRules/tokenPlacementRules';
+import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 export class OrderTokenMenuRenderer {
 
     private static placableOrderTokens: Phaser.Group;

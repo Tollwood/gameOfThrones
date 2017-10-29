@@ -1,10 +1,10 @@
-import {Area} from '../../board/logic/area';
+import {Area} from '../../logic/board/area';
 import {UnitType} from '../../logic/units/unitType';
-import {House} from '../../board/logic/house';
+import {House} from '../../logic/board/house';
 import RecruitingRenderer from './recruitingRenderer';
 import Modal from '../../utils/modal';
-import RecruitingRules from '../../board/logic/gameRules/recruitingRules';
-import SupplyRules from '../../board/logic/gameRules/supplyRules';
+import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
+import SupplyRules from '../../logic/board/gameRules/supplyRules';
 export default class RecruitingModal extends Modal {
 
     constructor(game: Phaser.Game, area: Area) {

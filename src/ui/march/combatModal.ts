@@ -1,5 +1,5 @@
-import {Area} from '../board/logic/area';
-import {House} from '../board/logic/house';
+import {Area} from '../../logic/board/area';
+import {House} from '../../logic/board/house';
 import CombatResultModal from './combatResultModal';
 import CombatCalculator from '../../logic/march/combatCalculator';
 import HouseCard from '../../logic/cards/houseCard';

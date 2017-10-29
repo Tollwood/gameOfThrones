@@ -1,7 +1,7 @@
-import {House} from '../board/logic/house';
+import {House} from '../../logic/board/house';
 import CombatResult from '../../logic/march/combatResult';
 import Modal from '../../utils/modal';
-import MovementRules from '../board/logic/gameRules/movementRules';
+import MovementRules from '../../logic/board/gameRules/movementRules';
 export default class CombatResultModal extends Modal {
 
     constructor(game: Phaser.Game, combatResult: CombatResult, onCloseFn: Function) {

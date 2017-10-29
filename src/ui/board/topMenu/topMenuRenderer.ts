@@ -4,11 +4,11 @@ import {MenuWildlings} from './menuWildlings';
 import {MenuSupply} from './menuSupply';
 import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
-import {GamePhase} from '../../logic/gamePhase';
+import {GamePhase} from '../../../logic/board/gamePhase';
 
 import * as Assets from '../../../assets';
-import {House} from '../../logic/house';
-import GameRules from '../../logic/gameRules/gameRules';
+import {House} from '../../../logic/board/house';
+import GameRules from '../../../logic/board/gameRules/gameRules';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];

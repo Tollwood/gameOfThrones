@@ -1,18 +1,18 @@
-import GameRules from '../../board/logic/gameRules/gameRules';
-import {House} from '../../board/logic/house';
+import GameRules from '../../logic/board/gameRules/gameRules';
+import {House} from '../../logic/board/house';
 
-import {GamePhase} from '../../board/logic/gamePhase';
+import {GamePhase} from '../../logic/board/gamePhase';
 import UiArea from '../../utils/UiArea';
-import {Area, AreaKey} from '../../board/logic/area';
+import {Area, AreaKey} from '../../logic/board/area';
 import Renderer from '../../utils/renderer';
 import EstablishControlModalFactory from '../march/establishControlModalFactory';
 import SplitArmyModalFactory from '../march/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import FightModal from '../march/combatModal';
-import GamePhaseService from '../../board/logic/gamePhaseService';
-import TokenPlacementRules from '../../board/logic/gameRules/tokenPlacementRules';
-import MovementRules from '../../board/logic/gameRules/movementRules';
+import GamePhaseService from '../../logic/board/gamePhaseService';
+import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
+import MovementRules from '../../logic/board/gameRules/movementRules';
 
 export default class OrderTokenRenderer {
 

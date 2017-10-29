@@ -1,12 +1,12 @@
-import {House} from '../board/logic/house';
-import {Area, AreaKey} from '../board/logic/area';
+import {House} from '../../logic/board/house';
+import {Area, AreaKey} from '../../logic/board/area';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
-import GameRules from '../board/logic/gameRules/gameRules';
-import GamePhaseService from '../board/logic/gamePhaseService';
+import GameRules from '../../logic/board/gameRules/gameRules';
+import GamePhaseService from '../../logic/board/gamePhaseService';
 import Modal from '../../utils/modal';
-import MovementRules from '../board/logic/gameRules/movementRules';
-import SupplyRules from '../board/logic/gameRules/supplyRules';
+import MovementRules from '../../logic/board/gameRules/movementRules';
+import SupplyRules from '../../logic/board/gameRules/supplyRules';
 export default class SplitArmyModal extends Modal {
 
     // business

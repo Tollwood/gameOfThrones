@@ -5,7 +5,7 @@ import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
-import Order = jasmine.Order;
+import {} from 'jasmine';
 
 describe('SupplyRules', () => {
 
@@ -24,10 +24,10 @@ describe('SupplyRules', () => {
 
         GameRules.load(gameState);
 
-        //when
+        // when
         let actual = SupplyRules.getArmiesBySizeForHouse(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual([4, 3, 2]);
 
     });
@@ -41,10 +41,10 @@ describe('SupplyRules', () => {
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
-        //when
+        // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual(3);
     });
 
@@ -57,10 +57,10 @@ describe('SupplyRules', () => {
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
-        //when
+        // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual(3);
     });
 
@@ -74,10 +74,10 @@ describe('SupplyRules', () => {
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
-        //when
+        // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual(2);
     });
 
@@ -92,10 +92,10 @@ describe('SupplyRules', () => {
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
-        //when
+        // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual(3);
     });
 
@@ -108,10 +108,10 @@ describe('SupplyRules', () => {
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
-        //when
+        // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
 
-        //then
+        // then
         expect(actual).toEqual(3);
     });
 

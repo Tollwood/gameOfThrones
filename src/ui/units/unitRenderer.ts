@@ -1,9 +1,9 @@
-import {Area} from '../../board/logic/area';
-import {House} from '../../board/logic/house';
+import {Area} from '../../logic/board/area';
+import {House} from '../../logic/board/house';
 import AssetLoader from '../../utils/assetLoader';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
-import GameRules from '../../board/logic/gameRules/gameRules';
+import GameRules from '../../logic/board/gameRules/gameRules';
 
 
 export default class UnitRenderer {

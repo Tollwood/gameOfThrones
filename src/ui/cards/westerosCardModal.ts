@@ -1,7 +1,7 @@
 import {WesterosCard, WesterosCardState} from '../../logic/cards/westerosCard';
 import CardAbilities from '../../logic/cards/cardAbilities';
 import Modal from '../../utils/modal';
-import WildlingRules from '../../board/logic/gameRules/wildlingRules';
+import WildlingRules from '../../logic/board/gameRules/wildlingRules';
 export default class WesterosCardModal extends Modal {
 
     constructor(game: Phaser.Game, card: WesterosCard) {

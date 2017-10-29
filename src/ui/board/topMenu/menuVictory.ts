@@ -1,8 +1,8 @@
 import {TopMenuItem} from './topMenuItem';
-import {House} from '../../logic/house';
-import GameRules from '../../logic/gameRules/gameRules';
 import TopMenuRenderer from './topMenuRenderer';
-import VictoryRules from '../../logic/gameRules/victoryRules';
+import {House} from '../../../logic/board/house';
+import GameRules from '../../../logic/board/gameRules/gameRules';
+import VictoryRules from '../../../logic/board/gameRules/victoryRules';
 
 const POSITION_X = [20, 100, 180, 260, 340, 420, 500];
 

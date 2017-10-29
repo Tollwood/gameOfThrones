@@ -1,3 +1,4 @@
+import {} from 'jasmine';
 import AreaBuilder from '../../../areaBuilder';
 import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
@@ -26,10 +27,10 @@ describe('RecruitingRules', () => {
         let winterfell = new AreaBuilder('Karhold').withHouse(House.stark).addToGameState(gameState).withSupply(1).withCastle().build();
         let karhold = new AreaBuilder('Karhold').withHouse(House.stark).addToGameState(gameState).withSupply(1).withCastle().build();
         GameRules.load(gameState);
-        //when
+        // when
         let actual = AreaRules.isConnectedArea(winterfell, karhold);
 
-        //then
+        // then
         expect(actual).toBeTruthy();
 
     });

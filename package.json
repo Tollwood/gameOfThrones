@@ -18,7 +18,7 @@
     "test-coverage": "karma start karma.coverage.conf.js --single-run",
     "test-single": "karma start karma.conf.js --single-run",
     "lint": "tslint src/**/*.ts -t verbose",
-    "lint-fix": "tslint --fix src/**/*.ts -t verbose"
+    "lint-fix": "tslint --fix **/*.ts -t verbose"
   },
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
     "karma-sinon": "^1.0.5",
     "karma-typescript": "^3.0.8",
     "karma-typescript-preprocessor2": "^1.2.1",
-    "karma-webpack": "^2.0.3",
+    "karma-webpack": "^2.0.5",
     "mocha": "^3.3.0",
     "npm-check": "5.4.0",
     "phantomjs-prebuilt": "^2.1.14",

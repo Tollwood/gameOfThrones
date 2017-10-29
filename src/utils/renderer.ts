@@ -1,4 +1,4 @@
-import {AreaKey} from '../board/logic/area';
+import {AreaKey} from '../logic/board/area';
 import AssetLoader from './assetLoader';
 export default class Renderer {
 

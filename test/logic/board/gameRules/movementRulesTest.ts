@@ -1,3 +1,4 @@
+import {} from 'jasmine';
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderToken';
@@ -27,10 +28,10 @@ describe('MovementRules', () => {
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
-        //when
+        // when
         let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
 
-        //then
+        // then
         expect(result).toBeTruthy();
     });
 
@@ -45,10 +46,10 @@ describe('MovementRules', () => {
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
-        //when
+        // when
         let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
 
-        //then
+        // then
         expect(result).toBeFalsy();
     });
 
@@ -63,10 +64,10 @@ describe('MovementRules', () => {
         gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
         SupplyRules.updateSupply();
-        //when
+        // when
         let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
 
-        //then
+        // then
         expect(result).toBeFalsy();
     });
 
@@ -83,12 +84,12 @@ describe('MovementRules', () => {
             .withOrderToken(OrderTokenType.march_minusOne)
             .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.connectedUsingShipTransport(whiteHarbor, castleBlack);
 
-        //then
+        // then
         expect(result).toBeTruthy();
     });
 
@@ -111,12 +112,12 @@ describe('MovementRules', () => {
             .withOrderToken(OrderTokenType.march_minusOne)
             .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.connectedUsingShipTransport(whiteHarbor, castleBlack);
 
-        //then
+        // then
         expect(result).toBeTruthy();
     });
 
@@ -129,12 +130,12 @@ describe('MovementRules', () => {
             .withOrderToken(OrderTokenType.march_minusOne)
             .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
 
-        //then
+        // then
         expect(result).toBeTruthy();
     });
 
@@ -146,12 +147,12 @@ describe('MovementRules', () => {
             .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
             .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
 
-        //then
+        // then
         expect(result).toBeFalsy();
     });
 
@@ -164,12 +165,12 @@ describe('MovementRules', () => {
             .withOrderToken(OrderTokenType.march_minusOne)
             .addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
 
-        //then
+        // then
         expect(result).toBeFalsy();
     });
 
@@ -181,12 +182,12 @@ describe('MovementRules', () => {
             .withOrderToken(OrderTokenType.march_minusOne)
             .isSeaArea().addToGameState(gameState).build();
         gameState.players = [new Player(House.stark, 5, [])];
-        //when
+        // when
         GameRules.load(gameState);
         SupplyRules.updateSupply();
         let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
 
-        //then
+        // then
         expect(result).toBeFalsy();
 
     });

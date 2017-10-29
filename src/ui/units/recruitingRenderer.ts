@@ -1,8 +1,8 @@
-import GameRules from '../../board/logic/gameRules/gameRules';
+import GameRules from '../../logic/board/gameRules/gameRules';
 
 import Renderer from '../../utils/renderer';
 import RecruitingModal from './recruitingModal';
-import RecruitingRules from '../../board/logic/gameRules/recruitingRules';
+import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
 export default class RecruitingRenderer {
 
     private static areasToRecruit: Phaser.Group;

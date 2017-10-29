@@ -1,23 +1,23 @@
 import OrderTokenRenderer from '../ui/orderToken/orderTokenRenderer';
-import BoardRenderer from '../board/ui/boardRenderer';
-import TopMenuRenderer from '../board/ui/topMenu/topMenuRenderer';
+import BoardRenderer from '../ui/board/boardRenderer';
+import TopMenuRenderer from '../ui/board/topMenu/topMenuRenderer';
 import UnitRenderer from '../ui/units/unitRenderer';
-import GameRules from '../board/logic/gameRules/gameRules';
-import {GamePhase} from '../board/logic/gamePhase';
+import GameRules from '../logic/board/gameRules/gameRules';
+import {GamePhase} from '../logic/board/gamePhase';
 import PowerToken from '../ui/orderToken/powerTokenRenderer';
 import Renderer from '../utils/renderer';
-import WinningModal from '../board/ui/winningModal';
+import WinningModal from '../ui/board/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/orderToken/orderTokenMenuRenderer';
 import AssetLoader from '../utils/assetLoader';
 import WesterosCardModal from '../ui/cards/westerosCardModal';
 import {WesterosCard, WesterosCardState} from '../logic/cards/westerosCard';
-import GamePhaseService from '../board/logic/gamePhaseService';
+import GamePhaseService from '../logic/board/gamePhaseService';
 import RecruitingRenderer from '../ui/units/recruitingRenderer';
 import AiPlayer from '../logic/ai/aiPlayer';
-import WesterosCardRules from '../board/logic/gameRules/westerosCardRules';
-import RecruitingRules from '../board/logic/gameRules/recruitingRules';
-import VictoryRules from '../board/logic/gameRules/victoryRules';
-import TokenPlacementRules from '../board/logic/gameRules/tokenPlacementRules';
+import WesterosCardRules from '../logic/board/gameRules/westerosCardRules';
+import RecruitingRules from '../logic/board/gameRules/recruitingRules';
+import VictoryRules from '../logic/board/gameRules/victoryRules';
+import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;

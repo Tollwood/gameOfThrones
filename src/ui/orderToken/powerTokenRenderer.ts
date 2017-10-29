@@ -1,8 +1,8 @@
-import {House} from '../../board/logic/house';
+import {House} from '../../logic/board/house';
 
-import {Area} from '../../board/logic/area';
+import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
-import GameRules from '../../board/logic/gameRules/gameRules';
+import GameRules from '../../logic/board/gameRules/gameRules';
 
 export default class PowerTokenRenderer {
     private static powerTokenGroup: Phaser.Group;

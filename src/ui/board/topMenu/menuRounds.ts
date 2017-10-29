@@ -1,6 +1,6 @@
 import {TopMenuItem} from './topMenuItem';
 import TopMenuRenderer from './topMenuRenderer';
-import GameRules from '../../logic/gameRules/gameRules';
+import GameRules from '../../../logic/board/gameRules/gameRules';
 
 const POSITION_X = [20, 63, 104, 145, 187, 229, 271, 312, 354, 396];
 

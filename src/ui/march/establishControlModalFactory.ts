@@ -1,7 +1,7 @@
-import {Area, AreaKey} from '../board/logic/area';
+import {Area, AreaKey} from '../../logic/board/area';
 import Modal from '../../utils/modal';
-import GamePhaseService from '../board/logic/gamePhaseService';
-import MovementRules from '../board/logic/gameRules/movementRules';
+import GamePhaseService from '../../logic/board/gamePhaseService';
+import MovementRules from '../../logic/board/gameRules/movementRules';
 export default class EstablishControlModal extends Modal {
 
     constructor(game, sourceArea: Area, targetAreaKey: AreaKey) {
