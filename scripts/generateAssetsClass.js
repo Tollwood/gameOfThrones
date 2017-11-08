@@ -134,6 +134,7 @@ for (var i in gameAssets) {
 var assetsClassFile = 'src/assets.ts';
 shell.rm('-f', assetsClassFile);
 
+shell.ShellString('import {} from \'node\'\;\n').to(assetsClassFile);
 shell.ShellString('/* AUTO GENERATED FILE. DO NOT MODIFY. YOU WILL LOSE YOUR CHANGES ON BUILD. */\n\n').to(assetsClassFile);
 
 shell.ShellString('export namespace Images {').toEnd(assetsClassFile);
