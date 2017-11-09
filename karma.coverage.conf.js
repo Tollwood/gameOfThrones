@@ -1,28 +1,4 @@
-const webpack = require('webpack'); // eslint-disable-line import/no-unresolved
-
-const webpackConfig = {
-    module: {
-        rules: [{
-            test: /\.ts$/,
-            loader: 'ts-loader',
-            exclude: /node_modules/
-        }, {
-            test: /src\/.+\.ts$/,
-            exclude: /(node_modules|\.spec\.ts$)/,
-            loader: 'sourcemap-istanbul-instrumenter-loader?force-sourcemap=true',
-            enforce: 'post'
-        }]
-    },
-    plugins: [
-        new webpack.SourceMapDevToolPlugin({
-            filename: null,
-            test: /\.(ts|js)($|\?)/i
-        })
-    ],
-    resolve: {
-        extensions: ['.ts', '.js']
-    }
-};
+const webpackConfig = require('./webpack.test.config.js');
 
 module.exports = config => {
     config.set({

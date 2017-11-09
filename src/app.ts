@@ -44,3 +44,5 @@ function startApp(): void {
 window.onload = () => {
         startApp();
 };
+
+export {App}
