@@ -2,7 +2,6 @@ import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import AreaBuilder from '../../../areaBuilder';
-import {} from 'jasmine';
 
 describe('AreaRules', () => {
 

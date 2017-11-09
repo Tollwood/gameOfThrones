@@ -2,7 +2,6 @@ import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {OrderToken, OrderTokenType} from '../../../../src/logic/orderToken/orderToken';
 import TokenPlacementRules from '../../../../src/logic/board/gameRules/tokenPlacementRules';
-import {} from 'jasmine';
 
 describe('GameRules', () => {
 

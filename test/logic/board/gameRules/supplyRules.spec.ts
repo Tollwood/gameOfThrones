@@ -5,7 +5,6 @@ import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
-import {} from 'jasmine';
 
 describe('SupplyRules', () => {
 

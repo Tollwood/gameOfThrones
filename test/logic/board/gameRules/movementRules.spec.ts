@@ -1,4 +1,3 @@
-import {} from 'jasmine';
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderToken';

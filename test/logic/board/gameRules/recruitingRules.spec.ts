@@ -1,4 +1,3 @@
-import {} from 'jasmine';
 import AreaBuilder from '../../../areaBuilder';
 import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
