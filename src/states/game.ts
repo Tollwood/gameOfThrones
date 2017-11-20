@@ -158,13 +158,13 @@ export default class Game extends Phaser.State {
 
         switch (currentGamePhase) {
             case GamePhase.WESTEROS1:
-                card = WesterosCardRules.getWesterosCard(1);
+                card = this.getWesterosCard(1);
                 break;
             case GamePhase.WESTEROS2:
-                card = WesterosCardRules.getWesterosCard(2);
+                card = this.getWesterosCard(2);
                 break;
             case GamePhase.WESTEROS3:
-                card = WesterosCardRules.getWesterosCard(3);
+                card = this.getWesterosCard(3);
                 break;
         }
 
@@ -189,5 +189,27 @@ export default class Game extends Phaser.State {
             }
             return false;
         }
+    }
+
+    private getWesterosCard(cardType: number) {
+        let card = GameRules.gameState.currentWesterosCard;
+
+        if (card == null) {
+            card = WesterosCardRules.getNextCard(cardType);
+            GameRules.gameState.currentWesterosCard = card;
+        }
+        else if (card !== null && card.state === WesterosCardState.executeCard) {
+            if (WesterosCardRules.stillPlayingWesterosCard()) {
+                return card;
+            }
+            else {
+                GamePhaseService.switchToNextPhase();
+                GameRules.gameState.currentWesterosCard = null;
+                card.state = WesterosCardState.played;
+                return card;
+            }
+        }
+        GameRules.gameState.currentWesterosCard = card;
+        return card;
     }
 }

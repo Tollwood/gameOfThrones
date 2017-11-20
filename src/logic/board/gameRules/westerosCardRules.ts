@@ -1,35 +1,10 @@
-import {WesterosCard, WesterosCardState} from '../../cards/westerosCard';
-import GamePhaseService from '../gamePhaseService';
-import CardFactory from '../../cards/cardFactory';
+import {WesterosCard} from '../../cards/westerosCard';
 import GameRules from './gameRules';
 
 
 export default class WesterosCardRules {
 
-
-    public static getWesterosCard(cardType: number) {
-        let card = GameRules.gameState.currentWesterosCard;
-
-        if (card == null) {
-            card = this.playNewCard(cardType);
-        }
-        else if (card !== null && card.state === WesterosCardState.executeCard) {
-            if (this.stillPlayingWesterosCard()) {
-                return card;
-            }
-            else {
-                GamePhaseService.switchToNextPhase();
-                GameRules.gameState.currentWesterosCard = null;
-                card.state = WesterosCardState.played;
-                return card;
-            }
-        }
-        GameRules.gameState.currentWesterosCard = card;
-        return card;
-    }
-
-    private static playNewCard(cardType: number): WesterosCard {
-
+    public static getNextCard(cardType: number): WesterosCard {
         let cards: WesterosCard[];
         switch (cardType) {
             case 1:
@@ -43,12 +18,10 @@ export default class WesterosCardRules {
                 break;
         }
 
-        let card = CardFactory.playNextCard(cards);
-        GameRules.gameState.currentWesterosCard = card;
-        return card;
+        return this.moveCardToEndOfTheStack(cards);
     }
 
-    private static stillPlayingWesterosCard() {
+    public static stillPlayingWesterosCard() {
         let gameState = GameRules.gameState;
         switch (gameState.currentWesterosCard.selectedFunction.functionName) {
             case 'recruit':
@@ -59,4 +32,9 @@ export default class WesterosCardRules {
         }
     }
 
+    public static moveCardToEndOfTheStack(westerosCards: Array<WesterosCard>): WesterosCard {
+        let cardToPlay: WesterosCard = westerosCards.shift();
+        westerosCards.push(cardToPlay);
+        return cardToPlay;
+    }
 }

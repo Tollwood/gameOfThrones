@@ -50,12 +50,6 @@ export default class CardFactory {
         }
     }
 
-    public static playNextCard(westerosCards: Array<WesterosCard>): WesterosCard {
-        let cardToPlay: WesterosCard = westerosCards.shift();
-        westerosCards.push(cardToPlay);
-        return cardToPlay;
-    }
-
     private static parseHouseCards(json: any): HouseCard {
         let house = <string>json.house;
         return new HouseCard(json.id, json.leaderName, json.artWork, json.combatStrength, json.sword, json.fortification, json.ability, json.abilityFn, House[house], json.cardExecutionPoint);
