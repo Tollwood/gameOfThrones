@@ -1,28 +1,29 @@
 import {Area} from '../board/area';
 import CombatResult from './combatResult';
-import {OrderTokenType} from '../orderToken/orderToken';
+import {OrderToken} from '../orderToken/orderToken';
 import HouseCard from '../cards/houseCard';
 import {CardExecutionPoint} from '../cards/cardExecutionPoint';
 import CardAbilities from '../cards/cardAbilities';
 import Unit from '../units/units';
 import {UnitType} from '../units/unitType';
 import GameRules from '../board/gameRules/gameRules';
+import {OrderTokenType} from '../orderToken/orderTokenType';
 export default class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
 
         let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);
-        attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);
+        attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken, true);
         let defenderStrength = this.calculateStrengthOfArmy(targetArea.units);
-        defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken.getType(), false);
+        defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken, false);
         let combatResult = new CombatResult(sourceArea, targetArea, attackerStrength, defenderStrength);
         return combatResult;
     }
 
-    private static calculateOrderTokenStrengh(orderTokenType: OrderTokenType, attacking: boolean) {
+    private static calculateOrderTokenStrengh(orderToken: OrderToken, attacking: boolean) {
         let strength = 0;
         if (attacking) {
-            switch (orderTokenType) {
+            switch (orderToken.getType()) {
                 case OrderTokenType.march_minusOne:
                     strength -= 1;
                     break;
@@ -33,7 +34,10 @@ export default class CombatCalculator {
                     strength += 0;
             }
         } else {
-            switch (orderTokenType) {
+            if (orderToken === null) {
+                return strength;
+            }
+            switch (orderToken.getType()) {
                 case OrderTokenType.defend_1:
                 case OrderTokenType.defend_0:
                     strength += 1;

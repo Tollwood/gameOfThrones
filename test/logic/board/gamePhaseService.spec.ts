@@ -1,7 +1,7 @@
 import GameState from '../../../src/logic/board/gameState/GameState';
 import GamePhaseService from '../../../src/logic/board/gamePhaseService';
 import {GamePhase} from '../../../src/logic/board/gamePhase';
-import {OrderToken, OrderTokenType} from '../../../src/logic/orderToken/orderToken';
+import {OrderToken} from '../../../src/logic/orderToken/orderToken';
 import {House} from '../../../src/logic/board/house';
 import GameRules from '../../../src/logic/board/gameRules/gameRules';
 import Player from '../../../src/logic/board/player';
@@ -9,6 +9,7 @@ import AreaBuilder from '../../areaBuilder';
 import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
+import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 describe('GamePhaseService', () => {
 
     let gameState: GameState;

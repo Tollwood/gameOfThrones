@@ -1,5 +1,5 @@
-import {OrderTokenType} from '../orderToken/orderToken';
 import {Area} from '../board/area';
+import {OrderTokenType} from '../orderToken/orderTokenType';
 export default class PossibleMove {
 
     private _orderTokenType: OrderTokenType;

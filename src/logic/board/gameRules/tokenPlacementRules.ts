@@ -1,10 +1,11 @@
-import {OrderToken, OrderTokenType} from '../../orderToken/orderToken';
+import {OrderToken} from '../../orderToken/orderToken';
 import {Area} from '../area';
 import {House} from '../house';
 import GamePhaseService from '../gamePhaseService';
 import AreaRules from './AreaRules';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
+import {OrderTokenType} from '../../orderToken/orderTokenType';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];

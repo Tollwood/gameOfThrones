@@ -1,11 +1,11 @@
 import CombatResult from '../march/combatResult';
 import HouseCard from './houseCard';
 import {WesterosCard} from './westerosCard';
-import {OrderTokenType} from '../orderToken/orderToken';
 import SupplyRules from '../board/gameRules/supplyRules';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import GameRules from '../board/gameRules/gameRules';
+import {OrderTokenType} from '../orderToken/orderTokenType';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
@@ -162,7 +162,7 @@ export default class CardAbilities {
         console.log('shuffle');
     }
 
-    public static supply(card: WesterosCard) {
+    public static supply(card?: WesterosCard) {
         SupplyRules.updateSupply();
     }
 

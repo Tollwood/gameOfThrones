@@ -3,8 +3,8 @@ import {Area} from '../area';
 import {WesterosCard} from '../../cards/westerosCard';
 import Player from '../player';
 import {House} from '../house';
-import {OrderTokenType} from '../../orderToken/orderToken';
 import {TSMap} from 'typescript-map';
+import {OrderTokenType} from '../../orderToken/orderTokenType';
 export default class GameState {
 
     private _gamePhase: GamePhase;

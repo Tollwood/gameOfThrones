@@ -1,6 +1,5 @@
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
-import {OrderTokenType} from '../../../../src/logic/orderToken/orderToken';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import MovementRules from '../../../../src/logic/board/gameRules/movementRules';
 import GameState from '../../../../src/logic/board/gameState/GameState';
@@ -10,6 +9,7 @@ import AreaBuilder from '../../../areaBuilder';
 import Unit from '../../../../src/logic/units/units';
 import CombatResult from '../../../../src/logic/march/combatResult';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 
 describe('MovementRules', () => {
 

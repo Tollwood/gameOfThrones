@@ -1,10 +1,10 @@
 import {Area} from '../board/area';
 import {House} from '../board/house';
-import {OrderTokenType} from '../orderToken/orderToken';
 import PossibleMove from './possibleMove';
 import AiPlayer from './aiPlayer';
 import GameRules from '../board/gameRules/gameRules';
 import MovementRules from '../board/gameRules/movementRules';
+import {OrderTokenType} from '../orderToken/orderTokenType';
 export default class AiCalculator {
 
     public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {

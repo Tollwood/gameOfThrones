@@ -1,6 +1,6 @@
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
-import {OrderToken, OrderTokenType} from '../../../../src/logic/orderToken/orderToken';
+import {OrderToken} from '../../../../src/logic/orderToken/orderToken';
 import TokenPlacementRules from '../../../../src/logic/board/gameRules/tokenPlacementRules';
 import AreaBuilder from '../../../areaBuilder';
 import GameState from '../../../../src/logic/board/gameState/GameState';
@@ -8,6 +8,7 @@ import Player from '../../../../src/logic/board/player';
 import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 
 describe('TokenPlacementRules', () => {
 
