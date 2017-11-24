@@ -9,14 +9,13 @@ import {UnitType} from '../units/unitType';
 import GameRules from '../board/gameRules/gameRules';
 export default class CombatCalculator {
 
-    public static calculateCombat(sourceArea: Area, targetArea: Area, attackersCard: HouseCard, defendersCard: HouseCard): CombatResult {
+    public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
 
         let attackerStrength = this.calculateStrengthOfArmy(sourceArea.units);
         attackerStrength += this.calculateOrderTokenStrengh(sourceArea.orderToken.getType(), true);
         let defenderStrength = this.calculateStrengthOfArmy(targetArea.units);
         defenderStrength += this.calculateOrderTokenStrengh(targetArea.orderToken.getType(), false);
-        let combatResult = new CombatResult(sourceArea, targetArea, attackersCard, defendersCard, attackerStrength, defenderStrength, attackersCard.sword, attackersCard.fortification, defendersCard.sword, defendersCard.fortification);
-        this.resolveHouseCard(combatResult, CardExecutionPoint.beforeFight);
+        let combatResult = new CombatResult(sourceArea, targetArea, attackerStrength, defenderStrength);
         return combatResult;
     }
 
@@ -71,14 +70,14 @@ export default class CombatCalculator {
         return strength;
     }
 
-    public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint) {
+    public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint, attackersCard: HouseCard, defendersCard: HouseCard) {
         let cardsToResolve = new Array<HouseCard>();
-        if (combatResult.attackersCard.cardExecutionPoint === cardExecutionPoint) {
-            cardsToResolve.push(combatResult.attackersCard);
+        if (attackersCard.cardExecutionPoint === cardExecutionPoint) {
+            cardsToResolve.push(attackersCard);
         }
 
-        if (combatResult.defendersCard.cardExecutionPoint === cardExecutionPoint) {
-            cardsToResolve.push(combatResult.defendersCard);
+        if (defendersCard.cardExecutionPoint === cardExecutionPoint) {
+            cardsToResolve.push(defendersCard);
         }
         cardsToResolve.sort((a, b) => {
             return GameRules.gameState.ironThroneSuccession.indexOf(a.house) - GameRules.gameState.ironThroneSuccession.indexOf(b.house);

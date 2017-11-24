@@ -4,6 +4,7 @@ import {WesterosCard} from '../../../../src/logic/cards/westerosCard';
 import CardFunction from '../../../../src/logic/cards/cardFuncttion';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import AreaBuilder from '../../../areaBuilder';
+import {AreaKey} from '../../../../src/logic/board/areaKey';
 import game = PIXI.game;
 describe('WesterosCardRules', () => {
 
@@ -15,7 +16,7 @@ describe('WesterosCardRules', () => {
 
     describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {
-            const expectedCard = new WesterosCard('', '', '', '', 1, 1, []);
+            const expectedCard = new WesterosCard(1, '', '', '', 1, 1, []);
             gameState.westerosCards1 = [expectedCard];
             GameRules.load(gameState);
             const card: WesterosCard = WesterosCardRules.getNextCard(1);
@@ -23,7 +24,7 @@ describe('WesterosCardRules', () => {
         });
 
         it('should play westerosCards2 if cardTpye is 2', () => {
-            const expectedCard = new WesterosCard('', '', '', '', 2, 1, []);
+            const expectedCard = new WesterosCard(1, '', '', '', 2, 1, []);
             gameState.westerosCards2 = [expectedCard];
             GameRules.load(gameState);
             const card: WesterosCard = WesterosCardRules.getNextCard(2);
@@ -31,7 +32,7 @@ describe('WesterosCardRules', () => {
         });
 
         it('should play westerosCards3 if cardTpye is 3', () => {
-            const expectedCard = new WesterosCard('', '', '', '', 3, 1, []);
+            const expectedCard = new WesterosCard(1, '', '', '', 3, 1, []);
             gameState.westerosCards3 = [expectedCard];
             GameRules.load(gameState);
             const card: WesterosCard = WesterosCardRules.getNextCard(3);
@@ -46,7 +47,7 @@ describe('WesterosCardRules', () => {
             const cardFunction = new CardFunction('recruit', '');
             gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
             gameState.currentWesterosCard.selectedFunction = cardFunction;
-            gameState.areasAllowedToRecruit = [new AreaBuilder('Winterfell').build()];
+            gameState.areasAllowedToRecruit = [new AreaBuilder(AreaKey.Winterfell).build()];
             GameRules.load(gameState);
             const actual = WesterosCardRules.stillPlayingWesterosCard();
             expect(actual).toBeTruthy();

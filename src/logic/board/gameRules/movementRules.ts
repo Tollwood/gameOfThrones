@@ -1,11 +1,11 @@
-import {Area, AreaKey} from '../area';
+import {Area} from '../area';
 import Unit from '../../units/units';
 import AreaRules from './AreaRules';
 import SupplyRules from './supplyRules';
 import CombatResult from '../../march/combatResult';
-import {CardExecutionPoint} from '../../cards/cardExecutionPoint';
-import CombatCalculator from '../../march/combatCalculator';
 import GameRules from './gameRules';
+import {AreaKey} from '../areaKey';
+import {House} from '../house';
 export default class MovementRules {
 
     public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
@@ -27,7 +27,7 @@ export default class MovementRules {
             sourceArea.orderToken = null;
         }
         if (completeOrder && establishControl) {
-            sourceArea.controllingHouse = targetArea.controllingHouse;
+            this.establishControl(sourceArea, targetArea.controllingHouse);
         }
     }
 
@@ -36,7 +36,7 @@ export default class MovementRules {
         let moveOnLand = target.isLandArea && unit && unit.isLandunit();
         let moveOnSea = !target.isLandArea && unit && !unit.isLandunit();
         let unoccupiedArea = target.controllingHouse === null;
-        let enmiesInTargetAreas = !unoccupiedArea  && target.units.length > 0 && source.controllingHouse !== target.controllingHouse;
+        let enmiesInTargetAreas = !unoccupiedArea && target.units.length > 0 && source.controllingHouse !== target.controllingHouse;
         let hasUnitOfSameTypeToMove = source.units.filter((unitToCheck) => {
                 return unitToCheck.getHouse() === unit.getHouse() && unitToCheck.getType() === unit.getType();
             }).length > 0;
@@ -48,7 +48,6 @@ export default class MovementRules {
             && hasUnitOfSameTypeToMove
             && (AreaRules.isConnectedArea(source, target) || connectedUsingShipTransport)
             && (moveOnLand || moveOnSea)
-            && !enmiesInTargetAreas
             && enoughSupplyForArmySize;
     }
 
@@ -71,6 +70,7 @@ export default class MovementRules {
         if (sourceArea.units.length === 0) {
             return new Array<Area>();
         }
+        //
         return GameRules.gameState.areas
             .filter((area) => {
                 return this.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
@@ -78,28 +78,24 @@ export default class MovementRules {
     }
 
 
-    public static establishControl(area: Area) {
-        let currentPlayer = GameRules.gameState.currentPlayer;
-        currentPlayer.powerToken--;
-
-        GameRules.gameState.areas.filter((gameStateArea) => {
-            return area.key === gameStateArea.key;
-        }).map((area) => {
-            area.controllingHouse = currentPlayer.house;
-        });
+    private static establishControl(area: Area, house: House) {
+        let player = GameRules.getPlayerByHouse(house);
+        if (player.powerToken === 0) {
+            console.log('not enough power Tokens to establish control in: ' + area.key);
+            return;
+        }
+        player.powerToken--;
+        area.controllingHouse = player.house;
     }
 
     public static resolveFight(combatResult: CombatResult) {
-        combatResult.attackersCard.played = true;
-        combatResult.defendersCard.played = true;
-        CombatCalculator.resolveHouseCard(combatResult, CardExecutionPoint.afterFight);
         let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
             loosingArea.controllingHouse = winningArea.controllingHouse;
             loosingArea.orderToken = null;
             loosingArea.units = [];
-            MovementRules.moveUnits(winningArea.key, loosingArea.key, winningArea.units, true);
+            MovementRules.moveUnits(winningArea.key, loosingArea.key, winningArea.units, true, true);
         }
         else {
             loosingArea.units = [];

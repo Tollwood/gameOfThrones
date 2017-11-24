@@ -1,7 +1,5 @@
 import CombatResult from '../march/combatResult';
 import HouseCard from './houseCard';
-
-import {House} from '../board/house';
 import {WesterosCard} from './westerosCard';
 import {OrderTokenType} from '../orderToken/orderToken';
 import SupplyRules from '../board/gameRules/supplyRules';
@@ -29,12 +27,12 @@ export default class CardAbilities {
     }
 
     public static doubleDefenseToken(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        let defenderHouse = combatResult.defendingArea.controllingHouse;
+        /* let defenderHouse = combatResult.defendingArea.controllingHouse;
         let defenderCardHouse = combatResult.defendersCard.house;
         if (defenderCardHouse === defenderHouse && combatResult.defendingArea.orderToken.isDefendToken()) {
             combatResult.defenderStrength += combatResult.defendingArea.orderToken.value;
 
-        }
+         }*/
         return combatResult;
     }
 
@@ -67,7 +65,9 @@ export default class CardAbilities {
     }
 
     public static demandForPower(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        let opponent: House = combatResult.attackersCard.house === currentCard.house ? combatResult.defendersCard.house : combatResult.attackersCard.house;
+        /*
+         //switch House -> Player
+         let opponent: Player = combatResult.attackersCard.house === currentCard.house ? combatResult.defendersCard.house : combatResult.attackersCard.house;
 
         if (GameRules.gameState.ironThroneSuccession.indexOf(currentCard.house) > GameRules.gameState.ironThroneSuccession.indexOf(opponent)) {
 
@@ -77,7 +77,7 @@ export default class CardAbilities {
         }
         else {
             combatResult.defenderStrength += 1;
-        }
+         }*/
         return combatResult;
     }
 
@@ -137,12 +137,13 @@ export default class CardAbilities {
 
     public static beStrong(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
         console.log('beStrong was called');
-        if (currentCard.house === combatResult.attackersCard.house) {
+        /*if (currentCard.house === combatResult.attackersCard.house) {
             combatResult.attackerStrength += 1;
         }
         else {
             combatResult.defenderStrength += 1;
         }
+         */
         return combatResult;
     }
 

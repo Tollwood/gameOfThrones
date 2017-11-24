@@ -1,59 +1,7 @@
 import Unit from '../units/units';
 import {OrderToken} from '../orderToken/orderToken';
 import {House} from './house';
-
-export type AreaKey =
-    'TheStonyShore' |
-    'Winterfell' |
-    'WhiteHarbor' |
-    'CastleBlack' |
-    'Karhold' |
-    'WidowsWatch' |
-    'FlintsFinger' |
-    'GreyWaterWatch' |
-    'MoatCailin' |
-    'Seagard' |
-    'TheTwins' |
-    'TheFingers' |
-    'Lannisport' |
-    'TheEyrie' |
-    'TheNarrowSea' |
-    'BayOfIce' |
-    'TheShiveringSea' |
-    'SunsetSea' |
-    'IronmansBay' |
-    'Pyke' |
-    'TheGoldenSound' |
-    'Riverrun' |
-    'TheMountainsOfTheMoon' |
-    'Harrenhal' |
-    'StoneySept' |
-    'CrackClawPoint' |
-    'Dragonstone' |
-    'BlackwaterBay' |
-    'ShipbreakerBay' |
-    'Kingswood' |
-    'KingsLanding' |
-    'Blackwater' |
-    'SearoadMarches' |
-    'Highgarden' |
-    'StormsEnd' |
-    'TheBoneway' |
-    'DornishMarches' |
-    'Oldtown' |
-    'ThreeTowers' |
-    'PrincesPass' |
-    'Yronwood' |
-    'Sunspear' |
-    'SaltShore' |
-    'Starfall' |
-    'SeaOfDorne' |
-    'TheArbor' |
-    'RedwyneStraights' |
-    'WestSummerSea' |
-    'EastSummerSea' |
-    'TheReach';
-
+import {AreaKey} from './areaKey';
 
 export class Area {
 
@@ -70,18 +18,18 @@ export class Area {
     private _controllingHouse: House;
 
 
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, controllingHouse: House = null) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, borders: Area[] = [], controllingHouse: House = null) {
         this._key = key;
         this._consolidatePower = consolidatePower;
         this.harbor = harbor;
         this._castle = castle;
         this._stronghold = stronghold;
         this._supply = supply;
-        this._borders = [];
         this._units = [];
         this._orderToken = null;
         this._controllingHouse = controllingHouse;
         this._isLandArea = isLandArea;
+        this._borders = borders;
     }
 
     get key(): AreaKey {

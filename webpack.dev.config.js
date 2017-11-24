@@ -22,9 +22,6 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     plugins: [
-        new WebpackShellPlugin({
-            onBuildStart: ['npm run assets:dev']
-        }),
         new webpack.DefinePlugin({
             'DEBUG': true,
             'GIT_REVISION': JSON.stringify(new GitRevisionPlugin().commithash()),

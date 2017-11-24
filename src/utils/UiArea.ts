@@ -1,5 +1,4 @@
-import {AreaKey} from '../logic/board/area';
-
+import {AreaKey} from '../logic/board/areaKey';
 export default class UiArea {
 
     constructor(height: number, name: AreaKey, width: number, x: number, y: number) {

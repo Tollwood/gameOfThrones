@@ -1,9 +1,10 @@
 import {OrderToken, OrderTokenType} from '../../orderToken/orderToken';
-import {Area, AreaKey} from '../area';
+import {Area} from '../area';
 import {House} from '../house';
 import GamePhaseService from '../gamePhaseService';
 import AreaRules from './AreaRules';
 import GameRules from './gameRules';
+import {AreaKey} from '../areaKey';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -17,13 +18,13 @@ export default class TokenPlacementRules {
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = GameRules.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
-            && area.units[0].getHouse() === house
+            && area.controllingHouse === house
             && area.orderToken === null;
     }
 
-    public static getAvailableOrderToken(house: House): Array<OrderTokenType> {
+    public static getPlacableOrderTokenTypes(house: House): Array<OrderTokenType> {
         let alreadyPlacedOrderTokens: Array<OrderTokenType> = GameRules.gameState.areas.filter((area) => {
-            return area.orderToken && area.units.length > 0 && area.units[0].getHouse() === house;
+            return area.orderToken && area.controllingHouse === house;
         }).map((area) => {
             return area.orderToken.getType();
         });
@@ -41,7 +42,6 @@ export default class TokenPlacementRules {
     public static executeRaidOrder(source: AreaKey, target: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
         sourceArea.orderToken = null;
-
         const targetArea = GameRules.getAreaByKey(target);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
             GameRules.gameState.players.filter((player) => {
@@ -59,14 +59,15 @@ export default class TokenPlacementRules {
         GamePhaseService.nextPlayer();
     }
 
+
     public static executeAllConsolidatePowerOrders() {
         return GameRules.gameState.areas.filter((area) => {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();
-        }).map((sourceArea) => {
-            sourceArea.orderToken = null;
-            let additionalPowerToken = sourceArea.consolidatePower + 1;
+        }).map((area) => {
+            area.orderToken = null;
+            let additionalPowerToken = area.consolidatePower + 1;
             let player = GameRules.gameState.players.filter((player) => {
-                return player.house === sourceArea.controllingHouse;
+                return player.house === area.controllingHouse;
             })[0];
             player.powerToken += additionalPowerToken;
         });
@@ -99,9 +100,8 @@ export default class TokenPlacementRules {
         // Add logic for ships in harbour
     }
 
-    public static isAllowedToRaid(sourceArea: Area, targetArea: Area) {
-        return AreaRules.isConnectedArea(sourceArea, targetArea)
-            && targetArea.controllingHouse
+    public static isAllowedToRaid(sourceArea: Area, targetArea: Area): boolean {
+        return AreaRules.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
             && sourceArea.controllingHouse !== targetArea.controllingHouse
             && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
     }

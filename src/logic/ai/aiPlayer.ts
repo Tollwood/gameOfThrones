@@ -17,7 +17,7 @@ export default class AiPlayer extends Player {
     }
 
     public placeAllOrderTokens() {
-        let availableOrderToken = TokenPlacementRules.getAvailableOrderToken(this.house);
+        let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(this.house);
         let areasToPlaceAToken = GameRules.gameState.areas.filter((area) => {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(this.house, area.key);
         });
@@ -45,8 +45,7 @@ export default class AiPlayer extends Player {
                     return;
                 }
                 if (bestMove.targetArea !== null) {
-                    MovementRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units);
-                    this.establishControl(sourceArea);
+                    MovementRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, this.shouldEstablishControl(sourceArea));
                     return;
                 }
             }
@@ -74,7 +73,8 @@ export default class AiPlayer extends Player {
 
     public calculateValueForDefendingOrders(area: Area): number {
         let value = 0;
-        area.borders.forEach((borderArea) => {
+        area.borders
+            .forEach((borderArea) => {
             let controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null && borderArea.controllingHouse !== this.house && borderArea.units.length > 0;
             if (controlledByOtherPlayerWithEnemyUnits) {
                 // TODO create value Map and add different AiPlayer difficulties appyling different values
@@ -87,7 +87,8 @@ export default class AiPlayer extends Player {
     public calculateValueForRaidOrders(area: Area) {
 
         let value = 0;
-        area.borders.forEach((borderArea) => {
+        area.borders
+            .forEach((borderArea) => {
             let controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null && borderArea.controllingHouse !== this.house && borderArea.units.length > 0;
             if (controlledByOtherPlayerWithEnemyUnits) {
                 // TODO create value Map and add different AiPlayer difficulties appyling different values
@@ -99,7 +100,8 @@ export default class AiPlayer extends Player {
 
     public calculateValueForMarchOrders(sourceArea: Area, targetArea: Area) {
         let value = 0;
-        let numberOfEnemiesAtBorder = sourceArea.borders.filter((borderArea) => {
+        let numberOfEnemiesAtBorder = sourceArea.borders
+            .filter((borderArea) => {
             return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, this.house);
         }).length;
 
@@ -127,10 +129,8 @@ export default class AiPlayer extends Player {
         return 0;
     }
 
-    private establishControl(sourceArea: Area) {
-        if (sourceArea.units.length === 0 && (sourceArea.hasCastleOrStronghold() || sourceArea.supply > 0 || sourceArea.consolidatePower > 0 )) {
-            MovementRules.establishControl(sourceArea);
-        }
+    private shouldEstablishControl(sourceArea: Area): boolean {
+        return (sourceArea.units.length === 0 && (sourceArea.hasCastleOrStronghold() || sourceArea.supply > 0 || sourceArea.consolidatePower > 0 ));
     }
 
 

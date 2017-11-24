@@ -1,8 +1,8 @@
 import * as Assets from '../assets';
 import UiArea from './UiArea';
 import {House} from '../logic/board/house';
-import {AreaKey} from '../logic/board/area';
 import {UnitType} from '../logic/units/unitType';
+import {AreaKey} from '../logic/board/areaKey';
 
 export default class AssetManager {
 
@@ -63,16 +63,16 @@ export default class AssetManager {
     public static createAssets(game: Phaser.Game) {
         let map = game.add.tilemap(this.GOT_TILE_MAP, 32, 32, 53, 94);
         this.areaNames = map.objects['areaNames'].map((area) => {
-            return new UiArea(area.height, area.name, area.width, area.x, area.y);
+            return new UiArea(area.height, AreaKey[<string>area.name], area.width, area.x, area.y);
         });
         this.areaTokens = map.objects['planninglayer'].map((area) => {
-            return new UiArea(area.height, area.name, area.height, area.x, area.y);
+            return new UiArea(area.height, AreaKey[<string>area.name], area.height, area.x, area.y);
         });
         this.controlMarker = map.objects['controlMarker'].map((area) => {
-            return new UiArea(area.height, area.name, area.height, area.x, area.y);
+            return new UiArea(area.height, AreaKey[<string>area.name], area.height, area.x, area.y);
         });
         this.units = map.objects['units'].map((area) => {
-            return new UiArea(area.height, area.name, area.height, area.x, area.y);
+            return new UiArea(area.height, AreaKey[<string>area.name], area.height, area.x, area.y);
         });
     }
 

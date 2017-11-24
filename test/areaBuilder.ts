@@ -1,9 +1,10 @@
 import GameState from '../src/logic/board/gameState/GameState';
-import {Area, AreaKey} from '../src/logic/board/area';
+import {Area} from '../src/logic/board/area';
 import {House} from '../src/logic/board/house';
 import {UnitType} from '../src/logic/units/unitType';
 import {OrderToken, OrderTokenType} from '../src/logic/orderToken/orderToken';
 import Unit from '../src/logic/units/units';
+import {AreaKey} from '../src/logic/board/areaKey';
 export default class AreaBuilder {
 
     private _key: AreaKey;
@@ -38,6 +39,10 @@ export default class AreaBuilder {
         return this;
     }
 
+    public withConsolidatePower(power: number) {
+        this._consolidatePower = power;
+        return this;
+    }
     public withSupply(supply: number): AreaBuilder {
         this._supply = supply;
         return this;
@@ -69,9 +74,8 @@ export default class AreaBuilder {
     }
 
     public build(): Area {
-        let area = new Area(this._key, this._consolidatePower, this.harbor, this._castle, this._stronghold, this._isLandArea, this._supply, this._controllingHouse);
-        area.orderToken = this._controllingHouse && this._orderTokenType ? new OrderToken(this._controllingHouse, this._orderTokenType) : null;
-        area.borders = this._borders;
+        let area = new Area(this._key, this._consolidatePower, this.harbor, this._castle, this._stronghold, this._isLandArea, this._supply, this._borders, this._controllingHouse);
+        area.orderToken = this._controllingHouse !== null && this._orderTokenType !== null ? new OrderToken(this._controllingHouse, this._orderTokenType) : null;
 
         this._units.forEach((type) => {
             area.units.push(new Unit(type, this._controllingHouse));

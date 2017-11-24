@@ -16,17 +16,11 @@ export default class CombatResult {
     private _defenderSword: number;
     private _defenderFortification: number;
 
-    constructor(attackingArea: Area, defendingArea: Area, attackersCard: HouseCard, defendersCard: HouseCard, attackerStrength: number, defenderStrength: number, attackerSword: number, attackerFortification: number, defenderSword: number, defenderFortification: number) {
+    constructor(attackingArea: Area, defendingArea: Area, attackerStrength: number, defenderStrength: number) {
         this._attackingArea = attackingArea;
         this._defendingArea = defendingArea;
-        this._attackersCard = attackersCard;
-        this._defendersCard = defendersCard;
         this._attackerStrength = attackerStrength;
         this._defenderStrength = defenderStrength;
-        this._attackerSword = attackerSword;
-        this._attackerFortification = attackerFortification;
-        this._defenderSword = defenderSword;
-        this._defenderFortification = defenderFortification;
     }
 
     get attackingArea(): Area {
@@ -43,14 +37,6 @@ export default class CombatResult {
 
     get lostUnits(): Array<Unit> {
         return this._attackingArea.controllingHouse === this.winner ? this.defendingArea.units : this.attackingArea.units;
-    }
-
-    get defendersCard(): HouseCard {
-        return this._defendersCard;
-    }
-
-    get attackersCard(): HouseCard {
-        return this._attackersCard;
     }
 
     get winner(): House {

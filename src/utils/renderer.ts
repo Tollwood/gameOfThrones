@@ -1,5 +1,5 @@
-import {AreaKey} from '../logic/board/area';
 import AssetLoader from './assetLoader';
+import {AreaKey} from '../logic/board/areaKey';
 export default class Renderer {
 
     private static _rerenderRequired = false;

@@ -1,0 +1,800 @@
+[
+  {
+    "key": "CastleBlack",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheShiveringSea",
+      "Karhold",
+      "Winterfell",
+      "BayOfIce"
+    ]
+  },
+  {
+    "key": "Karhold",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheShiveringSea",
+      "Winterfell"
+    ]
+  },
+  {
+    "key": "TheShiveringSea",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "CastleBlack",
+      "Karhold",
+      "Winterfell",
+      "WhiteHarbor",
+      "WidowsWatch",
+      "TheNarrowSea"
+    ]
+  },
+  {
+    "key": "BayOfIce",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "SunsetSea",
+      "TheStonyShore",
+      "Winterfell",
+      "CastleBlack"
+    ]
+  },
+  {
+    "key": "Winterfell",
+    "consolidatePower": 1,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "CastleBlack",
+      "Karhold",
+      "WhiteHarbor",
+      "TheShiveringSea",
+      "MoatCailin",
+      "TheStonyShore",
+      "BayOfIce"
+    ]
+  },
+  {
+    "key": "TheStonyShore",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "Winterfell",
+      "BayOfIce"
+    ]
+  },
+  {
+    "key": "WhiteHarbor",
+    "consolidatePower": 0,
+    "harbor": true,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheShiveringSea",
+      "WidowsWatch",
+      "TheNarrowSea",
+      "MoatCailin",
+      "Winterfell"
+    ]
+  },
+  {
+    "key": "WidowsWatch",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "WhiteHarbor",
+      "TheShiveringSea",
+      "TheNarrowSea"
+    ]
+  },
+  {
+    "key": "FlintsFinger",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "BayOfIce",
+      "SunsetSea",
+      "IronmansBay",
+      "GreyWaterWatch"
+    ]
+  },
+  {
+    "key": "Pyke",
+    "consolidatePower": 1,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "IronmansBay"
+    ]
+  },
+  {
+    "key": "GreyWaterWatch",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "MoatCailin",
+      "Seagard",
+      "IronmansBay",
+      "FlintsFinger",
+      "BayOfIce"
+    ]
+  },
+  {
+    "key": "IronmansBay",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "SunsetSea",
+      "FlintsFinger",
+      "GreyWaterWatch",
+      "Seagard",
+      "Riverrun",
+      "TheGoldenSound",
+      "Pyke"
+    ]
+  },
+  {
+    "key": "TheNarrowSea",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "TheShiveringSea",
+      "WidowsWatch",
+      "WhiteHarbor",
+      "MoatCailin",
+      "TheTwins",
+      "TheFingers",
+      "TheMountainsOfTheMoon",
+      "TheEyrie",
+      "CrackClawPoint",
+      "ShipbreakerBay"
+    ]
+  },
+  {
+    "key": "MoatCailin",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "WhiteHarbor",
+      "TheNarrowSea",
+      "TheTwins",
+      "Seagard",
+      "GreyWaterWatch",
+      "Winterfell"
+    ]
+  },
+  {
+    "key": "Seagard",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "GreyWaterWatch",
+      "MoatCailin",
+      "TheTwins",
+      "Riverrun",
+      "IronmansBay"
+    ]
+  },
+  {
+    "key": "TheTwins",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "MoatCailin",
+      "TheNarrowSea",
+      "TheFingers",
+      "TheMountainsOfTheMoon"
+    ]
+  },
+  {
+    "key": "TheFingers",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "TheNarrowSea",
+      "TheMountainsOfTheMoon",
+      "TheTwins"
+    ]
+  },
+  {
+    "key": "TheEyrie",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "TheMountainsOfTheMoon",
+      "TheNarrowSea"
+    ]
+  },
+  {
+    "key": "SunsetSea",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "BayOfIce",
+      "FlintsFinger",
+      "IronmansBay",
+      "TheGoldenSound",
+      "SearoadMarches",
+      "WestSummerSea"
+    ]
+  },
+  {
+    "key": "Lannisport",
+    "consolidatePower": 0,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 2,
+    "borders": [
+      "TheGoldenSound",
+      "Riverrun",
+      "StoneySept",
+      "SearoadMarches"
+    ]
+  },
+  {
+    "key": "TheGoldenSound",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "IronmansBay",
+      "Riverrun",
+      "Lannisport",
+      "SearoadMarches"
+    ]
+  },
+  {
+    "key": "StoneySept",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "SearoadMarches",
+      "Blackwater",
+      "Harrenhal",
+      "Lannisport",
+      "Riverrun"
+    ]
+  },
+  {
+    "key": "Riverrun",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "Seagard",
+      "Harrenhal",
+      "StoneySept",
+      "Lannisport",
+      "TheGoldenSound",
+      "IronmansBay"
+    ]
+  },
+  {
+    "key": "TheMountainsOfTheMoon",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "TheTwins",
+      "TheFingers",
+      "TheNarrowSea",
+      "TheEyrie",
+      "CrackClawPoint"
+    ]
+  },
+  {
+    "key": "Harrenhal",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "CrackClawPoint",
+      "Blackwater",
+      "StoneySept",
+      "Riverrun"
+    ]
+  },
+  {
+    "key": "CrackClawPoint",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheMountainsOfTheMoon",
+      "TheNarrowSea",
+      "ShipbreakerBay",
+      "BlackwaterBay",
+      "KingsLanding",
+      "Blackwater",
+      "Harrenhal"
+    ]
+  },
+  {
+    "key": "BlackwaterBay",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "Kingswood",
+      "KingsLanding",
+      "ShipbreakerBay",
+      "CrackClawPoint"
+    ]
+  },
+  {
+    "key": "Dragonstone",
+    "consolidatePower": 1,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "ShipbreakerBay"
+    ]
+  },
+  {
+    "key": "ShipbreakerBay",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "TheNarrowSea",
+      "Dragonstone",
+      "EastSummerSea",
+      "StormsEnd",
+      "Kingswood",
+      "BlackwaterBay",
+      "CrackClawPoint"
+    ]
+  },
+  {
+    "key": "Kingswood",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "BlackwaterBay",
+      "ShipbreakerBay",
+      "StormsEnd",
+      "TheBoneway",
+      "TheReach",
+      "KingsLanding"
+    ]
+  },
+  {
+    "key": "KingsLanding",
+    "consolidatePower": 2,
+    "harbor": false,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "CrackClawPoint",
+      "BlackwaterBay",
+      "Kingswood",
+      "Blackwater",
+      "TheReach"
+    ]
+  },
+  {
+    "key": "Blackwater",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 2,
+    "borders": [
+      "Harrenhal",
+      "CrackClawPoint",
+      "KingsLanding",
+      "TheReach",
+      "SearoadMarches",
+      "StoneySept"
+    ]
+  },
+  {
+    "key": "SearoadMarches",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "Lannisport",
+      "StoneySept",
+      "Blackwater",
+      "TheReach",
+      "Highgarden",
+      "WestSummerSea",
+      "SunsetSea",
+      "TheGoldenSound"
+    ]
+  },
+  {
+    "key": "Highgarden",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 2,
+    "borders": [
+      "SearoadMarches",
+      "TheReach",
+      "DornishMarches",
+      "Oldtown",
+      "RedwyneStraights",
+      "WestSummerSea"
+    ]
+  },
+  {
+    "key": "DornishMarches",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheReach",
+      "TheBoneway",
+      "PrincesPass",
+      "ThreeTowers",
+      "Oldtown",
+      "Highgarden"
+    ]
+  },
+  {
+    "key": "RedwyneStraights",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "Highgarden",
+      "Oldtown",
+      "ThreeTowers",
+      "WestSummerSea",
+      "TheArbor"
+    ]
+  },
+  {
+    "key": "StormsEnd",
+    "consolidatePower": 0,
+    "harbor": true,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "Kingswood",
+      "ShipbreakerBay",
+      "EastSummerSea",
+      "SeaOfDorne",
+      "TheBoneway"
+    ]
+  },
+  {
+    "key": "TheBoneway",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "Kingswood",
+      "StormsEnd",
+      "SeaOfDorne",
+      "Yronwood",
+      "PrincesPass",
+      "DornishMarches",
+      "TheReach"
+    ]
+  },
+  {
+    "key": "Oldtown",
+    "consolidatePower": 0,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "Highgarden",
+      "DornishMarches",
+      "ThreeTowers",
+      "RedwyneStraights"
+    ]
+  },
+  {
+    "key": "ThreeTowers",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "Oldtown",
+      "DornishMarches",
+      "PrincesPass",
+      "WestSummerSea",
+      "RedwyneStraights"
+    ]
+  },
+  {
+    "key": "PrincesPass",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "DornishMarches",
+      "TheBoneway",
+      "Yronwood",
+      "Starfall",
+      "ThreeTowers"
+    ]
+  },
+  {
+    "key": "Yronwood",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "TheBoneway",
+      "SeaOfDorne",
+      "Sunspear",
+      "SaltShore",
+      "Starfall",
+      "PrincesPass"
+    ]
+  },
+  {
+    "key": "Sunspear",
+    "consolidatePower": 1,
+    "harbor": true,
+    "castle": false,
+    "stronghold": true,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "SeaOfDorne",
+      "EastSummerSea",
+      "SaltShore",
+      "Yronwood"
+    ]
+  },
+  {
+    "key": "SaltShore",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "Yronwood",
+      "Sunspear",
+      "EastSummerSea",
+      "Starfall"
+    ]
+  },
+  {
+    "key": "SeaOfDorne",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "StormsEnd",
+      "EastSummerSea",
+      "Sunspear",
+      "Yronwood",
+      "TheBoneway"
+    ]
+  },
+  {
+    "key": "Starfall",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 1,
+    "borders": [
+      "PrincesPass",
+      "Yronwood",
+      "SaltShore",
+      "EastSummerSea",
+      "WestSummerSea"
+    ]
+  },
+  {
+    "key": "TheArbor",
+    "consolidatePower": 1,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "RedwyneStraights",
+      "WestSummerSea"
+    ]
+  },
+  {
+    "key": "WestSummerSea",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "SunsetSea",
+      "SearoadMarches",
+      "Highgarden",
+      "RedwyneStraights",
+      "ThreeTowers",
+      "Starfall",
+      "EastSummerSea",
+      "TheArbor"
+    ]
+  },
+  {
+    "key": "EastSummerSea",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": false,
+    "stronghold": false,
+    "isLandArea": false,
+    "supply": 0,
+    "borders": [
+      "Starfall",
+      "SaltShore",
+      "Sunspear",
+      "SeaOfDorne",
+      "ShipbreakerBay",
+      "WestSummerSea"
+    ]
+  },
+  {
+    "key": "TheReach",
+    "consolidatePower": 0,
+    "harbor": false,
+    "castle": true,
+    "stronghold": false,
+    "isLandArea": true,
+    "supply": 0,
+    "borders": [
+      "Blackwater",
+      "KingsLanding",
+      "Kingswood",
+      "TheBoneway",
+      "DornishMarches",
+      "Highgarden",
+      "SearoadMarches"
+    ]
+  }
+]

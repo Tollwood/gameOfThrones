@@ -23,7 +23,7 @@ export class OrderTokenMenuRenderer {
         menu.fixedToCamera = true;
         menu.cameraOffset.y = window.innerHeight - 60;
 
-        let availableOrderToken = TokenPlacementRules.getAvailableOrderToken(GameRules.gameState.currentPlayer.house);
+        let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(GameRules.gameState.currentPlayer.house);
 
         this.placableOrderTokens.createMultiple(1, AssetLoader.ORDER_TOKENS, availableOrderToken, true);
         this.placableOrderTokens.align(0, 0, 50, 45);

@@ -3,7 +3,7 @@ import {House} from '../../logic/board/house';
 
 import {GamePhase} from '../../logic/board/gamePhase';
 import UiArea from '../../utils/UiArea';
-import {Area, AreaKey} from '../../logic/board/area';
+import {Area} from '../../logic/board/area';
 import Renderer from '../../utils/renderer';
 import EstablishControlModalFactory from '../march/establishControlModalFactory';
 import SplitArmyModalFactory from '../march/splitArmyModalFactory';
@@ -13,6 +13,7 @@ import FightModal from '../march/combatModal';
 import GamePhaseService from '../../logic/board/gamePhaseService';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import MovementRules from '../../logic/board/gameRules/movementRules';
+import {AreaKey} from '../../logic/board/areaKey';
 
 export default class OrderTokenRenderer {
 

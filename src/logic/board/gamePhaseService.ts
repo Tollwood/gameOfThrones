@@ -28,10 +28,6 @@ export default class GamePhaseService {
         return WESTEROS_PHASES.indexOf(gamePhase) > -1;
     }
 
-    public static planningCompleteForCurrentPlayer() {
-        return this.allOrderTokenPlaced(GameRules.gameState.currentPlayer.house);
-    }
-
     public static isPlanningPhaseComplete(): boolean {
         return GameRules.gameState.gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced();
     }
@@ -78,10 +74,9 @@ export default class GamePhaseService {
         let gamestate = GameRules.gameState;
         let currrentIndex = gamestate.ironThroneSuccession.indexOf(gamestate.currentPlayer.house);
         let nextIndex = gamestate.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
-        let nextHouse = gamestate.ironThroneSuccession[nextIndex];
-        gamestate.currentPlayer = gamestate.players.filter((player) => {
-            return player.house === nextHouse;
-        })[0];
+        let nextHouse: House = gamestate.ironThroneSuccession[nextIndex];
+
+        gamestate.currentPlayer = GameRules.getPlayerByHouse(nextHouse);
     }
 
     public static switchToNextPhase() {

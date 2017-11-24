@@ -1,10 +1,10 @@
 import VictoryRules from '../../../../src/logic/board/gameRules/victoryRules';
-import {Area} from '../../../../src/logic/board/area';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import {House} from '../../../../src/logic/board/house';
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
+import {AreaKey} from '../../../../src/logic/board/areaKey';
 describe('VictoryRules', () => {
 
     let gameState: GameState;
@@ -17,10 +17,10 @@ describe('VictoryRules', () => {
 
     describe('getVictoryPositionFor', () => {
         it('should count castle and stronghold for given house', () => {
-            let winterfell = new AreaBuilder('Winterfell').withStronghold().withHouse(House.stark).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
 
             gameState.areas.push(winterfell);
-            let whiteHarbor = new AreaBuilder('WhiteHarbor').withCastle().withHouse(House.stark).build();
+            let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withCastle().withHouse(House.stark).build();
             gameState.areas.push(whiteHarbor);
             GameRules.load(gameState);
             const actual = VictoryRules.getVictoryPositionFor(House.stark);
@@ -40,20 +40,14 @@ describe('VictoryRules', () => {
 
 
         it('should return the house that has exactly 7 strongholds/ castle', () => {
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
-            let winterfell = new Area('Winterfell', 0, false, true, false, 0, 0, House.stark);
-            gameState.areas.push(winterfell);
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
+            let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.stark).build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.stark).build();
+            let pyke = new AreaBuilder(AreaKey.Pyke).withStronghold().withHouse(House.stark).build();
+            let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withStronghold().withHouse(House.stark).build();
+            let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
+            let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().withHouse(House.stark).build();
+            gameState.areas.push(winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay);
             gameState.round = 1;
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
@@ -61,11 +55,11 @@ describe('VictoryRules', () => {
         });
 
         it('should return the house with most strongholds/castle after round 10 was completed', () => {
-            let winterfell = new AreaBuilder('Winterfell').withStronghold().withHouse(House.stark).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
             gameState.areas.push(winterfell);
-            let whiteHarbour = new AreaBuilder('WiteHarbour').withStronghold().withHouse(House.lannister).build();
+            let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.lannister).build();
             gameState.areas.push(whiteHarbour);
-            let castleBlack = new AreaBuilder('CastleBlack').withStronghold().withHouse(House.lannister).build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
             gameState.areas.push(castleBlack);
             gameState.round = 11;
             GameRules.load(gameState);
