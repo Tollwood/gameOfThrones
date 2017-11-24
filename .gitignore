@@ -18,6 +18,7 @@ src/**/*.js
 src/**/*.map
 
 test/**/*.js
+!test/test_bundle.js
 test/**/*.map
 
 coverage

@@ -1,4 +1,7 @@
 ![build status](https://travis-ci.org/Tollwood/gameOfThrones.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Tollwood/gameOfThrones/badge.svg?branch=master)](https://coveralls.io/github/Tollwood/gameOfThrones?branch=master)
+
+
 # Game of Thrones learning by doing
 
 # Features:
