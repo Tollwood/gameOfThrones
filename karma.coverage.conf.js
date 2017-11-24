@@ -26,6 +26,7 @@ module.exports = config => {
         remapIstanbulReporter: {
             reports: {
                 html: 'coverage/html',
+                lcovonly: 'coverage/lcov.info',
                 'text-summary': null
             }
         },

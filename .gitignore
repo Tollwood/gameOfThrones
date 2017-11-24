@@ -19,3 +19,6 @@ src/**/*.map
 
 test/**/*.js
 test/**/*.map
+
+coverage
+.coveralls.yml
