@@ -48,7 +48,6 @@ export default class GameRules {
         this._gameState.fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
         this._gameState.kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
         this._gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-        this._gameState.wildlingsCount = 0;
         this._gameState.currentPlayer = player.filter((player) => {
             return player.house === this._gameState.ironThroneSuccession[0];
         })[0];
@@ -58,6 +57,10 @@ export default class GameRules {
 
     public static load(gameState: GameState) {
         this._gameState = gameState;
+    }
+
+    public static save() {
+        return this._gameState;
     }
 
     public static nextRound(): void {

@@ -178,7 +178,7 @@ export default class Game extends Phaser.State {
         }
 
         if (currentAiPlayer !== null && card.state === WesterosCardState.executeCard) {
-            currentAiPlayer.recruit(RecruitingRules.getAreasAllowedToRecruit());
+            currentAiPlayer.recruit();
             GamePhaseService.nextPlayer();
             return true;
         } else if (currentAiPlayer === null && card.state === WesterosCardState.executeCard) {

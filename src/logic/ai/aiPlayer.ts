@@ -62,7 +62,8 @@ export default class AiPlayer extends Player {
 
     }
 
-    public recruit(areas: Area[]) {
+    public recruit() {
+        const areas = RecruitingRules.getAreasAllowedToRecruit(this.house);
         areas.filter((a) => {
             return this.house === a.controllingHouse;
         }).forEach((area) => {

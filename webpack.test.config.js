@@ -8,7 +8,7 @@ devWebConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
     test: /\.(ts|js)($|\?)/i
 }));
 
-// abort testing if webpack does not compile
+// abort testing if webpack does n
 devWebConfig.plugins.push({
     apply: (compiler) => {
         compiler.plugin('done', (stats) => {
