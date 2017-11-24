@@ -8,10 +8,10 @@ import GameRules from '../board/gameRules/gameRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
 
 export default class CardAbilities {
-    public static getAllCardsBack(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
+    public static getAllCardsBack(currentCard: HouseCard, combatResult?: CombatResult): CombatResult {
         GameRules.gameState.players
             .filter((player) => {
-                player.house === currentCard.house;
+                return player.house === currentCard.house;
             })
             .map((player) => {
                 player.cards.map((card) => {
@@ -28,9 +28,9 @@ export default class CardAbilities {
 
     public static doubleDefenseToken(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
         /* let defenderHouse = combatResult.defendingArea.controllingHouse;
-        let defenderCardHouse = combatResult.defendersCard.house;
-        if (defenderCardHouse === defenderHouse && combatResult.defendingArea.orderToken.isDefendToken()) {
-            combatResult.defenderStrength += combatResult.defendingArea.orderToken.value;
+         let defenderCardHouse = combatResult.defendersCard.house;
+         if (defenderCardHouse === defenderHouse && combatResult.defendingArea.orderToken.isDefendToken()) {
+         combatResult.defenderStrength += combatResult.defendingArea.orderToken.value;
 
          }*/
         return combatResult;
@@ -42,7 +42,7 @@ export default class CardAbilities {
     }
 
     public static fightForStannisBaratheon(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        GameRules.gameState.players
+        /*GameRules.gameState.players
             .filter((player) => {
                 player.house === currentCard.house;
             })
@@ -50,7 +50,7 @@ export default class CardAbilities {
                 player.cards.filter((card) => {
                     card.id === 12;
                 });
-            });
+            });*/
         return combatResult;
     }
 
@@ -69,14 +69,14 @@ export default class CardAbilities {
          //switch House -> Player
          let opponent: Player = combatResult.attackersCard.house === currentCard.house ? combatResult.defendersCard.house : combatResult.attackersCard.house;
 
-        if (GameRules.gameState.ironThroneSuccession.indexOf(currentCard.house) > GameRules.gameState.ironThroneSuccession.indexOf(opponent)) {
+         if (GameRules.gameState.ironThroneSuccession.indexOf(currentCard.house) > GameRules.gameState.ironThroneSuccession.indexOf(opponent)) {
 
-        }
-        if (currentCard.house === combatResult.attackersCard.house) {
-            combatResult.attackerStrength += 1;
-        }
-        else {
-            combatResult.defenderStrength += 1;
+         }
+         if (currentCard.house === combatResult.attackersCard.house) {
+         combatResult.attackerStrength += 1;
+         }
+         else {
+         combatResult.defenderStrength += 1;
          }*/
         return combatResult;
     }
@@ -138,11 +138,11 @@ export default class CardAbilities {
     public static beStrong(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
         console.log('beStrong was called');
         /*if (currentCard.house === combatResult.attackersCard.house) {
-            combatResult.attackerStrength += 1;
-        }
-        else {
-            combatResult.defenderStrength += 1;
-        }
+         combatResult.attackerStrength += 1;
+         }
+         else {
+         combatResult.defenderStrength += 1;
+         }
          */
         return combatResult;
     }
