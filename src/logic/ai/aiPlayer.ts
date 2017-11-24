@@ -106,15 +106,15 @@ export default class AiPlayer extends Player {
             return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, this.house);
         }).length;
 
-        let noEnemies = AiCalculator.noEnemies(targetArea, this.house);
-        if (targetArea.hasCastleOrStronghold() && noEnemies) {
+        let unOccupiedOrNoEnemies = AiCalculator.unOccupiedOrNoEnemies(targetArea, this.house);
+        if (targetArea.hasCastleOrStronghold() && unOccupiedOrNoEnemies) {
             // TODO create value Map and add different AiPlayer difficulties appyling different values
             value += 0.9;
         }
-        if (targetArea.supply > 0 && noEnemies) {
+        if (targetArea.supply > 0 && unOccupiedOrNoEnemies) {
             value += (0.1 * targetArea.supply);
         }
-        if (targetArea.consolidatePower > 0 && noEnemies) {
+        if (targetArea.consolidatePower > 0 && unOccupiedOrNoEnemies) {
             value += (0.1 * targetArea.consolidatePower);
         }
         value -= (numberOfEnemiesAtBorder * 0.1);

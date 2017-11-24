@@ -11,7 +11,7 @@ export default class AiCalculator {
         return area.controllingHouse !== null && area.controllingHouse !== house && area.units.length > 0;
     }
 
-    public static noEnemies(area: Area, house: House) {
+    public static unOccupiedOrNoEnemies(area: Area, house: House) {
         return (area.controllingHouse === null || area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
     }
 
