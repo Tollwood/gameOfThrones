@@ -32,14 +32,14 @@ describe('AreaInitiator', () => {
     });
 });
 
-function getAreaKeys(): AreaKey[] {
+function getAreaKeys(): string[] {
     const objValues = Object.keys(AreaKey).map(k => AreaKey[k]);
-    return objValues.filter(v => typeof v === "string") as string[];
+    return objValues.filter(v => typeof v === 'string') as string[];
 }
 
 function filterUndefinedKeys(areas: Area[]): AreaKey[] {
     return areas.filter((area) => {
-        const areaKey = AreaKey[area.key];
+        const areaKey: string = AreaKey[area.key];
         return getAreaKeys().indexOf(areaKey) === -1;
     }).map(area => area.key);
 }

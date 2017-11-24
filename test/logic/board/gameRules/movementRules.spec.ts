@@ -197,7 +197,7 @@ describe('MovementRules', () => {
             GameRules.load(gameState);
 
             // when
-            MovementRules["establishControl"](winterfell, House.stark);
+            MovementRules['establishControl'](winterfell, House.stark);
 
             // then
             expect(winterfell.controllingHouse).toBe(House.stark);
@@ -212,12 +212,12 @@ describe('MovementRules', () => {
             GameRules.load(gameState);
 
             // when
-            MovementRules["establishControl"](winterfell, House.stark);
+            MovementRules['establishControl'](winterfell, House.stark);
 
             // then
             expect(winterfell.controllingHouse).toBeNull();
             expect(playerStark.powerToken).toBe(0);
-        })
+        });
     });
 
     describe('moveUnits', () => {
@@ -235,7 +235,7 @@ describe('MovementRules', () => {
             gameState.areas.push(sourceArea, targetArea);
             GameRules.load(gameState);
 
-            //when
+            // when
             MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then
@@ -258,7 +258,7 @@ describe('MovementRules', () => {
             gameState.areas.push(sourceArea, targetArea);
             GameRules.load(gameState);
 
-            //when
+            // when
             MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then
@@ -274,7 +274,7 @@ describe('MovementRules', () => {
             gameState.areas.push(sourceArea, targetArea);
             GameRules.load(gameState);
 
-            //when
+            // when
             MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove);
 
             // then
@@ -294,7 +294,7 @@ describe('MovementRules', () => {
             gameState.areas.push(sourceArea, targetArea);
             GameRules.load(gameState);
 
-            //when
+            // when
             MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then

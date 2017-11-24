@@ -9,7 +9,6 @@ import AreaBuilder from '../../areaBuilder';
 import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
-import game = PIXI.game;
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -137,7 +136,7 @@ describe('GamePhaseService', () => {
             gameState.areas.push(winterfell, whiteHarbor);
             gameState.gamePhase = GamePhase.PLANNING;
             GameRules.load(gameState);
-            expect(GamePhaseService["allOrderTokenPlaced"](House.stark)).toBeTruthy();
+            expect(GamePhaseService['allOrderTokenPlaced'](House.stark)).toBeTruthy();
         });
     });
 

@@ -1,7 +1,6 @@
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import WildlingRules from '../../../../src/logic/board/gameRules/wildlingRules';
-import game = PIXI.game;
 describe('VictoryRules', () => {
 
     let gameState: GameState;
@@ -23,6 +22,6 @@ describe('VictoryRules', () => {
             GameRules.load(gameState);
             WildlingRules.increaseWildlings(2);
             expect(gameState.wildlingsCount).toBe(12);
-        })
+        });
     });
 });
