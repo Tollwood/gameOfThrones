@@ -8,6 +8,17 @@ devWebConfig.plugins.push(new webpack.SourceMapDevToolPlugin({
     test: /\.(ts|js)($|\?)/i
 }));
 
+// abort testing if webpack does not compile
+devWebConfig.plugins.push({
+    apply: (compiler) => {
+        compiler.plugin('done', (stats) => {
+            if (stats.compilation.errors.length > 0) {
+                throw new Error(stats.compilation.errors.map((err) => err.message || err));
+            }
+        });
+    }
+});
+
 devWebConfig.module.rules.push({
     test: /src\/.+\.ts$/,
     exclude: /(node_modules|\.spec\.ts$)/,

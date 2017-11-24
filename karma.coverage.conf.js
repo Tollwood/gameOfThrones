@@ -12,13 +12,13 @@ module.exports = config => {
 
         // list of files / patterns to load in the browser
         files: [
-            'test/**/*.spec.ts',
+            'test/test_bundle.js'
         ],
 
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'test/**/*.spec.ts': ['webpack', 'sourcemap'],
+            'test/test_bundle.js': ['webpack', 'sourcemap'],
         },
 
         webpack: webpackConfig,
