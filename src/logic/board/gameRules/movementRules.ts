@@ -6,6 +6,7 @@ import CombatResult from '../../march/combatResult';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {House} from '../house';
+import {arraysAreEqual} from 'tslint/lib/utils';
 export default class MovementRules {
 
     public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
@@ -31,52 +32,36 @@ export default class MovementRules {
         }
     }
 
-    public static isAllowedToMove(source: Area, target: Area, unit: Unit): boolean {
-        let hasUnitsToMove = source.units.length > 0;
-        let moveOnLand = target.isLandArea && unit && unit.isLandunit();
-        let moveOnSea = !target.isLandArea && unit && !unit.isLandunit();
-        let unoccupiedArea = target.controllingHouse === null;
-        let enmiesInTargetAreas = !unoccupiedArea && target.units.length > 0 && source.controllingHouse !== target.controllingHouse;
-        let hasUnitOfSameTypeToMove = source.units.filter((unitToCheck) => {
-                return unitToCheck.getHouse() === unit.getHouse() && unitToCheck.getType() === unit.getType();
-            }).length > 0;
-
-        let connectedUsingShipTransport = this.connectedUsingShipTransport(source, target);
-        let enoughSupplyForArmySize = this.enoughSupplyForArmySize(source, target);
-        return source.key !== target.key
-            && hasUnitsToMove
-            && hasUnitOfSameTypeToMove
-            && (AreaRules.isConnectedArea(source, target) || connectedUsingShipTransport)
-            && (moveOnLand || moveOnSea)
-            && enoughSupplyForArmySize;
-    }
-
-
-    public static connectedUsingShipTransport(source: Area, target: Area): boolean {
-        return source.borders
-                .filter((seaArea) => {
-                    return !seaArea.isLandArea && seaArea.units.length > 0 && seaArea.controllingHouse === source.controllingHouse;
-                })
-                .filter((areaWithShip) => {
-                    let foundConnection = this.connectedUsingShipTransport(areaWithShip, target);
-                    return foundConnection || areaWithShip.borders.filter((areaReachableByShip) => {
-                            return areaReachableByShip.key === target.key;
-                        }).length > 0;
-                }).length > 0;
-    }
-
     public static getAllAreasAllowedToMarchTo(sourceArea: Area): Array<Area> {
-
+        let validAreas = [];
         if (sourceArea.units.length === 0) {
-            return new Array<Area>();
+            return validAreas;
         }
-        //
-        return GameRules.gameState.areas
-            .filter((area) => {
-                return this.isAllowedToMove(sourceArea, area, sourceArea.units[0]);
-            });
+        return validAreas.concat(this.getValidAreas(sourceArea, sourceArea.borders));
     }
 
+    private static getValidAreas(sourceArea: Area, areasToCheck: Area[]) {
+        let validAreas = [];
+        areasToCheck
+            .forEach((area) => {
+                if (this.isAllowedToMove(sourceArea, area)) {
+                    validAreas.push(area);
+                }
+                if (sourceArea.isLandArea && !area.isLandArea && area.units.length > 0 && area.controllingHouse === sourceArea.controllingHouse) {
+                    validAreas = validAreas.concat(this.getValidAreas(sourceArea, area.borders));
+                }
+            });
+
+        return validAreas;
+    }
+
+    private static isAllowedToMove(source: Area, target: Area): boolean {
+        const landToLandMove = source.isLandArea && target.isLandArea;
+        const seaToSeaMove = !source.isLandArea && !target.isLandArea;
+        const enoughSupplyForArmySize = SupplyRules.enoughSupplyForArmySize(source, target);
+
+        return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
+    }
 
     private static establishControl(area: Area, house: House) {
         let player = GameRules.getPlayerByHouse(house);
@@ -104,8 +89,4 @@ export default class MovementRules {
         }
     }
 
-    private static enoughSupplyForArmySize(source: Area, target: Area) {
-        let atleastOneUnitCanMove = target.units.length + 1 <= SupplyRules.allowedMaxSizeBasedOnSupply(source.controllingHouse);
-        return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
-    }
 }

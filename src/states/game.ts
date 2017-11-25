@@ -117,7 +117,7 @@ export default class Game extends Phaser.State {
                             return;
                         }
                     } else {
-                        currentAiPlayer.executeOrder(currentGamePhase);
+                        currentAiPlayer.executeOrder(GameRules.gameState);
                         GamePhaseService.nextPlayer();
                         this.checkForWinner();
                         return;

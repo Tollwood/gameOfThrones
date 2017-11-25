@@ -55,4 +55,8 @@ export default class SupplyRules {
         GameRules.gameState.currentlyAllowedSupply = updatedSupply;
     }
 
+    public static enoughSupplyForArmySize(source: Area, target: Area) {
+        let atleastOneUnitCanMove = target.units.length + 1 <= SupplyRules.allowedMaxSizeBasedOnSupply(source.controllingHouse);
+        return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
+    }
 }

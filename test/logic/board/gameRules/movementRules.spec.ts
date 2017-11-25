@@ -18,80 +18,62 @@ describe('MovementRules', () => {
     beforeEach(() => {
         gameState = new GameState();
     });
-    describe('isAllowedToMove', () => {
-        it('should be allowed to move units from one area to another connected area', () => {
+    describe('getAllAreasAllowedToMarchTo', () => {
+
+        it('should return empty Array if no units are present in sourceArea', () => {
+            const sourceArea = new AreaBuilder(AreaKey.Winterfell).build();
+            const actual = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
+            expect(actual.length).toBe(0);
+        });
+
+        it('should return no valid areas if source area has no units', () => {
             // given
-            let karhold = new AreaBuilder(AreaKey.Karhold).addToGameState(gameState).build();
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).addToGameState(gameState).withHouse(House.stark)
+            const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).build();
+            // when
+            const actual = MovementRules.getAllAreasAllowedToMarchTo(area);
+            // then
+            expect(actual.length).toBe(0);
+        });
+        it('should be allowed to move units from one area to an unoccupied border area', () => {
+            // given
+            let karhold = new AreaBuilder(AreaKey.Karhold).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
                 .withBorders([karhold])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
-            gameState.players = [new Player(House.stark, 5, [])];
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
             // when
-            let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(winterfell);
 
             // then
-            expect(result).toBeTruthy();
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(winterfell,karhold);
+            expect(result.length).toBe(1);
+            expect(result.indexOf(karhold)).toBeGreaterThan(-1);
         });
-        it('should not be allowed to move units if areas are not connected via borders', () => {
-            // given
-            let karhold = new AreaBuilder(AreaKey.Karhold).addToGameState(gameState).build();
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).addToGameState(gameState)
-                .withHouse(House.stark)
-                .withUnits([UnitType.Footman])
-                .withOrderToken(OrderTokenType.march_minusOne)
-                .build();
-            gameState.players = [new Player(House.stark, 5, [])];
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            // when
-            let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
 
-            // then
-            expect(result).toBeFalsy();
-        });
-        it('should not be allowed to move units if sourceArea has no Units', () => {
-            // given
-            let karhold = new AreaBuilder(AreaKey.Karhold).addToGameState(gameState).build();
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).addToGameState(gameState)
-                .withHouse(House.stark)
-                .withBorders([karhold])
-                .withOrderToken(OrderTokenType.march_minusOne)
-                .build();
-            gameState.players = [new Player(House.stark, 5, [])];
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            // when
-            let result = MovementRules.isAllowedToMove(winterfell, karhold, winterfell.units[0]);
-
-            // then
-            expect(result).toBeFalsy();
-        });
         it('should be allowed to move land units from WhiteHarbor via theShiveringsea using a friendly ship to castleBlack', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).addToGameState(gameState).build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).build();
             let theSiveringSea = new AreaBuilder(AreaKey.TheShiveringSea).withHouse(House.stark).withUnits([UnitType.Ship])
                 .withBorders([castleBlack])
                 .isSeaArea()
-                .addToGameState(gameState).build();
+                .build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
                 .withBorders([theSiveringSea])
                 .withOrderToken(OrderTokenType.march_minusOne)
-                .addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, [])];
+                .build();
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.connectedUsingShipTransport(whiteHarbor, castleBlack);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeTruthy();
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(result.length).toBe(1);
+            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
-        it('should be allowed to move land units from WhiteHarbor via two sea ereas using a friendly ship to castleBlack', () => {
+        it('should be allowed to move land units from WhiteHarbor via two sea areas using a friendly ship to castleBlack', () => {
             // given
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).addToGameState(gameState).build();
             let theSiveringSea = new AreaBuilder(AreaKey.TheShiveringSea).withHouse(House.stark)
@@ -109,31 +91,32 @@ describe('MovementRules', () => {
                 .withBorders([theStonyShore])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, [])];
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.connectedUsingShipTransport(whiteHarbor, castleBlack);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeTruthy();
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(result.length).toBe(1);
+            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
+
         });
         it('should be allowed to move unit into an enemy area with establish control of other player', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon).addToGameState(gameState).build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
-                .addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
+                .build();
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeTruthy();
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(result.length).toBe(1);
+            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
         it('should be allowed to move units into an occupied area', () => {
             // given
@@ -142,31 +125,28 @@ describe('MovementRules', () => {
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
                 .addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, []), new Player(House.baratheon, 5, [])];
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeTruthy();
+            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
         it('should not move land unit into a sea area ', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).isSeaArea().addToGameState(gameState).build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).isSeaArea().build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
-                .addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, [])];
+                .build();
+            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeFalsy();
+            expect(result.indexOf(castleBlack)).toBe(-1);
         });
         it('should not move sea unit into a land area ', () => {
             // given
@@ -174,15 +154,12 @@ describe('MovementRules', () => {
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Ship])
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
-                .isSeaArea().addToGameState(gameState).build();
-            gameState.players = [new Player(House.stark, 5, [])];
+                .isSeaArea().build();
             // when
-            GameRules.load(gameState);
-            SupplyRules.updateSupply();
-            let result = MovementRules.isAllowedToMove(whiteHarbor, castleBlack, whiteHarbor.units[0]);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(result).toBeFalsy();
+            expect(result.indexOf(castleBlack)).toBe(-1);
 
         });
     });
@@ -300,25 +277,6 @@ describe('MovementRules', () => {
             // then
             expect(sourceArea.controllingHouse).toBe(House.stark);
             expect(player.powerToken).toBe(0);
-        });
-    });
-
-    describe('getAllAreasAllowedToMarchTo', () => {
-        it('should return empty Array if no units are present in sourceArea', () => {
-            const sourceArea = new AreaBuilder(AreaKey.Winterfell).build();
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
-            expect(actual.length).toBe(0);
-        });
-        it('should verify all areas if a move is possible', () => {
-            const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
-            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).build();
-            gameState.areas.push(sourceArea, whiteHarbor);
-            GameRules.load(gameState);
-            spyOn(MovementRules, 'isAllowedToMove').and.returnValue(false);
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
-            expect(actual.length).toBe(0);
-            expect(MovementRules.isAllowedToMove).toHaveBeenCalledWith(sourceArea, sourceArea, sourceArea.units[0]);
-            expect(MovementRules.isAllowedToMove).toHaveBeenCalledWith(sourceArea, whiteHarbor, sourceArea.units[0]);
         });
     });
 

@@ -11,7 +11,7 @@ export default class RecruitingRules {
         let areasAllowedToRecruit = GameRules.gameState.areasAllowedToRecruit;
         let index = areasAllowedToRecruit.indexOf(area);
         if (index === -1) {
-            throw Error("Area is not eligible for recruiting");
+            throw Error('Area is not eligible for recruiting');
         }
         areasAllowedToRecruit.splice(index, 1);
         unitTypes.forEach((unittype) => {
@@ -21,7 +21,7 @@ export default class RecruitingRules {
 
     public static getAreasAllowedToRecruit(house: House): Array<Area> {
         return GameRules.gameState.areasAllowedToRecruit.filter((area) => {
-            if(area.controllingHouse !== house){
+            if (area.controllingHouse !== house) {
                 return false;
             }
             let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse);
@@ -30,7 +30,7 @@ export default class RecruitingRules {
     }
 
     public static setAreasAllowedToRecruit() {
-        GameRules.gameState.areasAllowedToRecruit =  GameRules.gameState.areas.filter((area) => {
+        GameRules.gameState.areasAllowedToRecruit = GameRules.gameState.areas.filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
                 && SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse) > area.units.length;
