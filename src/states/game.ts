@@ -18,6 +18,7 @@ import WesterosCardRules from '../logic/board/gameRules/westerosCardRules';
 import RecruitingRules from '../logic/board/gameRules/recruitingRules';
 import VictoryRules from '../logic/board/gameRules/victoryRules';
 import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
+import AiCalculator from '../logic/ai/aiCalculator';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -25,6 +26,7 @@ export default class Game extends Phaser.State {
     private topMenuRenderer: TopMenuRenderer;
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
+    private aiCalculator: AiCalculator;
 
     constructor() {
         super();
@@ -32,6 +34,7 @@ export default class Game extends Phaser.State {
         this.boardRenderer = new BoardRenderer();
         this.topMenuRenderer = new TopMenuRenderer();
         this.unitRenderer = new UnitRenderer();
+        this.aiCalculator = new AiCalculator();
     }
 
     public preload() {
@@ -95,7 +98,7 @@ export default class Game extends Phaser.State {
                         return;
                     }
                 } else {
-                    currentAiPlayer.placeAllOrderTokens();
+                    this.aiCalculator.placeAllOrderTokens(currentAiPlayer);
                     GamePhaseService.nextPlayer();
                     return;
                 }
@@ -117,7 +120,7 @@ export default class Game extends Phaser.State {
                             return;
                         }
                     } else {
-                        currentAiPlayer.executeOrder(GameRules.gameState);
+                        this.aiCalculator.executeOrder(GameRules.gameState,currentAiPlayer);
                         GamePhaseService.nextPlayer();
                         this.checkForWinner();
                         return;
@@ -178,7 +181,7 @@ export default class Game extends Phaser.State {
         }
 
         if (currentAiPlayer !== null && card.state === WesterosCardState.executeCard) {
-            currentAiPlayer.recruit();
+            this.aiCalculator.recruit(currentAiPlayer);
             GamePhaseService.nextPlayer();
             return true;
         } else if (currentAiPlayer === null && card.state === WesterosCardState.executeCard) {

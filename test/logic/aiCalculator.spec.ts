@@ -53,7 +53,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = aiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -62,7 +62,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = aiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -71,7 +71,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = aiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -80,7 +80,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = aiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -92,7 +92,7 @@ describe('AiCalculator', () => {
             const areaWithRaidToken = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withOrderToken(OrderTokenType.raid_1).build();
             const areaWithDefenseToken = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.defend_special).build();
             const areas = [areaWithRaidToken, areaWithDefenseToken,areaWithMarchToken];
-            const actual = AiCalculator.getAreasForHouseWithToken(areas, House.stark, orderTokens);
+            const actual = aiCalculator.getAreasForHouseWithToken(areas, House.stark, orderTokens);
             expect(actual.length).toBe(2);
             expect(actual.indexOf(areaWithMarchToken) > -1).toBeTruthy();
             expect(actual.indexOf(areaWithRaidToken) > -1).toBeTruthy();
@@ -144,8 +144,11 @@ describe('AiCalculator', () => {
             // then
             expect(MovementRules.getAllAreasAllowedToMarchTo).toHaveBeenCalledWith(area);
             expect(actual.length).toBe(1);
-            expect(actual[0].orderTokenType).toBe(OrderTokenType.march_zero);
-            expect(actual[0].value).toBe(0);
+            const actualPossibleMove = actual[0];
+            expect(actualPossibleMove.orderTokenType).toBe(OrderTokenType.march_zero);
+            expect(actualPossibleMove.value).toBe(0);
+            expect(actualPossibleMove.sourceArea).toEqual(area);
+            expect(actualPossibleMove.targetArea).toEqual(whiteHarbor);
         });
 
         it('should return no possible move for march_zero order with no units',()=>{
