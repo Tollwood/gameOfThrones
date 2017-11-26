@@ -1,5 +1,5 @@
 import GameRules from '../../logic/board/gameRules/gameRules';
-import {House} from '../../logic/board/house';
+import {convertHouseToNumber, House} from '../../logic/board/house';
 
 import {GamePhase} from '../../logic/board/gamePhase';
 import UiArea from '../../utils/UiArea';
@@ -46,7 +46,7 @@ export default class OrderTokenRenderer {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(house, areaToken.name);
         });
         areas.forEach((areaToken) => {
-            game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, house, this.areasToPlaceToken);
+            game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, convertHouseToNumber(house), this.areasToPlaceToken);
 
         });
         return areas.length;
@@ -74,7 +74,7 @@ export default class OrderTokenRenderer {
                         game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS, sourceArea.orderToken.getType(), this.placedTokens);
                     }
                     else {
-                        game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + (sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, sourceArea.units[0].getHouse(), this.placedTokens);
+                        game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + (sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, convertHouseToNumber(sourceArea.controllingHouse), this.placedTokens);
                     }
                 }
             });

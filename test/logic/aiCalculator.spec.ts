@@ -5,7 +5,6 @@ import {House} from '../../src/logic/board/house';
 import {UnitType} from '../../src/logic/units/unitType';
 import {OrderTokenType} from '../../src/logic/orderToken/orderTokenType';
 import PossibleMove from '../../src/logic/ai/possibleMove';
-import Order = jasmine.Order;
 import MovementRules from '../../src/logic/board/gameRules/movementRules';
 describe('AiCalculator', () => {
     let aiCalculator;

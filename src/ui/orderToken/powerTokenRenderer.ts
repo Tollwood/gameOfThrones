@@ -1,4 +1,4 @@
-import {House} from '../../logic/board/house';
+import {convertHouseToNumber, House} from '../../logic/board/house';
 
 import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
@@ -14,6 +14,7 @@ export default class PowerTokenRenderer {
         this.powerTokenGroup = game.add.group();
         this.controlMarkerGroup = game.add.group();
     }
+
     public static renderPowerToken(game: Phaser.Game) {
         this.powerTokenGroup.removeChildren();
         for (let text of this.texts) {
@@ -21,15 +22,14 @@ export default class PowerTokenRenderer {
         }
         for (let player of GameRules.gameState.players) {
             let cachedImage = game.cache.getImage(this.getImageNameByHouse(player.house));
-            let image = game.add.image(player.house * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
+            let image = game.add.image(convertHouseToNumber(player.house) * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
             image.fixedToCamera = true;
             let style = {font: '28px Arial', fill: '#000000', boundsAlignH: 'right'};
-            let text = game.add.text(player.house * cachedImage.width, 0 + cachedImage.height, player.powerToken + '', style);
+            let text = game.add.text(convertHouseToNumber(player.house) * cachedImage.width, 0 + cachedImage.height, player.powerToken + '', style);
             text.fixedToCamera = true;
             this.texts.push(text);
         }
     }
-
 
     private static getImageNameByHouse(house: House): string {
         return House[house] + AssetLoader.POWER_TOKEN;

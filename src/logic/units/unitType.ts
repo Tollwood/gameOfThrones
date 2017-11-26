@@ -1,6 +1,6 @@
 export enum UnitType {
-    Footman = 1,
-    Horse,
-    Ship,
-    Siege
+    Footman = 'Footman',
+    Horse = 'Horse',
+    Ship = 'Ship',
+    Siege = 'Siege'
 }
