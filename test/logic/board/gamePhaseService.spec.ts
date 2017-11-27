@@ -10,6 +10,7 @@ import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlaceme
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
+import {gameStore} from '../../../src/logic/board/gameState/reducer';
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -149,14 +150,13 @@ describe('GamePhaseService', () => {
             gameState.players = [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])];
             gameState.currentPlayer = gameState.players[0];
             gameState.gamePhase = GamePhase.ACTION_CLEANUP;
-            gameState.round = 0;
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameState.areas = [winterfell];
             GameRules.load(gameState);
 
             GamePhaseService.nextRound();
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
-            expect(gameState.round).toBe(1);
+            expect(gameStore.getState().gameRound).toBe(1);
             expect(gameState.gamePhase).toBe(GamePhase.WESTEROS1);
             expect(gameState.currentPlayer.house).toBe(House.stark);
             expect(gameState.areas.filter(area => area.orderToken !== null).length).toBe(0);

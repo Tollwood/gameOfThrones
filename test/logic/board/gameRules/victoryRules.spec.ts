@@ -5,12 +5,15 @@ import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {incrementGameRound, resetGame} from '../../../../src/logic/board/gameState/actions';
 describe('VictoryRules', () => {
 
     let gameState: GameState;
 
     beforeEach(() => {
         gameState = new GameState();
+        gameStore.dispatch(resetGame());
         gameState.players = [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])];
     });
 
@@ -31,8 +34,7 @@ describe('VictoryRules', () => {
 
     describe('getWinningHouse', () => {
         it('should return null if no one has 7 strongholds/ castle and gameRound is smaller or equal 10', () => {
-            gameState.round = 10;
-
+            gameStore.dispatch(incrementGameRound(10));
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBeNull();
@@ -48,7 +50,7 @@ describe('VictoryRules', () => {
             let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
             let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().withHouse(House.stark).build();
             gameState.areas.push(winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay);
-            gameState.round = 1;
+            gameStore.dispatch(incrementGameRound(1));
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBe(House.stark);
@@ -61,7 +63,7 @@ describe('VictoryRules', () => {
             gameState.areas.push(whiteHarbour);
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
             gameState.areas.push(castleBlack);
-            gameState.round = 11;
+            gameStore.dispatch(incrementGameRound(11));
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBe(House.lannister);

@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/jasmine": "2.8.2",
     "@types/node": "8.0.53",
+    "@types/redux": "^3.6.0",
     "chai": "^3.5.0",
     "clean-webpack-plugin": "0.1.16",
     "commander": "2.9.0",

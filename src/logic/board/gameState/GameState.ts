@@ -8,7 +8,6 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 export default class GameState {
 
     private _gamePhase: GamePhase;
-    private _round: number;
     private _wildlingsCount: number;
     private _areas: Array<Area> = [];
     private _areasAllowedToRecruit: Array<Area> = [];
@@ -81,10 +80,6 @@ export default class GameState {
         return this._wildlingsCount;
     }
 
-    get round(): number {
-        return this._round;
-    }
-
     get gamePhase(): GamePhase {
         return this._gamePhase;
     }
@@ -143,10 +138,6 @@ export default class GameState {
 
     set wildlingsCount(value: number) {
         this._wildlingsCount = value;
-    }
-
-    set round(value: number) {
-        this._round = value;
     }
 
     set gamePhase(value: GamePhase) {

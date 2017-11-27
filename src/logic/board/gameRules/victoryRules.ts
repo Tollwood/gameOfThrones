@@ -1,6 +1,7 @@
 import {House} from '../house';
 import {Area} from '../area';
 import GameRules from './gameRules';
+import {gameStore} from '../gameState/reducer';
 export default class VictoryRules {
 
     public static getVictoryPositionFor(house: House) {
@@ -18,7 +19,7 @@ export default class VictoryRules {
                 winningHouse = player.house;
             }
         });
-        if (gamestate.round > 10) {
+        if (gameStore.getState().gameRound > 10) {
             let sortedPlayersByVictoryPoints = gamestate.players.sort((a, b) => {
                 return this.getVictoryPositionFor(b.house) - this.getVictoryPositionFor(a.house);
             });

@@ -10,6 +10,8 @@ import TokenPlacementRules from './tokenPlacementRules';
 import {GamePhase} from '../gamePhase';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
+import {gameStore} from '../gameState/reducer';
+import {incrementGameRound, resetGame} from '../gameState/actions';
 
 export default class GameRules {
     static get gameState(): GameState {
@@ -25,6 +27,7 @@ export default class GameRules {
 
     public static initGame(playerSetup: Array<PlayerSetup>) {
         this._gameState = new GameState();
+        gameStore.dispatch(resetGame());
         let player = [];
         playerSetup.forEach((config) => {
 
@@ -37,7 +40,7 @@ export default class GameRules {
         });
 
         this._gameState.gamePhase = GamePhase.WESTEROS1;
-        this._gameState.round = 1;
+        gameStore.dispatch(incrementGameRound(1));
         this._gameState.wildlingsCount = 0;
         this._gameState.areas = AreaInitiator.getInitalState(player.map(player => player.house));
         this._gameState.westerosCards1 = CardFactory.getWesterosCards(1);
@@ -64,7 +67,7 @@ export default class GameRules {
     }
 
     public static nextRound(): void {
-        this._gameState.round++;
+        gameStore.dispatch(incrementGameRound(1));
     }
 
     public static getFirstFromIronThroneSuccession(): Player {
