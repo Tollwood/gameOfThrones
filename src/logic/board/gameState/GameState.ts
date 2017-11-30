@@ -1,4 +1,3 @@
-import {GamePhase} from '../gamePhase';
 import {Area} from '../area';
 import {WesterosCard} from '../../cards/westerosCard';
 import Player from '../player';
@@ -7,7 +6,6 @@ import {TSMap} from 'typescript-map';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 export default class GameState {
 
-    private _gamePhase: GamePhase;
     private _wildlingsCount: number;
     private _areas: Array<Area> = [];
     private _areasAllowedToRecruit: Array<Area> = [];
@@ -80,10 +78,6 @@ export default class GameState {
         return this._wildlingsCount;
     }
 
-    get gamePhase(): GamePhase {
-        return this._gamePhase;
-    }
-
     set currentlyAllowedSupply(value: TSMap<House, number>) {
         this._currentlyAllowedSupply = value;
     }
@@ -138,9 +132,5 @@ export default class GameState {
 
     set wildlingsCount(value: number) {
         this._wildlingsCount = value;
-    }
-
-    set gamePhase(value: GamePhase) {
-        this._gamePhase = value;
     }
 }

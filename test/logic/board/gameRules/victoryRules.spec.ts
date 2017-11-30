@@ -6,7 +6,8 @@ import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {incrementGameRound, resetGame} from '../../../../src/logic/board/gameState/actions';
+import {incrementGameRound, loadGame, nextPhase, resetGame} from '../../../../src/logic/board/gameState/actions';
+import {GamePhase} from '../../../../src/logic/board/gamePhase';
 describe('VictoryRules', () => {
 
     let gameState: GameState;
@@ -34,7 +35,6 @@ describe('VictoryRules', () => {
 
     describe('getWinningHouse', () => {
         it('should return null if no one has 7 strongholds/ castle and gameRound is smaller or equal 10', () => {
-            gameStore.dispatch(incrementGameRound(10));
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBeNull();
@@ -63,10 +63,10 @@ describe('VictoryRules', () => {
             gameState.areas.push(whiteHarbour);
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
             gameState.areas.push(castleBlack);
-            gameStore.dispatch(incrementGameRound(11));
             GameRules.load(gameState);
-            const actual = VictoryRules.getWinningHouse();
-            expect(actual).toBe(House.lannister);
+            gameStore.dispatch(loadGame({gameRound: 10, gamePhase: GamePhase.ACTION_CLEANUP}));
+            gameStore.dispatch(nextPhase());
+            expect(gameStore.getState().winningHouse).toBe(House.lannister);
         });
     });
 });

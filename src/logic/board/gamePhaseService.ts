@@ -1,7 +1,8 @@
 import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
 import {House} from './house';
 import GameRules from './gameRules/gameRules';
-import TokenPlacementRules from './gameRules/tokenPlacementRules';
+import {gameStore} from './gameState/reducer';
+import {incrementGameRound, nextPhase} from './gameState/actions';
 
 export default class GamePhaseService {
 
@@ -28,10 +29,6 @@ export default class GamePhaseService {
         return WESTEROS_PHASES.indexOf(gamePhase) > -1;
     }
 
-    public static isPlanningPhaseComplete(): boolean {
-        return GameRules.gameState.gamePhase === GamePhase.PLANNING && this.allOrderTokenPlaced();
-    }
-
     public static allMarchOrdersRevealed(house?: House): boolean {
         return GameRules.gameState.areas.filter((area) => {
                 return area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
@@ -50,22 +47,10 @@ export default class GamePhaseService {
             }).length === 0;
     }
 
-    private static allOrderTokenPlaced(house?: House): boolean {
+    static allOrderTokenPlaced(house?: House): boolean {
         return GameRules.gameState.areas.filter((area) => {
                 return area.units.length > 0 && (house === undefined || area.controllingHouse === house) && area.orderToken === null;
             }).length === 0;
-    }
-
-
-    public static nextRound() {
-        const gameState = GameRules.gameState;
-        gameState.gamePhase = GamePhase.WESTEROS1;
-        gameState.areas.map((area) => {
-            area.orderToken = null;
-        });
-        GameRules.nextRound();
-        gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-        gameState.currentPlayer = GameRules.getFirstFromIronThroneSuccession();
     }
 
 
@@ -81,11 +66,7 @@ export default class GamePhaseService {
 
     public static switchToNextPhase() {
         let gameState = GameRules.gameState;
-        if (gameState.gamePhase === GamePhase.ACTION_CLEANUP) {
-            this.nextRound();
-        } else {
-            gameState.gamePhase++;
-        }
+        gameStore.dispatch(nextPhase());
         gameState.currentPlayer = GameRules.getFirstFromIronThroneSuccession();
     }
 

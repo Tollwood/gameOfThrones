@@ -6,9 +6,7 @@ import {MenuInvluence} from './menuInvluence';
 import {MenuVictory} from './menuVictory';
 import {GamePhase} from '../../../logic/board/gamePhase';
 
-import * as Assets from '../../../assets';
-import {House} from '../../../logic/board/house';
-import GameRules from '../../../logic/board/gameRules/gameRules';
+import {gameStore} from '../../../logic/board/gameState/reducer';
 
 const MENU = 'menu',
     MENU_ITEMS = [MenuRounds, MenuWildlings, MenuSupply, MenuInvluence, MenuVictory];
@@ -25,30 +23,12 @@ export default class TopMenuRenderer {
     public static VICTORY = 'Victory';
     public static CASTLE = 'Castle';
 
-
-    public loadAssets(game: Phaser.Game) {
-        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.ROUNDS, Assets.Images.ImagesTopMenuGameRoundsGamerounds.getPNG());
-        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.ROUNDS, Assets.Images.ImagesTopMenuMenuRounds.getPNG());
-        game.load.image('gameRoundMarker', Assets.Images.ImagesTopMenuGameRoundsGameRoundMarker.getPNG());
-
-        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.WILDLINGS, Assets.Images.ImagesTopMenuWildlingstatusWildlingStatus.getPNG());
-        game.load.image(MENU + TopMenuRenderer.WILDLINGS, Assets.Images.ImagesTopMenuMenuWildlings.getPNG());
-
-        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.SUPPLY, Assets.Images.ImagesTopMenuSupplySupply.getPNG());
-        game.load.image(MENU + TopMenuRenderer.SUPPLY, Assets.Images.ImagesTopMenuMenuSupply.getPNG());
-
-        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.INFLUENCE, Assets.Images.ImagesTopMenuInfluenceInfluence.getPNG());
-        game.load.image(MENU + TopMenuRenderer.INFLUENCE, Assets.Images.ImagesTopMenuMenuInvluence.getPNG());
-
-        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY, Assets.Images.ImagesTopMenuVictoryVictory.getPNG());
-        game.load.image(MENU + TopMenuRenderer.VICTORY, Assets.Images.ImagesTopMenuMenuVictory.getPNG());
-        game.load.image(House[House.stark] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
-        game.load.image(House[House.baratheon] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleBaratheon.getPNG());
-        game.load.image(House[House.greyjoy] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleGreyjoy.getPNG());
-        game.load.image(House[House.lannister] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleLannister.getPNG());
-        game.load.image(House[House.martell] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleMartell.getPNG());
-        game.load.image(House[House.tyrell] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleTyrell.getPNG());
-
+    constructor(game: Phaser.Game) {
+        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
+        const gamePhase = gameStore.getState().gamePhase;
+        this.currentPhase = game.add.text(250, 0, GamePhase[gamePhase] + '', style);
+        this.currentPhase.fixedToCamera = true;
+        gameStore.subscribe(this.updateGameState.bind(this));
     }
 
     public renderTopMenu(game: Phaser.Game) {
@@ -79,12 +59,8 @@ export default class TopMenuRenderer {
         });
     }
 
-    public renderGameState(game: Phaser.Game): void {
-        if (this.currentPhase) {
-            this.currentPhase.destroy();
-        }
-        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
-        this.currentPhase = game.add.text(250, 0, GamePhase[GameRules.gameState.gamePhase] + '', style);
-        this.currentPhase.fixedToCamera = true;
+    private updateGameState(): void {
+        const gamePhase = GamePhase[gameStore.getState().gamePhase];
+        this.currentPhase.text = gamePhase;
     }
 }

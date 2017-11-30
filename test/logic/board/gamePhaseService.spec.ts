@@ -10,13 +10,15 @@ import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlaceme
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
-import {gameStore} from '../../../src/logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/reducer';
+import {loadGame, nextPhase, resetGame} from '../../../src/logic/board/gameState/actions';
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
 
     beforeEach(() => {
         gameState = new GameState();
+        gameStore.dispatch(resetGame());
     });
 
     describe('isActionPhase', () => {
@@ -105,40 +107,38 @@ describe('GamePhaseService', () => {
         });
     });
 
-    describe('isPlanningPhaseComplete', () => {
+    describe('allOrderTokenPlaced', () => {
         it('should return true if all areas with units have an order Token', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameState.areas.push(winterfell, whiteHarbor);
-            gameState.gamePhase = GamePhase.PLANNING;
+            let storeGameState = new GameStoreState();
+            storeGameState.gamePhase = GamePhase.PLANNING;
+            gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
-            expect(GamePhaseService.isPlanningPhaseComplete()).toBeTruthy();
+            expect(GamePhaseService.allOrderTokenPlaced()).toBeTruthy();
         });
 
         it('should return false if not all Token are played yet', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).build();
             gameState.areas.push(winterfell, whiteHarbor);
-            gameState.gamePhase = GamePhase.PLANNING;
+            let storeGameState = new GameStoreState();
+            storeGameState.gamePhase = GamePhase.PLANNING;
+            gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
-            expect(GamePhaseService.isPlanningPhaseComplete()).toBeFalsy();
+            expect(GamePhaseService.allOrderTokenPlaced()).toBeFalsy();
         });
 
-        it('should return false if not in PlanningPhase', () => {
-            gameState.gamePhase = GamePhase.ACTION_CLEANUP;
-            GameRules.load(gameState);
-            expect(GamePhaseService.isPlanningPhaseComplete()).toBeFalsy();
-        });
-    });
-
-    describe('allOrderTokenPlaced', () => {
         it('should return true if all areas that belong to a given house have an order token', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).build();
             gameState.areas.push(winterfell, whiteHarbor);
-            gameState.gamePhase = GamePhase.PLANNING;
+            let storeGameState = new GameStoreState();
+            storeGameState.gamePhase = GamePhase.PLANNING;
+            gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
-            expect(GamePhaseService['allOrderTokenPlaced'](House.stark)).toBeTruthy();
+            expect(GamePhaseService.allOrderTokenPlaced(House.stark)).toBeTruthy();
         });
     });
 
@@ -149,15 +149,16 @@ describe('GamePhaseService', () => {
             gameState.ironThroneSuccession = [House.stark, House.lannister];
             gameState.players = [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])];
             gameState.currentPlayer = gameState.players[0];
-            gameState.gamePhase = GamePhase.ACTION_CLEANUP;
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameState.areas = [winterfell];
             GameRules.load(gameState);
 
-            GamePhaseService.nextRound();
+            gameStore.dispatch(loadGame({gameRound: 1, gamePhase: GamePhase.ACTION_CLEANUP}));
+            gameStore.dispatch(nextPhase());
+
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
-            expect(gameStore.getState().gameRound).toBe(1);
-            expect(gameState.gamePhase).toBe(GamePhase.WESTEROS1);
+            expect(gameStore.getState().gameRound).toBe(2);
+            expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
             expect(gameState.currentPlayer.house).toBe(House.stark);
             expect(gameState.areas.filter(area => area.orderToken !== null).length).toBe(0);
         });
@@ -200,23 +201,12 @@ describe('GamePhaseService', () => {
 
     describe('switchToNextPhase', () => {
         it('should increase GamePhase By one and set first of ironThroneSussession as currentplayer', () => {
-            gameState.gamePhase = GamePhase.ACTION_RAID;
-            GameRules.load(gameState);
+            gameStore.dispatch(loadGame({gamePhase: GamePhase.ACTION_RAID}));
             spyOn(GameRules, 'getFirstFromIronThroneSuccession');
             GamePhaseService.switchToNextPhase();
 
-            expect(gameState.gamePhase).toBe(GamePhase.ACTION_MARCH);
+            expect(gameStore.getState().gamePhase).toBe(GamePhase.ACTION_MARCH);
             expect(GameRules.getFirstFromIronThroneSuccession).toHaveBeenCalledWith();
-        });
-        it('should start next Round after ACTION_CLEANUP Phase', () => {
-            gameState.gamePhase = GamePhase.ACTION_CLEANUP;
-            GameRules.load(gameState);
-            spyOn(GameRules, 'getFirstFromIronThroneSuccession');
-            spyOn(GamePhaseService, 'nextRound');
-            GamePhaseService.switchToNextPhase();
-
-            expect(GameRules.getFirstFromIronThroneSuccession).toHaveBeenCalledWith();
-            expect(GamePhaseService.nextRound).toHaveBeenCalledWith();
         });
     });
 

@@ -18,6 +18,8 @@ import WesterosCardRules from '../logic/board/gameRules/westerosCardRules';
 import VictoryRules from '../logic/board/gameRules/victoryRules';
 import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
 import AiCalculator from '../logic/ai/aiCalculator';
+import {gameStore} from '../logic/board/gameState/reducer';
+import {nextPhase} from '../logic/board/gameState/actions';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -31,20 +33,19 @@ export default class Game extends Phaser.State {
         super();
         this.orderTokenRenderer = new OrderTokenRenderer();
         this.boardRenderer = new BoardRenderer();
-        this.topMenuRenderer = new TopMenuRenderer();
         this.unitRenderer = new UnitRenderer();
         this.aiCalculator = new AiCalculator();
     }
 
     public preload() {
         AssetLoader.loadAssets(this.game);
-        this.topMenuRenderer.loadAssets(this.game);
     }
 
     public create(): void {
         AssetLoader.createAssets(this.game);
         GameRules.newGame();
         BoardRenderer.renderBoard(this.game);
+        this.topMenuRenderer = new TopMenuRenderer(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
         RecruitingRenderer.createGroups(this.game);
@@ -54,6 +55,7 @@ export default class Game extends Phaser.State {
         Renderer.rerenderRequired = true;
     }
 
+    // TODO replace all this logic with redux actions
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
             OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
@@ -62,11 +64,10 @@ export default class Game extends Phaser.State {
 
         if (Renderer.rerenderRequired) {
             this.topMenuRenderer.renderTopMenu(this.game);
-            this.topMenuRenderer.renderGameState(this.game);
             PowerToken.renderPowerToken(this.game);
             PowerToken.renderControlToken(this.game);
             this.unitRenderer.renderUnits(this.game);
-            let currentGamePhase = GameRules.gameState.gamePhase;
+            let currentGamePhase = gameStore.getState().gamePhase;
             let currentPlayer = GameRules.gameState.currentPlayer;
             let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
             if (currentAiPlayer !== null) {
@@ -81,7 +82,7 @@ export default class Game extends Phaser.State {
             }
 
             if (currentGamePhase === GamePhase.PLANNING) {
-                if (GamePhaseService.isPlanningPhaseComplete()) {
+                if (GamePhaseService.allOrderTokenPlaced()) {
                     GamePhaseService.switchToNextPhase();
                     OrderTokenMenuRenderer.removeOrderTokenMenu();
                     this.orderTokenRenderer.removePlaceHolder();
@@ -133,7 +134,7 @@ export default class Game extends Phaser.State {
                 }
 
                 if (currentGamePhase === GamePhase.ACTION_CLEANUP) {
-                    GamePhaseService.nextRound();
+                    gameStore.dispatch(nextPhase());
                     Renderer.rerenderRequired = true;
                     return;
                 }
@@ -147,7 +148,7 @@ export default class Game extends Phaser.State {
     }
 
     private checkForWinner() {
-        let winningHouse = VictoryRules.getWinningHouse();
+        let winningHouse = VictoryRules.getWinningHouse() || gameStore.getState().winningHouse;
         if (winningHouse !== null) {
             let winningModal = new WinningModal(this.game, winningHouse);
             winningModal.show();

@@ -14,6 +14,7 @@ import GamePhaseService from '../../logic/board/gamePhaseService';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import MovementRules from '../../logic/board/gameRules/movementRules';
 import {AreaKey} from '../../logic/board/areaKey';
+import {gameStore} from '../../logic/board/gameState/reducer';
 
 export default class OrderTokenRenderer {
 
@@ -170,7 +171,7 @@ export default class OrderTokenRenderer {
 
     private highlightDuringActionPhase(sprite: Phaser.Sprite, areaKey: AreaKey, onInputDownFunction, areasAllowdToExecuteOrder, gamePhase: GamePhase) {
         let areaToken = AssetLoader.getAreaTokenByKey(areaKey);
-        if (GameRules.gameState.gamePhase === gamePhase) {
+        if (gameStore.getState().gamePhase === gamePhase) {
             this.selectedTokenMarker.removeChildren();
             this.highlightToken(sprite.game, areaToken);
             this.highlightValidAreasToExecuteOrderToken(areasAllowdToExecuteOrder, onInputDownFunction);

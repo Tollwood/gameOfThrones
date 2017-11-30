@@ -7,7 +7,6 @@ import PlayerSetup from '../playerSetup';
 import AiPlayer from '../../ai/aiPlayer';
 import SupplyRules from './supplyRules';
 import TokenPlacementRules from './tokenPlacementRules';
-import {GamePhase} from '../gamePhase';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
 import {gameStore} from '../gameState/reducer';
@@ -39,8 +38,6 @@ export default class GameRules {
             }
         });
 
-        this._gameState.gamePhase = GamePhase.WESTEROS1;
-        gameStore.dispatch(incrementGameRound(1));
         this._gameState.wildlingsCount = 0;
         this._gameState.areas = AreaInitiator.getInitalState(player.map(player => player.house));
         this._gameState.westerosCards1 = CardFactory.getWesterosCards(1);
@@ -64,10 +61,6 @@ export default class GameRules {
 
     public static save() {
         return this._gameState;
-    }
-
-    public static nextRound(): void {
-        gameStore.dispatch(incrementGameRound(1));
     }
 
     public static getFirstFromIronThroneSuccession(): Player {

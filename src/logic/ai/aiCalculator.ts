@@ -10,11 +10,12 @@ import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import GameRules from '../board/gameRules/gameRules';
 import {OrderToken} from '../orderToken/orderToken';
+import {gameStore} from '../board/gameState/reducer';
 export default class AiCalculator {
 
     public executeOrder(gameState: GameState, aiPlayer: AiPlayer) {
 
-        if (gameState.gamePhase === GamePhase.ACTION_MARCH) {
+        if (gameStore.getState().gamePhase === GamePhase.ACTION_MARCH) {
             let areasWithMoveToken = this.getAreasForHouseWithToken(gameState.areas, aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 // TODO: Pick most important moveToken first
@@ -32,7 +33,7 @@ export default class AiCalculator {
             }
         }
 
-        if (gameState.gamePhase === GamePhase.ACTION_RAID) {
+        if (gameStore.getState().gamePhase === GamePhase.ACTION_RAID) {
             let areasWithRaidToken = this.getAreasForHouseWithToken(gameState.areas, aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {

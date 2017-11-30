@@ -3,6 +3,7 @@ import UiArea from './UiArea';
 import {House} from '../logic/board/house';
 import {UnitType} from '../logic/units/unitType';
 import {AreaKey} from '../logic/board/areaKey';
+import TopMenuRenderer from '../ui/board/topMenu/topMenuRenderer';
 
 export default class AssetManager {
 
@@ -55,6 +56,7 @@ export default class AssetManager {
         game.load.spritesheet(this.ORDER_TOKENS_FRONT, Assets.Images.ImagesOrderTokenOrderTokenFront45.getPNG(), this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
         game.load.tilemap(this.GOT_TILE_MAP, Assets.JSON.TilemapGameOfThrones.getJSON(), null, Phaser.Tilemap.TILED_JSON);
         game.load.image(this.ORDER_TOKEN_MENU_BACKGROUND, Assets.Images.ImagesOrderTokenMenubackground.getPNG());
+        this.loadTopMenu(game);
         this.loadUnits(game);
         this.loadPowerToken(game);
 
@@ -117,4 +119,27 @@ export default class AssetManager {
         game.load.image(House[House.martell] + this.POWER_TOKEN, Assets.Images.ImagesPowerTokenMartellPowerToken.getPNG());
     }
 
+    private static loadTopMenu(game: Phaser.Game) {
+        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.ROUNDS, Assets.Images.ImagesTopMenuGameRoundsGamerounds.getPNG());
+        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.ROUNDS, Assets.Images.ImagesTopMenuMenuRounds.getPNG());
+        game.load.image('gameRoundMarker', Assets.Images.ImagesTopMenuGameRoundsGameRoundMarker.getPNG());
+
+        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.WILDLINGS, Assets.Images.ImagesTopMenuWildlingstatusWildlingStatus.getPNG());
+        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.WILDLINGS, Assets.Images.ImagesTopMenuMenuWildlings.getPNG());
+
+        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.SUPPLY, Assets.Images.ImagesTopMenuSupplySupply.getPNG());
+        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.SUPPLY, Assets.Images.ImagesTopMenuMenuSupply.getPNG());
+
+        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.INFLUENCE, Assets.Images.ImagesTopMenuInfluenceInfluence.getPNG());
+        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.INFLUENCE, Assets.Images.ImagesTopMenuMenuInvluence.getPNG());
+
+        game.load.image(TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY, Assets.Images.ImagesTopMenuVictoryVictory.getPNG());
+        game.load.image(TopMenuRenderer.MENU + TopMenuRenderer.VICTORY, Assets.Images.ImagesTopMenuMenuVictory.getPNG());
+        game.load.image(House[House.stark] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleStark.getPNG());
+        game.load.image(House[House.baratheon] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleBaratheon.getPNG());
+        game.load.image(House[House.greyjoy] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleGreyjoy.getPNG());
+        game.load.image(House[House.lannister] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleLannister.getPNG());
+        game.load.image(House[House.martell] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleMartell.getPNG());
+        game.load.image(House[House.tyrell] + TopMenuRenderer.CASTLE, Assets.Images.ImagesTopMenuVictoryCastleTyrell.getPNG());
+    }
 }
