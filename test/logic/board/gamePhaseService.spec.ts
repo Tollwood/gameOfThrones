@@ -146,14 +146,17 @@ describe('GamePhaseService', () => {
     describe('nextRound', () => {
         it('should modify state to be ready for next game round', () => {
 
-            gameState.ironThroneSuccession = [House.stark, House.lannister];
             gameState.players = [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])];
             gameState.currentPlayer = gameState.players[0];
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameState.areas = [winterfell];
             GameRules.load(gameState);
-
-            gameStore.dispatch(loadGame({gameRound: 1, gamePhase: GamePhase.ACTION_CLEANUP}));
+            const gameStoreState = {
+                gameRound: 1,
+                gamePhase: GamePhase.ACTION_CLEANUP,
+                ironThroneSuccession: [House.stark, House.lannister]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
             gameStore.dispatch(nextPhase());
 
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
@@ -172,7 +175,8 @@ describe('GamePhaseService', () => {
 
             gameState.currentPlayer = playerLannister;
             gameState.players = [playerLannister, playerStark];
-            gameState.ironThroneSuccession = [playerLannister.house, playerStark.house];
+            const gameStoreState = {ironThroneSuccession: [playerLannister.house, playerStark.house]};
+            gameStore.dispatch(loadGame(gameStoreState));
             GameRules.load(gameState);
             // when
             GamePhaseService.nextPlayer();
@@ -188,7 +192,8 @@ describe('GamePhaseService', () => {
             const playerLannister = new Player(House.lannister, 0, []);
             gameState.currentPlayer = playerStark;
             gameState.players = [playerLannister, playerStark];
-            gameState.ironThroneSuccession = [playerLannister.house, playerStark.house];
+            const gameStoreState = {ironThroneSuccession: [playerLannister.house, playerStark.house]};
+            gameStore.dispatch(loadGame(gameStoreState));
             GameRules.load(gameState);
 
             // when

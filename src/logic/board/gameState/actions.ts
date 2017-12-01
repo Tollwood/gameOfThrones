@@ -1,15 +1,15 @@
 import {GameStoreState} from './reducer';
 export enum TypeKeys {
-    NEXT_PHASE = "NEXT_PHASE",
-    RESET_GAME = "RESET_GAME",
-    LOAD_GAME = "LOAD_GAME",
-    OTHER_ACTION = "__any_other_action_type__"
+    NEXT_PHASE = 'NEXT_PHASE',
+    RESET_GAME = 'RESET_GAME',
+    LOAD_GAME = 'LOAD_GAME',
+    OTHER_ACTION = '__any_other_action_type__'
 }
 
 
 export interface LoadGameAction {
-    type: TypeKeys.LOAD_GAME,
-    state: GameStoreState
+    type: TypeKeys.LOAD_GAME;
+    state: GameStoreState;
 }
 
 export interface ResetGameAction {

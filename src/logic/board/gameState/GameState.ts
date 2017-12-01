@@ -15,9 +15,6 @@ export default class GameState {
     private _westerosCards3 = [];
     private _currentPlayer: Player;
     private _players: Array<Player> = [];
-    private _ironThroneSuccession: Array<House> = [];
-    private _kingscourt: Array<House> = [];
-    private _fiefdom: Array<House> = [];
     private _currentlyAllowedTokenTypes: Array<OrderTokenType>;
     private _currentlyAllowedSupply: TSMap<House, number>;
 
@@ -28,18 +25,6 @@ export default class GameState {
 
     get currentlyAllowedTokenTypes(): Array<OrderTokenType> {
         return this._currentlyAllowedTokenTypes;
-    }
-
-    get fiefdom(): Array<House> {
-        return this._fiefdom;
-    }
-
-    get kingscourt(): Array<House> {
-        return this._kingscourt;
-    }
-
-    get ironThroneSuccession(): Array<House> {
-        return this._ironThroneSuccession;
     }
 
     get players(): Array<Player> {
@@ -84,18 +69,6 @@ export default class GameState {
 
     set currentlyAllowedTokenTypes(value: Array<OrderTokenType>) {
         this._currentlyAllowedTokenTypes = value;
-    }
-
-    set fiefdom(value: Array<House>) {
-        this._fiefdom = value;
-    }
-
-    set kingscourt(value: Array<House>) {
-        this._kingscourt = value;
-    }
-
-    set ironThroneSuccession(value: Array<House>) {
-        this._ironThroneSuccession = value;
     }
 
     set players(value: Array<Player>) {

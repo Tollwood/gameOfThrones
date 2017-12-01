@@ -10,7 +10,7 @@ import TokenPlacementRules from './tokenPlacementRules';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
 import {gameStore} from '../gameState/reducer';
-import {incrementGameRound, resetGame} from '../gameState/actions';
+import {resetGame} from '../gameState/actions';
 
 export default class GameRules {
     static get gameState(): GameState {
@@ -44,12 +44,9 @@ export default class GameRules {
         this._gameState.westerosCards2 = CardFactory.getWesterosCards(2);
         this._gameState.westerosCards3 = CardFactory.getWesterosCards(3);
         this._gameState.players = player;
-        this._gameState.ironThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
-        this._gameState.fiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
-        this._gameState.kingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
         this._gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
         this._gameState.currentPlayer = player.filter((player) => {
-            return player.house === this._gameState.ironThroneSuccession[0];
+            return player.house === gameStore.getState().ironThroneSuccession[0];
         })[0];
         SupplyRules.updateSupply();
     }
@@ -65,7 +62,7 @@ export default class GameRules {
 
     public static getFirstFromIronThroneSuccession(): Player {
         return this._gameState.players.filter((player) => {
-            return player.house === this._gameState.ironThroneSuccession[0];
+            return player.house === gameStore.getState().ironThroneSuccession[0];
         })[0];
     }
 

@@ -6,8 +6,8 @@ import {CardExecutionPoint} from '../cards/cardExecutionPoint';
 import CardAbilities from '../cards/cardAbilities';
 import Unit from '../units/units';
 import {UnitType} from '../units/unitType';
-import GameRules from '../board/gameRules/gameRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
+import {gameStore} from '../board/gameState/reducer';
 export default class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
@@ -84,7 +84,7 @@ export default class CombatCalculator {
             cardsToResolve.push(defendersCard);
         }
         cardsToResolve.sort((a, b) => {
-            return GameRules.gameState.ironThroneSuccession.indexOf(a.house) - GameRules.gameState.ironThroneSuccession.indexOf(b.house);
+            return gameStore.getState().ironThroneSuccession.indexOf(a.house) - gameStore.getState().ironThroneSuccession.indexOf(b.house);
         });
 
         cardsToResolve.forEach((card) => {

@@ -6,7 +6,7 @@ import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {incrementGameRound, loadGame, nextPhase, resetGame} from '../../../../src/logic/board/gameState/actions';
+import {loadGame, nextPhase, resetGame} from '../../../../src/logic/board/gameState/actions';
 import {GamePhase} from '../../../../src/logic/board/gamePhase';
 describe('VictoryRules', () => {
 
@@ -50,7 +50,6 @@ describe('VictoryRules', () => {
             let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
             let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().withHouse(House.stark).build();
             gameState.areas.push(winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay);
-            gameStore.dispatch(incrementGameRound(1));
             GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBe(House.stark);
@@ -64,7 +63,12 @@ describe('VictoryRules', () => {
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
             gameState.areas.push(castleBlack);
             GameRules.load(gameState);
-            gameStore.dispatch(loadGame({gameRound: 10, gamePhase: GamePhase.ACTION_CLEANUP}));
+            const gameStoreState = {
+                gameRound: 10,
+                gamePhase: GamePhase.ACTION_CLEANUP,
+                ironThroneSuccession: [House.stark, House.lannister]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
             gameStore.dispatch(nextPhase());
             expect(gameStore.getState().winningHouse).toBe(House.lannister);
         });

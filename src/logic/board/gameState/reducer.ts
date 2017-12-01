@@ -10,10 +10,21 @@ class GameStoreState {
     gameRound?: number;
     gamePhase?: GamePhase;
     winningHouse?: House;
+    fiefdom?: House[];
+    kingscourt?: House[];
+    ironThroneSuccession?: House[];
 }
-
-const initialState: GameStoreState = {gameRound: 1, gamePhase: GamePhase.WESTEROS1, winningHouse: null};
-
+const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
+const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
+const initialFiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
+const initialState: GameStoreState = {
+    gameRound: 1,
+    gamePhase: GamePhase.WESTEROS1,
+    winningHouse: null,
+    fiefdom: initialFiefdom,
+    kingscourt: initialKingscourt,
+    ironThroneSuccession: initialIronThroneSuccession
+};
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
     let newState;
