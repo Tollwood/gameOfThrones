@@ -1,27 +1,20 @@
-import GameState from '../../../../src/logic/board/gameState/GameState';
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
-import WildlingRules from '../../../../src/logic/board/gameRules/wildlingRules';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {increaseWildlingCount, loadGame} from '../../../../src/logic/board/gameState/actions';
 describe('VictoryRules', () => {
-
-    let gameState: GameState;
-
-    beforeEach(() => {
-        gameState = new GameState();
-    });
 
     describe('increaseWildlings', () => {
         it('should increase wilding count by given value', () => {
-            gameState.wildlingsCount = 3;
-            GameRules.load(gameState);
-            WildlingRules.increaseWildlings(2);
-            expect(gameState.wildlingsCount).toBe(5);
+            const gameStoreState = {wildlingsCount: 3};
+            gameStore.dispatch(loadGame(gameStoreState));
+            gameStore.dispatch(increaseWildlingCount(2));
+            expect(gameStore.getState().wildlingsCount).toBe(5);
         });
 
         it('should limit the wildlingCount to twelve', () => {
-            gameState.wildlingsCount = 11;
-            GameRules.load(gameState);
-            WildlingRules.increaseWildlings(2);
-            expect(gameState.wildlingsCount).toBe(12);
+            const gameStoreState = {wildlingsCount: 11};
+            gameStore.dispatch(loadGame(gameStoreState));
+            gameStore.dispatch(increaseWildlingCount(2));
+            expect(gameStore.getState().wildlingsCount).toBe(12);
         });
     });
 });

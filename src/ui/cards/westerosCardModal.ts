@@ -1,7 +1,8 @@
 import {WesterosCard, WesterosCardState} from '../../logic/cards/westerosCard';
 import CardAbilities from '../../logic/cards/cardAbilities';
 import Modal from '../../utils/modal';
-import WildlingRules from '../../logic/board/gameRules/wildlingRules';
+import {gameStore} from '../../logic/board/gameState/reducer';
+import {increaseWildlingCount} from '../../logic/board/gameState/actions';
 export default class WesterosCardModal extends Modal {
 
     constructor(game: Phaser.Game, card: WesterosCard) {
@@ -15,7 +16,7 @@ export default class WesterosCardModal extends Modal {
                     CardAbilities[cardFunction.functionName](card);
                     card.state = WesterosCardState.executeCard;
                     card.selectedFunction = cardFunction;
-                    WildlingRules.increaseWildlings(card.wildling);
+                    gameStore.dispatch(increaseWildlingCount(card.wildling));
                     this.close();
                 };
                 this.addText(cardFunction.description, nextTextY, 0, true, onOptionCloseFn, '18px', 'left');
@@ -34,7 +35,7 @@ export default class WesterosCardModal extends Modal {
                 CardAbilities[card.options[0].functionName](card);
                 card.state = WesterosCardState.executeCard;
                 card.selectedFunction = card.options[0];
-                WildlingRules.increaseWildlings(card.wildling);
+                gameStore.dispatch(increaseWildlingCount(card.wildling));
                 this.close();
             };
             this._height = 200;

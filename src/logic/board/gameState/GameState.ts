@@ -6,7 +6,6 @@ import {TSMap} from 'typescript-map';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 export default class GameState {
 
-    private _wildlingsCount: number;
     private _areas: Array<Area> = [];
     private _areasAllowedToRecruit: Array<Area> = [];
     private _currentWesterosCard: WesterosCard = null;
@@ -59,10 +58,6 @@ export default class GameState {
         return this._areas;
     }
 
-    get wildlingsCount(): number {
-        return this._wildlingsCount;
-    }
-
     set currentlyAllowedSupply(value: TSMap<House, number>) {
         this._currentlyAllowedSupply = value;
     }
@@ -103,7 +98,4 @@ export default class GameState {
         this._areas = value;
     }
 
-    set wildlingsCount(value: number) {
-        this._wildlingsCount = value;
-    }
 }

@@ -4,7 +4,7 @@ const MENU = 'menu',
     FADE_DURATION: number = 200;
 
 export abstract class TopMenuItem extends Phaser.Sprite {
-    private overlay: Phaser.Sprite;
+    overlay: Phaser.Sprite;
     marker: Phaser.Group;
 
     constructor(game: Phaser.Game, x: number, y: number, menuItem: string, topMenuRenderer: TopMenuRenderer) {

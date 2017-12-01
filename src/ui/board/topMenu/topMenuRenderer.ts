@@ -24,11 +24,8 @@ export default class TopMenuRenderer {
     public static CASTLE = 'Castle';
 
     constructor(game: Phaser.Game) {
-        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
-        const gamePhase = gameStore.getState().gamePhase;
-        this.currentPhase = game.add.text(250, 0, GamePhase[gamePhase] + '', style);
-        this.currentPhase.fixedToCamera = true;
-        gameStore.subscribe(this.updateGameState.bind(this));
+        this.currentPhase = this.addGamePhase(game);
+        gameStore.subscribe(this.updateGamePhase.bind(this));
     }
 
     public renderTopMenu(game: Phaser.Game) {
@@ -59,7 +56,15 @@ export default class TopMenuRenderer {
         });
     }
 
-    private updateGameState(): void {
+    private addGamePhase(game: Phaser.Game): Phaser.Text {
+        let style = {font: '32px Arial', fill: '#ff0044', align: 'center', backgroundColor: '#ffff00'};
+        const gamePhase = gameStore.getState().gamePhase;
+        let currentPhase = game.add.text(250, 0, GamePhase[gamePhase] + '', style);
+        currentPhase.fixedToCamera = true;
+        return currentPhase;
+    }
+
+    private updateGamePhase(): void {
         const gamePhase = GamePhase[gameStore.getState().gamePhase];
         this.currentPhase.text = gamePhase;
     }

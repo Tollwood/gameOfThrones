@@ -38,7 +38,6 @@ export default class GameRules {
             }
         });
 
-        this._gameState.wildlingsCount = 0;
         this._gameState.areas = AreaInitiator.getInitalState(player.map(player => player.house));
         this._gameState.westerosCards1 = CardFactory.getWesterosCards(1);
         this._gameState.westerosCards2 = CardFactory.getWesterosCards(2);

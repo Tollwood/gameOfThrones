@@ -1,21 +1,28 @@
 import {TopMenuItem} from './topMenuItem';
 
 import TopMenuRenderer from './topMenuRenderer';
-import GameRules from '../../../logic/board/gameRules/gameRules';
+import {gameStore} from '../../../logic/board/gameState/reducer';
+import Image = Phaser.Image;
 
 const POSITION_X = [40, 80, 120, 150, 190, 230, 260, 300, 340, 370, 410, 450];
 
 export class MenuWildlings extends TopMenuItem {
-
+    private wildlingMarker: Phaser.Image;
     constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
         super(game, x, y, 'Wildlings', topMenuRenderer);
     }
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + 'Wildlings') {
-            let wildlingsCount = GameRules.gameState.wildlingsCount;
-            let marker = overlay.game.add.image(overlay.x - overlay.game.camera.x + POSITION_X[wildlingsCount], 80, 'gameRoundMarker', undefined, this.marker);
-            marker.fixedToCamera = true;
+            let wildlingsCount = gameStore.getState().wildlingsCount;
+            this.wildlingMarker = this.overlay.game.add.image(0, 80, 'gameRoundMarker', undefined, this.marker);
+            this.updateXPosition(wildlingsCount);
+            this.wildlingMarker.fixedToCamera = true;
+
         }
+    }
+
+    updateXPosition(wildlingsCount: number) {
+        this.wildlingMarker.x = this.overlay.x - this.overlay.game.camera.x + POSITION_X[wildlingsCount];
     }
 }

@@ -13,6 +13,7 @@ class GameStoreState {
     fiefdom?: House[];
     kingscourt?: House[];
     ironThroneSuccession?: House[];
+    wildlingsCount?: number;
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -23,7 +24,8 @@ const initialState: GameStoreState = {
     winningHouse: null,
     fiefdom: initialFiefdom,
     kingscourt: initialKingscourt,
-    ironThroneSuccession: initialIronThroneSuccession
+    ironThroneSuccession: initialIronThroneSuccession,
+    wildlingsCount: 0
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -61,6 +63,15 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             } else {
                 newState = {...state, gamePhase: state.gamePhase + 1};
             }
+            break;
+        case TypeKeys.INCREASE_WILDLINGCOUNT:
+            let newWildlingCount: number;
+            if (state.wildlingsCount + action.by >= 12) {
+                newWildlingCount = 12;
+            } else {
+                newWildlingCount = state.wildlingsCount += action.by;
+            }
+            newState = {...state, wildlingsCount: newWildlingCount};
             break;
         default:
             newState = state;
