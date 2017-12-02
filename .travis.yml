@@ -2,6 +2,15 @@ language: node_js
 git:
   depth: 3
 node_js:
-  - "6"
+- '6'
 script: npm run test-coverage
-after_success: 'npm run coveralls'
+after_success: npm run coveralls
+deploy:
+  provider: heroku
+  api_key:
+    secure: fCKSUDo+kETNkHB4wchocLPJrhfliPtpwOyDrNXECIvlxRMc5aUgitMhrzXD2P7rUoPuUk5yw/Xsj9yGpfa49+UPwnuNtBzu1xRCtUOF0dBGGUohxpfJrE6IwDGyUqmUAdIjGS2PECntwD+KEcGql4ktOtqJDZX4DiORqxilNaYrx1iRAwvPRgTIIJAX3yr8cwYHhjl2Q9kofKEoWhoX0GD0TSsGDQHmi9/WNRbgf+nn/UMb9ryTCZmf7DoA2PgCSACUrHrkxxqKTgjJqVMmnYlLhjnrCtG3lE3lxaYGl//sVydG+9z5WQO4Bn0Z8N2cyhfb9i8j3hCiQo2s6cJwmwWcgmx974zph6Fa/r0zKR+uq5gQmQes77GrpQQAlZv6DJ0UAY1UVwlo8pnnHs5+W3hd63jasPqoRncTzoRuXEOL5LDyRgGW8o+BK/nEad4lNlVySQgMKsiSP2Y1exNPxbwGGqwNQNyv8jp/8msdajMXuaMcI8nhW1q7p5QAkQcxJ0pJ6uKDh4ilF1H3HVFzN7Kd+h8B80Y4F9g6ijaR20jleltUSrhPzNOElOqbXOi+/mR31XwqjqHAAv6YBp3dWYd32RuTQik5cw05VuOwtk5Zb6xj8a4vV4szsRmpjyrh5Y8ymR6fVfneKyVltlp0ffDHn7WPw8Lul8Vfbmgdtcs=
+  app: gameOfThrones
+  run: npm run server:dist
+  on:
+    repo: Tollwood/gameOfThrones
+
