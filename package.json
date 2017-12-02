@@ -1,14 +1,12 @@
 {
-  "name": "phaser-npm-webpack-typescript-starter-project",
-  "productName": "phaser-npm-webpack-typescript-starter-project",
+  "name": "got-tollwood",
+  "productName": "got-tollwood",
   "version": "1.7.8",
-  "main": "electron-main.js",
   "scripts": {
     "compile": "webpack --config webpack.dev.config.js --progress --colors",
     "webpack:dev": "webpack --config webpack.dev.config.js --progress --colors",
     "webpack:dist": "webpack --config webpack.dist.config.js --progress --colors",
-    "build:dev": "echo-cli 'Building DEV ...' && npm run webpack:dev && echo-cli 'Build Complete ✔'",
-    "build:dist": "echo-cli 'Building DIST ...' && npm run webpack:dist && echo-cli 'Build Complete ✔'",
+    "start": "node Server.js",
     "server:dev": "webpack-dev-server --config webpack.dev.config.js --open",
     "server:dist": "webpack-dev-server --config webpack.dist.config.js --open",
     "setupGameSize": "node ./scripts/setupGameSize.js",
@@ -20,33 +18,42 @@
     "test-single": "karma start karma.conf.js --single-run",
     "lint": "tslint src/**/*.ts -t verbose",
     "lint-fix": "tslint --fix **/*.ts -t verbose",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "postinstall": "npm run webpack:dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project.git"
+    "url": "git+https://github.com/Tollwood/gameOfThrones.git"
   },
-  "author": "Richard Roylance <https://github.com/rroylance>",
+  "author": "Tobias Manger <https://github.com/tollwood>",
   "bugs": {
-    "url": "https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project/issues"
+    "url": "https://github.com/Tollwood/gameOfThrones/issues"
   },
-  "homepage": "https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project#readme",
-  "devDependencies": {
-    "@types/jasmine": "2.8.2",
+  "homepage": "https://github.com/Tollwood/gameOfThrones#readme",
+  "dependencies": {
     "@types/node": "8.0.53",
     "@types/redux": "^3.6.0",
-    "chai": "^3.5.0",
     "clean-webpack-plugin": "0.1.16",
     "commander": "2.9.0",
-    "copy-webpack-plugin": "4.0.1",
-    "coveralls": "^3.0.0",
-    "echo-cli": "1.0.8",
-    "electron": "1.6.2",
-    "electron-packager": "8.6.0",
     "expose-loader": "0.7.3",
+    "express": "^4.16.2",
     "file-loader": "0.10.1",
     "git-revision-webpack-plugin": "2.4.1",
     "html-webpack-plugin": "2.28.0",
+    "phaser-ce": "2.7.5",
+    "shelljs": "0.7.7",
+    "ts-loader": "^2.0.3",
+    "tslint": "4.5.1",
+    "tslint-loader": "3.4.3",
+    "typescript": "2.4.0",
+    "typescript-map": "0.0.5",
+    "webpack": "^2.3.1",
+    "webpack-shell-plugin": "0.5.0",
+    "xml2js": "0.4.17"
+  },
+  "devDependencies": {
+    "@types/jasmine": "2.8.2",
+    "coveralls": "^3.0.0",
     "karma": "^1.6.0",
     "karma-chai": "^0.1.0",
     "karma-jasmine": "^1.1.0",
@@ -58,26 +65,19 @@
     "karma-typescript": "^3.0.8",
     "karma-typescript-preprocessor2": "^1.2.1",
     "karma-webpack": "^2.0.5",
-    "mocha": "^3.3.0",
     "npm-check": "5.4.0",
     "phantomjs-prebuilt": "^2.1.14",
-    "phaser-ce": "2.7.5",
     "pngjs-image": "0.11.7",
-    "shelljs": "0.7.7",
     "sinon": "^2.2.0",
     "jasmine": "^2.6.0",
     "source-map-loader": "^0.2.1",
     "sourcemap-istanbul-instrumenter-loader": "^0.2.0",
-    "ts-loader": "^2.0.3",
     "ts-node": "^3.3.0",
-    "tslint": "4.5.1",
-    "tslint-loader": "3.4.3",
-    "typescript": "2.4.0",
-    "typescript-map": "0.0.5",
     "webfontloader": "1.6.27",
-    "webpack": "^2.3.1",
-    "webpack-dev-server": "2.4.2",
-    "webpack-shell-plugin": "0.5.0",
-    "xml2js": "0.4.17"
+    "webpack-dev-server": "2.4.2"
+  },
+  "engines": {
+    "node": "6.2.0",
+    "npm": "5.4.2"
   }
 }
