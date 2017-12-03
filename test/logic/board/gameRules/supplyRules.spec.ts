@@ -6,6 +6,8 @@ import GameState from '../../../../src/logic/board/gameState/GameState';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {loadGame} from '../../../../src/logic/board/gameState/actions';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 
 describe('SupplyRules', () => {
 
@@ -37,8 +39,9 @@ describe('SupplyRules', () => {
         // given
         new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
             .withSupply(1).addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
         GameRules.load(gameState);
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         SupplyRules.updateSupply();
 
         // when
@@ -53,7 +56,8 @@ describe('SupplyRules', () => {
         // given
         new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
             .withSupply(1).addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
@@ -70,7 +74,8 @@ describe('SupplyRules', () => {
         new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
             .addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
@@ -88,7 +93,8 @@ describe('SupplyRules', () => {
             .addToGameState(gameState).build();
         new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
@@ -104,7 +110,8 @@ describe('SupplyRules', () => {
         // given
         new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
             .addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 
@@ -118,7 +125,8 @@ describe('SupplyRules', () => {
     it('should return empty array for house with no army', () => {
         // given
         new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).addToGameState(gameState).build();
-        gameState.players = [new Player(House.stark, 5, [])];
+        let gameStoreState = { players: [new Player(House.stark, 5, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
         GameRules.load(gameState);
         SupplyRules.updateSupply();
 

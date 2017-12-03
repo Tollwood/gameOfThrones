@@ -12,6 +12,7 @@ import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/reducer';
 import {loadGame, nextPhase, resetGame} from '../../../src/logic/board/gameState/actions';
+import game = PIXI.game;
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -146,17 +147,18 @@ describe('GamePhaseService', () => {
     describe('nextRound', () => {
         it('should modify state to be ready for next game round', () => {
 
-            gameState.players = [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])];
-            gameState.currentPlayer = gameState.players[0];
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
-            gameState.areas = [winterfell];
-            GameRules.load(gameState);
             const gameStoreState = {
                 gameRound: 1,
                 gamePhase: GamePhase.ACTION_CLEANUP,
-                ironThroneSuccession: [House.stark, House.lannister]
+                ironThroneSuccession: [House.stark, House.lannister],
+                players: [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])]
+
             };
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameStore.dispatch(loadGame(gameStoreState));
+            gameState.currentPlayer = gameStoreState.players[0];
+            gameState.areas = [winterfell];
+            GameRules.load(gameState);
             gameStore.dispatch(nextPhase());
 
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
@@ -174,8 +176,10 @@ describe('GamePhaseService', () => {
             const playerLannister = new Player(House.lannister, 0, []);
 
             gameState.currentPlayer = playerLannister;
-            gameState.players = [playerLannister, playerStark];
-            const gameStoreState = {ironThroneSuccession: [playerLannister.house, playerStark.house]};
+            const gameStoreState = {
+                ironThroneSuccession: [playerLannister.house, playerStark.house],
+                players: [playerLannister, playerStark]
+            };
             gameStore.dispatch(loadGame(gameStoreState));
             GameRules.load(gameState);
             // when
@@ -190,15 +194,16 @@ describe('GamePhaseService', () => {
             // given
             const playerStark = new Player(House.stark, 0, []);
             const playerLannister = new Player(House.lannister, 0, []);
-            gameState.currentPlayer = playerStark;
-            gameState.players = [playerLannister, playerStark];
-            const gameStoreState = {ironThroneSuccession: [playerLannister.house, playerStark.house]};
+            const gameStoreState = {
+                ironThroneSuccession: [playerLannister.house, playerStark.house],
+                players: [playerLannister, playerStark]
+            };
             gameStore.dispatch(loadGame(gameStoreState));
+            gameState.currentPlayer = playerStark;
             GameRules.load(gameState);
 
             // when
             GamePhaseService.nextPlayer();
-
             // then
             expect(gameState.currentPlayer).toBe(playerLannister);
         });

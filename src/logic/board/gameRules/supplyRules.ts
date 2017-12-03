@@ -2,6 +2,7 @@ import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {Area} from '../area';
 import GameRules from './gameRules';
+import {gameStore} from '../gameState/reducer';
 export default class SupplyRules {
 
     private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
@@ -34,8 +35,8 @@ export default class SupplyRules {
         });
     }
 
-    public static getNumberOfSupply(house: House): number {
-        return GameRules.gameState.areas.filter((area: Area) => {
+    public static getNumberOfSupply(house: House, areas: Area[]): number {
+        return areas.filter((area: Area) => {
             return area.controllingHouse === house && area.supply > 0;
         }).map((area) => {
             return area.supply;
@@ -49,8 +50,9 @@ export default class SupplyRules {
 
     public static updateSupply() {
         let updatedSupply = new TSMap<House, number>();
-        GameRules.gameState.players.forEach((player) => {
-            updatedSupply.set(player.house, this.getNumberOfSupply(player.house));
+        const areas = GameRules.gameState.areas;
+        gameStore.getState().players.forEach((player) => {
+            updatedSupply.set(player.house, this.getNumberOfSupply(player.house, areas));
         });
         GameRules.gameState.currentlyAllowedSupply = updatedSupply;
     }

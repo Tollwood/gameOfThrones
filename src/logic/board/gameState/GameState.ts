@@ -13,7 +13,6 @@ export default class GameState {
     private _westerosCards2 = [];
     private _westerosCards3 = [];
     private _currentPlayer: Player;
-    private _players: Array<Player> = [];
     private _currentlyAllowedTokenTypes: Array<OrderTokenType>;
     private _currentlyAllowedSupply: TSMap<House, number>;
 
@@ -24,10 +23,6 @@ export default class GameState {
 
     get currentlyAllowedTokenTypes(): Array<OrderTokenType> {
         return this._currentlyAllowedTokenTypes;
-    }
-
-    get players(): Array<Player> {
-        return this._players;
     }
 
     get currentPlayer(): Player {
@@ -64,10 +59,6 @@ export default class GameState {
 
     set currentlyAllowedTokenTypes(value: Array<OrderTokenType>) {
         this._currentlyAllowedTokenTypes = value;
-    }
-
-    set players(value: Array<Player>) {
-        this._players = value;
     }
 
     set currentPlayer(value: Player) {

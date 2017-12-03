@@ -1,6 +1,7 @@
 import {House} from '../house';
 import {Area} from '../area';
 import GameRules from './gameRules';
+import {gameStore} from '../gameState/reducer';
 export default class VictoryRules {
 
     public static getVictoryPositionFor(house: House) {
@@ -12,8 +13,8 @@ export default class VictoryRules {
 
     public static getWinningHouse(): House {
         let winningHouse: House = null;
-        let gamestate = GameRules.gameState;
-        gamestate.players.forEach((player) => {
+
+        gameStore.getState().players.forEach((player) => {
             if (this.getVictoryPositionFor(player.house) === 7) {
                 winningHouse = player.house;
             }

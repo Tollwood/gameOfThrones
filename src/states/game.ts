@@ -4,7 +4,6 @@ import TopMenuRenderer from '../ui/board/topMenu/topMenuRenderer';
 import UnitRenderer from '../ui/units/unitRenderer';
 import GameRules from '../logic/board/gameRules/gameRules';
 import {GamePhase} from '../logic/board/gamePhase';
-import PowerToken from '../ui/orderToken/powerTokenRenderer';
 import Renderer from '../utils/renderer';
 import WinningModal from '../ui/board/winningModal';
 import {OrderTokenMenuRenderer} from '../ui/orderToken/orderTokenMenuRenderer';
@@ -20,11 +19,13 @@ import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
 import AiCalculator from '../logic/ai/aiCalculator';
 import {gameStore} from '../logic/board/gameState/reducer';
 import {nextPhase} from '../logic/board/gameState/actions';
+import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
     private boardRenderer: BoardRenderer;
     private topMenuRenderer: TopMenuRenderer;
+    private powerTokenRenderer: PowerTokenRenderer;
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
     private aiCalculator: AiCalculator;
@@ -33,6 +34,7 @@ export default class Game extends Phaser.State {
         super();
         this.orderTokenRenderer = new OrderTokenRenderer();
         this.boardRenderer = new BoardRenderer();
+        this.powerTokenRenderer = new PowerTokenRenderer();
         this.unitRenderer = new UnitRenderer();
         this.aiCalculator = new AiCalculator();
     }
@@ -49,7 +51,7 @@ export default class Game extends Phaser.State {
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
         RecruitingRenderer.createGroups(this.game);
-        PowerToken.createGroups(this.game);
+        this.powerTokenRenderer.init(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
         Renderer.rerenderRequired = true;
@@ -64,8 +66,9 @@ export default class Game extends Phaser.State {
 
         if (Renderer.rerenderRequired) {
             this.topMenuRenderer.renderTopMenu(this.game);
-            PowerToken.renderPowerToken(this.game);
-            PowerToken.renderControlToken(this.game);
+            // move away and subscribe to gameState
+            this.powerTokenRenderer.renderControlToken(this.game);
+
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = gameStore.getState().gamePhase;
             let currentPlayer = GameRules.gameState.currentPlayer;

@@ -10,46 +10,19 @@ import TokenPlacementRules from './tokenPlacementRules';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
 import {gameStore} from '../gameState/reducer';
-import {resetGame} from '../gameState/actions';
+import {newGame, resetGame} from '../gameState/actions';
 
 export default class GameRules {
     static get gameState(): GameState {
         return this._gameState;
     }
 
-    private static INITIAL_POWER_TOKEN: number = 5;
     private static _gameState: GameState;
     // New Game
     public static newGame() {
-        this.initGame([new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)]);
+        const playerSetup  = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
+        gameStore.dispatch(newGame(playerSetup));
     }
-
-    public static initGame(playerSetup: Array<PlayerSetup>) {
-        this._gameState = new GameState();
-        gameStore.dispatch(resetGame());
-        let player = [];
-        playerSetup.forEach((config) => {
-
-            if (config.ai) {
-                player.push(new AiPlayer(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
-            }
-            else {
-                player.push(new Player(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
-            }
-        });
-
-        this._gameState.areas = AreaInitiator.getInitalState(player.map(player => player.house));
-        this._gameState.westerosCards1 = CardFactory.getWesterosCards(1);
-        this._gameState.westerosCards2 = CardFactory.getWesterosCards(2);
-        this._gameState.westerosCards3 = CardFactory.getWesterosCards(3);
-        this._gameState.players = player;
-        this._gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-        this._gameState.currentPlayer = player.filter((player) => {
-            return player.house === gameStore.getState().ironThroneSuccession[0];
-        })[0];
-        SupplyRules.updateSupply();
-    }
-
 
     public static load(gameState: GameState) {
         this._gameState = gameState;
@@ -60,7 +33,7 @@ export default class GameRules {
     }
 
     public static getFirstFromIronThroneSuccession(): Player {
-        return this._gameState.players.filter((player) => {
+        return gameStore.getState().players.filter((player) => {
             return player.house === gameStore.getState().ironThroneSuccession[0];
         })[0];
     }
@@ -72,7 +45,7 @@ export default class GameRules {
     }
 
     public static getPlayerByHouse(house: House): Player {
-        return this._gameState.players.filter((player) => {
+        return gameStore.getState().players.filter((player) => {
             return player.house === house;
         })[0];
     }

@@ -9,6 +9,8 @@ import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {loadGame} from '../../../../src/logic/board/gameState/actions';
 
 describe('TokenPlacementRules', () => {
 
@@ -19,7 +21,8 @@ describe('TokenPlacementRules', () => {
         gameState = new GameState();
         playerStark = new Player(House.stark, 0, []);
         playerLannister = new Player(House.lannister, 0, []);
-        gameState.players = [playerStark, playerLannister];
+        let gameStoreState = { players: [playerStark, playerLannister]};
+        gameStore.dispatch(loadGame(gameStoreState));
     });
 
     it('should be allowed to place a token on winterfell', () => {

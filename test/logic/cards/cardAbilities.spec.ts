@@ -9,12 +9,15 @@ import GameState from '../../../src/logic/board/gameState/GameState';
 import CombatResult from '../../../src/logic/march/combatResult';
 import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
+import {gameStore} from '../../../src/logic/board/gameState/reducer';
+import {loadGame} from '../../../src/logic/board/gameState/actions';
 describe('CardAbilities', () => {
     let gameState: GameState;
     const combatResult = new CombatResult(null, null, 0, 0);
     beforeEach(() => {
         gameState = new GameState();
-        gameState.players = [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])];
+        let gameStoreState = { players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
     });
 
 
@@ -33,9 +36,9 @@ describe('CardAbilities', () => {
             const houseCard1 = new HouseCardBuilder().house(House.stark).played().build();
             const houseCard2 = new HouseCardBuilder().house(House.stark).build();
             const cards: HousecCard[] = [houseCard1, houseCard2];
-            const playerStark = new Player(House.stark, 0, cards);
-            gameState.players = [playerStark];
             GameRules.load(gameState);
+            let gameStoreState = { players: [new Player(House.stark, 0, cards)]};
+            gameStore.dispatch(loadGame(gameStoreState));
 
             // when
             const actual = CardAbilities.getAllCardsBack(houseCard2, combatResult);

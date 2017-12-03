@@ -6,10 +6,11 @@ import RecruitingRules from '../board/gameRules/recruitingRules';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import GameRules from '../board/gameRules/gameRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
+import {gameStore} from '../board/gameState/reducer';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult?: CombatResult): CombatResult {
-        GameRules.gameState.players
+        gameStore.getState().players
             .filter((player) => {
                 return player.house === currentCard.house;
             })

@@ -1,8 +1,8 @@
 import {TopMenuItem} from './topMenuItem';
 import TopMenuRenderer from './topMenuRenderer';
 import {convertHouseToNumber, House} from '../../../logic/board/house';
-import GameRules from '../../../logic/board/gameRules/gameRules';
 import VictoryRules from '../../../logic/board/gameRules/victoryRules';
+import {gameStore} from '../../../logic/board/gameState/reducer';
 
 const POSITION_X = [20, 100, 180, 260, 340, 420, 500];
 
@@ -17,7 +17,7 @@ export class MenuVictory extends TopMenuItem {
 
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY) {
-            GameRules.gameState.players.forEach((player) => {
+            gameStore.getState().players.forEach((player) => {
                 let marker = overlay.game.add.sprite(overlay.x - overlay.game.camera.x + this.getPositionForHouse(player.house), 120 + (convertHouseToNumber(player.house) * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;
             });

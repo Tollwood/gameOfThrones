@@ -6,6 +6,7 @@ import AreaRules from './AreaRules';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
+import {gameStore} from '../gameState/reducer';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -45,14 +46,14 @@ export default class TokenPlacementRules {
         sourceArea.orderToken = null;
         const targetArea = GameRules.getAreaByKey(target);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
-            GameRules.gameState.players.filter((player) => {
+            gameStore.getState().players.filter((player) => {
                 return player.house === targetArea.controllingHouse;
             }).map((player) => {
                 if (player.powerToken > 0) {
                     player.powerToken--;
                 }
             });
-            GameRules.gameState.players.filter((player) => {
+            gameStore.getState().players.filter((player) => {
                 return player.house === sourceArea.controllingHouse;
             })[0].powerToken++;
         }
@@ -67,7 +68,7 @@ export default class TokenPlacementRules {
         }).map((area) => {
             area.orderToken = null;
             let additionalPowerToken = area.consolidatePower + 1;
-            let player = GameRules.gameState.players.filter((player) => {
+            let player = gameStore.getState().players.filter((player) => {
                 return player.house === area.controllingHouse;
             })[0];
             player.powerToken += additionalPowerToken;
@@ -89,7 +90,7 @@ export default class TokenPlacementRules {
 
     public static consolidateAllPower() {
         let gameState = GameRules.gameState;
-        gameState.players.forEach((player) => {
+        gameStore.getState().players.forEach((player) => {
             let additionalPower = 0;
             gameState.areas.forEach((area) => {
                 if (area.controllingHouse === player.house) {

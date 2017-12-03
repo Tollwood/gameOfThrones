@@ -10,6 +10,8 @@ import Unit from '../../../../src/logic/units/units';
 import CombatResult from '../../../../src/logic/march/combatResult';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
+import {loadGame} from '../../../../src/logic/board/gameState/actions';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 
 describe('MovementRules', () => {
 
@@ -168,9 +170,10 @@ describe('MovementRules', () => {
         it('should reduce PowerToken by one and establish control', () => {
             // given
             const playerStark = new Player(House.stark, 1, []);
+            let gameStoreState = { players: [playerStark]};
+            gameStore.dispatch(loadGame(gameStoreState));
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
             gameState.areas.push(winterfell);
-            gameState.players = [playerStark];
             GameRules.load(gameState);
 
             // when
@@ -185,7 +188,8 @@ describe('MovementRules', () => {
             const playerStark = new Player(House.stark, 0, []);
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
             gameState.areas.push(winterfell);
-            gameState.players = [playerStark];
+            let gameStoreState = { players: [playerStark]};
+            gameStore.dispatch(loadGame(gameStoreState));
             GameRules.load(gameState);
 
             // when
@@ -260,7 +264,8 @@ describe('MovementRules', () => {
         it('should establish control if order is complete and establishControl is true', () => {
             // given
             const player = new Player(House.stark, 1, []);
-            gameState.players.push(player);
+            let gameStoreState = { players: [player]};
+            gameStore.dispatch(loadGame(gameStoreState));
             const horseUnit = new Unit(UnitType.Horse, House.stark);
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit];
@@ -286,7 +291,8 @@ describe('MovementRules', () => {
             const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
             const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             const playerStark = new Player(House.stark, 1, []);
-            gameState.players = [playerStark];
+            let gameStoreState = { players: [playerStark]};
+            gameStore.dispatch(loadGame(gameStoreState));
             const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);
 
             gameState.areas.push(attackingArea, defendingArea);

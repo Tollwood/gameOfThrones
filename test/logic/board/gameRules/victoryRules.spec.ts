@@ -15,7 +15,8 @@ describe('VictoryRules', () => {
     beforeEach(() => {
         gameState = new GameState();
         gameStore.dispatch(resetGame());
-        gameState.players = [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])];
+        let gameStoreState = { players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
+        gameStore.dispatch(loadGame(gameStoreState));
     });
 
 
@@ -66,7 +67,8 @@ describe('VictoryRules', () => {
             const gameStoreState = {
                 gameRound: 10,
                 gamePhase: GamePhase.ACTION_CLEANUP,
-                ironThroneSuccession: [House.stark, House.lannister]
+                ironThroneSuccession: [House.stark, House.lannister],
+                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]
             };
             gameStore.dispatch(loadGame(gameStoreState));
             gameStore.dispatch(nextPhase());
