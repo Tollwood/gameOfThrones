@@ -4,13 +4,59 @@
 
 # Game of Thrones learning by doing
 
-# Features:
+A clone of the game of Thrones board game. Goal of this project is to implement a more complex application learning new technologies build a game I would like to play more often.
 
-- Phaser-CE 2.7.5 (npm module, no having to download the library separately...)
-- TypeScript + TSLint
+**[Trello Board](https://trello.com/b/IM4aFTeY/game-of-thrones)** to track current planned, ongoing and completed feautres
+
+Completed Features:
+- 
+- asdasd
+
+Planned Features:
+-
+- Multiplayer
+- Mobile Friendly
+- complete Feature Rule Set
+- UI improvements (Animation, better/ other graphics)
+
+Technolgies
+-
+- Phaser.io
+- Typescript
 - Webpack
-- Separate Development and Distribution builds
-- Live server (builds and reloads the browser on changes)
+- Redux
+- Express Server
+
+
+[Testing](https://coveralls.io/github/Tollwood/gameOfThrones)
+-
+- Karma, Jasmine, 
+- sourcemap-istanbul-instrumenter-loader
+- coveralls
+
+[Continous Integration](https://travis-ci.org/Tollwood/gameOfThrones)
+-
+- Each branch is build and tested using Travis
+
+[Continous Deployment](https://dashboard.heroku.com/apps/got-tollwood)
+-
+- setup inspired by: [this article ](https://codeforgeek.com/2017/03/deploy-awesome-angular-app-heroku/)
+- Each build on master will be deployed to Heroku cloud
+
+[Live Demo](https://got-tollwood.herokuapp.com/)!!! Try it out
+-
+
+## Bugs/Issues?
+
+If you have any issues please let me know via [GitHub Issues][issues]!
+
+## Requests/Suggestions?
+
+If you have any requests or suggestion for the project please let me know via [GitHub Issues][issues]!
+
+
+
+## Existing Features from fork:
 - No hassle asset management requiring no code, on your part, to load and parse assets
   - Assets are required and hashed via webpack, you can now guarantee that when you push an update, everyone will get the new files and not cached ones
   - Assets class created automatically allowing you to access all the assets and their frames and sprites (in the case of Atlases and Audiosprites) in a compiler validating way!
@@ -19,92 +65,7 @@
   - Sets up the size the game so that it is scaled only when absolutely necessary 
   - Refer to src/utils/utils.ts for an explanation on the background_template and the sizing/scaling style
 
-
-### Folder Structure:
-- **assets/** – This is where your assets that are processed when building goes
-- **assets_raw/** – This folder is NOT processed at all and is merely an organizational folder (I use it for things like my individual images that get compiled into a spritesheet, individual sounds that get compiled into an audiosprite, etc...)
-- **dist/** – This is where the built game will go
-- **node_modules/** – This is where the node modules required for the game will be put with npm install
-- **scripts/** – This is where I put all the helper scripts
-- **src/** – This is where all the games code goes
-- **templates/** – This is where the html template that gets built by Webpack goes
-- **.gitignore** – List of files and folders that are ignored by git
-- **.npmrc** – List of some project wide npm settings
-- **package.json** – Node config for the project
-- **README.md** – This is the README displayed ont he GitHub page
-- **tsconfig.json** – List of some TypeScript settings
-- **tslint.json** – List of some TypeScript Linting rules
-- **webpack.dev.config.js** – Webpack config for the DEV build
-- **webpack.dist.config.js** – Webpack config for the DIST build
-
-# Setup:
-To use this you’ll need to install a few things before you have a working copy of the project. But once you have node.js installed it only takes a few seconds and a couple commands to get going.
-
-## 0. Install Git:
-
-[GIT Installation Instructions and Links][git-scm]
-
-## 1. Download or Clone this repo:
-
-##### 1.1 Download:
-
-Download the latest zip/tar.gz from [GitHub Releases][releases], extract it to where you want your project to be.
-
-##### 1.2 Clone:
-
-Navigate into your workspace directory.
-
-Run:
-
-```git clone https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project.git```
-
-## 2. Install node.js and npm (npm is included and installed with node.js):
-
-[NodeJS Installation Instructions and Links][nodejs]
-
-## 3. Install dependencies:
-
-Navigate to the cloned repo’s directory.
-
-Run:
-
-```npm install```
-
-## 4. Run the dev server:
-
-Run to use the dev build while developing:
-
-```npm run server:dev```
-
-Run to use the dist build while developing 
-
-```npm run server:dist```
-
-###### The only real reason I can think of to use the dist server is if the minification process is breaking something in your game and you need to test using the minified version, or something you excluded with the DEBUG flag shouldn't have been excluded.
-
-This will run a server that serves your built game straight to the browser and will be built and reloaded automatically anytime a change is detected.
-
-## Build for testing/developing/debugging:
-
-Run:
-
-```npm run build:dev```
-
-This will build the game with a few caveats;
-- A compile time flag, DEBUG, set to true; allowing you to include or not include certain code depending on if it's DEBUG build or not.
-- The resulting game.js will not be minified
-
-## Build for release:
-
-Run:
-
-```npm run build:dist```
-
-This will build the game with a few caveats;
-- The compile time flag, DEBUG, set to false; allowing you to include or not include certain code depending on if it's DEBUG build or not.
-- The resulting game.min.js will be minified
-
-## Generate Assets Class:
+### Generate Assets Class:
 
 This project will manage your assets for you! All you need to do is drop your assets in assets/ (subdirectories do not matter) and run (you need to run this manually if you change assets while the server is running, otherwise it's run automatically when running a build);
 
@@ -186,81 +147,3 @@ You can either provide the width **and** height (defaults 800 and 500 respective
 Providing --scale-mode will set this.game.scale.scaleMode to the corresponding Phaser.ScaleManager.SCALE_MODE (default USER_SCALE).
 
 If you do not want the background to be created just add the flag --no-png (not putting this will let the background generate).
-
-## Google Web Fonts:
-
-Add your desired Google Web Fonts to the webpack.dev.config.js and/or webpack.dist.config.js in the DefinePlugin 'GOOGLE_WEB_FONTS' section and they will then be loaded and available via Assets.GoogleWebFonts.
-
-## Custom/Local Web Fonts:
-
-Add your desired Custom/Local Web Fonts to your assets folder and they will then be loaded and available via Assets.CustomWebFonts
-- The various font files, and the css MUST share the same name
-- One CSS file per font
-
-I recommend one of the following generators for generating your font files;
-- [Font Squirrel Webfont Generator][fontsquirrel]
-- [Everything Fonts font-face generator][everythingfonts]
-
-## Desktop Build via Electron
-
-**Note that I am not, currently, actively using this. So if you do, I'd appreciate if you could pass any changes you make or anything you need out of it. Although I'm not using it, I will still support it as best I can.**
-
-You can test your game via Electron by running;
-
-```npm run electron:dev```
-
-or
-
-```npm run electron:dist```
-
-To build the dev or dist version of your game, respectively, and then open up your game in an Electron instance.
-
-## Package Desktop App via Electron
-
-**Note that I am not, currently, actively using this. So if you do, I'd appreciate if you could pass any changes you make or anything you need out of it. Although I'm not using it, I will still support it as best I can.**
-
-You can package your game for Windows (win32 ia32/x64), OSX (darwin ia32/x64), Mac App Store (mas ia32/x64), Linux (linux ia32/x64/armv7l) using the following script;
-
-```npm run electron:pack:dev```
-
-or
-
-```npm run electron:pack:dist```
-
-To package the dev or dist version of your game, respectively, for the current platform you are on. You can provide many options to build specific platforms, for specific architectures, provide an icon, etc.
-
-Refer to the [API Documentation][electron-pack-api] for a full list and details; I'm using it kind of oddly in that I'm using the API from the command line and not the command line version... to provide options appaend ' -- ' to the npm run command and then also append '--' to the option name and then either put the value after a space or '=', either way. Examples;
-
-```npm run electron:pack:dist -- --platform win32 --arch=ia32 //32 bit Windows exe```
-
-```npm run electron:pack:dist -- --platform win32,darwin --arch=ia32,x64 //32 and 64 bit Windows exe and OSX app```
-
-All builds will be in the builds/ folder in appropriately named folders.
-
-###### Note that building for Windows from a non windows device requires a  little bit of extra setup; refer to [Building Windows apps from non-Windows platforms][electron-pack-windows].
-
-###### Also note that for OSX / MAS target bundles: the .app bundle can only be signed when building on a host OSX platform.
-
-## Bugs/Issues?
-
-If you have any issues please let me know via [GitHub Issues][issues]!
-
-## Requests/Suggestions?
-
-If you have any requests or suggestion for the project please let me know via [GitHub Issues][issues]!
-
-## Contributing Code?
-
-If you would like to have some of your code included; whether a new feature, a cleaned up feature, a bugfix, or whatever. Please open up a [Pull Request][pulls]!
-
-[issues]: https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project/issues
-[pulls]: https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project/pulls
-[releases]: https://github.com/rroylance/phaser-npm-webpack-typescript-starter-project/releases
-[fontsquirrel]: https://www.fontsquirrel.com/tools/webfont-generator
-[everythingfonts]: https://everythingfonts.com/font-face
-[git-scm]: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-[nodejs]: https://nodejs.org/en/
-[itchio]: https://rroylance.itch.io/phaser-npm-webpack-typescript-starter-project
-[electron-distribution]: https://electron.atom.io/docs/tutorial/application-distribution/
-[electron-pack-windows]: https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms
-[electron-pack-api]: https://github.com/electron-userland/electron-packager/blob/master/docs/api.md
