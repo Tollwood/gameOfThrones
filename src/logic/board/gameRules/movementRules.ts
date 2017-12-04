@@ -6,7 +6,8 @@ import CombatResult from '../../march/combatResult';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {House} from '../house';
-import {arraysAreEqual} from 'tslint/lib/utils';
+import {gameStore} from '../gameState/reducer';
+import {nextPlayer} from '../gameState/actions';
 export default class MovementRules {
 
     public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
@@ -30,6 +31,7 @@ export default class MovementRules {
         if (completeOrder && establishControl) {
             this.establishControl(sourceArea, targetArea.controllingHouse);
         }
+        gameStore.dispatch(nextPlayer());
     }
 
     public static getAllAreasAllowedToMarchTo(sourceArea: Area): Array<Area> {

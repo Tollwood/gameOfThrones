@@ -12,6 +12,7 @@ import {AreaInitiator} from '../areaInitiator';
 import AiPlayer from '../../ai/aiPlayer';
 import GameState from './GameState';
 import {TSMap} from 'typescript-map';
+import GamePhaseService from '../gamePhaseService';
 
 class GameStoreState {
     gameRound?: number;
@@ -22,6 +23,7 @@ class GameStoreState {
     ironThroneSuccession?: House[];
     wildlingsCount?: number;
     players?: Array<Player>;
+    currentPlayer?: Player;
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -35,7 +37,8 @@ const initialState: GameStoreState = {
     kingscourt: initialKingscourt,
     ironThroneSuccession: initialIronThroneSuccession,
     wildlingsCount: 0,
-    players: []
+    players: [],
+    currentPlayer: null
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -57,7 +60,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             gameState.westerosCards2 = CardFactory.getWesterosCards(2);
             gameState.westerosCards3 = CardFactory.getWesterosCards(3);
             gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            gameState.currentPlayer = player.filter((player) => {
+            const currentPlayer = player.filter((player) => {
                 return player.house === gameStore.getState().ironThroneSuccession[0];
             })[0];
             const updatedSupply = new TSMap<House, number>();
@@ -66,7 +69,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             });
             gameState.currentlyAllowedSupply = updatedSupply;
             GameRules.load(gameState);
-            newState = {...initialState, players: player};
+            newState = {...initialState, players: player, currentPlayer: currentPlayer};
             break;
         case TypeKeys.RESET_GAME:
             newState = {...initialState};
@@ -81,8 +84,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     area.orderToken = null;
                 });
                 gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-                gameState.currentPlayer = GameRules.getFirstFromIronThroneSuccession();
-
                 const nextGameRound = state.gameRound + 1;
                 let winningHouse = null;
                 if (nextGameRound > 10) {
@@ -95,7 +96,8 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     ...state,
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
-                    winningHouse: winningHouse
+                    winningHouse: winningHouse,
+                    currentPlayer: GameRules.getFirstFromIronThroneSuccession()
                 };
             } else {
                 newState = {...state, gamePhase: state.gamePhase + 1};
@@ -109,6 +111,9 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 newWildlingCount = state.wildlingsCount += action.by;
             }
             newState = {...state, wildlingsCount: newWildlingCount};
+            break;
+        case TypeKeys.NEXT_PLAYER:
+            newState = {...state, currentPlayer: GamePhaseService.nextPlayer(state)};
             break;
         default:
             newState = state;

@@ -11,14 +11,23 @@ import CombatResult from '../../../../src/logic/march/combatResult';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {loadGame} from '../../../../src/logic/board/gameState/actions';
-import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../../../src/logic/board/gameState/reducer';
 
 describe('MovementRules', () => {
 
     let gameState: GameState;
+    let gameStoreState: GameStoreState;
 
     beforeEach(() => {
         gameState = new GameState();
+        const playerStark = new Player(House.stark, 1, []);
+        const playerLannister = new Player(House.lannister, 0, []);
+        gameStoreState = {
+            ironThroneSuccession: [playerLannister.house, playerStark.house],
+            players: [playerStark, playerLannister],
+            currentPlayer: playerStark
+        };
+        gameStore.dispatch(loadGame(gameStoreState));
     });
     describe('getAllAreasAllowedToMarchTo', () => {
 
@@ -44,12 +53,12 @@ describe('MovementRules', () => {
                 .withBorders([karhold])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(winterfell);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(winterfell,karhold);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(winterfell, karhold);
             expect(result.length).toBe(1);
             expect(result.indexOf(karhold)).toBeGreaterThan(-1);
         });
@@ -66,12 +75,12 @@ describe('MovementRules', () => {
                 .withBorders([theSiveringSea])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -93,12 +102,12 @@ describe('MovementRules', () => {
                 .withBorders([theStonyShore])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .addToGameState(gameState).build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
 
@@ -111,12 +120,12 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor,castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -127,7 +136,7 @@ describe('MovementRules', () => {
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
                 .addToGameState(gameState).build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
 
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
@@ -143,7 +152,7 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
-            spyOn(SupplyRules,'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 
@@ -170,7 +179,7 @@ describe('MovementRules', () => {
         it('should reduce PowerToken by one and establish control', () => {
             // given
             const playerStark = new Player(House.stark, 1, []);
-            let gameStoreState = { players: [playerStark]};
+            let gameStoreState = {players: [playerStark]};
             gameStore.dispatch(loadGame(gameStoreState));
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
             gameState.areas.push(winterfell);
@@ -188,7 +197,7 @@ describe('MovementRules', () => {
             const playerStark = new Player(House.stark, 0, []);
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
             gameState.areas.push(winterfell);
-            let gameStoreState = { players: [playerStark]};
+            let gameStoreState = {players: [playerStark]};
             gameStore.dispatch(loadGame(gameStoreState));
             GameRules.load(gameState);
 
@@ -263,9 +272,6 @@ describe('MovementRules', () => {
         });
         it('should establish control if order is complete and establishControl is true', () => {
             // given
-            const player = new Player(House.stark, 1, []);
-            let gameStoreState = { players: [player]};
-            gameStore.dispatch(loadGame(gameStoreState));
             const horseUnit = new Unit(UnitType.Horse, House.stark);
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit];
@@ -281,7 +287,7 @@ describe('MovementRules', () => {
 
             // then
             expect(sourceArea.controllingHouse).toBe(House.stark);
-            expect(player.powerToken).toBe(0);
+            expect(gameStore.getState().players.filter(player => player.house == House.stark)[0].powerToken).toBe(0);
         });
     });
 
@@ -290,9 +296,6 @@ describe('MovementRules', () => {
             // given
             const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
             const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
-            const playerStark = new Player(House.stark, 1, []);
-            let gameStoreState = { players: [playerStark]};
-            gameStore.dispatch(loadGame(gameStoreState));
             const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);
 
             gameState.areas.push(attackingArea, defendingArea);

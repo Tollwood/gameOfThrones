@@ -1,8 +1,9 @@
 import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
 import {House} from './house';
 import GameRules from './gameRules/gameRules';
-import {gameStore} from './gameState/reducer';
+import {gameStore, GameStoreState} from './gameState/reducer';
 import {nextPhase} from './gameState/actions';
+import Player from './player';
 
 export default class GamePhaseService {
 
@@ -53,21 +54,17 @@ export default class GamePhaseService {
             }).length === 0;
     }
 
+    public static nextPlayer(state: GameStoreState): Player {
 
-    // this method is used from everywhere can we improve this?
-    public static nextPlayer() {
-        let gamestate = GameRules.gameState;
-        let currrentIndex = gameStore.getState().ironThroneSuccession.indexOf(gamestate.currentPlayer.house);
-        let nextIndex = gameStore.getState().ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
-        let nextHouse: House = gameStore.getState().ironThroneSuccession[nextIndex];
+        let currrentIndex = state.ironThroneSuccession.indexOf(state.currentPlayer.house);
+        let nextIndex = state.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
+        let nextHouse: House = state.ironThroneSuccession[nextIndex];
 
-        gamestate.currentPlayer = GameRules.getPlayerByHouse(nextHouse);
+        return GameRules.getPlayerByHouse(nextHouse);
     }
 
     public static switchToNextPhase() {
-        let gameState = GameRules.gameState;
         gameStore.dispatch(nextPhase());
-        gameState.currentPlayer = GameRules.getFirstFromIronThroneSuccession();
     }
 
 }

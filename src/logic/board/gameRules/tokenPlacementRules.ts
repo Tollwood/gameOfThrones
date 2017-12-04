@@ -1,12 +1,12 @@
 import {OrderToken} from '../../orderToken/orderToken';
 import {Area} from '../area';
 import {House} from '../house';
-import GamePhaseService from '../gamePhaseService';
 import AreaRules from './AreaRules';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore} from '../gameState/reducer';
+import {nextPlayer} from '../gameState/actions';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -58,7 +58,7 @@ export default class TokenPlacementRules {
             })[0].powerToken++;
         }
         targetArea.orderToken = null;
-        GamePhaseService.nextPlayer();
+        gameStore.dispatch(nextPlayer());
     }
 
 
@@ -78,7 +78,7 @@ export default class TokenPlacementRules {
     public static skipOrder(source: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
         sourceArea.orderToken = null;
-        GamePhaseService.nextPlayer();
+        gameStore.dispatch(nextPlayer());
     }
 
 

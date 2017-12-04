@@ -12,7 +12,7 @@ describe('GameRules', ()=>{
             expect(gameStore.getState().gameRound).toBe(1);
             expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
             expect(gameStore.getState().wildlingsCount).toBe(0);
-            expect(gameState.currentPlayer.house).toBe(gameStore.getState().ironThroneSuccession[0]);
+            expect(gameStore.getState().currentPlayer.house).toBe(gameStore.getState().ironThroneSuccession[0]);
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
         });
     });

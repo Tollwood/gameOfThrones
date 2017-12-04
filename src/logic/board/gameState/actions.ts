@@ -7,14 +7,19 @@ export enum TypeKeys {
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
+    //not a real Action remove once all is moved to the store
+    NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface NextPlayerAction {
+    type: TypeKeys.NEXT_PLAYER
 }
 
 export interface NewGameAction {
     type: TypeKeys.NEW_GAME;
     playerSetup: Array<PlayerSetup>;
 }
-
 
 export interface IncreaseWildlingCountAction {
     type: TypeKeys.INCREASE_WILDLINGCOUNT;
@@ -44,7 +49,8 @@ export type ActionTypes =
     | ResetGameAction
     | NextPhaseAction
     | IncreaseWildlingCountAction
-    | OtherAction;
+    | OtherAction
+    | NextPlayerAction;
 
 
 export const increaseWildlingCount = (by: number): IncreaseWildlingCountAction => ({
@@ -68,4 +74,8 @@ export const loadGame = (state: GameStoreState): LoadGameAction => ({
 
 export const nextPhase = (): NextPhaseAction => ({
     type: TypeKeys.NEXT_PHASE
+});
+
+export const nextPlayer = (): NextPlayerAction => ({
+    type: TypeKeys.NEXT_PLAYER
 });

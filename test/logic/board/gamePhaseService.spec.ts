@@ -11,8 +11,7 @@ import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/reducer';
-import {loadGame, nextPhase, resetGame} from '../../../src/logic/board/gameState/actions';
-import game = PIXI.game;
+import {loadGame, nextPhase, nextPlayer, resetGame} from '../../../src/logic/board/gameState/actions';
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -156,7 +155,6 @@ describe('GamePhaseService', () => {
             };
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameStore.dispatch(loadGame(gameStoreState));
-            gameState.currentPlayer = gameStoreState.players[0];
             gameState.areas = [winterfell];
             GameRules.load(gameState);
             gameStore.dispatch(nextPhase());
@@ -164,7 +162,7 @@ describe('GamePhaseService', () => {
             expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
             expect(gameStore.getState().gameRound).toBe(2);
             expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
-            expect(gameState.currentPlayer.house).toBe(House.stark);
+            expect(gameStore.getState().currentPlayer.house).toBe(House.stark);
             expect(gameState.areas.filter(area => area.orderToken !== null).length).toBe(0);
         });
     });
@@ -175,18 +173,18 @@ describe('GamePhaseService', () => {
             const playerStark = new Player(House.stark, 0, []);
             const playerLannister = new Player(House.lannister, 0, []);
 
-            gameState.currentPlayer = playerLannister;
             const gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
-                players: [playerLannister, playerStark]
+                players: [playerLannister, playerStark],
+                currentPlayer: playerLannister
             };
             gameStore.dispatch(loadGame(gameStoreState));
-            GameRules.load(gameState);
+
             // when
-            GamePhaseService.nextPlayer();
+            gameStore.dispatch(nextPlayer());
 
             // then
-            expect(gameState.currentPlayer).toBe(playerStark);
+            expect(gameStore.getState().currentPlayer).toBe(playerStark);
 
         });
 
@@ -196,27 +194,30 @@ describe('GamePhaseService', () => {
             const playerLannister = new Player(House.lannister, 0, []);
             const gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
-                players: [playerLannister, playerStark]
+                players: [playerLannister, playerStark],
+                currentPlayer: playerStark
             };
             gameStore.dispatch(loadGame(gameStoreState));
-            gameState.currentPlayer = playerStark;
-            GameRules.load(gameState);
 
             // when
-            GamePhaseService.nextPlayer();
+            gameStore.dispatch(nextPlayer());
             // then
-            expect(gameState.currentPlayer).toBe(playerLannister);
+            expect(gameStore.getState().currentPlayer).toBe(playerLannister);
         });
     });
 
     describe('switchToNextPhase', () => {
         it('should increase GamePhase By one and set first of ironThroneSussession as currentplayer', () => {
-            gameStore.dispatch(loadGame({gamePhase: GamePhase.ACTION_RAID}));
-            spyOn(GameRules, 'getFirstFromIronThroneSuccession');
-            GamePhaseService.switchToNextPhase();
+            const playerStark = new Player(House.stark, 0, []);
+            const playerLannister = new Player(House.lannister, 0, []);
+            gameStore.dispatch(loadGame({
+                gamePhase: GamePhase.ACTION_RAID,
+                ironThroneSuccession: [playerLannister.house, playerStark.house],
+                players: [playerLannister, playerStark],
+            }));
 
+            GamePhaseService.switchToNextPhase();
             expect(gameStore.getState().gamePhase).toBe(GamePhase.ACTION_MARCH);
-            expect(GameRules.getFirstFromIronThroneSuccession).toHaveBeenCalledWith();
         });
     });
 

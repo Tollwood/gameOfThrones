@@ -3,6 +3,7 @@ import GameRules from '../../logic/board/gameRules/gameRules';
 import Renderer from '../../utils/renderer';
 import RecruitingModal from './recruitingModal';
 import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
+import {gameStore} from '../../logic/board/gameState/reducer';
 export default class RecruitingRenderer {
 
     private static areasToRecruit: Phaser.Group;
@@ -13,7 +14,7 @@ export default class RecruitingRenderer {
 
     public static highlightPossibleArea(game: Phaser.Game): number {
         this.areasToRecruit.removeChildren();
-        let areasAllowedToRecruit = RecruitingRules.getAreasAllowedToRecruit(GameRules.gameState.currentPlayer.house);
+        let areasAllowedToRecruit = RecruitingRules.getAreasAllowedToRecruit(gameStore.getState().currentPlayer.house);
         areasAllowedToRecruit.forEach((area) => {
             let showModalFn = () => {
                 let modal = new RecruitingModal(game, area);

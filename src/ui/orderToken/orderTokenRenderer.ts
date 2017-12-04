@@ -10,11 +10,11 @@ import SplitArmyModalFactory from '../march/splitArmyModalFactory';
 import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import FightModal from '../march/combatModal';
-import GamePhaseService from '../../logic/board/gamePhaseService';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import MovementRules from '../../logic/board/gameRules/movementRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
+import {nextPlayer} from '../../logic/board/gameState/actions';
 
 export default class OrderTokenRenderer {
 
@@ -61,7 +61,7 @@ export default class OrderTokenRenderer {
             })
             .map((sourceArea: Area) => {
                 let sourceAreaToken: UiArea = AssetLoader.getAreaTokenByKey(sourceArea.key);
-                if (sourceArea.controllingHouse === GameRules.gameState.currentPlayer.house) {
+                if (sourceArea.controllingHouse === gameStore.getState().currentPlayer.house) {
                     let placedToken: Phaser.Sprite = game.add.sprite(sourceAreaToken.x + (sourceAreaToken.width / 2), sourceAreaToken.y + ( sourceAreaToken.height / 2), AssetLoader.ORDER_TOKENS, sourceArea.orderToken.getType(), this.placedTokens);
                     placedToken.inputEnabled = true;
                     if (sourceArea.orderToken.isMoveToken()) {
@@ -114,27 +114,27 @@ export default class OrderTokenRenderer {
 
     private onInputDownForMoveToken(game: Phaser.Game, placedToken: Phaser.Sprite, sourceArea: Area) {
         placedToken.events.onInputDown.add((sprite) => {
-
+            const currentPlayer = gameStore.getState().currentPlayer;
             let moveUnitFunction = (targetAreaKey) => {
                 // splitArmy
                 let targetArea = GameRules.getAreaByKey(targetAreaKey);
-                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameRules.gameState.currentPlayer.house || (targetArea.controllingHouse !== GameRules.gameState.currentPlayer.house && targetArea.units.length === 0) )) {
+                if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentPlayer.house || (targetArea.controllingHouse !== currentPlayer.house && targetArea.units.length === 0) )) {
                     let modal = new SplitArmyModalFactory(game, sourceArea, targetAreaKey);
                     modal.show();
                 }
                 // establish Control
-                if (sourceArea.units.length === 1 && GameRules.gameState.currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === GameRules.gameState.currentPlayer.house)) {
+                if (sourceArea.units.length === 1 && currentPlayer.powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentPlayer.house)) {
 
                     let establishControlModal = new EstablishControlModalFactory(game, sourceArea, targetAreaKey);
                     establishControlModal.show();
                 }
                 // fight
                 let onCloseFn = () => {
-                    GamePhaseService.nextPlayer();
+                    gameStore.dispatch(nextPlayer());
                     this.removeSelectedToken(sprite);
                     Renderer.rerenderRequired = true;
                 };
-                if (targetArea.controllingHouse !== GameRules.gameState.currentPlayer.house && targetArea.units.length > 0) {
+                if (targetArea.controllingHouse !== currentPlayer.house && targetArea.units.length > 0) {
                     let modal = new FightModal(game, sourceArea, targetArea, onCloseFn);
                     modal.show();
                 }

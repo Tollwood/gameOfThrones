@@ -1,6 +1,5 @@
 import {Area} from '../area';
 import {WesterosCard} from '../../cards/westerosCard';
-import Player from '../player';
 import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
@@ -12,7 +11,6 @@ export default class GameState {
     private _westerosCards1 = [];
     private _westerosCards2 = [];
     private _westerosCards3 = [];
-    private _currentPlayer: Player;
     private _currentlyAllowedTokenTypes: Array<OrderTokenType>;
     private _currentlyAllowedSupply: TSMap<House, number>;
 
@@ -23,10 +21,6 @@ export default class GameState {
 
     get currentlyAllowedTokenTypes(): Array<OrderTokenType> {
         return this._currentlyAllowedTokenTypes;
-    }
-
-    get currentPlayer(): Player {
-        return this._currentPlayer;
     }
 
     get westerosCards3(): Array<WesterosCard> {
@@ -59,10 +53,6 @@ export default class GameState {
 
     set currentlyAllowedTokenTypes(value: Array<OrderTokenType>) {
         this._currentlyAllowedTokenTypes = value;
-    }
-
-    set currentPlayer(value: Player) {
-        this._currentPlayer = value;
     }
 
     set westerosCards3(value: Array<WesterosCard>) {

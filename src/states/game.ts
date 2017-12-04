@@ -18,7 +18,7 @@ import VictoryRules from '../logic/board/gameRules/victoryRules';
 import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
 import AiCalculator from '../logic/ai/aiCalculator';
 import {gameStore} from '../logic/board/gameState/reducer';
-import {nextPhase} from '../logic/board/gameState/actions';
+import {nextPhase, nextPlayer} from '../logic/board/gameState/actions';
 import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
 
 export default class Game extends Phaser.State {
@@ -71,7 +71,7 @@ export default class Game extends Phaser.State {
 
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = gameStore.getState().gamePhase;
-            let currentPlayer = GameRules.gameState.currentPlayer;
+            let currentPlayer = gameStore.getState().currentPlayer;
             let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
             if (currentAiPlayer !== null) {
                 this.orderTokenRenderer.removePlacedToken();
@@ -95,14 +95,14 @@ export default class Game extends Phaser.State {
                 if (currentAiPlayer === null) {
                     this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
                     OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
-                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, GameRules.gameState.currentPlayer.house);
+                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, currentPlayer.house);
                     if (remainingPlacableToken === 0) {
-                        GamePhaseService.nextPlayer();
+                        gameStore.dispatch(nextPlayer());
                         return;
                     }
                 } else {
                     this.aiCalculator.placeAllOrderTokens(currentAiPlayer);
-                    GamePhaseService.nextPlayer();
+                    gameStore.dispatch(nextPlayer());
                     return;
                 }
             }
@@ -119,12 +119,12 @@ export default class Game extends Phaser.State {
                         this.checkForWinner();
                         if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentPlayer.house)) ||
                             (currentGamePhase === GamePhase.ACTION_MARCH && GamePhaseService.allMarchOrdersRevealed(currentPlayer.house))) {
-                            GamePhaseService.nextPlayer();
+                            gameStore.dispatch(nextPlayer());
                             return;
                         }
                     } else {
                         this.aiCalculator.executeOrder(GameRules.gameState, currentAiPlayer);
-                        GamePhaseService.nextPlayer();
+                        gameStore.dispatch(nextPlayer());
                         this.checkForWinner();
                         return;
                     }
@@ -185,12 +185,12 @@ export default class Game extends Phaser.State {
 
         if (currentAiPlayer !== null && card.state === WesterosCardState.executeCard) {
             this.aiCalculator.recruit(currentAiPlayer);
-            GamePhaseService.nextPlayer();
+            gameStore.dispatch(nextPlayer());
             return true;
         } else if (currentAiPlayer === null && card.state === WesterosCardState.executeCard) {
             let remainingAreas = RecruitingRenderer.highlightPossibleArea(this.game);
             if (remainingAreas === 0) {
-                GamePhaseService.nextPlayer();
+                gameStore.dispatch(nextPlayer());
                 return true;
             }
             return false;
