@@ -12,6 +12,7 @@ import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {loadGame} from '../../../../src/logic/board/gameState/actions';
 import {gameStore, GameStoreState} from '../../../../src/logic/board/gameState/reducer';
+import {TSMap} from 'typescript-map';
 
 describe('MovementRules', () => {
 
@@ -166,6 +167,10 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .isSeaArea().build();
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply};
+            gameStore.dispatch(loadGame(gameStoreState));
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
 

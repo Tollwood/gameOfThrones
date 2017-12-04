@@ -1,7 +1,6 @@
 import {TopMenuItem} from './topMenuItem';
 import TopMenuRenderer from './topMenuRenderer';
 import {convertHouseToNumber, House} from '../../../logic/board/house';
-import GameRules from '../../../logic/board/gameRules/gameRules';
 import {gameStore} from '../../../logic/board/gameState/reducer';
 
 const POSITION_X = [0, 35, 70, 105, 140, 175];
@@ -23,7 +22,7 @@ export class MenuSupply extends TopMenuItem {
     }
 
     private getPositionForHouse(house: House): number {
-        let numOfSupplys = GameRules.gameState.currentlyAllowedSupply.get(house);
+        let numOfSupplys = gameStore.getState().currentlyAllowedSupply.get(house);
         if (numOfSupplys > 6) {
             numOfSupplys = 6;
         }

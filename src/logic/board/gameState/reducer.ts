@@ -26,6 +26,7 @@ class GameStoreState {
     players?: Array<Player>;
     currentPlayer?: Player;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
+    currentlyAllowedSupply?: TSMap<House, number>;
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -70,9 +71,14 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             player.forEach((player) => {
                 updatedSupply.set(player.house, SupplyRules.getNumberOfSupply(player.house, gameState.areas));
             });
-            gameState.currentlyAllowedSupply = updatedSupply;
+
             GameRules.load(gameState);
-            newState = {...initialState, players: player, currentPlayer: currentPlayer};
+            newState = {
+                ...initialState,
+                players: player,
+                currentPlayer: currentPlayer,
+                currentlyAllowedSupply: updatedSupply
+            };
             break;
         case TypeKeys.RESET_GAME:
             newState = {...initialState};
@@ -121,6 +127,9 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
         case TypeKeys.RESTRICT_ORDER_TOKEN:
             const currentlyAllowedTokenTypes = TokenPlacementRules.restrictOrderToken(state, action.notAllowedTokens);
             newState = {...state, currentlyAllowedTokenTypes};
+            break;
+        case TypeKeys.UPDATE_SUPPLY:
+            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply()};
             break;
         default:
             newState = state;

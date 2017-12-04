@@ -9,7 +9,7 @@ export default class SupplyRules {
 
     public static allowedMaxSizeBasedOnSupply(house: House): number {
         let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(house);
-        let numOfSupply = GameRules.gameState.currentlyAllowedSupply.get(house);
+        let numOfSupply = gameStore.getState().currentlyAllowedSupply.get(house);
         let maxSize = 0;
         let index = 0;
         let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[numOfSupply];
@@ -54,7 +54,7 @@ export default class SupplyRules {
         gameStore.getState().players.forEach((player) => {
             updatedSupply.set(player.house, this.getNumberOfSupply(player.house, areas));
         });
-        GameRules.gameState.currentlyAllowedSupply = updatedSupply;
+        return updatedSupply;
     }
 
     public static enoughSupplyForArmySize(source: Area, target: Area) {

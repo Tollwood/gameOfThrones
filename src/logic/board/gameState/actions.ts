@@ -8,9 +8,14 @@ export enum TypeKeys {
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
     RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
+    UPDATE_SUPPLY = 'UPDATE_SUPPLY',
         //not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface UpdateSupplyAction {
+    type: TypeKeys.UPDATE_SUPPLY
 }
 
 export interface RestrictOrderTokenTypesAction {
@@ -55,9 +60,13 @@ export type ActionTypes =
     | NextPhaseAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
+    | UpdateSupplyAction
     | OtherAction
     | NextPlayerAction;
 
+export const updateSupply = (): UpdateSupplyAction => ({
+    type: TypeKeys.UPDATE_SUPPLY,
+});
 
 export const resctrictOrderToken = (notAllowedTokens: OrderTokenType[]): RestrictOrderTokenTypesAction => ({
     type: TypeKeys.RESTRICT_ORDER_TOKEN,
