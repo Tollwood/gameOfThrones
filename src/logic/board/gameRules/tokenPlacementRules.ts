@@ -5,7 +5,7 @@ import AreaRules from './AreaRules';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
 import {nextPlayer} from '../gameState/actions';
 export default class TokenPlacementRules {
 
@@ -14,8 +14,6 @@ export default class TokenPlacementRules {
     public static DEFEND_ORDER_TOKENS = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
     public static SUPPORT_ORDER_TOKENS = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
-    public static INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
-
 
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = GameRules.getAreaByKey(areaKey);
@@ -31,7 +29,7 @@ export default class TokenPlacementRules {
             return area.orderToken.getType();
         });
 
-        return GameRules.gameState.currentlyAllowedTokenTypes.filter((type) => {
+        return gameStore.getState().currentlyAllowedTokenTypes.filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
@@ -82,8 +80,8 @@ export default class TokenPlacementRules {
     }
 
 
-    public static restrictOrderToken(notAllowedOrderTokenTypes: Array<OrderTokenType>) {
-        GameRules.gameState.currentlyAllowedTokenTypes = GameRules.gameState.currentlyAllowedTokenTypes.filter(function (orderToken) {
+    public static restrictOrderToken(state: GameStoreState, notAllowedOrderTokenTypes: Array<OrderTokenType>) {
+        return state.currentlyAllowedTokenTypes.filter(function (orderToken) {
             return notAllowedOrderTokenTypes.indexOf(orderToken) === -1;
         });
     }

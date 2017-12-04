@@ -6,11 +6,13 @@ import {House} from '../../../src/logic/board/house';
 import GameRules from '../../../src/logic/board/gameRules/gameRules';
 import Player from '../../../src/logic/board/player';
 import AreaBuilder from '../../areaBuilder';
-import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
-import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/reducer';
+import {
+    gameStore, GameStoreState,
+    INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
+} from '../../../src/logic/board/gameState/reducer';
 import {loadGame, nextPhase, nextPlayer, resetGame} from '../../../src/logic/board/gameState/actions';
 describe('GamePhaseService', () => {
 
@@ -159,7 +161,7 @@ describe('GamePhaseService', () => {
             GameRules.load(gameState);
             gameStore.dispatch(nextPhase());
 
-            expect(gameState.currentlyAllowedTokenTypes).toEqual(TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
+            expect(gameStore.getState().currentlyAllowedTokenTypes).toEqual(INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
             expect(gameStore.getState().gameRound).toBe(2);
             expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
             expect(gameStore.getState().currentPlayer.house).toBe(House.stark);

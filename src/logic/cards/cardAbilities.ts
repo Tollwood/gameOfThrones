@@ -4,9 +4,9 @@ import {WesterosCard} from './westerosCard';
 import SupplyRules from '../board/gameRules/supplyRules';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
-import GameRules from '../board/gameRules/gameRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
 import {gameStore} from '../board/gameState/reducer';
+import {resctrictOrderToken} from '../board/gameState/actions';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult?: CombatResult): CombatResult {
@@ -185,27 +185,27 @@ export default class CardAbilities {
 
     public static noDefenseOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
-        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
+        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
     }
 
     public static noSpecialMarchOrder(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.march_special];
-        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
+        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
     }
 
     public static noRaidOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
-        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
+        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
     }
 
     public static noConsolidatePowerOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
-        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
+        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
     }
 
     public static noSupportOrders(card: WesterosCard) {
         let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
-        TokenPlacementRules.restrictOrderToken(restrictedTokenTypes);
+        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
     }
 
     public static wildlingAttack(card: WesterosCard) {

@@ -13,6 +13,7 @@ import AiPlayer from '../../ai/aiPlayer';
 import GameState from './GameState';
 import {TSMap} from 'typescript-map';
 import GamePhaseService from '../gamePhaseService';
+import {OrderTokenType} from '../../orderToken/orderTokenType';
 
 class GameStoreState {
     gameRound?: number;
@@ -24,10 +25,12 @@ class GameStoreState {
     wildlingsCount?: number;
     players?: Array<Player>;
     currentPlayer?: Player;
+    currentlyAllowedTokenTypes?: Array<OrderTokenType>;
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
 const initialFiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
+export const INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
 const INITIAL_POWER_TOKEN: number = 5;
 const initialState: GameStoreState = {
     gameRound: 1,
@@ -38,7 +41,8 @@ const initialState: GameStoreState = {
     ironThroneSuccession: initialIronThroneSuccession,
     wildlingsCount: 0,
     players: [],
-    currentPlayer: null
+    currentPlayer: null,
+    currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -59,7 +63,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             gameState.westerosCards1 = CardFactory.getWesterosCards(1);
             gameState.westerosCards2 = CardFactory.getWesterosCards(2);
             gameState.westerosCards3 = CardFactory.getWesterosCards(3);
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
             const currentPlayer = player.filter((player) => {
                 return player.house === gameStore.getState().ironThroneSuccession[0];
             })[0];
@@ -83,7 +86,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 gameState.areas.map((area) => {
                     area.orderToken = null;
                 });
-                gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
                 const nextGameRound = state.gameRound + 1;
                 let winningHouse = null;
                 if (nextGameRound > 10) {
@@ -97,7 +99,8 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,
-                    currentPlayer: GameRules.getFirstFromIronThroneSuccession()
+                    currentPlayer: GameRules.getFirstFromIronThroneSuccession(),
+                    currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
                 };
             } else {
                 newState = {...state, gamePhase: state.gamePhase + 1};
@@ -114,6 +117,10 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             break;
         case TypeKeys.NEXT_PLAYER:
             newState = {...state, currentPlayer: GamePhaseService.nextPlayer(state)};
+            break;
+        case TypeKeys.RESTRICT_ORDER_TOKEN:
+            const currentlyAllowedTokenTypes = TokenPlacementRules.restrictOrderToken(state, action.notAllowedTokens);
+            newState = {...state, currentlyAllowedTokenTypes};
             break;
         default:
             newState = state;

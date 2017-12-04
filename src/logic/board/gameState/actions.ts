@@ -1,17 +1,22 @@
 import {GameStoreState} from './reducer';
 import PlayerSetup from '../playerSetup';
-import Player from '../player';
+import {OrderTokenType} from '../../orderToken/orderTokenType';
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
-    //not a real Action remove once all is moved to the store
+    RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
+        //not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
 }
 
+export interface RestrictOrderTokenTypesAction {
+    type: TypeKeys.RESTRICT_ORDER_TOKEN;
+    notAllowedTokens: OrderTokenType[];
+}
 export interface NextPlayerAction {
     type: TypeKeys.NEXT_PLAYER
 }
@@ -49,9 +54,15 @@ export type ActionTypes =
     | ResetGameAction
     | NextPhaseAction
     | IncreaseWildlingCountAction
+    | RestrictOrderTokenTypesAction
     | OtherAction
     | NextPlayerAction;
 
+
+export const resctrictOrderToken = (notAllowedTokens: OrderTokenType[]): RestrictOrderTokenTypesAction => ({
+    type: TypeKeys.RESTRICT_ORDER_TOKEN,
+    notAllowedTokens
+});
 
 export const increaseWildlingCount = (by: number): IncreaseWildlingCountAction => ({
     type: TypeKeys.INCREASE_WILDLINGCOUNT,

@@ -10,7 +10,7 @@ import {UnitType} from '../../../../src/logic/units/unitType';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {loadGame} from '../../../../src/logic/board/gameState/actions';
+import {loadGame, resctrictOrderToken} from '../../../../src/logic/board/gameState/actions';
 
 describe('TokenPlacementRules', () => {
 
@@ -184,11 +184,11 @@ describe('TokenPlacementRules', () => {
         it('should reduce the allowed tokens', () => {
 
             const notAllowedOrderTokenTypes: OrderTokenType[] = [OrderTokenType.consolidatePower_0];
-            gameState.currentlyAllowedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1];
-            GameRules.load(gameState);
-            TokenPlacementRules.restrictOrderToken(notAllowedOrderTokenTypes);
+            const state = {currentlyAllowedTokenTypes: [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1]};
+            gameStore.dispatch(loadGame(state));
+            gameStore.dispatch(resctrictOrderToken(notAllowedOrderTokenTypes));
 
-            expect(GameRules.gameState.currentlyAllowedTokenTypes).toEqual([OrderTokenType.consolidatePower_1]);
+            expect(gameStore.getState().currentlyAllowedTokenTypes).toEqual([OrderTokenType.consolidatePower_1]);
         });
     });
 
@@ -252,17 +252,20 @@ describe('TokenPlacementRules', () => {
     describe('getPlacableOrderTokenTypes', () => {
         it('it should return all currentlyAllowedTokenTypes if not order was placed yet', () => {
             // given
-            gameState.currentlyAllowedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.consolidatePower_1];
-            GameRules.load(gameState);
+            const state = {currentlyAllowedTokenTypes: [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1]};
+            gameStore.dispatch(loadGame(state));
+
             // when
             const actual = TokenPlacementRules.getPlacableOrderTokenTypes(House.stark);
             // then
-            expect(actual).toEqual(gameState.currentlyAllowedTokenTypes);
+            expect(actual).toEqual(gameStore.getState().currentlyAllowedTokenTypes);
         });
 
         it('it should return all currentlyAllowedTokenTypes minus the once already placed', () => {
             // given
-            gameState.currentlyAllowedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.consolidatePower_1];
+            const state = {currentlyAllowedTokenTypes: [OrderTokenType.defend_0, OrderTokenType.consolidatePower_1]};
+            gameStore.dispatch(loadGame(state));
+
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             gameState.areas.push(winterfell);
             GameRules.load(gameState);

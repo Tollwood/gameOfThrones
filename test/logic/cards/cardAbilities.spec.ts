@@ -7,10 +7,9 @@ import HouseCardBuilder from '../../HouseCardBuilder';
 import GameRules from '../../../src/logic/board/gameRules/gameRules';
 import GameState from '../../../src/logic/board/gameState/GameState';
 import CombatResult from '../../../src/logic/march/combatResult';
-import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../src/logic/board/gameState/reducer';
-import {loadGame} from '../../../src/logic/board/gameState/actions';
+import {loadGame, newGame} from '../../../src/logic/board/gameState/actions';
 describe('CardAbilities', () => {
     let gameState: GameState;
     const combatResult = new CombatResult(null, null, 0, 0);
@@ -226,51 +225,49 @@ describe('CardAbilities', () => {
     describe('noConsolidatePowerOrders', () => {
         it(' should remove consolidate power Orders from currentlyAllowedTokenTypes', () => {
             // given
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            GameRules.load(gameState);
+            gameStore.dispatch(newGame([]));
             // when
             CardAbilities.noConsolidatePowerOrders(null);
-
+            const state = gameStore.getState();
             // then
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_0)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_1)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_special)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_0)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_1)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.consolidatePower_special)).toBe(-1);
         });
     });
 
     describe('noRaidOrders', () => {
         it(' should do nothing for now', () => {
             // given
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            GameRules.load(gameState);
+            gameStore.dispatch(newGame([]));
             // when
             CardAbilities.noRaidOrders(null);
-
+            const state = gameStore.getState();
             // then
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_0)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_1)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_special)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_0)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_1)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.raid_special)).toBe(-1);
 
         });
     });
 
     describe('noSpecialMarchOrder', () => {
         it(' should remove march special Order from currentlyAllowedTokenTypes', () => {
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            GameRules.load(gameState);
+            gameStore.dispatch(newGame([]));
             CardAbilities.noSpecialMarchOrder(null);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.march_special)).toBe(-1);
+            const state = gameStore.getState();
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.march_special)).toBe(-1);
         });
     });
 
     describe('noDefenseOrders', () => {
         it('should remove defense Orders from currentlyAllowedTokenTypes', () => {
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            GameRules.load(gameState);
+            gameStore.dispatch(newGame([]));
             CardAbilities.noDefenseOrders(null);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_1)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_0)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_special)).toBe(-1);
+            const state = gameStore.getState();
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_1)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_0)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.defend_special)).toBe(-1);
         });
     });
     describe('power', () => {
@@ -287,12 +284,13 @@ describe('CardAbilities', () => {
 
     describe('noSupportOrders', () => {
         it(' should remove the support token for currently allowedOrderTokenTypes', () => {
-            gameState.currentlyAllowedTokenTypes = TokenPlacementRules.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES;
-            GameRules.load(gameState);
+            gameStore.dispatch(newGame([]));
             CardAbilities.noSupportOrders(null);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_0)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_1)).toBe(-1);
-            expect(gameState.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_special)).toBe(-1);
+            const state =  gameStore.getState();
+            expect(state.currentlyAllowedTokenTypes.length).toBe(12);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_0)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_1)).toBe(-1);
+            expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_special)).toBe(-1);
         });
     });
 });
