@@ -4,6 +4,7 @@ import SupplyRules from './supplyRules';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import GameRules from './gameRules';
+import {gameStore} from '../gameState/reducer';
 
 export default class RecruitingRules {
 
@@ -30,7 +31,7 @@ export default class RecruitingRules {
     }
 
     public static setAreasAllowedToRecruit() {
-        GameRules.gameState.areasAllowedToRecruit = GameRules.gameState.areas.filter((area) => {
+        GameRules.gameState.areasAllowedToRecruit = gameStore.getState().areas.filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
                 && SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse) > area.units.length;

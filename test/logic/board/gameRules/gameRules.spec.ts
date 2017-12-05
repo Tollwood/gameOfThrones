@@ -4,7 +4,6 @@ import {gameStore, INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from '../../../../src/lo
 describe('GameRules', ()=>{
     describe('newGame', ()=>{
         it('should initiziale a Game with 6 players', ()=>{
-
             GameRules.newGame();
             const state = gameStore.getState();
             expect(state.gameRound).toBe(1);

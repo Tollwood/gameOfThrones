@@ -1,11 +1,10 @@
 import {House} from '../house';
 import {Area} from '../area';
-import GameRules from './gameRules';
 import {gameStore} from '../gameState/reducer';
 export default class VictoryRules {
 
     public static getVictoryPositionFor(house: House) {
-        return GameRules.gameState.areas.filter((area: Area) => {
+        return gameStore.getState().areas.filter((area: Area) => {
             return area.controllingHouse === house && area.hasCastleOrStronghold();
         }).length;
     }

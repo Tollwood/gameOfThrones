@@ -123,7 +123,7 @@ export default class Game extends Phaser.State {
                             return;
                         }
                     } else {
-                        this.aiCalculator.executeOrder(GameRules.gameState, currentAiPlayer);
+                        this.aiCalculator.executeOrder(currentAiPlayer);
                         gameStore.dispatch(nextPlayer());
                         this.checkForWinner();
                         return;

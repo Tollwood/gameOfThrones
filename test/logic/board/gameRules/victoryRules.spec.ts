@@ -1,7 +1,5 @@
 import VictoryRules from '../../../../src/logic/board/gameRules/victoryRules';
-import GameState from '../../../../src/logic/board/gameState/GameState';
 import {House} from '../../../../src/logic/board/house';
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
@@ -10,33 +8,27 @@ import {loadGame, nextPhase, resetGame} from '../../../../src/logic/board/gameSt
 import {GamePhase} from '../../../../src/logic/board/gamePhase';
 describe('VictoryRules', () => {
 
-    let gameState: GameState;
-
     beforeEach(() => {
-        gameState = new GameState();
         gameStore.dispatch(resetGame());
-        let gameStoreState = { players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
-        gameStore.dispatch(loadGame(gameStoreState));
     });
 
 
     describe('getVictoryPositionFor', () => {
         it('should count castle and stronghold for given house', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
-
-            gameState.areas.push(winterfell);
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withCastle().withHouse(House.stark).build();
-            gameState.areas.push(whiteHarbor);
-            GameRules.load(gameState);
+            let gameStoreState = {
+                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+                areas: [winterfell, whiteHarbor]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
             const actual = VictoryRules.getVictoryPositionFor(House.stark);
             expect(actual).toBe(2);
         });
-
     });
 
     describe('getWinningHouse', () => {
         it('should return null if no one has 7 strongholds/ castle and gameRound is smaller or equal 10', () => {
-            GameRules.load(gameState);
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBeNull();
         });
@@ -50,25 +42,26 @@ describe('VictoryRules', () => {
             let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withStronghold().withHouse(House.stark).build();
             let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
             let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().withHouse(House.stark).build();
-            gameState.areas.push(winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay);
-            GameRules.load(gameState);
+            let gameStoreState = {
+                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+                areas: [winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
             const actual = VictoryRules.getWinningHouse();
             expect(actual).toBe(House.stark);
         });
 
         it('should return the house with most strongholds/castle after round 10 was completed', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
-            gameState.areas.push(winterfell);
             let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.lannister).build();
-            gameState.areas.push(whiteHarbour);
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
-            gameState.areas.push(castleBlack);
-            GameRules.load(gameState);
+
             const gameStoreState = {
                 gameRound: 10,
                 gamePhase: GamePhase.ACTION_CLEANUP,
                 ironThroneSuccession: [House.stark, House.lannister],
-                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]
+                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+                areas: [winterfell, whiteHarbour, castleBlack]
             };
             gameStore.dispatch(loadGame(gameStoreState));
             gameStore.dispatch(nextPhase());

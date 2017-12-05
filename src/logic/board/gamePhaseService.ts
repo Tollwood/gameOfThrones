@@ -16,7 +16,7 @@ export default class GamePhaseService {
             case GamePhase.ACTION_CONSOLIDATE_POWER:
                 return !this.allConsolidatePowerOrdersRevealed();
             case GamePhase.ACTION_CLEANUP:
-                return GameRules.gameState.areas.filter((area) => {
+                return gameStore.getState().areas.filter((area) => {
                         return area.orderToken;
                     }).length > 0;
         }
@@ -31,25 +31,25 @@ export default class GamePhaseService {
     }
 
     public static allMarchOrdersRevealed(house?: House): boolean {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
                 return area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
     public static allRaidOrdersRevealed(house?: House): boolean {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
                 return area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
     private static allConsolidatePowerOrdersRevealed(): boolean {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
                 return area.orderToken && area.orderToken.isConsolidatePowerToken();
             }).length === 0;
     }
 
     static allOrderTokenPlaced(house?: House): boolean {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
                 return area.units.length > 0 && (house === undefined || area.controllingHouse === house) && area.orderToken === null;
             }).length === 0;
     }

@@ -1,8 +1,6 @@
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
-import GameState from '../../../../src/logic/board/gameState/GameState';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
@@ -12,20 +10,14 @@ import {TSMap} from 'typescript-map';
 
 describe('SupplyRules', () => {
 
-    let gameState: GameState;
-
-    beforeEach(() => {
-        gameState = new GameState();
-    });
-
     it('should return the size of each army sorted by size', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
-        new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
-        new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
-
-        GameRules.load(gameState);
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).build();
+        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
+        const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
+        let gameStoreState = {areas: [winterfell, karhold, whiteHarbor]};
+        gameStore.dispatch(loadGame(gameStoreState));
 
         // when
         let actual = SupplyRules.getArmiesBySizeForHouse(House.stark);
@@ -38,12 +30,11 @@ describe('SupplyRules', () => {
     it('should return 3 if house has one army of size 2 and supply 1', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
-            .withSupply(1).addToGameState(gameState).build();
-        GameRules.load(gameState);
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
+            .withSupply(1).build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply};
+        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
         gameStore.dispatch(loadGame(gameStoreState));
         SupplyRules.updateSupply();
 
@@ -57,13 +48,12 @@ describe('SupplyRules', () => {
     it('should return 3 if house has no army and supply 1', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
-            .withSupply(1).addToGameState(gameState).build();
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
+            .withSupply(1).build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply};
+        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
         gameStore.dispatch(loadGame(gameStoreState));
-        GameRules.load(gameState);
         SupplyRules.updateSupply();
 
         // when
@@ -76,14 +66,13 @@ describe('SupplyRules', () => {
     it('should return 2 if house has one army of size 3 and supply 1', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
-            .addToGameState(gameState).build();
+            .build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply};
+        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
         gameStore.dispatch(loadGame(gameStoreState));
-        GameRules.load(gameState);
         SupplyRules.updateSupply();
 
         // when
@@ -96,15 +85,18 @@ describe('SupplyRules', () => {
     it('should return 3 if house has two armies of size 2 and supply 1', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).withSupply(1)
-            .addToGameState(gameState).build();
-        new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
-            .withUnits([UnitType.Footman, UnitType.Footman]).addToGameState(gameState).build();
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).withSupply(1)
+            .build();
+        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
+            .withUnits([UnitType.Footman, UnitType.Footman]).build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply};
+        let gameStoreState = {
+            players: [new Player(House.stark, 5, [])],
+            currentlyAllowedSupply,
+            areas: [karhold, winterfell]
+        };
         gameStore.dispatch(loadGame(gameStoreState));
-        GameRules.load(gameState);
         SupplyRules.updateSupply();
 
         // when
@@ -117,15 +109,15 @@ describe('SupplyRules', () => {
     it('should return 3 if house has no armyies and supply 1', () => {
 
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
-            .addToGameState(gameState).build();
-        GameRules.load(gameState);
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
+            .build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
         const gameStoreState = {
             ironThroneSuccession: [House.stark],
             players: [new Player(House.stark, 5, [])],
-            currentlyAllowedSupply
+            currentlyAllowedSupply,
+            areas: [karhold]
         };
         gameStore.dispatch(loadGame(gameStoreState));
         SupplyRules.updateSupply();
@@ -139,10 +131,9 @@ describe('SupplyRules', () => {
 
     it('should return empty array for house with no army', () => {
         // given
-        new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).addToGameState(gameState).build();
-        let gameStoreState = {players: [new Player(House.stark, 5, [])]};
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).build();
+        let gameStoreState = {players: [new Player(House.stark, 5, [])], areas: [karhold]};
         gameStore.dispatch(loadGame(gameStoreState));
-        GameRules.load(gameState);
         SupplyRules.updateSupply();
 
         expect(SupplyRules.getArmiesBySizeForHouse(House.stark)).toEqual([]);

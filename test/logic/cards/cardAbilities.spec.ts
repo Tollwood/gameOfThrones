@@ -15,7 +15,7 @@ describe('CardAbilities', () => {
     const combatResult = new CombatResult(null, null, 0, 0);
     beforeEach(() => {
         gameState = new GameState();
-        let gameStoreState = { players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
+        let gameStoreState = {players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])], areas: []};
         gameStore.dispatch(loadGame(gameStoreState));
     });
 
@@ -211,7 +211,7 @@ describe('CardAbilities', () => {
     });
 
     describe('recruit', () => {
-        it(' should do nothing for now', () => {
+        it(' should set all areas allowed to recruit', () => {
             CardAbilities.recruit(null);
         });
     });

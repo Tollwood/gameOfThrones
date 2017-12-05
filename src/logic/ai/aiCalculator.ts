@@ -3,20 +3,18 @@ import {House} from '../board/house';
 import PossibleMove from './possibleMove';
 import MovementRules from '../board/gameRules/movementRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
-import GameState from '../board/gameState/GameState';
 import {GamePhase} from '../board/gamePhase';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
-import GameRules from '../board/gameRules/gameRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore} from '../board/gameState/reducer';
 export default class AiCalculator {
 
-    public executeOrder(gameState: GameState, aiPlayer: AiPlayer) {
+    public executeOrder(aiPlayer: AiPlayer) {
 
         if (gameStore.getState().gamePhase === GamePhase.ACTION_MARCH) {
-            let areasWithMoveToken = this.getAreasForHouseWithToken(gameState.areas, aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
+            let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas, aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 // TODO: Pick most important moveToken first
                 let sourceArea = areasWithMoveToken[0];
@@ -34,7 +32,7 @@ export default class AiCalculator {
         }
 
         if (gameStore.getState().gamePhase === GamePhase.ACTION_RAID) {
-            let areasWithRaidToken = this.getAreasForHouseWithToken(gameState.areas, aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
+            let areasWithRaidToken = this.getAreasForHouseWithToken(gameStore.getState().areas, aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
                 TokenPlacementRules.skipOrder(areasWithRaidToken[0].key);
@@ -56,7 +54,7 @@ export default class AiCalculator {
 
     public placeAllOrderTokens(aiPlayer: AiPlayer) {
         let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(aiPlayer.house);
-        let areasToPlaceAToken = GameRules.gameState.areas.filter((area) => {
+        let areasToPlaceAToken = gameStore.getState().areas.filter((area) => {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(aiPlayer.house, area.key);
         });
         // TODO: consider already placed token when calculating further best moves

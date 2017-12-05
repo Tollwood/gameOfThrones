@@ -9,13 +9,13 @@ export enum TypeKeys {
     NEW_GAME = 'NEW_GAME',
     RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
     UPDATE_SUPPLY = 'UPDATE_SUPPLY',
-        //not a real Action remove once all is moved to the store
+        // not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
 }
 
 export interface UpdateSupplyAction {
-    type: TypeKeys.UPDATE_SUPPLY
+    type: TypeKeys.UPDATE_SUPPLY;
 }
 
 export interface RestrictOrderTokenTypesAction {
@@ -23,7 +23,7 @@ export interface RestrictOrderTokenTypesAction {
     notAllowedTokens: OrderTokenType[];
 }
 export interface NextPlayerAction {
-    type: TypeKeys.NEXT_PLAYER
+    type: TypeKeys.NEXT_PLAYER;
 }
 
 export interface NewGameAction {

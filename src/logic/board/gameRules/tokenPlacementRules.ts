@@ -23,7 +23,7 @@ export default class TokenPlacementRules {
     }
 
     public static getPlacableOrderTokenTypes(house: House): Array<OrderTokenType> {
-        let alreadyPlacedOrderTokens: Array<OrderTokenType> = GameRules.gameState.areas.filter((area) => {
+        let alreadyPlacedOrderTokens: Array<OrderTokenType> = gameStore.getState().areas.filter((area) => {
             return area.orderToken && area.controllingHouse === house;
         }).map((area) => {
             return area.orderToken.getType();
@@ -61,7 +61,7 @@ export default class TokenPlacementRules {
 
 
     public static executeAllConsolidatePowerOrders() {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();
         }).map((area) => {
             area.orderToken = null;
@@ -87,10 +87,9 @@ export default class TokenPlacementRules {
     }
 
     public static consolidateAllPower() {
-        let gameState = GameRules.gameState;
         gameStore.getState().players.forEach((player) => {
             let additionalPower = 0;
-            gameState.areas.forEach((area) => {
+            gameStore.getState().areas.forEach((area) => {
                 if (area.controllingHouse === player.house) {
                     additionalPower += area.consolidatePower;
                 }

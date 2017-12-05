@@ -1,16 +1,11 @@
 import {Area} from '../area';
 import {House} from '../house';
-import CardFactory from '../../cards/cardFactory';
-import {AreaInitiator} from '../areaInitiator';
 import Player from '../player';
 import PlayerSetup from '../playerSetup';
-import AiPlayer from '../../ai/aiPlayer';
-import SupplyRules from './supplyRules';
-import TokenPlacementRules from './tokenPlacementRules';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
 import {gameStore} from '../gameState/reducer';
-import {newGame, resetGame} from '../gameState/actions';
+import {newGame} from '../gameState/actions';
 
 export default class GameRules {
     static get gameState(): GameState {
@@ -39,7 +34,7 @@ export default class GameRules {
     }
 
     public static getAreaByKey(areaKey: AreaKey): Area {
-        return this._gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
             return area.key === areaKey;
         })[0];
     }

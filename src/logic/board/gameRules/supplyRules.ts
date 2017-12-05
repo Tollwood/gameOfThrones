@@ -1,7 +1,6 @@
 import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {Area} from '../area';
-import GameRules from './gameRules';
 import {gameStore} from '../gameState/reducer';
 export default class SupplyRules {
 
@@ -25,7 +24,7 @@ export default class SupplyRules {
     }
 
     public static getArmiesBySizeForHouse(house: House): Array<number> {
-        return GameRules.gameState.areas.filter((area) => {
+        return gameStore.getState().areas.filter((area) => {
             // an army of one unit does not count as an army
             return area.controllingHouse === house && area.units.length > 1;
         }).map((area) => {
@@ -50,9 +49,8 @@ export default class SupplyRules {
 
     public static updateSupply() {
         let updatedSupply = new TSMap<House, number>();
-        const areas = GameRules.gameState.areas;
         gameStore.getState().players.forEach((player) => {
-            updatedSupply.set(player.house, this.getNumberOfSupply(player.house, areas));
+            updatedSupply.set(player.house, this.getNumberOfSupply(player.house, gameStore.getState().areas));
         });
         return updatedSupply;
     }

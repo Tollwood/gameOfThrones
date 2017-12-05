@@ -1,9 +1,7 @@
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {OrderToken} from '../../../../src/logic/orderToken/orderToken';
 import TokenPlacementRules from '../../../../src/logic/board/gameRules/tokenPlacementRules';
 import AreaBuilder from '../../../areaBuilder';
-import GameState from '../../../../src/logic/board/gameState/GameState';
 import Player from '../../../../src/logic/board/player';
 import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
 import {UnitType} from '../../../../src/logic/units/unitType';
@@ -14,37 +12,33 @@ import {loadGame, resctrictOrderToken} from '../../../../src/logic/board/gameSta
 
 describe('TokenPlacementRules', () => {
 
-    let gameState: GameState;
     let playerStark: Player;
     let playerLannister: Player;
     beforeEach(() => {
-        gameState = new GameState();
         playerStark = new Player(House.stark, 0, []);
         playerLannister = new Player(House.lannister, 0, []);
-        let gameStoreState = { players: [playerStark, playerLannister]};
-        gameStore.dispatch(loadGame(gameStoreState));
     });
 
     it('should be allowed to place a token on winterfell', () => {
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
-        gameState.areas.push(winterfell);
-        GameRules.load(gameState);
+        let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+        gameStore.dispatch(loadGame(gameStoreState));
         const actual = TokenPlacementRules.isAllowedToPlaceOrderToken(House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(true);
     });
 
     it('should not be allowed to place a token on an field that is not occupied by the house', () => {
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
-        gameState.areas.push(winterfell);
-        GameRules.load(gameState);
+        let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+        gameStore.dispatch(loadGame(gameStoreState));
         const actual = TokenPlacementRules.isAllowedToPlaceOrderToken(House.stark, AreaKey.Winterfell);
         expect(actual).toBe(false);
     });
 
     it('should not be allowed to place a token on an area with not units', () => {
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
-        gameState.areas.push(winterfell);
-        GameRules.load(gameState);
+        let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+        gameStore.dispatch(loadGame(gameStoreState));
         const actual = TokenPlacementRules.isAllowedToPlaceOrderToken(House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(false);
 
@@ -55,8 +49,8 @@ describe('TokenPlacementRules', () => {
             .withHouse(House.lannister)
             .withUnits([UnitType.Footman])
             .withOrderToken(OrderTokenType.consolidatePower_1).build();
-        gameState.areas.push(winterfell);
-        GameRules.load(gameState);
+        let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+        gameStore.dispatch(loadGame(gameStoreState));
         const actual = TokenPlacementRules.isAllowedToPlaceOrderToken(House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(false);
     });
@@ -68,8 +62,8 @@ describe('TokenPlacementRules', () => {
             .withHouse(House.lannister)
             .withUnits([UnitType.Footman])
             .build();
-        gameState.areas.push(winterfell);
-        GameRules.load(gameState);
+        let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+        gameStore.dispatch(loadGame(gameStoreState));
         TokenPlacementRules.addOrderToken(orderToken, AreaKey.Winterfell);
         expect(winterfell.orderToken).toBe(orderToken);
 
@@ -78,11 +72,11 @@ describe('TokenPlacementRules', () => {
     describe('skipOrder', () => {
         it('should remove orderToken and switch to Next Player', () => {
             const area = new AreaBuilder(AreaKey.Winterfell).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();
-            gameState.areas = [area];
-            GameRules.load(gameState);
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [area]};
+            gameStore.dispatch(loadGame(gameStoreState));
             spyOn(GamePhaseService, 'nextPlayer');
             TokenPlacementRules.skipOrder(AreaKey.Winterfell);
-            expect(gameState.areas[0].orderToken).toBeNull();
+            expect(gameStore.getState().areas[0].orderToken).toBeNull();
             expect(GamePhaseService.nextPlayer).toHaveBeenCalled();
         });
     });
@@ -91,6 +85,8 @@ describe('TokenPlacementRules', () => {
         it('should not be allowed if areas are not conntected', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();
             const whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeFalsy();
         });
@@ -108,6 +104,8 @@ describe('TokenPlacementRules', () => {
                 .withHouse(House.stark)
                 .build();
 
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeFalsy();
         });
@@ -123,6 +121,10 @@ describe('TokenPlacementRules', () => {
                 .withHouse(House.stark)
                 .withBorders([whiteHarbour])
                 .build();
+
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
 
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeFalsy();
@@ -141,6 +143,9 @@ describe('TokenPlacementRules', () => {
                 .withBorders([whiteHarbour])
                 .build();
 
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeFalsy();
         });
@@ -158,6 +163,10 @@ describe('TokenPlacementRules', () => {
                 .withBorders([whiteHarbour])
                 .build();
 
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
+
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeTruthy();
         });
@@ -173,6 +182,9 @@ describe('TokenPlacementRules', () => {
                 .withHouse(House.lannister)
                 .withBorders([whiteHarbour])
                 .build();
+
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell, whiteHarbour]};
+            gameStore.dispatch(loadGame(gameStoreState));
 
             const actual = TokenPlacementRules.isAllowedToRaid(winterfell, whiteHarbour);
             expect(actual).toBeTruthy();
@@ -201,14 +213,14 @@ describe('TokenPlacementRules', () => {
         it('should remove orderToken in target and source area', () => {
 
 
-            gameState.areas.push(sourceArea);
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor)
                 .withHouse(House.stark)
                 .withOrderToken(OrderTokenType.raid_0)
                 .build();
-            gameState.areas.push(targetArea);
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [sourceArea, targetArea]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
             spyOn(GamePhaseService, 'nextPlayer');
-            GameRules.load(gameState);
             TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
             expect(sourceArea.orderToken).toBeNull();
             expect(targetArea.orderToken).toBeNull();
@@ -217,14 +229,14 @@ describe('TokenPlacementRules', () => {
 
         it('should increase consolidate power if targetAre contains consolidate Power Token and not reduce target player.powerToken < 0', () => {
 
-            gameState.areas.push(sourceArea);
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor)
                 .withHouse(House.stark)
                 .withOrderToken(OrderTokenType.consolidatePower_special)
                 .build();
-            gameState.areas.push(targetArea);
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [sourceArea, targetArea]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
             spyOn(GamePhaseService, 'nextPlayer');
-            GameRules.load(gameState);
             TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
             expect(GamePhaseService.nextPlayer).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
@@ -233,15 +245,15 @@ describe('TokenPlacementRules', () => {
 
         it('should reduce powerToken by one for player owning target area', () => {
 
-            gameState.areas.push(sourceArea);
             playerStark.powerToken = 5;
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor)
                 .withHouse(House.stark)
                 .withOrderToken(OrderTokenType.consolidatePower_special)
                 .build();
-            gameState.areas.push(targetArea);
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [sourceArea, targetArea]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
             spyOn(GamePhaseService, 'nextPlayer');
-            GameRules.load(gameState);
             TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
             expect(GamePhaseService.nextPlayer).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
@@ -252,7 +264,10 @@ describe('TokenPlacementRules', () => {
     describe('getPlacableOrderTokenTypes', () => {
         it('it should return all currentlyAllowedTokenTypes if not order was placed yet', () => {
             // given
-            const state = {currentlyAllowedTokenTypes: [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1]};
+            const state = {
+                currentlyAllowedTokenTypes: [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1],
+                areas: []
+            };
             gameStore.dispatch(loadGame(state));
 
             // when
@@ -263,12 +278,13 @@ describe('TokenPlacementRules', () => {
 
         it('it should return all currentlyAllowedTokenTypes minus the once already placed', () => {
             // given
-            const state = {currentlyAllowedTokenTypes: [OrderTokenType.defend_0, OrderTokenType.consolidatePower_1]};
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
+            const state = {
+                currentlyAllowedTokenTypes: [OrderTokenType.defend_0, OrderTokenType.consolidatePower_1],
+                areas: [winterfell]
+            };
             gameStore.dispatch(loadGame(state));
 
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
-            gameState.areas.push(winterfell);
-            GameRules.load(gameState);
             // when
             const actual = TokenPlacementRules.getPlacableOrderTokenTypes(House.stark);
             // then
@@ -283,8 +299,13 @@ describe('TokenPlacementRules', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).build();
             const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).build();
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).build();
-            gameState.areas.push(winterfell, castleBlack, whiteHarbor);
-            GameRules.load(gameState);
+
+            let gameStoreState = {
+                players: [playerStark, playerLannister],
+                areas: [winterfell, castleBlack, whiteHarbor]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
+
             // when
             TokenPlacementRules.consolidateAllPower();
 
@@ -301,8 +322,12 @@ describe('TokenPlacementRules', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_1).build();
             const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).withOrderToken(OrderTokenType.consolidatePower_0).build();
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_special).build();
-            gameState.areas.push(winterfell, castleBlack, whiteHarbor);
-            GameRules.load(gameState);
+            let gameStoreState = {
+                players: [playerStark, playerLannister],
+                areas: [winterfell, castleBlack, whiteHarbor]
+            };
+            gameStore.dispatch(loadGame(gameStoreState));
+
             // when
             TokenPlacementRules.executeAllConsolidatePowerOrders();
 
@@ -318,8 +343,10 @@ describe('TokenPlacementRules', () => {
 
             // given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.raid_0).build();
-            gameState.areas.push(winterfell);
-            GameRules.load(gameState);
+
+            let gameStoreState = {players: [playerStark, playerLannister], areas: [winterfell]};
+            gameStore.dispatch(loadGame(gameStoreState));
+
             // when
             TokenPlacementRules.executeAllConsolidatePowerOrders();
 

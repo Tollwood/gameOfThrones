@@ -1,16 +1,12 @@
 import {Area} from '../area';
 import {WesterosCard} from '../../cards/westerosCard';
-import {House} from '../house';
-import {TSMap} from 'typescript-map';
 export default class GameState {
 
-    private _areas: Array<Area> = [];
     private _areasAllowedToRecruit: Array<Area> = [];
     private _currentWesterosCard: WesterosCard = null;
     private _westerosCards1 = [];
     private _westerosCards2 = [];
     private _westerosCards3 = [];
-
     get westerosCards3(): Array<WesterosCard> {
         return this._westerosCards3;
     }
@@ -31,10 +27,6 @@ export default class GameState {
         return this._areasAllowedToRecruit;
     }
 
-    get areas(): Array<Area> {
-        return this._areas;
-    }
-
     set westerosCards3(value: Array<WesterosCard>) {
         this._westerosCards3 = value;
     }
@@ -53,10 +45,6 @@ export default class GameState {
 
     set areasAllowedToRecruit(value: Array<Area>) {
         this._areasAllowedToRecruit = value;
-    }
-
-    set areas(value: Array<Area>) {
-        this._areas = value;
     }
 
 }

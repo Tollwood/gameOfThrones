@@ -2,7 +2,6 @@ import {convertHouseToNumber, House} from '../../logic/board/house';
 
 import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
-import GameRules from '../../logic/board/gameRules/gameRules';
 import {TSMap} from 'typescript-map';
 import {gameStore} from '../../logic/board/gameState/reducer';
 
@@ -11,7 +10,7 @@ export default class PowerTokenRenderer {
     private controlMarkerGroup: Phaser.Group;
     private powerTokenText: TSMap<House, Phaser.Text>;
 
-    public init(game: Phaser.Game){
+    public init(game: Phaser.Game) {
         this.powerTokenGroup = game.add.group();
         this.controlMarkerGroup = game.add.group();
         this.powerTokenText = this.addPowerToken(game);
@@ -21,7 +20,7 @@ export default class PowerTokenRenderer {
     public renderControlToken(game: Phaser.Game) {
         this.controlMarkerGroup.removeChildren();
 
-        GameRules.gameState.areas
+        gameStore.getState().areas
             .filter((area: Area) => {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })

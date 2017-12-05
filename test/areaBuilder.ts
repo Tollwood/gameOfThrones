@@ -49,11 +49,6 @@ export default class AreaBuilder {
         return this;
     }
 
-    public addToGameState(gameState: GameState): AreaBuilder {
-        this._gameState = gameState;
-        return this;
-    }
-
     public withCastle(): AreaBuilder {
         this._castle = true;
         return this;
@@ -82,9 +77,6 @@ export default class AreaBuilder {
             area.units.push(new Unit(type, this._controllingHouse));
         });
 
-        if (this._gameState) {
-            this._gameState.areas.push(area);
-        }
         return area;
 
     }

@@ -3,7 +3,7 @@ import {House} from '../../logic/board/house';
 import AssetLoader from '../../utils/assetLoader';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
-import GameRules from '../../logic/board/gameRules/gameRules';
+import {gameStore} from '../../logic/board/gameState/reducer';
 
 
 export default class UnitRenderer {
@@ -18,7 +18,7 @@ export default class UnitRenderer {
 
     public renderUnits(game: Phaser.Game) {
         this.units.removeChildren();
-        GameRules.gameState.areas
+        gameStore.getState().areas
             .filter((area: Area) => {
                 return area.units.length > 0;
             })

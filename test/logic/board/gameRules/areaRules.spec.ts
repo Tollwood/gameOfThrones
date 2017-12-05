@@ -1,23 +1,19 @@
 import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
-import GameState from '../../../../src/logic/board/gameState/GameState';
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {loadGame} from '../../../../src/logic/board/gameState/actions';
 
 describe('AreaRules', () => {
-
-    let gameState: GameState;
-
-    beforeEach(() => {
-        gameState = new GameState();
-    });
 
     it('should return the true for adjacent areas', () => {
 
         // given
-        let karhold = new AreaBuilder(AreaKey.Karhold).addToGameState(gameState).build();
-        let winterfell = new AreaBuilder(AreaKey.Winterfell).addToGameState(gameState).withBorders([karhold]).build();
-        GameRules.load(gameState);
+        let karhold = new AreaBuilder(AreaKey.Karhold).build();
+        let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+        let gameStoreState = {areas: [winterfell, karhold]};
+        gameStore.dispatch(loadGame(gameStoreState));
+
         // when
         let actual = AreaRules.isConnectedArea(winterfell, karhold);
 
@@ -29,9 +25,10 @@ describe('AreaRules', () => {
     it('should return the false for non adjacent areas', () => {
 
         // given
-        let karhold = new AreaBuilder(AreaKey.Karhold).addToGameState(gameState).build();
-        let winterfell = new AreaBuilder(AreaKey.Winterfell).addToGameState(gameState).withBorders([karhold]).build();
-        GameRules.load(gameState);
+        let karhold = new AreaBuilder(AreaKey.Karhold).build();
+        let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+        let gameStoreState = {areas: [winterfell, karhold]};
+        gameStore.dispatch(loadGame(gameStoreState));
         // when
         let actual = AreaRules.isConnectedArea( karhold, winterfell);
 
