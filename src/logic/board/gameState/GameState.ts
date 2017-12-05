@@ -1,8 +1,6 @@
-import {Area} from '../area';
 import {WesterosCard} from '../../cards/westerosCard';
 export default class GameState {
 
-    private _areasAllowedToRecruit: Array<Area> = [];
     private _currentWesterosCard: WesterosCard = null;
     private _westerosCards1 = [];
     private _westerosCards2 = [];
@@ -23,10 +21,6 @@ export default class GameState {
         return this._currentWesterosCard;
     }
 
-    get areasAllowedToRecruit(): Array<Area> {
-        return this._areasAllowedToRecruit;
-    }
-
     set westerosCards3(value: Array<WesterosCard>) {
         this._westerosCards3 = value;
     }
@@ -41,10 +35,6 @@ export default class GameState {
 
     set currentWesterosCard(value: WesterosCard) {
         this._currentWesterosCard = value;
-    }
-
-    set areasAllowedToRecruit(value: Array<Area>) {
-        this._areasAllowedToRecruit = value;
     }
 
 }

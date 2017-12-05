@@ -1,6 +1,4 @@
 import AreaBuilder from '../../../areaBuilder';
-import GameState from '../../../../src/logic/board/gameState/GameState';
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {House} from '../../../../src/logic/board/house';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import RecruitingRules from '../../../../src/logic/board/gameRules/recruitingRules';
@@ -11,47 +9,38 @@ import {loadGame} from '../../../../src/logic/board/gameState/actions';
 
 describe('RecruitingRules', () => {
 
-    let gameState: GameState;
-
-    beforeEach(() => {
-        gameState = new GameState();
-    });
     describe('recruit', () => {
         it('should add recruited units to area and remove from eligble areas', () => {
             // given
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withCastle().build();
-            let gameStoreState = {areas: [winterfell]};
+            let gameStoreState = {areas: [winterfell], areasAllowedToRecruit: [winterfell]};
             gameStore.dispatch(loadGame(gameStoreState));
-            gameState.areasAllowedToRecruit = [winterfell];
-            GameRules.load(gameState);
             // when
             RecruitingRules.recruit(winterfell, [UnitType.Footman]);
 
             // then
             expect(winterfell.units.length).toBe(1);
             expect(winterfell.units[0].getType()).toBe(UnitType.Footman);
-            expect(gameState.areasAllowedToRecruit.length).toBe(0);
+            expect(gameStore.getState().areasAllowedToRecruit.length).toBe(0);
         });
         it('should skip recruiting if no units provided', () => {
             // given
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withCastle().build();
-            let gameStoreState = {areas: [winterfell]};
+            let gameStoreState = {areas: [winterfell], areasAllowedToRecruit: [winterfell]};
             gameStore.dispatch(loadGame(gameStoreState));
-            gameState.areasAllowedToRecruit = [winterfell];
-            GameRules.load(gameState);
             // when
             RecruitingRules.recruit(winterfell);
 
             // then
             expect(winterfell.units.length).toBe(0);
-            expect(gameState.areasAllowedToRecruit.length).toBe(0);
+            expect(gameStore.getState().areasAllowedToRecruit.length).toBe(0);
         });
         it('should throw error if area is not eligble for recruiting', () => {
             // given
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withCastle().build();
-            let gameStoreState = {areas: [winterfell]};
+            let gameStoreState = {areas: [winterfell], areasAllowedToRecruit: []};
             gameStore.dispatch(loadGame(gameStoreState));
-            GameRules.load(gameState);
+
             // when
             const functionToCall = () => {
                 RecruitingRules.recruit(winterfell, [UnitType.Footman])
@@ -69,14 +58,14 @@ describe('RecruitingRules', () => {
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
             let gameStoreState = {areas: [winterfell, whiteHarbor]};
             gameStore.dispatch(loadGame(gameStoreState));
-            GameRules.load(gameState);
+
             spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
-            RecruitingRules.setAreasAllowedToRecruit();
+            const actual = RecruitingRules.setAreasAllowedToRecruit(gameStoreState);
 
             // then
-            expect(gameState.areasAllowedToRecruit.length).toBe(1);
-            expect(gameState.areasAllowedToRecruit[0].key).toEqual(AreaKey.Winterfell);
+            expect(actual.length).toBe(1);
+            expect(actual[0].key).toEqual(AreaKey.Winterfell);
             expect(SupplyRules.allowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(House.stark);
         });
     });
@@ -86,9 +75,7 @@ describe('RecruitingRules', () => {
             //given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).build();
-            gameState.areasAllowedToRecruit = [winterfell, whiteHarbor];
-            GameRules.load(gameState);
-            let gameStoreState = {areas: [winterfell, whiteHarbor]};
+            let gameStoreState = {areas: [winterfell, whiteHarbor], areasAllowedToRecruit: [winterfell, whiteHarbor]};
             gameStore.dispatch(loadGame(gameStoreState));
             spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
@@ -104,9 +91,7 @@ describe('RecruitingRules', () => {
             //given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Horse]).build();
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).build();
-            gameState.areasAllowedToRecruit = [winterfell, whiteHarbor];
-            GameRules.load(gameState);
-            let gameStoreState = {areas: [winterfell, whiteHarbor]};
+            let gameStoreState = {areas: [winterfell, whiteHarbor], areasAllowedToRecruit: [winterfell, whiteHarbor]};
             gameStore.dispatch(loadGame(gameStoreState));
             spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(1);
             // when

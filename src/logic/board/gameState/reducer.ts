@@ -15,6 +15,7 @@ import {TSMap} from 'typescript-map';
 import GamePhaseService from '../gamePhaseService';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
+import RecruitingRules from '../gameRules/recruitingRules';
 
 class GameStoreState {
     areas?: Area[];
@@ -29,6 +30,7 @@ class GameStoreState {
     currentPlayer?: Player;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
+    areasAllowedToRecruit?: Area[]
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -46,7 +48,8 @@ const initialState: GameStoreState = {
     wildlingsCount: 0,
     players: [],
     currentPlayer: null,
-    currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
+    currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
+    areasAllowedToRecruit: []
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -90,6 +93,27 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
         case TypeKeys.LOAD_GAME:
             newState = {...action.state};
             break;
+
+        case TypeKeys.INCREASE_WILDLINGCOUNT:
+            let newWildlingCount: number;
+            if (state.wildlingsCount + action.by >= 12) {
+                newWildlingCount = 12;
+            } else {
+                newWildlingCount = state.wildlingsCount += action.by;
+            }
+            newState = {...state, wildlingsCount: newWildlingCount};
+            break;
+        case TypeKeys.RESTRICT_ORDER_TOKEN:
+            const currentlyAllowedTokenTypes = TokenPlacementRules.restrictOrderToken(state, action.notAllowedTokens);
+            newState = {...state, currentlyAllowedTokenTypes};
+            break;
+        case TypeKeys.UPDATE_SUPPLY:
+            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply()};
+            break;
+        case TypeKeys.START_RECRUITING:
+            newState = {...state, areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state)};
+            break;
+        // these are no real actions and should be removed
         case TypeKeys.NEXT_PHASE:
             if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
                 gameStore.getState().areas.map((area) => {
@@ -115,24 +139,8 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 newState = {...state, gamePhase: state.gamePhase + 1};
             }
             break;
-        case TypeKeys.INCREASE_WILDLINGCOUNT:
-            let newWildlingCount: number;
-            if (state.wildlingsCount + action.by >= 12) {
-                newWildlingCount = 12;
-            } else {
-                newWildlingCount = state.wildlingsCount += action.by;
-            }
-            newState = {...state, wildlingsCount: newWildlingCount};
-            break;
         case TypeKeys.NEXT_PLAYER:
             newState = {...state, currentPlayer: GamePhaseService.nextPlayer(state)};
-            break;
-        case TypeKeys.RESTRICT_ORDER_TOKEN:
-            const currentlyAllowedTokenTypes = TokenPlacementRules.restrictOrderToken(state, action.notAllowedTokens);
-            newState = {...state, currentlyAllowedTokenTypes};
-            break;
-        case TypeKeys.UPDATE_SUPPLY:
-            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply()};
             break;
         default:
             newState = state;

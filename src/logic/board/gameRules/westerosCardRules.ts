@@ -1,5 +1,6 @@
 import {WesterosCard} from '../../cards/westerosCard';
 import GameRules from './gameRules';
+import {gameStore} from '../gameState/reducer';
 
 
 export default class WesterosCardRules {
@@ -25,7 +26,7 @@ export default class WesterosCardRules {
         let gameState = GameRules.gameState;
         switch (gameState.currentWesterosCard.selectedFunction.functionName) {
             case 'recruit':
-                let areasAllowedToRecruit = GameRules.gameState.areasAllowedToRecruit;
+                let areasAllowedToRecruit = gameStore.getState().areasAllowedToRecruit;
                 return areasAllowedToRecruit.length > 0;
             default:
                 return false;

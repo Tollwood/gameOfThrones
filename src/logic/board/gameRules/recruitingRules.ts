@@ -3,13 +3,12 @@ import {Area} from '../area';
 import SupplyRules from './supplyRules';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
-import GameRules from './gameRules';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
 
 export default class RecruitingRules {
 
     public static recruit(area: Area, unitTypes: UnitType[] = []) {
-        let areasAllowedToRecruit = GameRules.gameState.areasAllowedToRecruit;
+        let areasAllowedToRecruit = gameStore.getState().areasAllowedToRecruit;
         let index = areasAllowedToRecruit.indexOf(area);
         if (index === -1) {
             throw Error('Area is not eligible for recruiting');
@@ -21,7 +20,7 @@ export default class RecruitingRules {
     }
 
     public static getAreasAllowedToRecruit(house: House): Array<Area> {
-        return GameRules.gameState.areasAllowedToRecruit.filter((area) => {
+        return gameStore.getState().areasAllowedToRecruit.filter((area) => {
             if (area.controllingHouse !== house) {
                 return false;
             }
@@ -30,8 +29,8 @@ export default class RecruitingRules {
         });
     }
 
-    public static setAreasAllowedToRecruit() {
-        GameRules.gameState.areasAllowedToRecruit = gameStore.getState().areas.filter((area) => {
+    public static setAreasAllowedToRecruit(state: GameStoreState) {
+        return state.areas.filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
                 && SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse) > area.units.length;

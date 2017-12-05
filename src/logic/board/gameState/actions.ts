@@ -4,6 +4,7 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
+    START_RECRUITING = 'START_RECRUITING',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
@@ -14,6 +15,9 @@ export enum TypeKeys {
     OTHER_ACTION = '__any_other_action_type__'
 }
 
+export interface StartRecruitingAction {
+    type: TypeKeys.START_RECRUITING;
+}
 export interface UpdateSupplyAction {
     type: TypeKeys.UPDATE_SUPPLY;
 }
@@ -58,11 +62,16 @@ export type ActionTypes =
     | LoadGameAction
     | ResetGameAction
     | NextPhaseAction
+    | StartRecruitingAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
     | OtherAction
     | NextPlayerAction;
+
+export const startRecruiting = (): StartRecruitingAction => ({
+    type: TypeKeys.START_RECRUITING,
+});
 
 export const updateSupply = (): UpdateSupplyAction => ({
     type: TypeKeys.UPDATE_SUPPLY,

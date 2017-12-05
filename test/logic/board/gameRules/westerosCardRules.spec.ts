@@ -5,6 +5,8 @@ import CardFunction from '../../../../src/logic/cards/cardFuncttion';
 import GameState from '../../../../src/logic/board/gameState/GameState';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import {loadGame} from '../../../../src/logic/board/gameState/actions';
 import game = PIXI.game;
 describe('WesterosCardRules', () => {
 
@@ -47,7 +49,7 @@ describe('WesterosCardRules', () => {
             const cardFunction = new CardFunction('recruit', '');
             gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
             gameState.currentWesterosCard.selectedFunction = cardFunction;
-            gameState.areasAllowedToRecruit = [new AreaBuilder(AreaKey.Winterfell).build()];
+            gameStore.dispatch(loadGame({areasAllowedToRecruit: [new AreaBuilder(AreaKey.Winterfell).build()]}));
             GameRules.load(gameState);
             const actual = WesterosCardRules.stillPlayingWesterosCard();
             expect(actual).toBeTruthy();
@@ -57,8 +59,9 @@ describe('WesterosCardRules', () => {
             const cardFunction = new CardFunction('recruit', '');
             gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
             gameState.currentWesterosCard.selectedFunction = cardFunction;
-            gameState.areasAllowedToRecruit = [];
             GameRules.load(gameState);
+            const gameStoreState = {areasAllowedToRecruit: []};
+            gameStore.dispatch(loadGame(gameStoreState));
             const actual = WesterosCardRules.stillPlayingWesterosCard();
             expect(actual).toBeFalsy();
         });
