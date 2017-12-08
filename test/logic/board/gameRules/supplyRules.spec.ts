@@ -4,11 +4,11 @@ import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
-import {loadGame} from '../../../../src/logic/board/gameState/actions';
-import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {TSMap} from 'typescript-map';
 
 describe('SupplyRules', () => {
+
+    const playerStark = new Player(House.stark, 5, []);
 
     it('should return the size of each army sorted by size', () => {
 
@@ -16,11 +16,10 @@ describe('SupplyRules', () => {
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).build();
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
         const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
-        let gameStoreState = {areas: [winterfell, karhold, whiteHarbor]};
-        gameStore.dispatch(loadGame(gameStoreState));
+        const areas = [winterfell, karhold, whiteHarbor];
 
         // when
-        let actual = SupplyRules.getArmiesBySizeForHouse(House.stark);
+        let actual = SupplyRules.getArmiesBySizeForHouse(areas, House.stark);
 
         // then
         expect(actual).toEqual([4, 3, 2]);
@@ -34,12 +33,10 @@ describe('SupplyRules', () => {
             .withSupply(1).build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
+        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
+        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(3);
@@ -52,12 +49,10 @@ describe('SupplyRules', () => {
             .withSupply(1).build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
+        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
+        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(3);
@@ -71,12 +66,11 @@ describe('SupplyRules', () => {
             .build();
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], currentlyAllowedSupply, areas: [karhold]};
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
+        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
+
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
+        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(2);
@@ -92,15 +86,13 @@ describe('SupplyRules', () => {
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
         let gameStoreState = {
-            players: [new Player(House.stark, 5, [])],
+            players: [playerStark],
             currentlyAllowedSupply,
+            currentPlayer: playerStark,
             areas: [karhold, winterfell]
         };
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
-
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
+        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(gameStoreState);
 
         // then
         expect(actual).toEqual(3);
@@ -115,15 +107,15 @@ describe('SupplyRules', () => {
         currentlyAllowedSupply.set(House.stark, 1);
         const gameStoreState = {
             ironThroneSuccession: [House.stark],
-            players: [new Player(House.stark, 5, [])],
+            players: [playerStark],
+            currentPlayer: playerStark,
             currentlyAllowedSupply,
             areas: [karhold]
         };
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
+        SupplyRules.updateSupply(gameStoreState);
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(House.stark);
+        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(gameStoreState);
 
         // then
         expect(actual).toEqual(3);
@@ -132,11 +124,10 @@ describe('SupplyRules', () => {
     it('should return empty array for house with no army', () => {
         // given
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).build();
-        let gameStoreState = {players: [new Player(House.stark, 5, [])], areas: [karhold]};
-        gameStore.dispatch(loadGame(gameStoreState));
-        SupplyRules.updateSupply();
+        let state = {players: [new Player(House.stark, 5, [])], areas: [karhold]};
+        SupplyRules.updateSupply(state);
 
-        expect(SupplyRules.getArmiesBySizeForHouse(House.stark)).toEqual([]);
+        expect(SupplyRules.getArmiesBySizeForHouse(state.areas, House.stark)).toEqual([]);
 
 
     });

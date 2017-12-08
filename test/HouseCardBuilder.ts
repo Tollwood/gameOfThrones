@@ -1,11 +1,4 @@
-import GameState from '../src/logic/board/gameState/GameState';
-import {Area} from '../src/logic/board/area';
 import {House} from '../src/logic/board/house';
-import {UnitType} from '../src/logic/units/unitType';
-import {OrderToken} from '../src/logic/orderToken/orderToken';
-import Unit from '../src/logic/units/units';
-import {AreaKey} from '../src/logic/board/areaKey';
-import {OrderTokenType} from '../src/logic/orderToken/orderTokenType';
 import HousecCard from '../src/logic/cards/houseCard';
 import {CardExecutionPoint} from '../src/logic/cards/cardExecutionPoint';
 export default class HouseCardBuilder {
@@ -22,18 +15,19 @@ export default class HouseCardBuilder {
     private _cardExecutionPoint: CardExecutionPoint;
     private _id: number;
 
-    public played(){
+    public played() {
         this._played = true;
         return this;
     }
-    public house(house:House){
+
+    public house(house: House) {
         this._house = house;
         return this;
     }
 
     public build(): HousecCard {
-        let houseCard = new HousecCard(this._id,this._leaderName,this._artWork, this._combatStrength, this._sword, this._fortification, this._ability, this._abilityFn, this._house,this._cardExecutionPoint);
-        houseCard.played = this._played
+        let houseCard = new HousecCard(this._id, this._leaderName, this._artWork, this._combatStrength, this._sword, this._fortification, this._ability, this._abilityFn, this._house, this._cardExecutionPoint);
+        houseCard.played = this._played;
         return houseCard;
 
     }

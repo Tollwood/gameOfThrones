@@ -1,10 +1,13 @@
 import {GameStoreState} from './reducer';
 import PlayerSetup from '../playerSetup';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
+import {Area} from '../area';
+import {UnitType} from '../../units/unitType';
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
     START_RECRUITING = 'START_RECRUITING',
+    RECRUIT_UNITS = 'RECRUIT_UNITS',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
@@ -13,6 +16,12 @@ export enum TypeKeys {
         // not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface  RecruitUnitsAction {
+    type: TypeKeys.RECRUIT_UNITS;
+    area: Area;
+    units: UnitType[];
 }
 
 export interface StartRecruitingAction {
@@ -63,6 +72,7 @@ export type ActionTypes =
     | ResetGameAction
     | NextPhaseAction
     | StartRecruitingAction
+    | RecruitUnitsAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
@@ -73,6 +83,11 @@ export const startRecruiting = (): StartRecruitingAction => ({
     type: TypeKeys.START_RECRUITING,
 });
 
+export const recruitUnits = (area: Area, units: UnitType[] = []): RecruitUnitsAction => ({
+    type: TypeKeys.RECRUIT_UNITS,
+    area,
+    units
+});
 export const updateSupply = (): UpdateSupplyAction => ({
     type: TypeKeys.UPDATE_SUPPLY,
 });

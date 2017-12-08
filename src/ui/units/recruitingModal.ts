@@ -1,10 +1,10 @@
 import {Area} from '../../logic/board/area';
 import {UnitType} from '../../logic/units/unitType';
 import {House} from '../../logic/board/house';
-import RecruitingRenderer from './recruitingRenderer';
 import Modal from '../../utils/modal';
-import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
 import SupplyRules from '../../logic/board/gameRules/supplyRules';
+import {gameStore} from '../../logic/board/gameState/reducer';
+import {recruitUnits} from '../../logic/board/gameState/actions';
 export default class RecruitingModal extends Modal {
 
     constructor(game: Phaser.Game, area: Area) {
@@ -16,12 +16,11 @@ export default class RecruitingModal extends Modal {
 
 
     private addNewUnits(area: Area) {
-        let unitsToRecruit = new Array<RecruitingUnit>();
+        let unitsToRecruit: RecruitingUnit[] = [];
         let recruitingPointsText = 'recruit points left: ';
 
         let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
-            RecruitingRules.recruit(area);
-            RecruitingRenderer.removeChildren();
+            gameStore.dispatch(recruitUnits(area));
             this.close();
         });
         let textRecruitNewUnits = this.addText('Recruit new units', 100, 0, true, () => {
@@ -30,8 +29,7 @@ export default class RecruitingModal extends Modal {
             }).map((ru) => {
                 return ru.unitType;
             });
-            RecruitingRules.recruit(area, unitTypesToRecruit);
-            RecruitingRenderer.removeChildren();
+            gameStore.dispatch(recruitUnits(area, unitTypesToRecruit));
             this.close();
         });
 
@@ -88,26 +86,14 @@ export default class RecruitingModal extends Modal {
             case 1:
                 let unitsRequireMoreThanOneRecruitingPoint = [UnitType.Horse, UnitType.Siege];
                 unitsToRecruit.forEach((imageAndType) => {
-
-                    if (unitsRequireMoreThanOneRecruitingPoint.indexOf(imageAndType.unitType) > -1 && !imageAndType.selected) {
-                        imageAndType.image.visible = false;
-                    }
-                    else {
-                        imageAndType.image.visible = true;
-                    }
+                    imageAndType.image.visible = !(unitsRequireMoreThanOneRecruitingPoint.indexOf(imageAndType.unitType) > -1 && !imageAndType.selected);
                 });
                 break;
             case 0:
                 unitsToRecruit.forEach((imageAndType) => {
-                    if (!imageAndType.selected) {
-                        imageAndType.image.visible = false;
-                    }
-                    else {
-                        imageAndType.image.visible = true;
-                    }
+                    imageAndType.image.visible = imageAndType.selected;
                 });
                 break;
-
         }
     }
 
@@ -119,7 +105,7 @@ export default class RecruitingModal extends Modal {
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
-        let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(area.controllingHouse);
+        let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(gameStore.getState());
         if (area.units.length + numOfSelectedUnits === maxArmySize) {
             remainingRecruitingPoints = 0;
         }

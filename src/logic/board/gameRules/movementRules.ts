@@ -1,12 +1,11 @@
 import {Area} from '../area';
 import Unit from '../../units/units';
-import AreaRules from './AreaRules';
 import SupplyRules from './supplyRules';
 import CombatResult from '../../march/combatResult';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {House} from '../house';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
 import {nextPlayer} from '../gameState/actions';
 export default class MovementRules {
 
@@ -34,33 +33,33 @@ export default class MovementRules {
         gameStore.dispatch(nextPlayer());
     }
 
-    public static getAllAreasAllowedToMarchTo(sourceArea: Area): Array<Area> {
+    public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
         let validAreas = [];
         if (sourceArea.units.length === 0) {
             return validAreas;
         }
-        return validAreas.concat(this.getValidAreas(sourceArea, sourceArea.borders));
+        return validAreas.concat(this.getValidAreas(state, sourceArea, sourceArea.borders));
     }
 
-    private static getValidAreas(sourceArea: Area, areasToCheck: Area[]) {
+    private static getValidAreas(state: GameStoreState, sourceArea: Area, areasToCheck: Area[]) {
         let validAreas = [];
         areasToCheck
             .forEach((area) => {
-                if (this.isAllowedToMove(sourceArea, area)) {
+                if (this.isAllowedToMove(state, sourceArea, area)) {
                     validAreas.push(area);
                 }
                 if (sourceArea.isLandArea && !area.isLandArea && area.units.length > 0 && area.controllingHouse === sourceArea.controllingHouse) {
-                    validAreas = validAreas.concat(this.getValidAreas(sourceArea, area.borders));
+                    validAreas = validAreas.concat(this.getValidAreas(state, sourceArea, area.borders));
                 }
             });
 
         return validAreas;
     }
 
-    private static isAllowedToMove(source: Area, target: Area): boolean {
+    private static isAllowedToMove(state: GameStoreState, source: Area, target: Area): boolean {
         const landToLandMove = source.isLandArea && target.isLandArea;
         const seaToSeaMove = !source.isLandArea && !target.isLandArea;
-        const enoughSupplyForArmySize = SupplyRules.enoughSupplyForArmySize(source, target);
+        const enoughSupplyForArmySize = SupplyRules.enoughSupplyForArmySize(state, source, target);
 
         return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
     }

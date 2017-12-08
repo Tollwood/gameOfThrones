@@ -1,33 +1,33 @@
-import GameRules from '../../logic/board/gameRules/gameRules';
-
 import Renderer from '../../utils/renderer';
 import RecruitingModal from './recruitingModal';
 import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
-import {gameStore} from '../../logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
 export default class RecruitingRenderer {
 
-    private static areasToRecruit: Phaser.Group;
+    private areasToRecruit: Phaser.Group;
+    private game: Phaser.Game;
 
-    public static createGroups(game: Phaser.Game) {
-        this.areasToRecruit = game.add.group();
-    }
-
-    public static highlightPossibleArea(game: Phaser.Game): number {
-        this.areasToRecruit.removeChildren();
-        let areasAllowedToRecruit = RecruitingRules.getAreasAllowedToRecruit(gameStore.getState().currentPlayer.house);
-        areasAllowedToRecruit.forEach((area) => {
-            let showModalFn = () => {
-                let modal = new RecruitingModal(game, area);
-                modal.show();
-            };
-
-            Renderer.drawRectangleAroundAreaName(game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
+    public init(game: Phaser.Game) {
+        this.game = game;
+        this.areasToRecruit = this.game.add.group();
+        gameStore.subscribe(() => {
+            this.highlightPossibleArea(gameStore.getState());
         });
-        return areasAllowedToRecruit.length;
     }
 
-    public  static removeChildren() {
-        this.areasToRecruit.removeChildren();
-
+    private highlightPossibleArea(state: GameStoreState) {
+        const areasToRecruit = RecruitingRules.getAreasAllowedToRecruit(state);
+        if (areasToRecruit.length > 0) {
+            areasToRecruit.forEach((area) => {
+                let showModalFn = () => {
+                    let modal = new RecruitingModal(this.game, area);
+                    modal.show();
+                };
+                Renderer.drawRectangleAroundAreaName(this.game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
+            });
+        }
+        else {
+            this.areasToRecruit.removeChildren();
+        }
     }
 }

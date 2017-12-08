@@ -30,7 +30,7 @@ class GameStoreState {
     currentPlayer?: Player;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
-    areasAllowedToRecruit?: Area[]
+    areasAllowedToRecruit?: Area[];
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -54,6 +54,7 @@ const initialState: GameStoreState = {
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
     let newState;
+    let areas;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
             let player = [];
@@ -66,7 +67,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 }
             });
             const gameState = new GameState();
-            const areas = AreaInitiator.getInitalState(player.map(player => player.house));
+            areas = AreaInitiator.getInitalState(player.map(player => player.house));
             gameState.westerosCards1 = CardFactory.getWesterosCards(1);
             gameState.westerosCards2 = CardFactory.getWesterosCards(2);
             gameState.westerosCards3 = CardFactory.getWesterosCards(3);
@@ -108,10 +109,18 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, currentlyAllowedTokenTypes};
             break;
         case TypeKeys.UPDATE_SUPPLY:
-            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply()};
+            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply(state)};
             break;
         case TypeKeys.START_RECRUITING:
             newState = {...state, areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state)};
+            break;
+        case TypeKeys.RECRUIT_UNITS:
+            areas = RecruitingRules.recruit(state, action.area, action.units);
+            newState = {
+                ...state,
+                areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state),
+                currentPlayer: GamePhaseService.nextPlayer(state)
+            };
             break;
         // these are no real actions and should be removed
         case TypeKeys.NEXT_PHASE:

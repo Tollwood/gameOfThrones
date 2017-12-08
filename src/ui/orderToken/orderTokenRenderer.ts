@@ -114,7 +114,8 @@ export default class OrderTokenRenderer {
 
     private onInputDownForMoveToken(game: Phaser.Game, placedToken: Phaser.Sprite, sourceArea: Area) {
         placedToken.events.onInputDown.add((sprite) => {
-            const currentPlayer = gameStore.getState().currentPlayer;
+            const state = gameStore.getState();
+            const currentPlayer = state.currentPlayer;
             let moveUnitFunction = (targetAreaKey) => {
                 // splitArmy
                 let targetArea = GameRules.getAreaByKey(targetAreaKey);
@@ -140,7 +141,8 @@ export default class OrderTokenRenderer {
                 }
                 Renderer.rerenderRequired = true;
             };
-            let areasAllowedToExecuteOrder: Array<Area> = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
+
+            let areasAllowedToExecuteOrder: Array<Area> = MovementRules.getAllAreasAllowedToMarchTo(state, sourceArea);
             this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_MARCH);
             Renderer.rerenderRequired = true;
 

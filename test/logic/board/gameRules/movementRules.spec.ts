@@ -21,29 +21,27 @@ describe('MovementRules', () => {
 
         it('should return empty Array if no units are present in sourceArea', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).build();
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [sourceArea]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(sourceArea);
+            const actual = MovementRules.getAllAreasAllowedToMarchTo(state, sourceArea);
             expect(actual.length).toBe(0);
         });
 
         it('should return no valid areas if source area has no units', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).build();
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [area]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(area);
+            const actual = MovementRules.getAllAreasAllowedToMarchTo(state, area);
             // then
             expect(actual.length).toBe(0);
         });
@@ -56,18 +54,17 @@ describe('MovementRules', () => {
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [karhold, winterfell]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(winterfell);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, winterfell);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(winterfell, karhold);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
             expect(result.length).toBe(1);
             expect(result.indexOf(karhold)).toBeGreaterThan(-1);
         });
@@ -85,18 +82,17 @@ describe('MovementRules', () => {
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, theSiveringSea, whiteHarbor]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -119,18 +115,17 @@ describe('MovementRules', () => {
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, theSiveringSea, theStonyShore, whiteHarbor]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
 
@@ -144,18 +139,17 @@ describe('MovementRules', () => {
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, whiteHarbor]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(whiteHarbor, castleBlack);
+            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -167,15 +161,14 @@ describe('MovementRules', () => {
                 .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, whiteHarbor]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
@@ -189,15 +182,14 @@ describe('MovementRules', () => {
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
-            let gameStoreState = {
+            let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, whiteHarbor]
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBe(-1);
@@ -211,16 +203,15 @@ describe('MovementRules', () => {
                 .isSeaArea().build();
             const currentlyAllowedSupply = new TSMap<House, number>();
             currentlyAllowedSupply.set(House.stark, 1);
-            let gameStoreState = {
+            const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
                 currentPlayer: playerStark,
                 areas: [castleBlack, whiteHarbor],
                 currentlyAllowedSupply
             };
-            gameStore.dispatch(loadGame(gameStoreState));
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(whiteHarbor);
+            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBe(-1);
@@ -356,7 +347,7 @@ describe('MovementRules', () => {
 
             // then
             expect(sourceArea.controllingHouse).toBe(House.stark);
-            expect(gameStore.getState().players.filter(player => player.house == House.stark)[0].powerToken).toBe(0);
+            expect(gameStore.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
         });
     });
 

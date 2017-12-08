@@ -7,4 +7,7 @@ export default class AiPlayer extends Player {
         super(house, powerToken, cards);
     }
 
+    isAiPlayer(): boolean {
+        return true;
+    }
 }

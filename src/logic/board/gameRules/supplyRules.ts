@@ -1,17 +1,19 @@
 import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {Area} from '../area';
-import {gameStore} from '../gameState/reducer';
+import {GameStoreState} from '../gameState/reducer';
 export default class SupplyRules {
 
     private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
 
-    public static allowedMaxSizeBasedOnSupply(house: House): number {
-        let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(house);
-        let numOfSupply = gameStore.getState().currentlyAllowedSupply.get(house);
+    public static allowedMaxSizeBasedOnSupply(state: GameStoreState): number {
+        let areas: Area[] = state.areas;
+        let currentHouse: House = state.currentPlayer.house;
+        let supplyScore = state.currentlyAllowedSupply.get(currentHouse);
+        let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(areas, currentHouse);
         let maxSize = 0;
         let index = 0;
-        let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[numOfSupply];
+        let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[supplyScore];
 
         for (let largestPossibleSize of allowedArmies) {
             let armySize: number = armiesForHouse[index];
@@ -23,8 +25,8 @@ export default class SupplyRules {
         return maxSize;
     }
 
-    public static getArmiesBySizeForHouse(house: House): Array<number> {
-        return gameStore.getState().areas.filter((area) => {
+    public static getArmiesBySizeForHouse(areas: Area[], house: House): Array<number> {
+        return areas.filter((area) => {
             // an army of one unit does not count as an army
             return area.controllingHouse === house && area.units.length > 1;
         }).map((area) => {
@@ -47,16 +49,16 @@ export default class SupplyRules {
         );
     }
 
-    public static updateSupply() {
+    public static updateSupply(state: GameStoreState) {
         let updatedSupply = new TSMap<House, number>();
-        gameStore.getState().players.forEach((player) => {
-            updatedSupply.set(player.house, this.getNumberOfSupply(player.house, gameStore.getState().areas));
+        state.players.forEach((player) => {
+            updatedSupply.set(player.house, this.getNumberOfSupply(player.house, state.areas));
         });
         return updatedSupply;
     }
 
-    public static enoughSupplyForArmySize(source: Area, target: Area) {
-        let atleastOneUnitCanMove = target.units.length + 1 <= SupplyRules.allowedMaxSizeBasedOnSupply(source.controllingHouse);
+    public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area) {
+        let atleastOneUnitCanMove = target.units.length + 1 <= SupplyRules.allowedMaxSizeBasedOnSupply(state);
         return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
     }
 }

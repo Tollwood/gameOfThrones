@@ -29,6 +29,7 @@ export default class Game extends Phaser.State {
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
     private aiCalculator: AiCalculator;
+    private recruitingRenderer: RecruitingRenderer;
 
     constructor() {
         super();
@@ -37,6 +38,7 @@ export default class Game extends Phaser.State {
         this.powerTokenRenderer = new PowerTokenRenderer();
         this.unitRenderer = new UnitRenderer();
         this.aiCalculator = new AiCalculator();
+        this.recruitingRenderer = new RecruitingRenderer();
     }
 
     public preload() {
@@ -50,7 +52,7 @@ export default class Game extends Phaser.State {
         this.topMenuRenderer = new TopMenuRenderer(this.game);
         this.unitRenderer.createGroups(this.game);
         this.orderTokenRenderer.createGroups(this.game);
-        RecruitingRenderer.createGroups(this.game);
+        this.recruitingRenderer.init(this.game);
         this.powerTokenRenderer.init(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
@@ -187,13 +189,6 @@ export default class Game extends Phaser.State {
             this.aiCalculator.recruit(currentAiPlayer);
             gameStore.dispatch(nextPlayer());
             return true;
-        } else if (currentAiPlayer === null && card.state === WesterosCardState.executeCard) {
-            let remainingAreas = RecruitingRenderer.highlightPossibleArea(this.game);
-            if (remainingAreas === 0) {
-                gameStore.dispatch(nextPlayer());
-                return true;
-            }
-            return false;
         }
     }
 

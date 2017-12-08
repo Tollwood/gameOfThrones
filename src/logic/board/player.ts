@@ -22,12 +22,17 @@ export default class Player {
     set powerToken(value: number) {
         this._powerToken = value;
     }
+
     get house(): House {
         return this._house;
     }
 
     get cards(): Array<Card> {
         return this._cards;
+    }
+
+    isAiPlayer(): boolean {
+        return false;
     }
 
 }

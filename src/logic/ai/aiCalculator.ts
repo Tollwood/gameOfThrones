@@ -9,6 +9,7 @@ import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore} from '../board/gameState/reducer';
+import {recruitUnits} from '../board/gameState/actions';
 export default class AiCalculator {
 
     public executeOrder(aiPlayer: AiPlayer) {
@@ -43,13 +44,13 @@ export default class AiCalculator {
     }
 
     public recruit(aiPlayer: AiPlayer) {
-        const areas = RecruitingRules.getAreasAllowedToRecruit(aiPlayer.house);
-        areas.filter((a) => {
+        const areas = RecruitingRules.getAreasAllowedToRecruit(gameStore.getState());
+        const possibleAreasToRecruit = areas.filter((a) => {
             return aiPlayer.house === a.controllingHouse;
-        }).forEach((area) => {
-            // TODO: Add Logic to recruit new units
-            RecruitingRules.recruit(area);
         });
+        if (possibleAreasToRecruit.length > 0) {
+            gameStore.dispatch(recruitUnits(possibleAreasToRecruit[0]));
+        }
     }
 
     public placeAllOrderTokens(aiPlayer: AiPlayer) {
@@ -120,9 +121,8 @@ export default class AiCalculator {
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
-                    MovementRules.getAllAreasAllowedToMarchTo(area).forEach((possibleArea) => {
+                    MovementRules.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
                         possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForMarchOrders(area, possibleArea, currentHouse), possibleArea));
-
                     });
                     break;
             }
