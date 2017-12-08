@@ -1,11 +1,10 @@
 import CombatResult from '../march/combatResult';
 import HouseCard from './houseCard';
 import {WesterosCard} from './westerosCard';
-import SupplyRules from '../board/gameRules/supplyRules';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import {OrderTokenType} from '../orderToken/orderTokenType';
 import {gameStore} from '../board/gameState/reducer';
-import {resctrictOrderToken, startRecruiting} from '../board/gameState/actions';
+import {resctrictOrderToken, startRecruiting, updateSupply} from '../board/gameState/actions';
 
 export default class CardAbilities {
     public static getAllCardsBack(currentCard: HouseCard, combatResult?: CombatResult): CombatResult {
@@ -163,7 +162,7 @@ export default class CardAbilities {
     }
 
     public static supply(card?: WesterosCard) {
-        SupplyRules.updateSupply();
+        gameStore.dispatch(updateSupply());
     }
 
     public static recruit(card: WesterosCard) {
