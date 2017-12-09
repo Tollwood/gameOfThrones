@@ -14,13 +14,7 @@ export default class TopMenuRenderer {
     private menu: Array<TopMenuItem> = new Array();
     private currentPhase: Phaser.Text;
 
-    public static MENU = 'menu';
     public static OVERLAY = 'overlay';
-    public static INFLUENCE = 'Invluence';
-    public static ROUNDS = 'Rounds';
-    public static WILDLINGS = 'Wildlings';
-    public static SUPPLY = 'Supply';
-    public static VICTORY = 'Victory';
     public static CASTLE = 'Castle';
 
     constructor(game: Phaser.Game) {
@@ -35,7 +29,7 @@ export default class TopMenuRenderer {
         });
         let totalWidth: number = MENU_ITEMS
             .map((menuItem) => {
-                return game.cache.getImage(MENU + menuItem).width;
+                return game.cache.getImage(menuItem.name).width;
             })
             .reduce((acc, val) => {
                 return acc + val;

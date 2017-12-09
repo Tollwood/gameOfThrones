@@ -9,7 +9,7 @@ export class MenuRounds extends TopMenuItem {
     private roundMarker: Phaser.Image;
 
     constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
-        super(game, x, y, 'Rounds', topMenuRenderer);
+        super(game, x, y, MenuRounds.name, topMenuRenderer);
     }
 
     renderMarker(overlay: Phaser.Sprite) {

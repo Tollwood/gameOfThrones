@@ -9,14 +9,14 @@ const POSITION_X = [20, 100, 180, 260, 340, 420, 500];
 export class MenuVictory extends TopMenuItem {
 
     constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
-        super(game, x, y, TopMenuRenderer.VICTORY, topMenuRenderer);
+        super(game, x, y, MenuVictory.name, topMenuRenderer);
         this.marker = game.add.group();
     }
 
 
 
     renderMarker(overlay: Phaser.Sprite) {
-        if (overlay.key === TopMenuRenderer.OVERLAY + TopMenuRenderer.VICTORY) {
+        if (overlay.key === TopMenuRenderer.OVERLAY + MenuVictory.name) {
             gameStore.getState().players.forEach((player) => {
                 let marker = overlay.game.add.sprite(overlay.x - overlay.game.camera.x + this.getPositionForHouse(player.house), 120 + (convertHouseToNumber(player.house) * 45), House[player.house] + TopMenuRenderer.CASTLE, undefined, this.marker);
                 marker.fixedToCamera = true;

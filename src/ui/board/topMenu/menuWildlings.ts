@@ -9,7 +9,7 @@ const POSITION_X = [40, 80, 120, 150, 190, 230, 260, 300, 340, 370, 410, 450];
 export class MenuWildlings extends TopMenuItem {
     private wildlingMarker: Phaser.Image;
     constructor(game: Phaser.Game, x: number, y: number, topMenuRenderer: TopMenuRenderer) {
-        super(game, x, y, 'Wildlings', topMenuRenderer);
+        super(game, x, y, MenuWildlings.name, topMenuRenderer);
     }
 
     renderMarker(overlay: Phaser.Sprite) {

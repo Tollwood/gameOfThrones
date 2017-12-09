@@ -8,7 +8,7 @@ export abstract class TopMenuItem extends Phaser.Sprite {
     marker: Phaser.Group;
 
     constructor(game: Phaser.Game, x: number, y: number, menuItem: string, topMenuRenderer: TopMenuRenderer) {
-        super(game, x, y, MENU + menuItem);
+        super(game, x, y, menuItem);
         this.fixedToCamera = true;
         this.inputEnabled = true;
         this.overlay = this.createOverlay(game, OVERLAY + menuItem, this.height);
