@@ -184,12 +184,6 @@ export default class Game extends Phaser.State {
         if (card.state === WesterosCardState.played) {
             return true;
         }
-
-        if (currentAiPlayer !== null && card.state === WesterosCardState.executeCard) {
-            this.aiCalculator.recruit(currentAiPlayer);
-            gameStore.dispatch(nextPlayer());
-            return true;
-        }
     }
 
     private getWesterosCard(cardType: number) {

@@ -23,11 +23,7 @@ export default class RecruitingRules {
     // This method is used by others than the reducer. It should be moved to another class
     public static getAreasAllowedToRecruit(state: GameStoreState): Array<Area> {
         const currentPlayer = state.currentPlayer;
-        const isAiPlayer: boolean = currentPlayer instanceof AiPlayer;
 
-        if (isAiPlayer) {
-            return [];
-        }
         return state.areasAllowedToRecruit.filter((area) => {
             if (area.controllingHouse !== currentPlayer.house) {
                 return false;

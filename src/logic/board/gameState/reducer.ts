@@ -27,6 +27,7 @@ class GameStoreState {
     ironThroneSuccession?: House[];
     wildlingsCount?: number;
     players?: Array<Player>;
+    localPlayersHouse: House;
     currentPlayer?: Player;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
@@ -47,6 +48,7 @@ const initialState: GameStoreState = {
     ironThroneSuccession: initialIronThroneSuccession,
     wildlingsCount: 0,
     players: [],
+    localPlayersHouse: House.stark,
     currentPlayer: null,
     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
     areasAllowedToRecruit: []

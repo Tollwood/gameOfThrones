@@ -16,18 +16,23 @@ export default class RecruitingRenderer {
     }
 
     private highlightPossibleArea(state: GameStoreState) {
-        const areasToRecruit = RecruitingRules.getAreasAllowedToRecruit(state);
-        if (areasToRecruit.length > 0) {
-            areasToRecruit.forEach((area) => {
-                let showModalFn = () => {
-                    let modal = new RecruitingModal(this.game, area);
-                    modal.show();
-                };
-                Renderer.drawRectangleAroundAreaName(this.game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
-            });
+
+        if (state.areasAllowedToRecruit.length > 0 && state.localPlayersHouse === state.currentPlayer.house) {
+
+            const areasToRecruit = RecruitingRules.getAreasAllowedToRecruit(state);
+            if (areasToRecruit.length > 0) {
+                areasToRecruit.forEach((area) => {
+                    let showModalFn = () => {
+                        let modal = new RecruitingModal(this.game, area);
+                        modal.show();
+                    };
+                    Renderer.drawRectangleAroundAreaName(this.game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
+                });
+            }
+            else {
+                this.areasToRecruit.removeChildren();
+            }
         }
-        else {
-            this.areasToRecruit.removeChildren();
-        }
+        this.areasToRecruit.removeChildren();
     }
 }

@@ -8,8 +8,7 @@ import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
-import {gameStore} from '../board/gameState/reducer';
-import {recruitUnits} from '../board/gameState/actions';
+import {gameStore, GameStoreState} from '../board/gameState/reducer';
 export default class AiCalculator {
 
     public executeOrder(aiPlayer: AiPlayer) {
@@ -43,14 +42,15 @@ export default class AiCalculator {
 
     }
 
-    public recruit(aiPlayer: AiPlayer) {
-        const areas = RecruitingRules.getAreasAllowedToRecruit(gameStore.getState());
+    public static recruit(state: GameStoreState, aiPlayer: AiPlayer): Area {
+        const areas = RecruitingRules.getAreasAllowedToRecruit(state);
         const possibleAreasToRecruit = areas.filter((a) => {
             return aiPlayer.house === a.controllingHouse;
         });
         if (possibleAreasToRecruit.length > 0) {
-            gameStore.dispatch(recruitUnits(possibleAreasToRecruit[0]));
+            return possibleAreasToRecruit[0];
         }
+        return null;
     }
 
     public placeAllOrderTokens(aiPlayer: AiPlayer) {
