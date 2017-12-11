@@ -7,20 +7,21 @@ import {gameStore} from '../../logic/board/gameState/reducer';
 import {recruitUnits} from '../../logic/board/gameState/actions';
 export default class RecruitingModal extends Modal {
 
-    constructor(game: Phaser.Game, area: Area) {
+    constructor(game: Phaser.Game, area: Area, closeFn: Function) {
         super(game);
         this.addText('Recruit new Units: ', -80, 0, true);
-        this.addNewUnits(area);
+        this.addNewUnits(area, closeFn);
 
     }
 
 
-    private addNewUnits(area: Area) {
+    private addNewUnits(area: Area, closeFn: Function) {
         let unitsToRecruit: RecruitingUnit[] = [];
         let recruitingPointsText = 'recruit points left: ';
 
         let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
             gameStore.dispatch(recruitUnits(area));
+            closeFn();
             this.close();
         });
         let textRecruitNewUnits = this.addText('Recruit new units', 100, 0, true, () => {
@@ -29,8 +30,9 @@ export default class RecruitingModal extends Modal {
             }).map((ru) => {
                 return ru.unitType;
             });
-            gameStore.dispatch(recruitUnits(area, unitTypesToRecruit));
+            closeFn();
             this.close();
+            gameStore.dispatch(recruitUnits(area, unitTypesToRecruit));
         });
 
 

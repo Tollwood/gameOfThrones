@@ -16,9 +16,10 @@ import GamePhaseService from '../gamePhaseService';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import RecruitingRules from '../gameRules/recruitingRules';
+import {AreaKey} from '../areaKey';
 
 class GameStoreState {
-    areas?: Area[];
+    areas?: TSMap<AreaKey, Area>;
     gameRound?: number;
     gamePhase?: GamePhase;
     winningHouse?: House;
@@ -31,7 +32,7 @@ class GameStoreState {
     currentPlayer?: Player;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
-    areasAllowedToRecruit?: Area[];
+    areasAllowedToRecruit?: AreaKey[];
 }
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -39,7 +40,7 @@ const initialFiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark,
 export const INITIALLY_ALLOWED_ORDER_TOKEN_TYPES = [OrderTokenType.march_minusOne, OrderTokenType.march_zero, OrderTokenType.march_special, OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special, OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special, OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special, OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
 const INITIAL_POWER_TOKEN: number = 5;
 const initialState: GameStoreState = {
-    areas: [],
+    areas: null,
     gameRound: 1,
     gamePhase: GamePhase.WESTEROS1,
     winningHouse: null,
@@ -56,7 +57,7 @@ const initialState: GameStoreState = {
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
     let newState;
-    let areas;
+    let areas: TSMap<AreaKey, Area>;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
             let player = [];
@@ -78,7 +79,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             })[0];
             const updatedSupply = new TSMap<House, number>();
             player.forEach((player) => {
-                updatedSupply.set(player.house, SupplyRules.getNumberOfSupply(player.house, areas));
+                updatedSupply.set(player.house, SupplyRules.getNumberOfSupply(player.house, areas.values()));
             });
 
             GameRules.load(gameState);
@@ -117,17 +118,17 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state)};
             break;
         case TypeKeys.RECRUIT_UNITS:
-            areas = RecruitingRules.recruit(state, action.area, action.units);
             newState = {
                 ...state,
-                areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state),
+                areas: RecruitingRules.addUnitsToArea(state.areas, action.area, action.units),
+                areasAllowedToRecruit: RecruitingRules.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.area.key),
                 currentPlayer: GamePhaseService.nextPlayer(state)
             };
             break;
         // these are no real actions and should be removed
         case TypeKeys.NEXT_PHASE:
             if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
-                gameStore.getState().areas.map((area) => {
+                gameStore.getState().areas.values().map((area) => {
                     area.orderToken = null;
                 });
                 const nextGameRound = state.gameRound + 1;
@@ -157,6 +158,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = state;
             break;
     }
+    console.log({action, oldState: state, newState});
     return newState;
 };
 

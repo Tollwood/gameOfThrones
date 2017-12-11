@@ -169,7 +169,7 @@ describe('GamePhaseService', () => {
             expect(gameStore.getState().gameRound).toBe(2);
             expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
             expect(gameStore.getState().currentPlayer.house).toBe(House.stark);
-            expect(gameStore.getState().areas.filter(area => area.orderToken !== null).length).toBe(0);
+            expect(gameStore.getState().areas.values().filter(area => area.orderToken !== null).length).toBe(0);
         });
     });
 

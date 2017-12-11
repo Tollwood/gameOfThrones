@@ -76,7 +76,7 @@ describe('TokenPlacementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
             spyOn(GamePhaseService, 'nextPlayer');
             TokenPlacementRules.skipOrder(AreaKey.Winterfell);
-            expect(gameStore.getState().areas[0].orderToken).toBeNull();
+            expect(gameStore.getState().areas.values()[0].orderToken).toBeNull();
             expect(GamePhaseService.nextPlayer).toHaveBeenCalled();
         });
     });

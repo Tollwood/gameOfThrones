@@ -18,7 +18,7 @@ export default class UnitRenderer {
 
     public renderUnits(game: Phaser.Game) {
         this.units.removeChildren();
-        gameStore.getState().areas
+        gameStore.getState().areas.values()
             .filter((area: Area) => {
                 return area.units.length > 0;
             })

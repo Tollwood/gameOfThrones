@@ -55,7 +55,7 @@ export default class OrderTokenRenderer {
 
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
         this.placedTokens.removeChildren();
-        gameStore.getState().areas
+        gameStore.getState().areas.values()
             .filter((area: Area) => {
                 return area.orderToken !== null;
             })
@@ -157,7 +157,7 @@ export default class OrderTokenRenderer {
                 this.removeSelectedToken(sprite);
             };
             let areaToPlaceToken = GameRules.getAreaByKey(areaKey);
-            let areasAllowedToExecuteOrder: Array<Area> = gameStore.getState().areas
+            let areasAllowedToExecuteOrder: Array<Area> = gameStore.getState().areas.values()
                 .filter((area) => {
                     return TokenPlacementRules.isAllowedToRaid(areaToPlaceToken, area);
                 });

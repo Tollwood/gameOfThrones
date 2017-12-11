@@ -20,7 +20,7 @@ export default class PowerTokenRenderer {
     public renderControlToken(game: Phaser.Game) {
         this.controlMarkerGroup.removeChildren();
 
-        gameStore.getState().areas
+        gameStore.getState().areas.values()
             .filter((area: Area) => {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })

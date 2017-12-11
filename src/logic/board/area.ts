@@ -7,15 +7,15 @@ export class Area {
 
     private _key: AreaKey;
     private _consolidatePower: number;
+    private _controllingHouse: House;
+    private _units: Array<Unit>;
+    private _orderToken: OrderToken;
     private harbor: boolean;
     private _castle: boolean;
     private _stronghold: boolean;
     private _supply: number;
     private _borders: Area[];
-    private _units: Array<Unit>;
-    private _orderToken: OrderToken;
     private _isLandArea: boolean;
-    private _controllingHouse: House;
 
 
     constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, borders: Area[] = [], controllingHouse: House = null) {

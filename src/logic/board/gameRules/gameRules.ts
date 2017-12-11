@@ -34,9 +34,7 @@ export default class GameRules {
     }
 
     public static getAreaByKey(areaKey: AreaKey): Area {
-        return gameStore.getState().areas.filter((area) => {
-            return area.key === areaKey;
-        })[0];
+        return gameStore.getState().areas.get(areaKey);
     }
 
     public static getPlayerByHouse(house: House): Player {

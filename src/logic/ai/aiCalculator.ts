@@ -14,7 +14,7 @@ export default class AiCalculator {
     public executeOrder(aiPlayer: AiPlayer) {
 
         if (gameStore.getState().gamePhase === GamePhase.ACTION_MARCH) {
-            let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas, aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
+            let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 // TODO: Pick most important moveToken first
                 let sourceArea = areasWithMoveToken[0];
@@ -32,7 +32,7 @@ export default class AiCalculator {
         }
 
         if (gameStore.getState().gamePhase === GamePhase.ACTION_RAID) {
-            let areasWithRaidToken = this.getAreasForHouseWithToken(gameStore.getState().areas, aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
+            let areasWithRaidToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
                 TokenPlacementRules.skipOrder(areasWithRaidToken[0].key);
@@ -55,7 +55,7 @@ export default class AiCalculator {
 
     public placeAllOrderTokens(aiPlayer: AiPlayer) {
         let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(aiPlayer.house);
-        let areasToPlaceAToken = gameStore.getState().areas.filter((area) => {
+        let areasToPlaceAToken = gameStore.getState().areas.values().filter((area) => {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(aiPlayer.house, area.key);
         });
         // TODO: consider already placed token when calculating further best moves

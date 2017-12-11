@@ -4,7 +4,7 @@ import {gameStore} from '../gameState/reducer';
 export default class VictoryRules {
 
     public static getVictoryPositionFor(house: House) {
-        return gameStore.getState().areas.filter((area: Area) => {
+        return gameStore.getState().areas.values().filter((area: Area) => {
             return area.controllingHouse === house && area.hasCastleOrStronghold();
         }).length;
     }

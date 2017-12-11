@@ -5,22 +5,24 @@ import {House} from './house';
 import Unit from '../units/units';
 import {UnitType} from '../units/unitType';
 import {AreaKey} from './areaKey';
+import {TSMap} from 'typescript-map';
 
 export class AreaInitiator {
 
-    public static getInitalState(playingHouses: Array<House>): Array<Area> {
-        let areas: Array<Area> = [];
+    public static getInitalState(playingHouses: Array<House>): TSMap<AreaKey, Area> {
+        let areas: TSMap<AreaKey, Area> = new TSMap();
 
         (<any>areaConfigData).forEach((jsonConfig) => {
-            areas.push(this.parseAreas(jsonConfig));
+            const area = this.parseAreas(jsonConfig);
+            areas.set(area.key, area);
         });
 
-        areas.map(area => {
-            this.addBorderAreas(area, areas);
+        areas.values().map(area => {
+            this.addBorderAreas(area, areas.values());
         });
 
         (<any>unitsConfigData).forEach((jsonConfig) => {
-            areas.filter(area => {
+            areas.values().filter(area => {
                 return AreaKey[<string>jsonConfig.key] === area.key && playingHouses.indexOf(House[<string>jsonConfig.controllingHouse]) > -1;
             }).map(area => {
                 this.updateArea(area, jsonConfig);

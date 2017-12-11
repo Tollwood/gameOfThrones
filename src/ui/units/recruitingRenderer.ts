@@ -23,16 +23,12 @@ export default class RecruitingRenderer {
             if (areasToRecruit.length > 0) {
                 areasToRecruit.forEach((area) => {
                     let showModalFn = () => {
-                        let modal = new RecruitingModal(this.game, area);
+                        let modal = new RecruitingModal(this.game, area, () => this.areasToRecruit.removeChildren());
                         modal.show();
                     };
                     Renderer.drawRectangleAroundAreaName(this.game, area.key, 0xFF0000, showModalFn, this.areasToRecruit);
                 });
             }
-            else {
-                this.areasToRecruit.removeChildren();
-            }
         }
-        this.areasToRecruit.removeChildren();
     }
 }
