@@ -6,6 +6,8 @@ import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {loadGame, nextPhase, resetGame} from '../../../../src/logic/board/gameState/actions';
 import {GamePhase} from '../../../../src/logic/board/gamePhase';
+import {Area} from '../../../../src/logic/board/area';
+import {TSMap} from 'typescript-map';
 describe('VictoryRules', () => {
 
     beforeEach(() => {
@@ -17,9 +19,12 @@ describe('VictoryRules', () => {
         it('should count castle and stronghold for given house', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withCastle().withHouse(House.stark).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let gameStoreState = {
                 players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
-                areas: [winterfell, whiteHarbor]
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
             const actual = VictoryRules.getVictoryPositionFor(House.stark);
@@ -42,9 +47,17 @@ describe('VictoryRules', () => {
             let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withStronghold().withHouse(House.stark).build();
             let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
             let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().withHouse(House.stark).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.Pyke, pyke);
+            areas.set(AreaKey.BayOfIce, bayOfIce);
+            areas.set(AreaKey.Blackwater, blackWater);
+            areas.set(AreaKey.BlackwaterBay, blackWaterBay);
             let gameStoreState = {
                 players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
-                areas: [winterfell, whiteHarbor, castleBlack, pyke, bayOfIce, blackWater, blackWaterBay]
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
             const actual = VictoryRules.getWinningHouse();
@@ -56,12 +69,16 @@ describe('VictoryRules', () => {
             let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.lannister).build();
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
 
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbour);
+            areas.set(AreaKey.CastleBlack, castleBlack);
             const gameStoreState = {
                 gameRound: 10,
                 gamePhase: GamePhase.ACTION_CLEANUP,
                 ironThroneSuccession: [House.stark, House.lannister],
                 players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
-                areas: [winterfell, whiteHarbour, castleBlack]
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
             gameStore.dispatch(nextPhase());

@@ -11,6 +11,7 @@ import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {loadGame} from '../../../../src/logic/board/gameState/actions';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {TSMap} from 'typescript-map';
+import {Area} from '../../../../src/logic/board/area';
 
 describe('MovementRules', () => {
 
@@ -21,11 +22,13 @@ describe('MovementRules', () => {
 
         it('should return empty Array if no units are present in sourceArea', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, sourceArea);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [sourceArea]
+                currentHouse: House.stark,
+                areas: areas
             };
             const actual = MovementRules.getAllAreasAllowedToMarchTo(state, sourceArea);
             expect(actual.length).toBe(0);
@@ -34,11 +37,13 @@ describe('MovementRules', () => {
         it('should return no valid areas if source area has no units', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [area]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             const actual = MovementRules.getAllAreasAllowedToMarchTo(state, area);
@@ -53,12 +58,15 @@ describe('MovementRules', () => {
                 .withBorders([karhold])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Karhold, karhold);
+            areas.set(AreaKey.Winterfell, winterfell);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [karhold, winterfell]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, winterfell);
@@ -81,12 +89,16 @@ describe('MovementRules', () => {
                 .withBorders([theSiveringSea])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.TheShiveringSea, theSiveringSea);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, theSiveringSea, whiteHarbor]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
@@ -114,12 +126,17 @@ describe('MovementRules', () => {
                 .withBorders([theStonyShore])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.TheShiveringSea, theSiveringSea);
+            areas.set(AreaKey.TheStonyShore, theStonyShore);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, theSiveringSea, theStonyShore, whiteHarbor]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
@@ -138,12 +155,15 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, whiteHarbor]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
@@ -160,12 +180,15 @@ describe('MovementRules', () => {
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, whiteHarbor]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
@@ -181,12 +204,15 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
             spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, whiteHarbor]
+                currentHouse: House.stark,
+                areas: areas
             };
             // when
             let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
@@ -201,13 +227,16 @@ describe('MovementRules', () => {
                 .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .isSeaArea().build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.CastleBlack, castleBlack);
             const currentlyAllowedSupply = new TSMap<House, number>();
             currentlyAllowedSupply.set(House.stark, 1);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [castleBlack, whiteHarbor],
+                currentHouse: House.stark,
+                areas: areas,
                 currentlyAllowedSupply
             };
             // when
@@ -223,8 +252,10 @@ describe('MovementRules', () => {
         it('should reduce PowerToken by one and establish control', () => {
             // given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
             const playerStark = new Player(House.stark, 1, []);
-            let gameStoreState = {players: [playerStark], areas: [winterfell]};
+            let gameStoreState = {players: [playerStark], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
@@ -238,7 +269,9 @@ describe('MovementRules', () => {
             // given
             const playerStark = new Player(House.stark, 0, []);
             const winterfell = new AreaBuilder(AreaKey.Winterfell).build();
-            let gameStoreState = {players: [playerStark], areas: [winterfell]};
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            let gameStoreState = {players: [playerStark], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
@@ -259,14 +292,17 @@ describe('MovementRules', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit, footmanUnit1, footmanUnit2];
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, sourceArea);
+            areas.set(AreaKey.WhiteHarbor, targetArea);
             const unitsToMove = [footmanUnit1, horseUnit];
             const completeOrder = false;
             const establishControl = false;
             let gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [sourceArea, targetArea]
+                currentHouse: House.stark,
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
@@ -287,14 +323,17 @@ describe('MovementRules', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit];
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, sourceArea);
+            areas.set(AreaKey.WhiteHarbor, targetArea);
             const unitsToMove = [horseUnit];
             const completeOrder = false;
             const establishControl = false;
             let gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [sourceArea, targetArea]
+                currentHouse: House.stark,
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
@@ -310,12 +349,15 @@ describe('MovementRules', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit];
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, sourceArea);
+            areas.set(AreaKey.WhiteHarbor, targetArea);
             const unitsToMove = [horseUnit];
             let gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [sourceArea, targetArea]
+                currentHouse: House.stark,
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
@@ -331,14 +373,17 @@ describe('MovementRules', () => {
             const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
             sourceArea.units = [horseUnit];
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, sourceArea);
+            areas.set(AreaKey.WhiteHarbor, targetArea);
             const unitsToMove = [horseUnit];
             const completeOrder = true;
             const establishControl = true;
             let gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
-                currentPlayer: playerStark,
-                areas: [sourceArea, targetArea]
+                currentHouse: House.stark,
+                areas: areas
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
@@ -359,11 +404,15 @@ describe('MovementRules', () => {
             const playerStark = new Player(House.stark, 5, []);
             const players = [playerStark, new Player(House.lannister, 5, [])];
             const ironThroneSuccession = [House.lannister, House.stark];
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, attackingArea);
+            areas.set(AreaKey.WhiteHarbor, defendingArea);
+
             const gameStoreState = {
-                areas: [attackingArea, defendingArea],
+                areas: areas,
                 players,
                 ironThroneSuccession,
-                currentPlayer: playerStark
+                currentHouse: House.stark
             };
             gameStore.dispatch(loadGame(gameStoreState));
             const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);

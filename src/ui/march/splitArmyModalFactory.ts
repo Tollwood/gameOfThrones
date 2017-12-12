@@ -8,7 +8,6 @@ import MovementRules from '../../logic/board/gameRules/movementRules';
 import SupplyRules from '../../logic/board/gameRules/supplyRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
-import {nextPlayer} from '../../logic/board/gameState/actions';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -103,7 +102,7 @@ export default class SplitArmyModal extends Modal {
             this._moreOrdersQuestionGroup.visible = false;
             this._otherOrdersText.visible = false;
             this._moveAllUnitsText.visible = true;
-            this._establishControlText.visible = gameStore.getState().currentPlayer.powerToken > 0;
+            this._establishControlText.visible = GameRules.getPlayerByHouse(gameStore.getState().currentHouse).powerToken > 0;
         }
         else {
             this._moreOrdersQuestionGroup.visible = true;

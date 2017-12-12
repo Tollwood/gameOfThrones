@@ -1,9 +1,7 @@
 import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
 import {House} from './house';
-import GameRules from './gameRules/gameRules';
 import {gameStore, GameStoreState} from './gameState/reducer';
 import {nextPhase} from './gameState/actions';
-import Player from './player';
 
 export default class GamePhaseService {
 
@@ -55,13 +53,11 @@ export default class GamePhaseService {
             }).length === 0;
     }
 
-    public static nextPlayer(state: GameStoreState): Player {
+    public static nextHouse(state: GameStoreState): House {
 
-        let currrentIndex = state.ironThroneSuccession.indexOf(state.currentPlayer.house);
+        let currrentIndex = state.ironThroneSuccession.indexOf(state.currentHouse);
         let nextIndex = state.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
-        let nextHouse: House = state.ironThroneSuccession[nextIndex];
-
-        return GameRules.getPlayerByHouse(nextHouse);
+        return state.ironThroneSuccession[nextIndex];
     }
 
     public static switchToNextPhase() {

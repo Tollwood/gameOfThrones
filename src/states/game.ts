@@ -73,7 +73,8 @@ export default class Game extends Phaser.State {
 
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = gameStore.getState().gamePhase;
-            let currentPlayer = gameStore.getState().currentPlayer;
+            let currentHouse = gameStore.getState().currentHouse;
+            let currentPlayer = GameRules.getPlayerByHouse(currentHouse);
             let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
             if (currentAiPlayer !== null) {
                 this.orderTokenRenderer.removePlacedToken();
@@ -97,7 +98,7 @@ export default class Game extends Phaser.State {
                 if (currentAiPlayer === null) {
                     this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
                     OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
-                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, currentPlayer.house);
+                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, currentHouse);
                     if (remainingPlacableToken === 0) {
                         gameStore.dispatch(nextPlayer());
                         return;
@@ -119,8 +120,8 @@ export default class Game extends Phaser.State {
                     if (currentAiPlayer === null) {
                         this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
                         this.checkForWinner();
-                        if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentPlayer.house)) ||
-                            (currentGamePhase === GamePhase.ACTION_MARCH && GamePhaseService.allMarchOrdersRevealed(currentPlayer.house))) {
+                        if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentHouse)) ||
+                            (currentGamePhase === GamePhase.ACTION_MARCH && GamePhaseService.allMarchOrdersRevealed(currentHouse))) {
                             gameStore.dispatch(nextPlayer());
                             return;
                         }

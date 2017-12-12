@@ -18,15 +18,15 @@ export class Area {
     private _isLandArea: boolean;
 
 
-    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, borders: Area[] = [], controllingHouse: House = null) {
+    constructor(key: AreaKey, consolidatePower: number, harbor: boolean, castle: boolean, stronghold: boolean, isLandArea: boolean, supply: number, borders: Area[] = [], controllingHouse: House = null, units: Unit[] = [], orderToken: OrderToken = null) {
         this._key = key;
         this._consolidatePower = consolidatePower;
         this.harbor = harbor;
         this._castle = castle;
         this._stronghold = stronghold;
         this._supply = supply;
-        this._units = [];
-        this._orderToken = null;
+        this._units = units;
+        this._orderToken = orderToken;
         this._controllingHouse = controllingHouse;
         this._isLandArea = isLandArea;
         this._borders = borders;
@@ -92,4 +92,7 @@ export class Area {
         return this._castle || this._stronghold;
     }
 
+    copy() {
+        return new Area(this.key, this.consolidatePower, this.harbor, this.castle, this.stronghold, this.isLandArea, this.supply, this.borders, this.controllingHouse, this.units, this.orderToken);
+    }
 }

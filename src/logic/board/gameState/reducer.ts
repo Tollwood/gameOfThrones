@@ -28,8 +28,8 @@ class GameStoreState {
     ironThroneSuccession?: House[];
     wildlingsCount?: number;
     players?: Array<Player>;
-    localPlayersHouse: House;
-    currentPlayer?: Player;
+    localPlayersHouse?: House;
+    currentHouse?: House;
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
     areasAllowedToRecruit?: AreaKey[];
@@ -50,7 +50,7 @@ const initialState: GameStoreState = {
     wildlingsCount: 0,
     players: [],
     localPlayersHouse: House.stark,
-    currentPlayer: null,
+    currentHouse: null,
     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
     areasAllowedToRecruit: []
 };
@@ -74,9 +74,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             gameState.westerosCards1 = CardFactory.getWesterosCards(1);
             gameState.westerosCards2 = CardFactory.getWesterosCards(2);
             gameState.westerosCards3 = CardFactory.getWesterosCards(3);
-            const currentPlayer = player.filter((player) => {
-                return player.house === initialIronThroneSuccession[0];
-            })[0];
+            const currentHouse = initialIronThroneSuccession[0];
             const updatedSupply = new TSMap<House, number>();
             player.forEach((player) => {
                 updatedSupply.set(player.house, SupplyRules.getNumberOfSupply(player.house, areas.values()));
@@ -87,7 +85,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 ...initialState,
                 areas,
                 players: player,
-                currentPlayer,
+                currentHouse,
                 currentlyAllowedSupply: updatedSupply
             };
             break;
@@ -118,11 +116,12 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state)};
             break;
         case TypeKeys.RECRUIT_UNITS:
+            const newArea = RecruitingRules.addUnitsToArea(action.area, action.units);
+            state.areas.set(newArea.key, newArea);
             newState = {
                 ...state,
-                areas: RecruitingRules.addUnitsToArea(state.areas, action.area, action.units),
                 areasAllowedToRecruit: RecruitingRules.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.area.key),
-                currentPlayer: GamePhaseService.nextPlayer(state)
+                currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
         // these are no real actions and should be removed
@@ -144,7 +143,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,
-                    currentPlayer: GameRules.getFirstFromIronThroneSuccession(),
+                    currentHouse: GameRules.getFirstFromIronThroneSuccession(),
                     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
                 };
             } else {
@@ -152,13 +151,13 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             }
             break;
         case TypeKeys.NEXT_PLAYER:
-            newState = {...state, currentPlayer: GamePhaseService.nextPlayer(state)};
+            newState = {...state, currentHouse: GamePhaseService.nextHouse(state)};
             break;
         default:
             newState = state;
             break;
     }
-    console.log({action, oldState: state, newState});
+    // console.log({action, oldState: state, newState});
     return newState;
 };
 

@@ -15,6 +15,8 @@ import {
     INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
 } from '../../../src/logic/board/gameState/reducer';
 import {loadGame, nextPhase, nextPlayer} from '../../../src/logic/board/gameState/actions';
+import {TSMap} from 'typescript-map';
+import {Area} from '../../../src/logic/board/area';
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -61,8 +63,8 @@ describe('GamePhaseService', () => {
         it('should return true if not all raid Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             area.orderToken = new OrderToken(House.stark, OrderTokenType.raid_0);
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_RAID)).toBeTruthy();
         });
@@ -70,8 +72,8 @@ describe('GamePhaseService', () => {
         it('should return true if not all March Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             area.orderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_MARCH)).toBeTruthy();
         });
@@ -79,8 +81,8 @@ describe('GamePhaseService', () => {
         it('should return true if not all Consolidate Power Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             area.orderToken = new OrderToken(House.stark, OrderTokenType.consolidatePower_0);
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_CONSOLIDATE_POWER)).toBeTruthy();
         });
@@ -88,16 +90,16 @@ describe('GamePhaseService', () => {
         it('should return true if not all Consolidate Power Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             area.orderToken = new OrderToken(House.stark, OrderTokenType.consolidatePower_0);
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_CLEANUP)).toBeTruthy();
         });
 
         it('should return true if not all Consolidate Power Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_CLEANUP)).toBeFalsy();
         });
@@ -108,8 +110,8 @@ describe('GamePhaseService', () => {
         it('should return false if not all raid Token are played yet', () => {
             let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             area.orderToken = new OrderToken(House.stark, OrderTokenType.raid_0);
-            const areas = [];
-            areas.push(area);
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.allRaidOrdersRevealed(House.stark)).toBeFalsy();
         });
@@ -119,9 +121,12 @@ describe('GamePhaseService', () => {
         it('should return true if all areas with units have an order Token', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).withOrderToken(OrderTokenType.consolidatePower_1).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
             storeGameState.gamePhase = GamePhase.PLANNING;
-            storeGameState.areas = [winterfell, whiteHarbor];
+            storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             expect(GamePhaseService.allOrderTokenPlaced()).toBeTruthy();
         });
@@ -129,9 +134,12 @@ describe('GamePhaseService', () => {
         it('should return false if not all Token are played yet', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
             storeGameState.gamePhase = GamePhase.PLANNING;
-            storeGameState.areas = [winterfell, whiteHarbor];
+            storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
             expect(GamePhaseService.allOrderTokenPlaced()).toBeFalsy();
@@ -140,9 +148,12 @@ describe('GamePhaseService', () => {
         it('should return true if all areas that belong to a given house have an order token', () => {
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Footman]).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).withHouse(House.lannister).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
             storeGameState.gamePhase = GamePhase.PLANNING;
-            storeGameState.areas = [winterfell, whiteHarbor];
+            storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
             expect(GamePhaseService.allOrderTokenPlaced(House.stark)).toBeTruthy();
@@ -154,12 +165,14 @@ describe('GamePhaseService', () => {
         it('should modify state to be ready for next game round', () => {
 
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
             const gameStoreState = {
                 gameRound: 1,
                 gamePhase: GamePhase.ACTION_CLEANUP,
                 ironThroneSuccession: [House.stark, House.lannister],
                 players: [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])],
-                areas: [winterfell]
+                areas: areas
 
             };
             gameStore.dispatch(loadGame(gameStoreState));
@@ -168,7 +181,7 @@ describe('GamePhaseService', () => {
             expect(gameStore.getState().currentlyAllowedTokenTypes).toEqual(INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
             expect(gameStore.getState().gameRound).toBe(2);
             expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
-            expect(gameStore.getState().currentPlayer.house).toBe(House.stark);
+            expect(gameStore.getState().currentHouse).toBe(House.stark);
             expect(gameStore.getState().areas.values().filter(area => area.orderToken !== null).length).toBe(0);
         });
     });
@@ -182,7 +195,7 @@ describe('GamePhaseService', () => {
             const gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerLannister, playerStark],
-                currentPlayer: playerLannister
+                currentHouse: House.lannister
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
@@ -190,7 +203,7 @@ describe('GamePhaseService', () => {
             gameStore.dispatch(nextPlayer());
 
             // then
-            expect(gameStore.getState().currentPlayer).toBe(playerStark);
+            expect(gameStore.getState().currentHouse).toBe(House.stark);
 
         });
 
@@ -201,19 +214,19 @@ describe('GamePhaseService', () => {
             const gameStoreState = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerLannister, playerStark],
-                currentPlayer: playerStark
+                currentHouse: House.stark
             };
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
             gameStore.dispatch(nextPlayer());
             // then
-            expect(gameStore.getState().currentPlayer).toBe(playerLannister);
+            expect(gameStore.getState().currentHouse).toBe(House.lannister);
         });
     });
 
     describe('switchToNextPhase', () => {
-        it('should increase GamePhase By one and set first of ironThroneSussession as currentplayer', () => {
+        it('should increase GamePhase By one and set first of ironThroneSussession as currentHouse', () => {
             const playerStark = new Player(House.stark, 0, []);
             const playerLannister = new Player(House.lannister, 0, []);
             gameStore.dispatch(loadGame({
@@ -230,7 +243,9 @@ describe('GamePhaseService', () => {
     describe('allMarchOrdersRevealed', () => {
         it('should return false if house has not  played all march tokens yet', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
-            gameStore.dispatch(loadGame({areas: [winterfell]}));
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            gameStore.dispatch(loadGame({areas: areas}));
             const actual = GamePhaseService.allMarchOrdersRevealed(House.stark);
             expect(actual).toBeFalsy();
 

@@ -27,10 +27,8 @@ export default class GameRules {
         return this._gameState;
     }
 
-    public static getFirstFromIronThroneSuccession(): Player {
-        return gameStore.getState().players.filter((player) => {
-            return player.house === gameStore.getState().ironThroneSuccession[0];
-        })[0];
+    public static getFirstFromIronThroneSuccession(): House {
+        return gameStore.getState().ironThroneSuccession[0];
     }
 
     public static getAreaByKey(areaKey: AreaKey): Area {

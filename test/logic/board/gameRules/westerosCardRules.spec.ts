@@ -3,7 +3,6 @@ import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {WesterosCard} from '../../../../src/logic/cards/westerosCard';
 import CardFunction from '../../../../src/logic/cards/cardFuncttion';
 import GameState from '../../../../src/logic/board/gameState/GameState';
-import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {loadGame} from '../../../../src/logic/board/gameState/actions';
@@ -49,7 +48,7 @@ describe('WesterosCardRules', () => {
             const cardFunction = new CardFunction('recruit', '');
             gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
             gameState.currentWesterosCard.selectedFunction = cardFunction;
-            gameStore.dispatch(loadGame({areasAllowedToRecruit: [new AreaBuilder(AreaKey.Winterfell).build()]}));
+            gameStore.dispatch(loadGame({areasAllowedToRecruit: [AreaKey.Winterfell]}));
             GameRules.load(gameState);
             const actual = WesterosCardRules.stillPlayingWesterosCard();
             expect(actual).toBeTruthy();

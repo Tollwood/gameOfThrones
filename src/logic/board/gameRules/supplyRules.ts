@@ -8,7 +8,7 @@ export default class SupplyRules {
 
     public static allowedMaxSizeBasedOnSupply(state: GameStoreState): number {
         let areas: Area[] = state.areas.values();
-        let currentHouse: House = state.currentPlayer.house;
+        let currentHouse: House = state.currentHouse;
         let supplyScore = state.currentlyAllowedSupply.get(currentHouse);
         let armiesForHouse: Array<number> = this.getArmiesBySizeForHouse(areas, currentHouse);
         let maxSize = 0;

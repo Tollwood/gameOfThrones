@@ -9,7 +9,7 @@ describe('GameRules', () => {
             expect(state.gameRound).toBe(1);
             expect(state.gamePhase).toBe(GamePhase.WESTEROS1);
             expect(state.wildlingsCount).toBe(0);
-            expect(state.currentPlayer.house).toBe(state.ironThroneSuccession[0]);
+            expect(state.currentHouse).toBe(state.ironThroneSuccession[0]);
             expect(state.currentlyAllowedTokenTypes).toEqual(INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
         });
     });

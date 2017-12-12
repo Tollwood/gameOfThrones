@@ -5,6 +5,7 @@ import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {TSMap} from 'typescript-map';
+import {Area} from '../../../../src/logic/board/area';
 
 describe('SupplyRules', () => {
 
@@ -16,6 +17,7 @@ describe('SupplyRules', () => {
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).build();
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
         const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
+
         const areas = [winterfell, karhold, whiteHarbor];
 
         // when
@@ -31,9 +33,11 @@ describe('SupplyRules', () => {
         // given
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
             .withSupply(1).build();
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Karhold, karhold);
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
+        let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
         // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
@@ -47,9 +51,11 @@ describe('SupplyRules', () => {
         // given
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
             .withSupply(1).build();
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Karhold, karhold);
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
+        let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
         // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
@@ -64,9 +70,11 @@ describe('SupplyRules', () => {
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
             .build();
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Karhold, karhold);
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
-        let state = {players: [playerStark], currentPlayer: playerStark, currentlyAllowedSupply, areas: [karhold]};
+        let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
 
         // when
@@ -83,13 +91,17 @@ describe('SupplyRules', () => {
             .build();
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman]).build();
+
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Winterfell, winterfell);
+        areas.set(AreaKey.Karhold, karhold);
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
         let gameStoreState = {
             players: [playerStark],
             currentlyAllowedSupply,
-            currentPlayer: playerStark,
-            areas: [karhold, winterfell]
+            currentHouse: House.stark,
+            areas: areas
         };
         // when
         let actual = SupplyRules.allowedMaxSizeBasedOnSupply(gameStoreState);
@@ -103,14 +115,16 @@ describe('SupplyRules', () => {
         // given
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
             .build();
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Karhold, karhold);
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 1);
         const gameStoreState = {
             ironThroneSuccession: [House.stark],
             players: [playerStark],
-            currentPlayer: playerStark,
+            currentHouse: House.stark,
             currentlyAllowedSupply,
-            areas: [karhold]
+            areas: areas
         };
         SupplyRules.updateSupply(gameStoreState);
 
@@ -124,10 +138,12 @@ describe('SupplyRules', () => {
     it('should return empty array for house with no army', () => {
         // given
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).build();
-        let state = {players: [new Player(House.stark, 5, [])], areas: [karhold]};
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Karhold, karhold);
+        let state = {players: [new Player(House.stark, 5, [])], areas: areas};
         SupplyRules.updateSupply(state);
 
-        expect(SupplyRules.getArmiesBySizeForHouse(state.areas, House.stark)).toEqual([]);
+        expect(SupplyRules.getArmiesBySizeForHouse(state.areas.values(), House.stark)).toEqual([]);
 
 
     });

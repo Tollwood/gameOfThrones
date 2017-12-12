@@ -9,13 +9,14 @@ import GameState from '../../../src/logic/board/gameState/GameState';
 import CombatResult from '../../../src/logic/march/combatResult';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../src/logic/board/gameState/reducer';
-import {loadGame, newGame} from '../../../src/logic/board/gameState/actions';
+import {loadGame, newGame, startRecruiting} from '../../../src/logic/board/gameState/actions';
+import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
 describe('CardAbilities', () => {
     let gameState: GameState;
     const combatResult = new CombatResult(null, null, 0, 0);
     beforeEach(() => {
         gameState = new GameState();
-        let gameStoreState = {players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])], areas: []};
+        let gameStoreState = {players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
         gameStore.dispatch(loadGame(gameStoreState));
     });
 
@@ -212,7 +213,9 @@ describe('CardAbilities', () => {
 
     describe('recruit', () => {
         it(' should set all areas allowed to recruit', () => {
+            spyOn(gameStore, 'dispatch');
             CardAbilities.recruit(null);
+            expect(gameStore.dispatch).toHaveBeenCalledWith(startRecruiting());
         });
     });
 
@@ -272,7 +275,9 @@ describe('CardAbilities', () => {
     });
     describe('power', () => {
         it(' should do nothing for now', () => {
+            spyOn(TokenPlacementRules, 'consolidateAllPower');
             CardAbilities.power(null);
+            expect(TokenPlacementRules.consolidateAllPower).toHaveBeenCalledWith();
         });
     });
 

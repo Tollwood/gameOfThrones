@@ -16,8 +16,7 @@ export default class RecruitingRenderer {
     }
 
     private highlightPossibleArea(state: GameStoreState) {
-
-        if (state.areasAllowedToRecruit.length > 0 && state.localPlayersHouse === state.currentPlayer.house) {
+        if (state.areasAllowedToRecruit.length > 0 && state.localPlayersHouse === state.currentHouse) {
 
             const areasToRecruit = RecruitingRules.getAreasAllowedToRecruit(state);
             if (areasToRecruit.length > 0) {

@@ -4,8 +4,6 @@ import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {GameStoreState} from '../gameState/reducer';
 import {AreaKey} from '../areaKey';
-import GameRules from './gameRules';
-import {TSMap} from 'typescript-map';
 
 export default class RecruitingRules {
 
@@ -19,24 +17,24 @@ export default class RecruitingRules {
 
     // This method is used by others than the reducer. It should be moved to another class
     public static getAreasAllowedToRecruit(state: GameStoreState): Array<Area> {
-        const currentPlayer = state.currentPlayer;
 
         return state.areasAllowedToRecruit.filter((areaKey: AreaKey) => {
-            const area = GameRules.getAreaByKey(areaKey);
-            if (area.controllingHouse !== currentPlayer.house) {
+            const area = state.areas.get(areaKey);
+            if (area.controllingHouse !== state.currentHouse) {
                 return false;
             }
 
             let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(state);
             return area.units.length < maxArmySize;
-        }).map(areaKey => GameRules.getAreaByKey(areaKey));
+        }).map(areaKey => state.areas.get(areaKey));
     }
 
-    public static addUnitsToArea(areas: TSMap<AreaKey, Area>, area: Area, unitTypes: UnitType[]) {
+    public static addUnitsToArea(area: Area, unitTypes: UnitType[]): Area {
+        const newArea: Area = area.copy();
         unitTypes.forEach((unittype) => {
-            area.units.push(new Unit(unittype, area.controllingHouse));
+            newArea.units.push(new Unit(unittype, area.controllingHouse));
         });
-        return areas;
+        return newArea;
     }
 
     public static updateAreasAllowedToRecruit(areasAllowedToRecruit: AreaKey[], areaKey: AreaKey): AreaKey[] {

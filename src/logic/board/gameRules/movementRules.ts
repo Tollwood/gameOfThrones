@@ -9,6 +9,7 @@ import {gameStore, GameStoreState} from '../gameState/reducer';
 import {nextPlayer} from '../gameState/actions';
 export default class MovementRules {
 
+    // TODO Modifing State should be handled by an action
     public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
 
         let sourceArea = GameRules.getAreaByKey(source);

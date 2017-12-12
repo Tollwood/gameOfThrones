@@ -3,17 +3,18 @@ import {AreaKey} from '../../../src/logic/board/areaKey';
 import {House} from '../../../src/logic/board/house';
 import {Area} from '../../../src/logic/board/area';
 import {UnitType} from '../../../src/logic/units/unitType';
+import {TSMap} from 'typescript-map';
 describe('AreaInitiator', () => {
     describe('getInitalState', () => {
 
         it('should load json file and parse areas', () => {
-            const actual = AreaInitiator.getInitalState([]);
+            const actual: TSMap<AreaKey, Area> = AreaInitiator.getInitalState([]);
             const areaKeys = getAreaKeys();
             expect(actual.length).toEqual(areaKeys.length);
 
-            const undefinedKeys = filterUndefinedKeys(actual);
+            const undefinedKeys = filterUndefinedKeys(actual.keys());
             expect(undefinedKeys.length).toBe(0);
-            const kingsLanding = findByKey(actual, AreaKey.KingsLanding);
+            const kingsLanding = actual.get(AreaKey.KingsLanding);
             expect(kingsLanding.borders.length).toBe(5);
             expect(kingsLanding.consolidatePower).toBe(2);
             expect(kingsLanding.castle).toBeFalsy();
@@ -23,8 +24,8 @@ describe('AreaInitiator', () => {
         });
 
         it('should add units and controllingHouse for playing Houses', () => {
-            const actual = AreaInitiator.getInitalState([House.stark]);
-            const theShiveringSea = findByKey(actual, AreaKey.TheShiveringSea);
+            const actual: TSMap<AreaKey, Area> = AreaInitiator.getInitalState([House.stark]);
+            const theShiveringSea = actual.get(AreaKey.TheShiveringSea);
             expect(theShiveringSea.controllingHouse).toBe(House.stark);
             expect(theShiveringSea.units.length).toBe(1);
             expect(theShiveringSea.units[0].getType()).toBe(UnitType.Ship);
@@ -37,15 +38,8 @@ function getAreaKeys(): string[] {
     return objValues.filter(v => typeof v === 'string') as string[];
 }
 
-function filterUndefinedKeys(areas: Area[]): AreaKey[] {
-    return areas.filter((area) => {
-        const areaKey: string = AreaKey[area.key];
-        return getAreaKeys().indexOf(areaKey) === -1;
-    }).map(area => area.key);
-}
-
-function findByKey(areas: Area[], key: AreaKey) {
-    return areas.filter((area) => {
-        return area.key === key;
-    })[0];
+function filterUndefinedKeys(areaKeys: AreaKey[]): AreaKey[] {
+    return areaKeys.filter((knownKey) => {
+        return getAreaKeys().indexOf(knownKey) === -1;
+    });
 }
