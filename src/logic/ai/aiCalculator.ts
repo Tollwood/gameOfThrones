@@ -9,6 +9,7 @@ import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
+import {moveUnits} from '../board/gameState/actions';
 export default class AiCalculator {
 
     public executeOrder(aiPlayer: AiPlayer) {
@@ -25,7 +26,7 @@ export default class AiCalculator {
                     return;
                 }
                 if (bestMove.targetArea !== null) {
-                    MovementRules.moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, this.shouldEstablishControl(sourceArea));
+                    gameStore.dispatch(moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, this.shouldEstablishControl(sourceArea)));
                     return;
                 }
             }

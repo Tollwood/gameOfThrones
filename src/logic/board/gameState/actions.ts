@@ -3,11 +3,14 @@ import PlayerSetup from '../playerSetup';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import {UnitType} from '../../units/unitType';
+import Unit from '../../units/units';
+import {AreaKey} from '../areaKey';
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
     START_RECRUITING = 'START_RECRUITING',
     RECRUIT_UNITS = 'RECRUIT_UNITS',
+    MOVE_UNITS = 'MOVE_UNITS',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
@@ -22,6 +25,15 @@ export interface  RecruitUnitsAction {
     type: TypeKeys.RECRUIT_UNITS;
     area: Area;
     units: UnitType[];
+}
+
+export interface MoveUnitsAction {
+    type: TypeKeys.MOVE_UNITS;
+    source: AreaKey;
+    target: AreaKey;
+    units: Unit[];
+    completeOrder: boolean;
+    establishControl: boolean;
 }
 
 export interface StartRecruitingAction {
@@ -73,6 +85,7 @@ export type ActionTypes =
     | NextPhaseAction
     | StartRecruitingAction
     | RecruitUnitsAction
+    | MoveUnitsAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
@@ -81,6 +94,16 @@ export type ActionTypes =
 
 export const startRecruiting = (): StartRecruitingAction => ({
     type: TypeKeys.START_RECRUITING,
+});
+
+
+export const moveUnits = (source: AreaKey, target: AreaKey, units: Unit[] = [], completeOrder: boolean = true, establishControl: boolean = false): MoveUnitsAction => ({
+    type: TypeKeys.MOVE_UNITS,
+    source,
+    target,
+    units,
+    completeOrder,
+    establishControl
 });
 
 export const recruitUnits = (area: Area, units: UnitType[] = []): RecruitUnitsAction => ({

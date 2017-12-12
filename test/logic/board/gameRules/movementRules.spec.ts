@@ -307,15 +307,17 @@ describe('MovementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
-            MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
+            const actual = MovementRules.moveUnits(areas.values(), sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then
-            expect(targetArea.units).toEqual(unitsToMove);
-            expect(targetArea.controllingHouse).toBe(House.stark);
-            expect(sourceArea.units).toEqual([footmanUnit2]);
-            expect(sourceArea.controllingHouse).toBe(House.stark);
-            expect(sourceArea.orderToken).toBeDefined();
-            expect(sourceArea.orderToken.getType()).toBeDefined(OrderTokenType.march_special);
+            expect(actual).not.toBe(areas);
+
+            expect(actual.get(targetArea.key).units).toEqual(unitsToMove);
+            expect(actual.get(targetArea.key).controllingHouse).toBe(House.stark);
+            expect(actual.get(sourceArea.key).units).toEqual([footmanUnit2]);
+            expect(actual.get(sourceArea.key).controllingHouse).toBe(House.stark);
+            expect(actual.get(sourceArea.key).orderToken).toBeDefined();
+            expect(actual.get(sourceArea.key).orderToken.getType()).toBeDefined(OrderTokenType.march_special);
         });
         it('should set controllingHouse to null if all units leave source area', () => {
             // given
@@ -338,10 +340,10 @@ describe('MovementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
-            MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
+            const actual = MovementRules.moveUnits(areas.values(), sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then
-            expect(sourceArea.controllingHouse).toBeNull();
+            expect(actual.get(sourceArea.key).controllingHouse).toBeNull();
         });
         it('should set the orderToken to null incase order is complete', () => {
             // given
@@ -362,10 +364,10 @@ describe('MovementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
-            MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove);
+            const actual = MovementRules.moveUnits(areas.values(), sourceArea.key, targetArea.key, unitsToMove);
 
             // then
-            expect(sourceArea.orderToken).toBeNull();
+            expect(actual.get(sourceArea.key).orderToken).toBeNull();
         });
         it('should establish control if order is complete and establishControl is true', () => {
             // given
@@ -388,10 +390,11 @@ describe('MovementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             // when
-            MovementRules.moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
+            const actual = MovementRules.moveUnits(areas.values(), sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl);
 
             // then
-            expect(sourceArea.controllingHouse).toBe(House.stark);
+            expect(actual.get(sourceArea.key).controllingHouse).toBe(House.stark);
+            // TODO immutable - should not be modified directly
             expect(gameStore.getState().players.filter(player => player.house === House.stark)[0].powerToken).toBe(0);
         });
     });
@@ -420,12 +423,15 @@ describe('MovementRules', () => {
             // when
             MovementRules.resolveFight(combatResult);
 
+            const currenState = gameStore.getState();
+            const newDefendingArea = currenState.areas.get(defendingArea.key);
+            const newAttackingArea = currenState.areas.get(attackingArea.key);
             // then
-            expect(defendingArea.controllingHouse).toBe(House.stark);
-            expect(attackingArea.controllingHouse).toBe(House.stark);
-            expect(defendingArea.orderToken).toBeNull();
-            expect(attackingArea.orderToken).toBeNull();
-            expect(attackingArea.units.length).toBe(0);
+            expect(newDefendingArea.controllingHouse).toBe(House.stark);
+            expect(newDefendingArea.orderToken).toBeNull();
+            expect(newAttackingArea.controllingHouse).toBe(House.stark);
+            expect(newAttackingArea.orderToken).toBeNull();
+            expect(newAttackingArea.units.length).toBe(0);
         });
         it('it should elimite attackers army, remove its control over attacking area and remove order Token if defender wins', () => {
             // given

@@ -4,10 +4,10 @@ import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
 import GameRules from '../../logic/board/gameRules/gameRules';
 import Modal from '../../utils/modal';
-import MovementRules from '../../logic/board/gameRules/movementRules';
 import SupplyRules from '../../logic/board/gameRules/supplyRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
+import {moveUnits} from '../../logic/board/gameState/actions';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -142,9 +142,9 @@ export default class SplitArmyModal extends Modal {
 
 
     private moveAllUnits() {
-        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
+        gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
             return movingUnit.unit;
-        }), true, this._establishControl);
+        }), true, this._establishControl));
         this.close();
     }
 
@@ -154,7 +154,7 @@ export default class SplitArmyModal extends Modal {
 
 
     private moveUnits() {
-        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false);
+        gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false));
         this.close();
     }
 
@@ -169,7 +169,7 @@ export default class SplitArmyModal extends Modal {
     }
 
     private orderComplete() {
-        MovementRules.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits());
+        gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits()));
         this.close();
     }
 }

@@ -17,6 +17,8 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import RecruitingRules from '../gameRules/recruitingRules';
 import {AreaKey} from '../areaKey';
+import AreaRules from '../gameRules/AreaRules';
+import MovementRules from '../gameRules/movementRules';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -124,12 +126,16 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
+        case TypeKeys.MOVE_UNITS:
+            newState = {
+                ...state,
+                areas: MovementRules.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                currentHouse: GamePhaseService.nextHouse(state)
+            };
+            break;
         // these are no real actions and should be removed
         case TypeKeys.NEXT_PHASE:
             if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
-                gameStore.getState().areas.values().map((area) => {
-                    area.orderToken = null;
-                });
                 const nextGameRound = state.gameRound + 1;
                 let winningHouse = null;
                 if (nextGameRound > 10) {
@@ -140,6 +146,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 }
                 newState = {
                     ...state,
+                    areas: AreaRules.removeAllRemainingTokens(state.areas.values()),
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,

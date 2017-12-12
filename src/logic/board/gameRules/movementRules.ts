@@ -6,32 +6,23 @@ import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {House} from '../house';
 import {gameStore, GameStoreState} from '../gameState/reducer';
-import {nextPlayer} from '../gameState/actions';
+import {moveUnits} from '../gameState/actions';
+import {TSMap} from 'typescript-map';
 export default class MovementRules {
 
-    // TODO Modifing State should be handled by an action
-    public static moveUnits(source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false) {
-
-        let sourceArea = GameRules.getAreaByKey(source);
-        let targetArea = GameRules.getAreaByKey(target);
-
-        targetArea.units = targetArea.units.concat(movingUnits);
-        targetArea.controllingHouse = sourceArea.controllingHouse;
-
-        let remainingUnits = sourceArea.units.filter(function (sourceUnit) {
-            return movingUnits.indexOf(sourceUnit) === -1;
+    public static moveUnits(areas: Area[], source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false): TSMap<AreaKey, Area> {
+        const newAreasMap = new TSMap<AreaKey, Area>();
+        areas.forEach((area) => {
+            const newArea = area.copy();
+            if (area.key === source) {
+                this.updateSourceArea(newArea, movingUnits, completeOrder, establishControl, newArea.controllingHouse);
+            }
+            if (area.key === target) {
+                this.updateTargetArea(newArea, movingUnits);
+            }
+            newAreasMap.set(newArea.key, newArea);
         });
-        sourceArea.units = remainingUnits;
-        if (sourceArea.units.length === 0) {
-            sourceArea.controllingHouse = null;
-        }
-        if (completeOrder) {
-            sourceArea.orderToken = null;
-        }
-        if (completeOrder && establishControl) {
-            this.establishControl(sourceArea, targetArea.controllingHouse);
-        }
-        gameStore.dispatch(nextPlayer());
+        return newAreasMap;
     }
 
     public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
@@ -71,6 +62,7 @@ export default class MovementRules {
             console.log('not enough power Tokens to establish control in: ' + area.key);
             return;
         }
+        // TODO immutable -> do not change state, use reducer instead
         player.powerToken--;
         area.controllingHouse = player.house;
     }
@@ -82,7 +74,7 @@ export default class MovementRules {
             loosingArea.controllingHouse = winningArea.controllingHouse;
             loosingArea.orderToken = null;
             loosingArea.units = [];
-            MovementRules.moveUnits(winningArea.key, loosingArea.key, winningArea.units, true, true);
+            gameStore.dispatch(moveUnits(winningArea.key, loosingArea.key, winningArea.units, true, true));
         }
         else {
             loosingArea.units = [];
@@ -91,4 +83,27 @@ export default class MovementRules {
         }
     }
 
+    private static updateSourceArea(sourceArea: Area, movingUnits: Unit[], completeOrder: boolean, establishControl: boolean, controllingHouse: House) {
+        let remainingUnits = sourceArea.units.filter((sourceUnit) => {
+            return movingUnits.indexOf(sourceUnit) === -1;
+        });
+        sourceArea.units = remainingUnits;
+        if (sourceArea.units.length === 0) {
+            sourceArea.controllingHouse = null;
+        }
+        if (completeOrder) {
+            sourceArea.orderToken = null;
+        }
+        if (completeOrder && establishControl) {
+            this.establishControl(sourceArea, controllingHouse);
+        }
+    }
+
+    private static updateTargetArea(targetArea: Area, movingUnits: Unit[]) {
+        targetArea.units = targetArea.units.concat(movingUnits);
+        if (movingUnits.length > 0) {
+            targetArea.controllingHouse = movingUnits[0].getHouse();
+        }
+
+    }
 }
