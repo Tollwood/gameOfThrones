@@ -62,7 +62,7 @@ export default class MovementRules {
             console.log('not enough power Tokens to establish control in: ' + area.key);
             return;
         }
-        // TODO immutable -> do not change state, use reducer instead
+        // TODO immutable -> do not change state, return new object instead
         player.powerToken--;
         area.controllingHouse = player.house;
     }
@@ -70,6 +70,7 @@ export default class MovementRules {
     public static resolveFight(combatResult: CombatResult) {
         let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
+        // TODO immutable -> do not change state, return new object instead
         if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
             loosingArea.controllingHouse = winningArea.controllingHouse;
             loosingArea.orderToken = null;

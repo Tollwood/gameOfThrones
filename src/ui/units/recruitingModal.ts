@@ -107,7 +107,7 @@ export default class RecruitingModal extends Modal {
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
-        let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(gameStore.getState());
+        let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
         if (area.units.length + numOfSelectedUnits === maxArmySize) {
             remainingRecruitingPoints = 0;
         }

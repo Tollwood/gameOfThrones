@@ -79,7 +79,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             const currentHouse = initialIronThroneSuccession[0];
             const updatedSupply = new TSMap<House, number>();
             player.forEach((player) => {
-                updatedSupply.set(player.house, SupplyRules.getNumberOfSupply(player.house, areas.values()));
+                updatedSupply.set(player.house, SupplyRules.calculateNumberOfSupply(player.house, areas.values()));
             });
 
             GameRules.load(gameState);
@@ -115,7 +115,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply(state)};
             break;
         case TypeKeys.START_RECRUITING:
-            newState = {...state, areasAllowedToRecruit: RecruitingRules.setAreasAllowedToRecruit(state)};
+            newState = {...state, areasAllowedToRecruit: RecruitingRules.calculateAreasAllowedToRecruit(state)};
             break;
         case TypeKeys.RECRUIT_UNITS:
             const newArea = RecruitingRules.addUnitsToArea(action.area, action.units);

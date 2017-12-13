@@ -21,7 +21,7 @@ describe('SupplyRules', () => {
         const areas = [winterfell, karhold, whiteHarbor];
 
         // when
-        let actual = SupplyRules.getArmiesBySizeForHouse(areas, House.stark);
+        let actual = SupplyRules.calculateArmiesBySizeForHouse(areas, House.stark);
 
         // then
         expect(actual).toEqual([4, 3, 2]);
@@ -40,7 +40,7 @@ describe('SupplyRules', () => {
         let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
+        let actual = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(3);
@@ -58,7 +58,7 @@ describe('SupplyRules', () => {
         let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
+        let actual = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(3);
@@ -78,7 +78,7 @@ describe('SupplyRules', () => {
 
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(state);
+        let actual = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
 
         // then
         expect(actual).toEqual(2);
@@ -104,7 +104,7 @@ describe('SupplyRules', () => {
             areas: areas
         };
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(gameStoreState);
+        let actual = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
 
         // then
         expect(actual).toEqual(3);
@@ -129,7 +129,7 @@ describe('SupplyRules', () => {
         SupplyRules.updateSupply(gameStoreState);
 
         // when
-        let actual = SupplyRules.allowedMaxSizeBasedOnSupply(gameStoreState);
+        let actual = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
 
         // then
         expect(actual).toEqual(3);
@@ -143,7 +143,7 @@ describe('SupplyRules', () => {
         let state = {players: [new Player(House.stark, 5, [])], areas: areas};
         SupplyRules.updateSupply(state);
 
-        expect(SupplyRules.getArmiesBySizeForHouse(state.areas.values(), House.stark)).toEqual([]);
+        expect(SupplyRules.calculateArmiesBySizeForHouse(state.areas.values(), House.stark)).toEqual([]);
 
 
     });

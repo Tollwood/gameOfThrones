@@ -34,6 +34,7 @@ export default class TokenPlacementRules {
         });
     }
 
+    // TODO use action
     public static addOrderToken(ordertoken: OrderToken, areaKey: AreaKey) {
         const area = GameRules.getAreaByKey(areaKey);
         area.orderToken = ordertoken;

@@ -7,11 +7,11 @@ import {AreaKey} from '../areaKey';
 
 export default class RecruitingRules {
 
-    public static setAreasAllowedToRecruit(state: GameStoreState) {
+    public static calculateAreasAllowedToRecruit(state: GameStoreState) {
         return state.areas.values().filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
-                && SupplyRules.allowedMaxSizeBasedOnSupply(state) > area.units.length;
+                && SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state) > area.units.length;
         }).map(area => area.key);
     }
 
@@ -24,7 +24,7 @@ export default class RecruitingRules {
                 return false;
             }
 
-            let maxArmySize = SupplyRules.allowedMaxSizeBasedOnSupply(state);
+            let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
             return area.units.length < maxArmySize;
         }).map(areaKey => state.areas.get(areaKey));
     }

@@ -47,7 +47,7 @@ describe('RecruitingRules', () => {
         });
     });
 
-    describe('setAreasAllowedToRecruit', () => {
+    describe('calculateAreasAllowedToRecruit', () => {
         it('should set all areas controlled by a  house that has a stronghold and enough supply', () => {
             // given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withCastle().build();
@@ -57,14 +57,14 @@ describe('RecruitingRules', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             let state = {areas: areas};
 
-            spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(10);
+            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
-            const actual = RecruitingRules.setAreasAllowedToRecruit(state);
+            const actual = RecruitingRules.calculateAreasAllowedToRecruit(state);
 
             // then
             expect(actual.length).toBe(1);
             expect(actual[0]).toEqual(AreaKey.Winterfell);
-            expect(SupplyRules.allowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
         });
     });
 
@@ -81,14 +81,14 @@ describe('RecruitingRules', () => {
                 areas: areas,
                 areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
             };
-            spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(10);
+            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
             const actual = RecruitingRules.getAreasAllowedToRecruit(state);
 
             // then
             expect(actual.length).toBe(1);
             expect(actual[0].key).toBe(AreaKey.Winterfell);
-            expect(SupplyRules.allowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
         });
 
         it('should not consider areas which exceed the supply limit', () => {
@@ -104,12 +104,12 @@ describe('RecruitingRules', () => {
                 areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
             };
 
-            spyOn(SupplyRules, 'allowedMaxSizeBasedOnSupply').and.returnValue(1);
+            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(1);
             // when
             const actual = RecruitingRules.getAreasAllowedToRecruit(state);
 
             // then
-            expect(SupplyRules.allowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
             expect(actual.length).toBe(0);
         });
     });
