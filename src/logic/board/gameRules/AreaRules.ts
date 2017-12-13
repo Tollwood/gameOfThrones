@@ -32,4 +32,9 @@ export default class AreaRules {
         });
         return newAreaMap;
     }
+
+
+    public static removeOrderToken(areas: Area[], areaKey: AreaKey): TSMap<AreaKey, Area> {
+        return this.addOrderToken(areas, null, areaKey);
+    }
 }

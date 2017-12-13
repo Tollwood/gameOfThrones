@@ -1,5 +1,4 @@
 import {House} from '../../../../src/logic/board/house';
-import {OrderToken} from '../../../../src/logic/orderToken/orderToken';
 import TokenPlacementRules from '../../../../src/logic/board/gameRules/tokenPlacementRules';
 import AreaBuilder from '../../../areaBuilder';
 import Player from '../../../../src/logic/board/player';
@@ -63,20 +62,6 @@ describe('TokenPlacementRules', () => {
         gameStore.dispatch(loadGame(gameStoreState));
         const actual = TokenPlacementRules.isAllowedToPlaceOrderToken(House.lannister, AreaKey.Winterfell);
         expect(actual).toBe(false);
-    });
-
-    describe('skipOrder', () => {
-        it('should remove orderToken and switch to Next Player', () => {
-            const area = new AreaBuilder(AreaKey.Winterfell).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, area);
-            let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
-            gameStore.dispatch(loadGame(gameStoreState));
-            spyOn(GamePhaseService, 'nextHouse');
-            TokenPlacementRules.skipOrder(AreaKey.Winterfell);
-            expect(gameStore.getState().areas.values()[0].orderToken).toBeNull();
-            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
-        });
     });
 
     describe('isAllowedToRaid', () => {

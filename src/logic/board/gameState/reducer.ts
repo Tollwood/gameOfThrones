@@ -163,6 +163,13 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 areas: AreaRules.addOrderToken(state.areas.values(), action.orderToken, action.areaKey)
             };
             break;
+        case TypeKeys.SKIP_ORDER:
+            newState = {
+                ...state,
+                areas: AreaRules.removeOrderToken(state.areas.values(), action.areaKey),
+                currentHouse: GamePhaseService.nextHouse(state)
+            };
+            break;
         case TypeKeys.NEXT_PLAYER:
             newState = {...state, currentHouse: GamePhaseService.nextHouse(state)};
             break;

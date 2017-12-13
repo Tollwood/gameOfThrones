@@ -14,7 +14,7 @@ import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules
 import MovementRules from '../../logic/board/gameRules/movementRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
-import {nextPlayer} from '../../logic/board/gameState/actions';
+import {nextPlayer, skipOrder} from '../../logic/board/gameState/actions';
 
 export default class OrderTokenRenderer {
 
@@ -105,7 +105,7 @@ export default class OrderTokenRenderer {
 
     private highlightAreaNameToSkipOrder(sprite: Phaser.Sprite, areaKey: AreaKey) {
         let skipOrderFn = () => {
-            TokenPlacementRules.skipOrder(areaKey);
+            gameStore.dispatch(skipOrder(areaKey));
             this.removeSelectedToken(sprite);
             Renderer.rerenderRequired = true;
         };

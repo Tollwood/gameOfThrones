@@ -13,6 +13,7 @@ export enum TypeKeys {
     START_RECRUITING = 'START_RECRUITING',
     RECRUIT_UNITS = 'RECRUIT_UNITS',
     MOVE_UNITS = 'MOVE_UNITS',
+    SKIP_ORDER = 'SKIP_ORDER',
     PLACE_ORDER = 'PLACE_ORDER',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
@@ -24,6 +25,10 @@ export enum TypeKeys {
     OTHER_ACTION = '__any_other_action_type__'
 }
 
+export interface SkipOrderAction {
+    type: TypeKeys.SKIP_ORDER;
+    areaKey: AreaKey;
+}
 export interface  PlaceOrderAction {
     type: TypeKeys.PLACE_ORDER;
     areaKey: AreaKey;
@@ -95,6 +100,7 @@ export type ActionTypes =
     | RecruitUnitsAction
     | MoveUnitsAction
     | PlaceOrderAction
+    | SkipOrderAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
@@ -102,6 +108,10 @@ export type ActionTypes =
     | NextPlayerAction;
 
 
+export const skipOrder = (areaKey: AreaKey): SkipOrderAction => ({
+    type: TypeKeys.SKIP_ORDER,
+    areaKey
+});
 export const placeOrder = (areaKey: AreaKey, orderToken: OrderToken): PlaceOrderAction => ({
     type: TypeKeys.PLACE_ORDER,
     areaKey,

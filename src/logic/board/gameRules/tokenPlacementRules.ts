@@ -1,4 +1,3 @@
-import {OrderToken} from '../../orderToken/orderToken';
 import {Area} from '../area';
 import {House} from '../house';
 import AreaRules from './AreaRules';
@@ -7,7 +6,6 @@ import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import {nextPlayer} from '../gameState/actions';
-import {TSMap} from 'typescript-map';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -34,6 +32,13 @@ export default class TokenPlacementRules {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
     }
+
+    public static isAllowedToRaid(sourceArea: Area, targetArea: Area): boolean {
+        return AreaRules.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
+            && sourceArea.controllingHouse !== targetArea.controllingHouse
+            && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
+    }
+
 
     public static executeRaidOrder(source: AreaKey, target: AreaKey) {
         let sourceArea = GameRules.getAreaByKey(source);
@@ -69,19 +74,8 @@ export default class TokenPlacementRules {
         });
     }
 
-    public static skipOrder(source: AreaKey) {
-        let sourceArea = GameRules.getAreaByKey(source);
-        sourceArea.orderToken = null;
-        gameStore.dispatch(nextPlayer());
-    }
-
-
-    public static restrictOrderToken(state: GameStoreState, notAllowedOrderTokenTypes: Array<OrderTokenType>) {
-        return state.currentlyAllowedTokenTypes.filter(function (orderToken) {
-            return notAllowedOrderTokenTypes.indexOf(orderToken) === -1;
-        });
-    }
-
+    // TODO immutable - do not modify state
+    // TODO enable recruiting for special Power Token
     public static consolidateAllPower() {
         gameStore.getState().players.forEach((player) => {
             let additionalPower = 0;
@@ -95,9 +89,9 @@ export default class TokenPlacementRules {
         // Add logic for ships in harbour
     }
 
-    public static isAllowedToRaid(sourceArea: Area, targetArea: Area): boolean {
-        return AreaRules.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
-            && sourceArea.controllingHouse !== targetArea.controllingHouse
-            && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
+    public static restrictOrderToken(state: GameStoreState, notAllowedOrderTokenTypes: Array<OrderTokenType>) {
+        return state.currentlyAllowedTokenTypes.filter(function (orderToken) {
+            return notAllowedOrderTokenTypes.indexOf(orderToken) === -1;
+        });
     }
 }

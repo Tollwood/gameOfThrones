@@ -9,7 +9,7 @@ import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
-import {moveUnits, placeOrder} from '../board/gameState/actions';
+import {moveUnits, placeOrder, skipOrder} from '../board/gameState/actions';
 export default class AiCalculator {
 
     public executeOrder(aiPlayer: AiPlayer) {
@@ -22,7 +22,7 @@ export default class AiCalculator {
                 let bestMove = this.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
 
                 if (bestMove === null) {
-                    TokenPlacementRules.skipOrder(sourceArea.key);
+                    gameStore.dispatch(skipOrder(sourceArea.key));
                     return;
                 }
                 if (bestMove.targetArea !== null) {
@@ -36,7 +36,7 @@ export default class AiCalculator {
             let areasWithRaidToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
-                TokenPlacementRules.skipOrder(areasWithRaidToken[0].key);
+                gameStore.dispatch(skipOrder(areasWithRaidToken[0].key));
             }
         }
 

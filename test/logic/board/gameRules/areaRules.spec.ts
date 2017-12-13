@@ -2,13 +2,14 @@ import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {loadGame, placeOrder} from '../../../../src/logic/board/gameState/actions';
+import {loadGame, placeOrder, skipOrder} from '../../../../src/logic/board/gameState/actions';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
 import {OrderToken} from '../../../../src/logic/orderToken/orderToken';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {House} from '../../../../src/logic/board/house';
 import {UnitType} from '../../../../src/logic/units/unitType';
+import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
 
 describe('AreaRules', () => {
 
@@ -65,6 +66,24 @@ describe('AreaRules', () => {
         expect(actual.areas).not.toBe(areas);
         expect(gameStore.getState().areas.get(AreaKey.Winterfell).orderToken).toBe(orderToken);
 
+    });
+
+    describe('skipOrder', () => {
+        it('should remove orderToken and switch to Next Player', () => {
+
+            const area = new AreaBuilder(AreaKey.Winterfell).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, area);
+            let gameStoreState = {areas: areas};
+            gameStore.dispatch(loadGame(gameStoreState));
+            spyOn(GamePhaseService, 'nextHouse');
+
+            gameStore.dispatch(skipOrder(AreaKey.Winterfell));
+
+            const newAreas = gameStore.getState().areas;
+            expect(newAreas.get(AreaKey.Winterfell).orderToken).toBeNull();
+            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
+        });
     });
 
 });
