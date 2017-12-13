@@ -7,6 +7,7 @@ import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import {nextPlayer} from '../gameState/actions';
+import {TSMap} from 'typescript-map';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -32,12 +33,6 @@ export default class TokenPlacementRules {
         return gameStore.getState().currentlyAllowedTokenTypes.filter((type) => {
             return alreadyPlacedOrderTokens.indexOf(type) === -1;
         });
-    }
-
-    // TODO use action
-    public static addOrderToken(ordertoken: OrderToken, areaKey: AreaKey) {
-        const area = GameRules.getAreaByKey(areaKey);
-        area.orderToken = ordertoken;
     }
 
     public static executeRaidOrder(source: AreaKey, target: AreaKey) {

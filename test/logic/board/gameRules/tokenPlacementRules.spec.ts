@@ -65,22 +65,6 @@ describe('TokenPlacementRules', () => {
         expect(actual).toBe(false);
     });
 
-    it('should add OrderToken', () => {
-
-        const orderToken: OrderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
-        const winterfell = new AreaBuilder(AreaKey.Winterfell)
-            .withHouse(House.lannister)
-            .withUnits([UnitType.Footman])
-            .build();
-        const areas = new TSMap<AreaKey, Area>();
-        areas.set(AreaKey.Winterfell, winterfell);
-        let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
-        gameStore.dispatch(loadGame(gameStoreState));
-        TokenPlacementRules.addOrderToken(orderToken, AreaKey.Winterfell);
-        expect(winterfell.orderToken).toBe(orderToken);
-
-    });
-
     describe('skipOrder', () => {
         it('should remove orderToken and switch to Next Player', () => {
             const area = new AreaBuilder(AreaKey.Winterfell).withOrderToken(OrderTokenType.consolidatePower_0).withHouse(House.stark).build();

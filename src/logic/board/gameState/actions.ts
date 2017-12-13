@@ -5,12 +5,15 @@ import {Area} from '../area';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {AreaKey} from '../areaKey';
+import {OrderToken} from '../../orderToken/orderToken';
+import Order = jasmine.Order;
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
     START_RECRUITING = 'START_RECRUITING',
     RECRUIT_UNITS = 'RECRUIT_UNITS',
     MOVE_UNITS = 'MOVE_UNITS',
+    PLACE_ORDER = 'PLACE_ORDER',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
@@ -21,6 +24,11 @@ export enum TypeKeys {
     OTHER_ACTION = '__any_other_action_type__'
 }
 
+export interface  PlaceOrderAction {
+    type: TypeKeys.PLACE_ORDER;
+    areaKey: AreaKey;
+    orderToken: OrderToken;
+}
 export interface  RecruitUnitsAction {
     type: TypeKeys.RECRUIT_UNITS;
     area: Area;
@@ -86,12 +94,19 @@ export type ActionTypes =
     | StartRecruitingAction
     | RecruitUnitsAction
     | MoveUnitsAction
+    | PlaceOrderAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
     | OtherAction
     | NextPlayerAction;
 
+
+export const placeOrder = (areaKey: AreaKey, orderToken: OrderToken): PlaceOrderAction => ({
+    type: TypeKeys.PLACE_ORDER,
+    areaKey,
+    orderToken
+});
 export const startRecruiting = (): StartRecruitingAction => ({
     type: TypeKeys.START_RECRUITING,
 });

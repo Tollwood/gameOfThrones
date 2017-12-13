@@ -17,8 +17,8 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import RecruitingRules from '../gameRules/recruitingRules';
 import {AreaKey} from '../areaKey';
-import AreaRules from '../gameRules/AreaRules';
 import MovementRules from '../gameRules/movementRules';
+import AreaRules from '../gameRules/AreaRules';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -156,6 +156,12 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             } else {
                 newState = {...state, gamePhase: state.gamePhase + 1};
             }
+            break;
+        case TypeKeys.PLACE_ORDER:
+            newState = {
+                ...state,
+                areas: AreaRules.addOrderToken(state.areas.values(), action.orderToken, action.areaKey)
+            };
             break;
         case TypeKeys.NEXT_PLAYER:
             newState = {...state, currentHouse: GamePhaseService.nextHouse(state)};

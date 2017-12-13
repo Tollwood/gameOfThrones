@@ -2,9 +2,13 @@ import AreaRules from '../../../../src/logic/board/gameRules/AreaRules';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {loadGame} from '../../../../src/logic/board/gameState/actions';
+import {loadGame, placeOrder} from '../../../../src/logic/board/gameState/actions';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
+import {OrderToken} from '../../../../src/logic/orderToken/orderToken';
+import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
+import {House} from '../../../../src/logic/board/house';
+import {UnitType} from '../../../../src/logic/units/unitType';
 
 describe('AreaRules', () => {
 
@@ -42,6 +46,24 @@ describe('AreaRules', () => {
 
         // then
         expect(actual).toBeFalsy();
+
+    });
+
+    it('should add OrderToken', () => {
+
+        const orderToken: OrderToken = new OrderToken(House.stark, OrderTokenType.march_minusOne);
+        const winterfell = new AreaBuilder(AreaKey.Winterfell)
+            .withHouse(House.lannister)
+            .withUnits([UnitType.Footman])
+            .build();
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Winterfell, winterfell);
+        let gameStoreState = {areas: areas};
+        gameStore.dispatch(loadGame(gameStoreState));
+        gameStore.dispatch(placeOrder(winterfell.key, orderToken));
+        const actual = gameStore.getState();
+        expect(actual.areas).not.toBe(areas);
+        expect(gameStore.getState().areas.get(AreaKey.Winterfell).orderToken).toBe(orderToken);
 
     });
 

@@ -9,7 +9,7 @@ import AiPlayer from './aiPlayer';
 import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
-import {moveUnits} from '../board/gameState/actions';
+import {moveUnits, placeOrder} from '../board/gameState/actions';
 export default class AiCalculator {
 
     public executeOrder(aiPlayer: AiPlayer) {
@@ -65,7 +65,7 @@ export default class AiCalculator {
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
-            TokenPlacementRules.addOrderToken(new OrderToken(aiPlayer.house, bestMove.orderTokenType), bestMove.sourceArea.key);
+            gameStore.dispatch(placeOrder(bestMove.sourceArea.key, new OrderToken(aiPlayer.house, bestMove.orderTokenType) ));
         }
     }
 

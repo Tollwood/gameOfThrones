@@ -1,6 +1,7 @@
 import {Area} from '../area';
 import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
+import {OrderToken} from '../../orderToken/orderToken';
 export default class AreaRules {
 
     public static isConnectedArea(source: Area, target: Area): boolean {
@@ -18,5 +19,17 @@ export default class AreaRules {
 
         });
         return newAreasMap;
+    }
+
+    public static addOrderToken(areas: Area[], ordertoken: OrderToken, areaKey: AreaKey): TSMap<AreaKey, Area> {
+        const newAreaMap = new TSMap<AreaKey, Area>();
+        areas.forEach(area => {
+            const newArea = area.copy();
+            if (newArea.key === areaKey) {
+                newArea.orderToken = ordertoken;
+            }
+            newAreaMap.set(newArea.key, newArea);
+        });
+        return newAreaMap;
     }
 }

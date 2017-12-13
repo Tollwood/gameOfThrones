@@ -6,6 +6,7 @@ import DragAndDropSupport from '../../utils/dragAndDropSupport';
 import AssetLoader from '../../utils/assetLoader';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import {gameStore} from '../../logic/board/gameState/reducer';
+import {placeOrder} from '../../logic/board/gameState/actions';
 export class OrderTokenMenuRenderer {
 
     private static placableOrderTokens: Phaser.Group;
@@ -51,7 +52,7 @@ export class OrderTokenMenuRenderer {
             let relativeY = area.y - currentSprite.game.camera.y;
             let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
             if (Phaser.Rectangle.intersects(boundsA, boundsB) && TokenPlacementRules.isAllowedToPlaceOrderToken(House.stark, area.name)) {
-                TokenPlacementRules.addOrderToken(new OrderToken(gameStore.getState().currentHouse, currentSprite.frame), area.name);
+                gameStore.dispatch(placeOrder(area.name, new OrderToken(gameStore.getState().currentHouse, currentSprite.frame)));
             }
         });
     }

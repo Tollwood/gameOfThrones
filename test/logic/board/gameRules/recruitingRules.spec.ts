@@ -16,7 +16,7 @@ describe('RecruitingRules', () => {
             // when
             const actual = RecruitingRules.addUnitsToArea(area, unitTypes);
 
-            //then
+            // then
             expect(actual).not.toBe(area);
             expect(actual.units.length).toBe(2);
         });
@@ -28,7 +28,7 @@ describe('RecruitingRules', () => {
             // when
             const actual = RecruitingRules.addUnitsToArea(area, unitTypes);
 
-            //then
+            // then
             expect(actual).not.toBe(area);
             expect(actual.units.length).toBe(3);
         });
