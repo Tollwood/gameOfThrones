@@ -34,6 +34,18 @@ export default class AreaRules {
     }
 
 
+    public static removeOrderTokens(areas: Area[], areaKeys: AreaKey[]): TSMap<AreaKey, Area> {
+        const newAreaMap = new TSMap<AreaKey, Area>();
+        areas.forEach(area => {
+            const newArea = area.copy();
+            if (areaKeys.lastIndexOf(newArea.key) > -1) {
+                newArea.orderToken = null;
+            }
+            newAreaMap.set(newArea.key, newArea);
+        });
+        return newAreaMap;
+    }
+
     public static removeOrderToken(areas: Area[], areaKey: AreaKey): TSMap<AreaKey, Area> {
         return this.addOrderToken(areas, null, areaKey);
     }

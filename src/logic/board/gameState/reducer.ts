@@ -170,6 +170,14 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
+        case TypeKeys.EXECUTE_RAID_ORDER:
+            newState = {
+                ...state,
+                areas: AreaRules.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
+                players: TokenPlacementRules.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
+                currentHouse: GamePhaseService.nextHouse(state)
+            };
+            break;
         case TypeKeys.NEXT_PLAYER:
             newState = {...state, currentHouse: GamePhaseService.nextHouse(state)};
             break;

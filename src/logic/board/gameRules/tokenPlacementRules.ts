@@ -5,7 +5,7 @@ import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../gameState/reducer';
-import {nextPlayer} from '../gameState/actions';
+import Player from '../player';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -40,24 +40,26 @@ export default class TokenPlacementRules {
     }
 
 
-    public static executeRaidOrder(source: AreaKey, target: AreaKey) {
-        let sourceArea = GameRules.getAreaByKey(source);
-        sourceArea.orderToken = null;
-        const targetArea = GameRules.getAreaByKey(target);
+    public static raidPowerToken(state: GameStoreState, source: AreaKey, target: AreaKey): Player[] {
+
+        const targetArea = state.areas.get(target);
+        const sourceArea = state.areas.get(source);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
-            gameStore.getState().players.filter((player) => {
+            const newPlayers = state.players.splice(0);
+            newPlayers.filter((player) => {
                 return player.house === targetArea.controllingHouse;
             }).map((player) => {
                 if (player.powerToken > 0) {
                     player.powerToken--;
                 }
             });
-            gameStore.getState().players.filter((player) => {
+            newPlayers.filter((player) => {
                 return player.house === sourceArea.controllingHouse;
             })[0].powerToken++;
+
+            return newPlayers;
         }
-        targetArea.orderToken = null;
-        gameStore.dispatch(nextPlayer());
+        return state.players;
     }
 
 

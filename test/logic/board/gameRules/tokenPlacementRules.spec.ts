@@ -7,7 +7,7 @@ import {UnitType} from '../../../../src/logic/units/unitType';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {loadGame, resctrictOrderToken} from '../../../../src/logic/board/gameState/actions';
+import {executeRaidOrder, loadGame, resctrictOrderToken} from '../../../../src/logic/board/gameState/actions';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
 
@@ -209,13 +209,13 @@ describe('TokenPlacementRules', () => {
         });
     });
 
-    describe('executeRaidOrder', () => {
+    describe('raidPowerToken', () => {
         const sourceArea = new AreaBuilder(AreaKey.Winterfell)
             .withHouse(House.lannister)
             .withOrderToken(OrderTokenType.raid_0)
             .build();
 
-        it('should remove orderToken in target and source area', () => {
+        fit('should remove orderToken in target and source area', () => {
 
 
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor)
@@ -229,9 +229,13 @@ describe('TokenPlacementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             spyOn(GamePhaseService, 'nextHouse');
-            TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
-            expect(sourceArea.orderToken).toBeNull();
-            expect(targetArea.orderToken).toBeNull();
+            gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
+            const newState = gameStore.getState();
+            expect(newState).not.toBe(gameStoreState);
+            expect(newState.areas.get(sourceArea.key)).not.toBe(sourceArea);
+            expect(newState.areas.get(sourceArea.key).orderToken).toBeNull();
+            expect(newState.areas.get(targetArea.key)).not.toBe(targetArea);
+            expect(newState.areas.get(targetArea.key).orderToken).toBeNull();
             expect(GamePhaseService.nextHouse).toHaveBeenCalled();
         });
 
@@ -246,9 +250,11 @@ describe('TokenPlacementRules', () => {
             areas.set(AreaKey.WhiteHarbor, targetArea);
             let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
-
             spyOn(GamePhaseService, 'nextHouse');
-            TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
+            gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
+            const newState = gameStore.getState();
+            expect(newState).not.toBe(gameStoreState);
+
             expect(GamePhaseService.nextHouse).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
             expect(playerStark.powerToken).toEqual(0);
@@ -268,7 +274,7 @@ describe('TokenPlacementRules', () => {
             gameStore.dispatch(loadGame(gameStoreState));
 
             spyOn(GamePhaseService, 'nextHouse');
-            TokenPlacementRules.executeRaidOrder(sourceArea.key, targetArea.key);
+            gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
             expect(GamePhaseService.nextHouse).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
             expect(playerStark.powerToken).toEqual(4);

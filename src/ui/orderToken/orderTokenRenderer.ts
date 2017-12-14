@@ -14,7 +14,7 @@ import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules
 import MovementRules from '../../logic/board/gameRules/movementRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
-import {nextPlayer, skipOrder} from '../../logic/board/gameState/actions';
+import {executeRaidOrder, nextPlayer, skipOrder} from '../../logic/board/gameState/actions';
 
 export default class OrderTokenRenderer {
 
@@ -153,7 +153,7 @@ export default class OrderTokenRenderer {
         placedToken.events.onInputDown.add((sprite) => {
 
             let raidAreaFunction = (targetAreaKey) => {
-                TokenPlacementRules.executeRaidOrder(areaKey, targetAreaKey);
+                gameStore.dispatch(executeRaidOrder(areaKey, targetAreaKey));
                 this.removeSelectedToken(sprite);
             };
             let areaToPlaceToken = GameRules.getAreaByKey(areaKey);

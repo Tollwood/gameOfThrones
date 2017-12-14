@@ -14,6 +14,7 @@ export enum TypeKeys {
     RECRUIT_UNITS = 'RECRUIT_UNITS',
     MOVE_UNITS = 'MOVE_UNITS',
     SKIP_ORDER = 'SKIP_ORDER',
+    EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
     PLACE_ORDER = 'PLACE_ORDER',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
@@ -23,6 +24,12 @@ export enum TypeKeys {
         // not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface ExecuteRaidOrderAction {
+    type: TypeKeys.EXECUTE_RAID_ORDER;
+    sourceAreaKey: AreaKey;
+    targetAreaKey: AreaKey;
 }
 
 export interface SkipOrderAction {
@@ -101,12 +108,18 @@ export type ActionTypes =
     | MoveUnitsAction
     | PlaceOrderAction
     | SkipOrderAction
+    | ExecuteRaidOrderAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
     | OtherAction
     | NextPlayerAction;
 
+export const executeRaidOrder = (sourceAreaKey: AreaKey, targetAreaKey: AreaKey): ExecuteRaidOrderAction => ({
+    type: TypeKeys.EXECUTE_RAID_ORDER,
+    sourceAreaKey,
+    targetAreaKey
+});
 
 export const skipOrder = (areaKey: AreaKey): SkipOrderAction => ({
     type: TypeKeys.SKIP_ORDER,
