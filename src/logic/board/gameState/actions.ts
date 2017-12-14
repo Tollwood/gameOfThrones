@@ -6,7 +6,7 @@ import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
-import Order = jasmine.Order;
+
 export enum TypeKeys {
     NEXT_PHASE = 'NEXT_PHASE',
     INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
