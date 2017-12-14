@@ -4,7 +4,7 @@ import Player from '../player';
 import PlayerSetup from '../playerSetup';
 import GameState from '../gameState/GameState';
 import {AreaKey} from '../areaKey';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
 import {newGame} from '../gameState/actions';
 
 export default class GameRules {
@@ -27,8 +27,8 @@ export default class GameRules {
         return this._gameState;
     }
 
-    public static getFirstFromIronThroneSuccession(): House {
-        return gameStore.getState().ironThroneSuccession[0];
+    public static getFirstFromIronThroneSuccession(state: GameStoreState): House {
+        return state.ironThroneSuccession[0];
     }
 
     public static getAreaByKey(areaKey: AreaKey): Area {

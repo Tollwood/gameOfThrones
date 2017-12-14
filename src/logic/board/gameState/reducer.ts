@@ -17,7 +17,6 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import RecruitingRules from '../gameRules/recruitingRules';
 import {AreaKey} from '../areaKey';
-import MovementRules from '../gameRules/movementRules';
 import AreaRules from '../gameRules/AreaRules';
 
 class GameStoreState {
@@ -127,9 +126,11 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             };
             break;
         case TypeKeys.MOVE_UNITS:
+            // TODO verify its a valid move before updating state
             newState = {
                 ...state,
-                areas: MovementRules.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                areas: AreaRules.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                players: TokenPlacementRules.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
@@ -150,7 +151,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,
-                    currentHouse: GameRules.getFirstFromIronThroneSuccession(),
+                    currentHouse: GameRules.getFirstFromIronThroneSuccession(state),
                     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
                 };
             } else {

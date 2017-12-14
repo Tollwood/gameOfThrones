@@ -215,7 +215,7 @@ describe('TokenPlacementRules', () => {
             .withOrderToken(OrderTokenType.raid_0)
             .build();
 
-        fit('should remove orderToken in target and source area', () => {
+        it('should remove orderToken in target and source area', () => {
 
 
             const targetArea = new AreaBuilder(AreaKey.WhiteHarbor)
