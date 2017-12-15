@@ -36,4 +36,21 @@ export default class PlayerStateModificationService {
         }
         return players;
     }
+
+    public static consolidateAllPower(state: GameStoreState): Player[] {
+        const newPlayers = [];
+        state.players.forEach((player) => {
+            let additionalPower = 0;
+            state.areas.values().forEach((area) => {
+                if (area.controllingHouse === player.house) {
+                    additionalPower += area.consolidatePower;
+                }
+            });
+            const newPlayer = player.copy();
+            newPlayer.powerToken += additionalPower;
+            newPlayers.push(newPlayer);
+        });
+        // Add logic for ships in harbour
+        return newPlayers;
+    }
 }

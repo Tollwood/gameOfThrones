@@ -35,4 +35,7 @@ export default class Player {
         return false;
     }
 
+    copy(): Player {
+        return new Player(this.house, this.powerToken, this.cards);
+    }
 }

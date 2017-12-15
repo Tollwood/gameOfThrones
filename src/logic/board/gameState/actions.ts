@@ -20,11 +20,15 @@ export enum TypeKeys {
     NEW_GAME = 'NEW_GAME',
     RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
     UPDATE_SUPPLY = 'UPDATE_SUPPLY',
+    CONSOLIDATE_ALL_POWER = 'CONSOLIDATE_ALL_POWER',
         // not a real Action remove once all is moved to the store
     NEXT_PLAYER = 'NEXT_PLAYER',
     OTHER_ACTION = '__any_other_action_type__'
 }
 
+export interface ConsolidateAllPowerAction {
+    type: TypeKeys.CONSOLIDATE_ALL_POWER;
+}
 export interface ExecuteRaidOrderAction {
     type: TypeKeys.EXECUTE_RAID_ORDER;
     sourceAreaKey: AreaKey;
@@ -108,11 +112,17 @@ export type ActionTypes =
     | PlaceOrderAction
     | SkipOrderAction
     | ExecuteRaidOrderAction
+    | ConsolidateAllPowerAction
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
     | OtherAction
     | NextPlayerAction;
+
+
+export const consolidateAllPower = (): ConsolidateAllPowerAction => ({
+    type: TypeKeys.CONSOLIDATE_ALL_POWER
+});
 
 export const executeRaidOrder = (sourceAreaKey: AreaKey, targetAreaKey: AreaKey): ExecuteRaidOrderAction => ({
     type: TypeKeys.EXECUTE_RAID_ORDER,

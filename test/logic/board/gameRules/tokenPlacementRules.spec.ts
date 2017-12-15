@@ -315,32 +315,6 @@ describe('TokenPlacementRules', () => {
 
     });
 
-    describe('consolidateAllPower', () => {
-        it('should increase power for all player owning areas with consolidate power symbols', () => {
-            // given
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).build();
-            const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).build();
-            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).build();
-
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, winterfell);
-            areas.set(AreaKey.CastleBlack, castleBlack);
-            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
-            let gameStoreState = {
-                players: [playerStark, playerLannister],
-                areas: areas
-            };
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            TokenPlacementRules.consolidateAllPower();
-
-            // then
-            expect(playerStark.powerToken).toBe(3);
-            expect(playerLannister.powerToken).toBe(1);
-        });
-    });
-
     describe('executeAllConsolidatePowerOrders', () => {
         it('should increase power for all player owning areas with consolidate power symbols and give one additional power for each token', () => {
 

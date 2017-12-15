@@ -9,8 +9,7 @@ import GameState from '../../../src/logic/board/gameState/GameState';
 import CombatResult from '../../../src/logic/march/combatResult';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../src/logic/board/gameState/reducer';
-import {loadGame, newGame, startRecruiting} from '../../../src/logic/board/gameState/actions';
-import TokenPlacementRules from '../../../src/logic/board/gameRules/tokenPlacementRules';
+import {consolidateAllPower, loadGame, newGame, startRecruiting} from '../../../src/logic/board/gameState/actions';
 describe('CardAbilities', () => {
     let gameState: GameState;
     const combatResult = new CombatResult(null, null, 0, 0);
@@ -275,9 +274,9 @@ describe('CardAbilities', () => {
     });
     describe('power', () => {
         it(' should do nothing for now', () => {
-            spyOn(TokenPlacementRules, 'consolidateAllPower');
+            spyOn(gameStore, 'dispatch');
             CardAbilities.power(null);
-            expect(TokenPlacementRules.consolidateAllPower).toHaveBeenCalledWith();
+            expect(gameStore.dispatch).toHaveBeenCalledWith(consolidateAllPower());
         });
     });
 

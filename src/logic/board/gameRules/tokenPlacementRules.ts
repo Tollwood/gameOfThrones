@@ -44,24 +44,9 @@ export default class TokenPlacementRules {
             }).length === 1;
     }
 
-    //modify state of player
-
     // Immutable state modification
 
     // TODO make this an action and return a new object
-    public static consolidateAllPower() {
-        gameStore.getState().players.forEach((player) => {
-            let additionalPower = 0;
-            gameStore.getState().areas.values().forEach((area) => {
-                if (area.controllingHouse === player.house) {
-                    additionalPower += area.consolidatePower;
-                }
-            });
-            player.powerToken += additionalPower;
-        });
-        // Add logic for ships in harbour
-    }
-
     public static executeAllConsolidatePowerOrders() {
         return gameStore.getState().areas.values().filter((area) => {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();

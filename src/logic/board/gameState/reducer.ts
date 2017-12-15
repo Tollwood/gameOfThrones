@@ -111,6 +111,10 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
         case TypeKeys.UPDATE_SUPPLY:
             newState = {...state, currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state)};
             break;
+        case TypeKeys.CONSOLIDATE_ALL_POWER:
+            newState = {...state, players: PlayerStateModificationService.consolidateAllPower(state)};
+            break;
+
         case TypeKeys.START_RECRUITING:
             newState = {
                 ...state,
