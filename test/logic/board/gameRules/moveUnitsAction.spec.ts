@@ -10,7 +10,7 @@ import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {loadGame, moveUnits} from '../../../../src/logic/board/gameState/actions';
 import Player from '../../../../src/logic/board/player';
 
-describe('moveUnits', () => {
+describe('moveUnitsAction', () => {
     const playerLannister = new Player(House.lannister, 0, []);
     const playerStark = new Player(House.stark, 1, []);
 

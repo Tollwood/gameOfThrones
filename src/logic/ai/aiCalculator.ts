@@ -1,12 +1,11 @@
 import {Area} from '../board/area';
 import {House} from '../board/house';
 import PossibleMove from './possibleMove';
-import MovementRules from '../board/gameRules/movementRules';
+import StateSelectorService from '../board/gameRules/stateSelectorService';
 import {OrderTokenType} from '../orderToken/orderTokenType';
 import {GamePhase} from '../board/gamePhase';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import AiPlayer from './aiPlayer';
-import RecruitingRules from '../board/gameRules/recruitingRules';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
 import {moveUnits, placeOrder, skipOrder} from '../board/gameState/actions';
@@ -44,7 +43,7 @@ export default class AiCalculator {
     }
 
     public static recruit(state: GameStoreState, aiPlayer: AiPlayer): Area {
-        const areas = RecruitingRules.getAreasAllowedToRecruit(state);
+        const areas = StateSelectorService.getAreasAllowedToRecruit(state);
         const possibleAreasToRecruit = areas.filter((a) => {
             return aiPlayer.house === a.controllingHouse;
         });
@@ -122,7 +121,7 @@ export default class AiCalculator {
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
-                    MovementRules.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
+                    StateSelectorService.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
                         possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForMarchOrders(area, possibleArea, currentHouse), possibleArea));
                     });
                     break;

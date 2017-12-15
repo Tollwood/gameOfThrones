@@ -1,6 +1,5 @@
 import {Area} from '../area';
 import {House} from '../house';
-import AreaRules from './AreaRules';
 import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
@@ -34,7 +33,7 @@ export default class TokenPlacementRules {
     }
 
     public static isAllowedToRaid(sourceArea: Area, targetArea: Area): boolean {
-        return AreaRules.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
+        return this.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
             && sourceArea.controllingHouse !== targetArea.controllingHouse
             && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
     }
@@ -106,5 +105,11 @@ export default class TokenPlacementRules {
             return newPlayers;
         }
         return players;
+    }
+
+    public static isConnectedArea(source: Area, target: Area): boolean {
+        return source.borders.filter((area) => {
+                return area.key === target.key;
+            }).length === 1;
     }
 }

@@ -1,6 +1,6 @@
 import {House} from '../../../../src/logic/board/house';
 import {UnitType} from '../../../../src/logic/units/unitType';
-import MovementRules from '../../../../src/logic/board/gameRules/movementRules';
+import StateSelectorService from '../../../../src/logic/board/gameRules/stateSelectorService';
 import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
@@ -12,7 +12,7 @@ import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {TSMap} from 'typescript-map';
 import {Area} from '../../../../src/logic/board/area';
 
-describe('MovementRules', () => {
+describe('StateSelectorService', () => {
 
     const playerLannister = new Player(House.lannister, 0, []);
     const playerStark = new Player(House.stark, 1, []);
@@ -29,7 +29,7 @@ describe('MovementRules', () => {
                 currentHouse: House.stark,
                 areas: areas
             };
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(state, sourceArea);
+            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea);
             expect(actual.length).toBe(0);
         });
 
@@ -45,7 +45,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            const actual = MovementRules.getAllAreasAllowedToMarchTo(state, area);
+            const actual = StateSelectorService.getAllAreasAllowedToMarchTo(state, area);
             // then
             expect(actual.length).toBe(0);
         });
@@ -68,7 +68,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, winterfell);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, winterfell);
 
             // then
             expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
@@ -100,7 +100,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
@@ -138,7 +138,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
@@ -165,7 +165,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
@@ -190,7 +190,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
@@ -214,7 +214,7 @@ describe('MovementRules', () => {
                 areas: areas
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBe(-1);
@@ -239,11 +239,57 @@ describe('MovementRules', () => {
                 currentlyAllowedSupply
             };
             // when
-            let result = MovementRules.getAllAreasAllowedToMarchTo(state, whiteHarbor);
+            let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
             expect(result.indexOf(castleBlack)).toBe(-1);
 
+        });
+    });
+
+    describe('getAreasAllowedToRecruit', () => {
+        it('should return all areas allowed for recruiting that belong to the given house and army is smaller than maxAllowedArmy', () => {
+            // given
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
+            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.Winterfell, winterfell);
+            let state = {
+                currentHouse: House.stark,
+                areas: areas,
+                areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
+            };
+            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
+            // when
+            const actual = StateSelectorService.getAreasAllowedToRecruit(state);
+
+            // then
+            expect(actual.length).toBe(1);
+            expect(actual[0].key).toBe(AreaKey.Winterfell);
+            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+        });
+
+        it('should not consider areas which exceed the supply limit', () => {
+            // given
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Horse]).build();
+            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.Winterfell, winterfell);
+            let state = {
+                currentHouse: House.stark,
+                areas: areas,
+                areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
+            };
+
+            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(1);
+            // when
+            const actual = StateSelectorService.getAreasAllowedToRecruit(state);
+
+            // then
+            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(actual.length).toBe(0);
         });
     });
 
@@ -269,7 +315,7 @@ describe('MovementRules', () => {
             const combatResult = new CombatResult(attackingArea, defendingArea, 2, 1);
 
             // when
-            MovementRules.resolveFight(combatResult);
+            StateSelectorService.resolveFight(combatResult);
 
             const currenState = gameStore.getState();
             const newDefendingArea = currenState.areas.get(defendingArea.key);
@@ -289,7 +335,7 @@ describe('MovementRules', () => {
 
 
             // when
-            MovementRules.resolveFight(combatResult);
+            StateSelectorService.resolveFight(combatResult);
 
             // then
             expect(attackingArea.units.length).toBe(0);

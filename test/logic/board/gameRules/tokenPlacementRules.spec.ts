@@ -388,5 +388,45 @@ describe('TokenPlacementRules', () => {
             expect(playerStark.powerToken).toBe(0);
         });
     });
+    describe('isConnectedArea', () => {
+
+        it('should return the true for adjacent areas', () => {
+
+            // given
+            let karhold = new AreaBuilder(AreaKey.Karhold).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.Karhold, karhold);
+            let gameStoreState = {areas: areas};
+            gameStore.dispatch(loadGame(gameStoreState));
+
+            // when
+            let actual = TokenPlacementRules.isConnectedArea(winterfell, karhold);
+
+            // then
+            expect(actual).toBeTruthy();
+
+        });
+
+        it('should return the false for non adjacent areas', () => {
+
+            // given
+            let karhold = new AreaBuilder(AreaKey.Karhold).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.Karhold, karhold);
+            let gameStoreState = {areas: areas};
+            gameStore.dispatch(loadGame(gameStoreState));
+            // when
+            let actual = TokenPlacementRules.isConnectedArea(karhold, winterfell);
+
+            // then
+            expect(actual).toBeFalsy();
+
+        });
+
+    });
 
 });

@@ -5,7 +5,7 @@ import {House} from '../../src/logic/board/house';
 import {UnitType} from '../../src/logic/units/unitType';
 import {OrderTokenType} from '../../src/logic/orderToken/orderTokenType';
 import PossibleMove from '../../src/logic/ai/possibleMove';
-import MovementRules from '../../src/logic/board/gameRules/movementRules';
+import StateSelectorService from '../../src/logic/board/gameRules/stateSelectorService';
 import {gameStore} from '../../src/logic/board/gameState/reducer';
 describe('AiCalculator', () => {
     let aiCalculator;
@@ -138,13 +138,13 @@ describe('AiCalculator', () => {
             const area = new AreaBuilder(AreaKey.Winterfell).withBorders([whiteHarbor]).withUnits([UnitType.Horse]).build();
             const state = {};
             spyOn(gameStore, 'getState').and.returnValue(state);
-            spyOn(MovementRules, 'getAllAreasAllowedToMarchTo').and.returnValue([whiteHarbor]);
+            spyOn(StateSelectorService, 'getAllAreasAllowedToMarchTo').and.returnValue([whiteHarbor]);
 
             // when
             const actual = aiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.march_zero]);
 
             // then
-            expect(MovementRules.getAllAreasAllowedToMarchTo).toHaveBeenCalledWith(state, area);
+            expect(StateSelectorService.getAllAreasAllowedToMarchTo).toHaveBeenCalledWith(state, area);
             expect(actual.length).toBe(1);
             const actualPossibleMove = actual[0];
             expect(actualPossibleMove.orderTokenType).toBe(OrderTokenType.march_zero);

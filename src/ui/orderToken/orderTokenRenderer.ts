@@ -11,7 +11,7 @@ import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import FightModal from '../march/combatModal';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
-import MovementRules from '../../logic/board/gameRules/movementRules';
+import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {executeRaidOrder, nextPlayer, skipOrder} from '../../logic/board/gameState/actions';
@@ -142,7 +142,7 @@ export default class OrderTokenRenderer {
                 Renderer.rerenderRequired = true;
             };
 
-            let areasAllowedToExecuteOrder: Array<Area> = MovementRules.getAllAreasAllowedToMarchTo(state, sourceArea);
+            let areasAllowedToExecuteOrder: Array<Area> = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea);
             this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder, GamePhase.ACTION_MARCH);
             Renderer.rerenderRequired = true;
 

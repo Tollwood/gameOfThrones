@@ -1,7 +1,6 @@
 import {GameStoreState} from './reducer';
 import PlayerSetup from '../playerSetup';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
-import {Area} from '../area';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {AreaKey} from '../areaKey';
@@ -43,7 +42,7 @@ export interface  PlaceOrderAction {
 }
 export interface  RecruitUnitsAction {
     type: TypeKeys.RECRUIT_UNITS;
-    area: Area;
+    areaKey: AreaKey;
     units: UnitType[];
 }
 
@@ -144,9 +143,9 @@ export const moveUnits = (source: AreaKey, target: AreaKey, units: Unit[] = [], 
     establishControl
 });
 
-export const recruitUnits = (area: Area, units: UnitType[] = []): RecruitUnitsAction => ({
+export const recruitUnits = (areaKey: AreaKey, units: UnitType[] = []): RecruitUnitsAction => ({
     type: TypeKeys.RECRUIT_UNITS,
-    area,
+    areaKey,
     units
 });
 export const updateSupply = (): UpdateSupplyAction => ({

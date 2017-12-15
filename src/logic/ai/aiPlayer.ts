@@ -3,8 +3,8 @@ import Player from '../board/player';
 import HousecCard from '../cards/houseCard';
 import {nextPlayer, recruitUnits} from '../board/gameState/actions';
 import AiCalculator from './aiCalculator';
-import RecruitingRules from '../board/gameRules/recruitingRules';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
+import StateSelectorService from '../board/gameRules/stateSelectorService';
 export default class AiPlayer extends Player {
 
     constructor(house: House, powerToken: number, cards: HousecCard[]) {
@@ -18,10 +18,10 @@ export default class AiPlayer extends Player {
 
     private recruit(state: GameStoreState) {
         if (state.areasAllowedToRecruit.length > 0 && state.currentHouse === this.house) {
-            if (RecruitingRules.getAreasAllowedToRecruit(state).length > 0) {
+            if (StateSelectorService.getAreasAllowedToRecruit(state).length > 0) {
                 let result = AiCalculator.recruit(state, this);
                 if (result !== null) {
-                    gameStore.dispatch(recruitUnits(result));
+                    gameStore.dispatch(recruitUnits(result.key));
                 }
             } else {
                 gameStore.dispatch(nextPlayer());

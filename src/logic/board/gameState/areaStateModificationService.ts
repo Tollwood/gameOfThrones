@@ -2,15 +2,27 @@ import {Area} from '../area';
 import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
-import GameRules from './gameRules';
+import GameRules from '../gameRules/gameRules';
 import {House} from '../house';
 import Unit from '../../units/units';
-export default class AreaRules {
+import {UnitType} from '../../units/unitType';
+export default class AreaStateModificationService {
 
-    public static isConnectedArea(source: Area, target: Area): boolean {
-        return source.borders.filter((area) => {
-                return area.key === target.key;
-            }).length === 1;
+    public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): TSMap<AreaKey, Area> {
+        const newAreaMap = new TSMap<AreaKey, Area>();
+        areas.forEach(area => {
+            const newArea = area.copy();
+            if (newArea.key === areaKey) {
+                newArea.orderToken = null;
+                unitTypes.forEach((unittype) => {
+                    newArea.units.push(new Unit(unittype, newArea.controllingHouse));
+                });
+            }
+            newAreaMap.set(newArea.key, newArea);
+        });
+        return newAreaMap;
+
+
     }
 
     public static removeAllRemainingTokens(areas: Area[]): TSMap<AreaKey, Area> {

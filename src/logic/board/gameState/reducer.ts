@@ -17,7 +17,7 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
 import RecruitingRules from '../gameRules/recruitingRules';
 import {AreaKey} from '../areaKey';
-import AreaRules from '../gameRules/AreaRules';
+import AreaModificationService from './areaStateModificationService';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -117,11 +117,10 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, areasAllowedToRecruit: RecruitingRules.calculateAreasAllowedToRecruit(state)};
             break;
         case TypeKeys.RECRUIT_UNITS:
-            const newArea = RecruitingRules.addUnitsToArea(action.area, action.units);
-            state.areas.set(newArea.key, newArea);
             newState = {
                 ...state,
-                areasAllowedToRecruit: RecruitingRules.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.area.key),
+                areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
+                areasAllowedToRecruit: RecruitingRules.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
@@ -129,7 +128,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             // TODO verify its a valid move before updating state
             newState = {
                 ...state,
-                areas: AreaRules.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
                 players: TokenPlacementRules.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
@@ -147,7 +146,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 }
                 newState = {
                     ...state,
-                    areas: AreaRules.removeAllRemainingTokens(state.areas.values()),
+                    areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,
@@ -161,20 +160,20 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
         case TypeKeys.PLACE_ORDER:
             newState = {
                 ...state,
-                areas: AreaRules.addOrderToken(state.areas.values(), action.orderToken, action.areaKey)
+                areas: AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey)
             };
             break;
         case TypeKeys.SKIP_ORDER:
             newState = {
                 ...state,
-                areas: AreaRules.removeOrderToken(state.areas.values(), action.areaKey),
+                areas: AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
             newState = {
                 ...state,
-                areas: AreaRules.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
+                areas: AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
                 players: TokenPlacementRules.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
                 currentHouse: GamePhaseService.nextHouse(state)
             };

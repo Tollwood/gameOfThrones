@@ -3,7 +3,8 @@ import SupplyRules from './supplyRules';
 import CombatResult from '../../march/combatResult';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import {moveUnits} from '../gameState/actions';
-export default class MovementRules {
+import {AreaKey} from '../areaKey';
+export default class StateSelectorService {
 
     public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
         let validAreas = [];
@@ -36,6 +37,20 @@ export default class MovementRules {
         return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
     }
 
+    public static getAreasAllowedToRecruit(state: GameStoreState): Array<Area> {
+
+        return state.areasAllowedToRecruit.filter((areaKey: AreaKey) => {
+            const area = state.areas.get(areaKey);
+            if (area.controllingHouse !== state.currentHouse) {
+                return false;
+            }
+
+            let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
+            return area.units.length < maxArmySize;
+        }).map(areaKey => state.areas.get(areaKey));
+    }
+
+    // TODO Move to an action
     public static resolveFight(combatResult: CombatResult) {
         let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;

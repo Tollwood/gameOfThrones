@@ -1,7 +1,7 @@
 import Renderer from '../../utils/renderer';
 import RecruitingModal from './recruitingModal';
-import RecruitingRules from '../../logic/board/gameRules/recruitingRules';
 import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 export default class RecruitingRenderer {
 
     private areasToRecruit: Phaser.Group;
@@ -18,7 +18,7 @@ export default class RecruitingRenderer {
     private highlightPossibleArea(state: GameStoreState) {
         if (state.areasAllowedToRecruit.length > 0 && state.localPlayersHouse === state.currentHouse) {
 
-            const areasToRecruit = RecruitingRules.getAreasAllowedToRecruit(state);
+            const areasToRecruit = StateSelectorService.getAreasAllowedToRecruit(state);
             if (areasToRecruit.length > 0) {
                 areasToRecruit.forEach((area) => {
                     let showModalFn = () => {
