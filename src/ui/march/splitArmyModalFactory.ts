@@ -2,12 +2,12 @@ import {House} from '../../logic/board/house';
 import {Area} from '../../logic/board/area';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
-import GameRules from '../../logic/board/gameRules/gameRules';
 import Modal from '../../utils/modal';
 import SupplyRules from '../../logic/board/gameRules/supplyRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {moveUnits} from '../../logic/board/gameState/actions';
+import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -69,7 +69,7 @@ export default class SplitArmyModal extends Modal {
 
     private updateModal() {
         let availableUnits = this._sourceArea.units;
-        let targetAreaArmySize = GameRules.getAreaByKey(this._targetAreaKey).units.length;
+        let targetAreaArmySize = StateSelectorService.getAreaByKey(this._targetAreaKey).units.length;
 
         let selectedUnits = this.getSelectedUnits();
         let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
@@ -102,7 +102,7 @@ export default class SplitArmyModal extends Modal {
             this._moreOrdersQuestionGroup.visible = false;
             this._otherOrdersText.visible = false;
             this._moveAllUnitsText.visible = true;
-            this._establishControlText.visible = GameRules.getPlayerByHouse(gameStore.getState().currentHouse).powerToken > 0;
+            this._establishControlText.visible = StateSelectorService.getPlayerByHouse(gameStore.getState().currentHouse).powerToken > 0;
         }
         else {
             this._moreOrdersQuestionGroup.visible = true;

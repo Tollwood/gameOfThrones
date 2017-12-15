@@ -1,10 +1,10 @@
 import {Area} from '../area';
 import {House} from '../house';
-import GameRules from './gameRules';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import Player from '../player';
+import StateSelectorService from './stateSelectorService';
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
@@ -14,7 +14,7 @@ export default class TokenPlacementRules {
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
 
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
-        const area = GameRules.getAreaByKey(areaKey);
+        const area = StateSelectorService.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
             && area.controllingHouse === house
             && area.orderToken === null;

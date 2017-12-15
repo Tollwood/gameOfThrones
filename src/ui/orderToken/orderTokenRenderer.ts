@@ -1,4 +1,3 @@
-import GameRules from '../../logic/board/gameRules/gameRules';
 import {convertHouseToNumber, House} from '../../logic/board/house';
 
 import {GamePhase} from '../../logic/board/gamePhase';
@@ -118,13 +117,13 @@ export default class OrderTokenRenderer {
             const currentHouse = state.currentHouse;
             let moveUnitFunction = (targetAreaKey) => {
                 // splitArmy
-                let targetArea = GameRules.getAreaByKey(targetAreaKey);
+                let targetArea = StateSelectorService.getAreaByKey(targetAreaKey);
                 if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentHouse || (targetArea.controllingHouse !== currentHouse && targetArea.units.length === 0) )) {
                     let modal = new SplitArmyModalFactory(game, sourceArea, targetAreaKey);
                     modal.show();
                 }
                 // establish Control
-                if (sourceArea.units.length === 1 && GameRules.getPlayerByHouse(currentHouse).powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentHouse)) {
+                if (sourceArea.units.length === 1 && StateSelectorService.getPlayerByHouse(currentHouse).powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentHouse)) {
 
                     let establishControlModal = new EstablishControlModalFactory(game, sourceArea, targetAreaKey);
                     establishControlModal.show();
@@ -156,7 +155,7 @@ export default class OrderTokenRenderer {
                 gameStore.dispatch(executeRaidOrder(areaKey, targetAreaKey));
                 this.removeSelectedToken(sprite);
             };
-            let areaToPlaceToken = GameRules.getAreaByKey(areaKey);
+            let areaToPlaceToken = StateSelectorService.getAreaByKey(areaKey);
             let areasAllowedToExecuteOrder: Array<Area> = gameStore.getState().areas.values()
                 .filter((area) => {
                     return TokenPlacementRules.isAllowedToRaid(areaToPlaceToken, area);

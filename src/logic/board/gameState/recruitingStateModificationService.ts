@@ -1,8 +1,8 @@
-import SupplyRules from './supplyRules';
-import {GameStoreState} from '../gameState/reducer';
+import SupplyRules from '../gameRules/supplyRules';
+import {GameStoreState} from './reducer';
 import {AreaKey} from '../areaKey';
 
-export default class RecruitingRules {
+export default class RecruitingStateModificationService {
 
     public static calculateAreasAllowedToRecruit(state: GameStoreState): AreaKey[] {
         return state.areas.values().filter((area) => {

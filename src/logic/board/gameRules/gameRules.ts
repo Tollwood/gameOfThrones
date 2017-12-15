@@ -1,12 +1,10 @@
-import {Area} from '../area';
 import {House} from '../house';
-import Player from '../player';
 import PlayerSetup from '../playerSetup';
 import GameState from '../gameState/GameState';
-import {AreaKey} from '../areaKey';
-import {gameStore, GameStoreState} from '../gameState/reducer';
+import {gameStore} from '../gameState/reducer';
 import {newGame} from '../gameState/actions';
 
+// Deprecated remove this class once we got rid of GameState
 export default class GameRules {
     static get gameState(): GameState {
         return this._gameState;
@@ -25,19 +23,5 @@ export default class GameRules {
 
     public static save() {
         return this._gameState;
-    }
-
-    public static getFirstFromIronThroneSuccession(state: GameStoreState): House {
-        return state.ironThroneSuccession[0];
-    }
-
-    public static getAreaByKey(areaKey: AreaKey): Area {
-        return gameStore.getState().areas.get(areaKey);
-    }
-
-    public static getPlayerByHouse(house: House): Player {
-        return gameStore.getState().players.filter((player) => {
-            return player.house === house;
-        })[0];
     }
 }

@@ -2,10 +2,10 @@ import {Area} from '../area';
 import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
-import GameRules from '../gameRules/gameRules';
 import {House} from '../house';
 import Unit from '../../units/units';
 import {UnitType} from '../../units/unitType';
+import StateSelectorService from '../gameRules/stateSelectorService';
 export default class AreaStateModificationService {
 
     public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): TSMap<AreaKey, Area> {
@@ -92,7 +92,7 @@ export default class AreaStateModificationService {
             sourceArea.orderToken = null;
         }
         if (completeOrder && establishControl) {
-            let player = GameRules.getPlayerByHouse(controllingHouse);
+            let player = StateSelectorService.getPlayerByHouse(controllingHouse);
             sourceArea.controllingHouse = player.house;
         }
     }

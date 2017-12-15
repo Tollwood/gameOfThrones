@@ -20,6 +20,7 @@ import AiCalculator from '../logic/ai/aiCalculator';
 import {gameStore} from '../logic/board/gameState/reducer';
 import {nextPhase, nextPlayer} from '../logic/board/gameState/actions';
 import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
+import StateSelectorService from '../logic/board/gameRules/stateSelectorService';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -74,7 +75,7 @@ export default class Game extends Phaser.State {
             this.unitRenderer.renderUnits(this.game);
             let currentGamePhase = gameStore.getState().gamePhase;
             let currentHouse = gameStore.getState().currentHouse;
-            let currentPlayer = GameRules.getPlayerByHouse(currentHouse);
+            let currentPlayer = StateSelectorService.getPlayerByHouse(currentHouse);
             let currentAiPlayer: AiPlayer = currentPlayer instanceof AiPlayer ? currentPlayer as AiPlayer : null;
             if (currentAiPlayer !== null) {
                 this.orderTokenRenderer.removePlacedToken();

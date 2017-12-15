@@ -1,12 +1,12 @@
 import AreaBuilder from '../../../areaBuilder';
 import {House} from '../../../../src/logic/board/house';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
-import RecruitingRules from '../../../../src/logic/board/gameRules/recruitingRules';
+import RecruitingStateModificationService from '../../../../src/logic/board/gameState/recruitingStateModificationService';
 import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
 
-describe('RecruitingRules', () => {
+describe('RecruitingStateModificationService', () => {
     describe('calculateAreasAllowedToRecruit', () => {
         it('should set all areas controlled by a  house that has a stronghold and enough supply', () => {
             // given
@@ -19,7 +19,7 @@ describe('RecruitingRules', () => {
 
             spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
-            const actual = RecruitingRules.calculateAreasAllowedToRecruit(state);
+            const actual = RecruitingStateModificationService.calculateAreasAllowedToRecruit(state);
 
             // then
             expect(actual.length).toBe(1);

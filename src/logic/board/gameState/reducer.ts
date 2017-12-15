@@ -15,9 +15,10 @@ import {TSMap} from 'typescript-map';
 import GamePhaseService from '../gamePhaseService';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {Area} from '../area';
-import RecruitingRules from '../gameRules/recruitingRules';
+import RecruitingStateModificationService from './recruitingStateModificationService';
 import {AreaKey} from '../areaKey';
 import AreaModificationService from './areaStateModificationService';
+import StateSelectorService from '../gameRules/stateSelectorService';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -114,13 +115,16 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply(state)};
             break;
         case TypeKeys.START_RECRUITING:
-            newState = {...state, areasAllowedToRecruit: RecruitingRules.calculateAreasAllowedToRecruit(state)};
+            newState = {
+                ...state,
+                areasAllowedToRecruit: RecruitingStateModificationService.calculateAreasAllowedToRecruit(state)
+            };
             break;
         case TypeKeys.RECRUIT_UNITS:
             newState = {
                 ...state,
                 areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
-                areasAllowedToRecruit: RecruitingRules.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey),
+                areasAllowedToRecruit: RecruitingStateModificationService.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
@@ -150,7 +154,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     gamePhase: GamePhase.WESTEROS1,
                     gameRound: nextGameRound,
                     winningHouse: winningHouse,
-                    currentHouse: GameRules.getFirstFromIronThroneSuccession(state),
+                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
                     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
                 };
             } else {

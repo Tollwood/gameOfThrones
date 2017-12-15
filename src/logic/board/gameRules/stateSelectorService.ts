@@ -4,7 +4,25 @@ import CombatResult from '../../march/combatResult';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import {moveUnits} from '../gameState/actions';
 import {AreaKey} from '../areaKey';
+import Player from '../player';
+import {House} from '../house';
 export default class StateSelectorService {
+
+    public static getFirstFromIronThroneSuccession(state: GameStoreState): House {
+        return state.ironThroneSuccession[0];
+    }
+
+    // TODO should get State as input parameter
+    public static getAreaByKey(areaKey: AreaKey): Area {
+        return gameStore.getState().areas.get(areaKey);
+    }
+
+    // TODO should get State as input parameter
+    public static getPlayerByHouse(house: House): Player {
+        return gameStore.getState().players.filter((player) => {
+            return player.house === house;
+        })[0];
+    }
 
     public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
         let validAreas = [];
