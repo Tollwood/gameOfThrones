@@ -11,8 +11,6 @@ export default class GamePhaseService {
                 return !this.allRaidOrdersRevealed();
             case GamePhase.ACTION_MARCH:
                 return !this.allMarchOrdersRevealed();
-            case GamePhase.ACTION_CONSOLIDATE_POWER:
-                return !this.allConsolidatePowerOrdersRevealed();
             case GamePhase.ACTION_CLEANUP:
                 // TODO make state immutable
                 return gameStore.getState().areas.values().filter((area) => {
@@ -38,12 +36,6 @@ export default class GamePhaseService {
     public static allRaidOrdersRevealed(house?: House): boolean {
         return gameStore.getState().areas.values().filter((area) => {
                 return area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
-            }).length === 0;
-    }
-
-    private static allConsolidatePowerOrdersRevealed(): boolean {
-        return gameStore.getState().areas.values().filter((area) => {
-                return area.orderToken && area.orderToken.isConsolidatePowerToken();
             }).length === 0;
     }
 

@@ -15,7 +15,6 @@ import RecruitingRenderer from '../ui/units/recruitingRenderer';
 import AiPlayer from '../logic/ai/aiPlayer';
 import WesterosCardRules from '../logic/board/gameRules/westerosCardRules';
 import VictoryRules from '../logic/board/gameRules/victoryRules';
-import TokenPlacementRules from '../logic/board/gameRules/tokenPlacementRules';
 import AiCalculator from '../logic/ai/aiCalculator';
 import {gameStore} from '../logic/board/gameState/reducer';
 import {nextPhase, nextPlayer} from '../logic/board/gameState/actions';
@@ -132,12 +131,6 @@ export default class Game extends Phaser.State {
                         this.checkForWinner();
                         return;
                     }
-                }
-
-                if (currentGamePhase === GamePhase.ACTION_CONSOLIDATE_POWER) {
-                    TokenPlacementRules.executeAllConsolidatePowerOrders();
-                    Renderer.rerenderRequired = true;
-                    return;
                 }
 
                 if (currentGamePhase === GamePhase.ACTION_CLEANUP) {

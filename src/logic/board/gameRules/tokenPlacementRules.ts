@@ -12,7 +12,6 @@ export default class TokenPlacementRules {
     public static SUPPORT_ORDER_TOKENS = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
 
-    // caluculation logic
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = StateSelectorService.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
@@ -42,21 +41,5 @@ export default class TokenPlacementRules {
         return source.borders.filter((area) => {
                 return area.key === target.key;
             }).length === 1;
-    }
-
-    // Immutable state modification
-
-    // TODO make this an action and return a new object
-    public static executeAllConsolidatePowerOrders() {
-        return gameStore.getState().areas.values().filter((area) => {
-            return area.orderToken && area.orderToken.isConsolidatePowerToken();
-        }).map((area) => {
-            area.orderToken = null;
-            let additionalPowerToken = area.consolidatePower + 1;
-            let player = gameStore.getState().players.filter((player) => {
-                return player.house === area.controllingHouse;
-            })[0];
-            player.powerToken += additionalPowerToken;
-        });
     }
 }

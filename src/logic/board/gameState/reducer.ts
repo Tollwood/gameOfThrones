@@ -152,8 +152,9 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 newState = {
                     ...state,
                     areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
+                    players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
                     gamePhase: GamePhase.WESTEROS1,
-                    gameRound: nextGameRound,
+                    gameRound: state.gameRound + 1,
                     winningHouse: winningHouse,
                     currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
                     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES

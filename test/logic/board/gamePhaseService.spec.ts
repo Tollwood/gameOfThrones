@@ -34,10 +34,6 @@ describe('GamePhaseService', () => {
             expect(GamePhaseService.isActionPhase(GamePhase.ACTION_MARCH)).toBeTruthy();
         });
 
-        it('should return true if gamePhase is ACTION_CONSOLIDATE_POWER', () => {
-            expect(GamePhaseService.isActionPhase(GamePhase.ACTION_CONSOLIDATE_POWER)).toBeTruthy();
-        });
-
         it('should return true if gamePhase is ACTION_CLEANUP', () => {
             expect(GamePhaseService.isActionPhase(GamePhase.ACTION_CLEANUP)).toBeTruthy();
         });
@@ -76,15 +72,6 @@ describe('GamePhaseService', () => {
             areas.set(AreaKey.Winterfell, area);
             gameStore.dispatch(loadGame({areas}));
             expect(GamePhaseService.isStillIn(GamePhase.ACTION_MARCH)).toBeTruthy();
-        });
-
-        it('should return true if not all Consolidate Power Token are played yet', () => {
-            let area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
-            area.orderToken = new OrderToken(House.stark, OrderTokenType.consolidatePower_0);
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, area);
-            gameStore.dispatch(loadGame({areas}));
-            expect(GamePhaseService.isStillIn(GamePhase.ACTION_CONSOLIDATE_POWER)).toBeTruthy();
         });
 
         it('should return true if not all Consolidate Power Token are played yet', () => {

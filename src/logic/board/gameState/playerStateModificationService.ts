@@ -53,4 +53,23 @@ export default class PlayerStateModificationService {
         // Add logic for ships in harbour
         return newPlayers;
     }
+
+
+    public static executeAllConsolidatePowerOrders(state: GameStoreState): Player[] {
+        const updatedPlayers: Player[] = state.players.splice(0);
+        state.areas.values().filter((area) => {
+            return area.orderToken && area.orderToken.isConsolidatePowerToken();
+        }).map((area) => {
+            area.orderToken = null;
+            let additionalPowerToken = area.consolidatePower + 1;
+            let player = updatedPlayers.filter((player) => {
+                return player.house === area.controllingHouse;
+            })[0];
+            const indexOfPlayer = updatedPlayers.lastIndexOf(player);
+            const newPlayer = player.copy();
+            newPlayer.powerToken += additionalPowerToken;
+            updatedPlayers[indexOfPlayer] = newPlayer;
+        });
+        return updatedPlayers;
+    }
 }

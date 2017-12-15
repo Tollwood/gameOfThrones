@@ -315,53 +315,6 @@ describe('TokenPlacementRules', () => {
 
     });
 
-    describe('executeAllConsolidatePowerOrders', () => {
-        it('should increase power for all player owning areas with consolidate power symbols and give one additional power for each token', () => {
-
-            // given
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_1).build();
-            const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).withOrderToken(OrderTokenType.consolidatePower_0).build();
-            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_special).build();
-
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, winterfell);
-            areas.set(AreaKey.CastleBlack, castleBlack);
-            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
-
-            let gameStoreState = {
-                players: [playerStark, playerLannister],
-                areas: areas
-            };
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            TokenPlacementRules.executeAllConsolidatePowerOrders();
-
-            // then
-            expect(playerStark.powerToken).toBe(5);
-            expect(winterfell.orderToken).toBeNull();
-            expect(castleBlack.orderToken).toBeNull();
-            expect(whiteHarbor.orderToken).toBeNull();
-            expect(playerLannister.powerToken).toBe(2);
-        });
-
-        it('should not increase power if no consolidate power token exist in area', () => {
-
-            // given
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.raid_0).build();
-
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, winterfell);
-            let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            TokenPlacementRules.executeAllConsolidatePowerOrders();
-
-            // then
-            expect(playerStark.powerToken).toBe(0);
-        });
-    });
     describe('isConnectedArea', () => {
 
         it('should return the true for adjacent areas', () => {
