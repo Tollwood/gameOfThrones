@@ -3,7 +3,6 @@ import {Area} from '../../logic/board/area';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
 import Modal from '../../utils/modal';
-import SupplyRules from '../../logic/board/gameRules/supplyRules';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {moveUnits} from '../../logic/board/gameState/actions';
@@ -72,7 +71,7 @@ export default class SplitArmyModal extends Modal {
         let targetAreaArmySize = StateSelectorService.getAreaByKey(this._targetAreaKey).units.length;
 
         let selectedUnits = this.getSelectedUnits();
-        let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
+        let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
         let maxArmySizeReached = targetAreaArmySize + selectedUnits.length === maxArmySize;
 
 

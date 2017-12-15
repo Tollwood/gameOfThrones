@@ -2,9 +2,9 @@ import {Area} from '../../logic/board/area';
 import {UnitType} from '../../logic/units/unitType';
 import {House} from '../../logic/board/house';
 import Modal from '../../utils/modal';
-import SupplyRules from '../../logic/board/gameRules/supplyRules';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {recruitUnits} from '../../logic/board/gameState/actions';
+import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 export default class RecruitingModal extends Modal {
 
     constructor(game: Phaser.Game, area: Area, closeFn: Function) {
@@ -107,7 +107,7 @@ export default class RecruitingModal extends Modal {
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
-        let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
+        let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
         if (area.units.length + numOfSelectedUnits === maxArmySize) {
             remainingRecruitingPoints = 0;
         }

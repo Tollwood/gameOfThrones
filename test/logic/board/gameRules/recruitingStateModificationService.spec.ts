@@ -2,9 +2,9 @@ import AreaBuilder from '../../../areaBuilder';
 import {House} from '../../../../src/logic/board/house';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import RecruitingStateModificationService from '../../../../src/logic/board/gameState/recruitingStateModificationService';
-import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
+import StateSelectorService from '../../../../src/logic/board/gameRules/stateSelectorService';
 
 describe('RecruitingStateModificationService', () => {
     describe('calculateAreasAllowedToRecruit', () => {
@@ -17,14 +17,14 @@ describe('RecruitingStateModificationService', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             let state = {areas: areas};
 
-            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
+            spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
             const actual = RecruitingStateModificationService.calculateAreasAllowedToRecruit(state);
 
             // then
             expect(actual.length).toBe(1);
             expect(actual[0]).toEqual(AreaKey.Winterfell);
-            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
         });
     });
 });

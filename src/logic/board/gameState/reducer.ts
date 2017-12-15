@@ -6,7 +6,7 @@ import TokenPlacementRules from '../gameRules/tokenPlacementRules';
 import {House} from '../house';
 import VictoryRules from '../gameRules/victoryRules';
 import Player from '../player';
-import SupplyRules from '../gameRules/supplyRules';
+import SupplyStateModificationService from './supplyStateModificationService';
 import CardFactory from '../../cards/cardFactory';
 import {AreaInitiator} from '../areaInitiator';
 import AiPlayer from '../../ai/aiPlayer';
@@ -62,33 +62,28 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
     let areas: TSMap<AreaKey, Area>;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
-            let player = [];
+            let players = [];
             action.playerSetup.forEach((config) => {
                 if (config.ai) {
-                    player.push(new AiPlayer(config.house, INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+                    players.push(new AiPlayer(config.house, INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
                 }
                 else {
-                    player.push(new Player(config.house, INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+                    players.push(new Player(config.house, INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
                 }
             });
             const gameState = new GameState();
-            areas = AreaInitiator.getInitalState(player.map(player => player.house));
             gameState.westerosCards1 = CardFactory.getWesterosCards(1);
             gameState.westerosCards2 = CardFactory.getWesterosCards(2);
             gameState.westerosCards3 = CardFactory.getWesterosCards(3);
-            const currentHouse = initialIronThroneSuccession[0];
-            const updatedSupply = new TSMap<House, number>();
-            player.forEach((player) => {
-                updatedSupply.set(player.house, SupplyRules.calculateNumberOfSupply(player.house, areas.values()));
-            });
 
+            areas = AreaInitiator.getInitalState(players.map(player => player.house));
             GameRules.load(gameState);
             newState = {
                 ...initialState,
                 areas,
-                players: player,
-                currentHouse,
-                currentlyAllowedSupply: updatedSupply
+                players,
+                currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(initialState),
+                currentlyAllowedSupply: SupplyStateModificationService.updateSupply({players, areas})
             };
             break;
         case TypeKeys.RESET_GAME:
@@ -112,7 +107,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, currentlyAllowedTokenTypes};
             break;
         case TypeKeys.UPDATE_SUPPLY:
-            newState = {...state, currentlyAllowedSupply: SupplyRules.updateSupply(state)};
+            newState = {...state, currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state)};
             break;
         case TypeKeys.START_RECRUITING:
             newState = {

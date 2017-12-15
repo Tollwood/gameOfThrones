@@ -1,6 +1,6 @@
-import SupplyRules from '../gameRules/supplyRules';
 import {GameStoreState} from './reducer';
 import {AreaKey} from '../areaKey';
+import StateSelectorService from '../gameRules/stateSelectorService';
 
 export default class RecruitingStateModificationService {
 
@@ -8,7 +8,7 @@ export default class RecruitingStateModificationService {
         return state.areas.values().filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
-                && SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state) > area.units.length;
+                && StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state) > area.units.length;
         }).map(area => area.key);
     }
 

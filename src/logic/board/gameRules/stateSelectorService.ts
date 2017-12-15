@@ -1,5 +1,4 @@
 import {Area} from '../area';
-import SupplyRules from './supplyRules';
 import CombatResult from '../../march/combatResult';
 import {gameStore, GameStoreState} from '../gameState/reducer';
 import {moveUnits} from '../gameState/actions';
@@ -23,6 +22,8 @@ export default class StateSelectorService {
             return player.house === house;
         })[0];
     }
+
+    // move related
 
     public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
         let validAreas = [];
@@ -50,10 +51,13 @@ export default class StateSelectorService {
     private static isAllowedToMove(state: GameStoreState, source: Area, target: Area): boolean {
         const landToLandMove = source.isLandArea && target.isLandArea;
         const seaToSeaMove = !source.isLandArea && !target.isLandArea;
-        const enoughSupplyForArmySize = SupplyRules.enoughSupplyForArmySize(state, source, target);
+        const enoughSupplyForArmySize = this.enoughSupplyForArmySize(state, source, target);
 
         return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
     }
+
+
+    // recruiting related
 
     public static getAreasAllowedToRecruit(state: GameStoreState): Array<Area> {
 
@@ -63,10 +67,54 @@ export default class StateSelectorService {
                 return false;
             }
 
-            let maxArmySize = SupplyRules.calculateAllowedMaxSizeBasedOnSupply(state);
+            let maxArmySize = this.calculateAllowedMaxSizeBasedOnSupply(state);
             return area.units.length < maxArmySize;
         }).map(areaKey => state.areas.get(areaKey));
     }
+
+
+    // Supply related
+
+    private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
+
+    public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState): number {
+        let areas: Area[] = state.areas.values();
+        let currentHouse: House = state.currentHouse;
+        let supplyScore = state.currentlyAllowedSupply.get(currentHouse);
+        let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, currentHouse);
+        let maxSize = 0;
+        let index = 0;
+        let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[supplyScore];
+
+        for (let largestPossibleSize of allowedArmies) {
+            let armySize: number = armiesForHouse[index];
+            if (armySize === undefined || armySize < largestPossibleSize) {
+                return largestPossibleSize;
+            }
+            index++;
+        }
+        return maxSize;
+    }
+
+    public static calculateArmiesBySizeForHouse(areas: Area[], house: House): Array<number> {
+        return areas.filter((area) => {
+            // an army of one unit does not count as an army
+            return area.controllingHouse === house && area.units.length > 1;
+        }).map((area) => {
+            return area.units.length;
+        }).sort((a, b) => {
+            return b - a;
+        });
+    }
+
+    public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
+        let atleastOneUnitCanMove = target.units.length + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state);
+        return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
+    }
+
+
+
+
 
     // TODO Move to an action
     public static resolveFight(combatResult: CombatResult) {

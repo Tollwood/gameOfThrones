@@ -1,5 +1,5 @@
 import CardAbilities from '../../../src/logic/cards/cardAbilities';
-import SupplyRules from '../../../src/logic/board/gameRules/supplyRules';
+import SupplyStateModificationService from '../../../src/logic/board/gameState/supplyStateModificationService';
 import Player from '../../../src/logic/board/player';
 import {House} from '../../../src/logic/board/house';
 import HousecCard from '../../../src/logic/cards/houseCard';
@@ -23,9 +23,9 @@ describe('CardAbilities', () => {
 
     describe('supply', () => {
         it(' should call updateSuppy', () => {
-            spyOn(SupplyRules, 'updateSupply');
+            spyOn(SupplyStateModificationService, 'updateSupply');
             CardAbilities.supply();
-            expect(SupplyRules.updateSupply).toHaveBeenCalled();
+            expect(SupplyStateModificationService.updateSupply).toHaveBeenCalled();
         });
     });
 

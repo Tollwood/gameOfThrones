@@ -1,7 +1,7 @@
 import {House} from '../../../../src/logic/board/house';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import StateSelectorService from '../../../../src/logic/board/gameRules/stateSelectorService';
-import SupplyRules from '../../../../src/logic/board/gameRules/supplyRules';
+import SupplyStateModificationService from '../../../../src/logic/board/gameState/supplyStateModificationService';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import CombatResult from '../../../../src/logic/march/combatResult';
@@ -60,7 +60,7 @@ describe('StateSelectorService', () => {
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Karhold, karhold);
             areas.set(AreaKey.Winterfell, winterfell);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -71,7 +71,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, winterfell);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
             expect(result.length).toBe(1);
             expect(result.indexOf(karhold)).toBeGreaterThan(-1);
         });
@@ -92,7 +92,7 @@ describe('StateSelectorService', () => {
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.CastleBlack, castleBlack);
             areas.set(AreaKey.TheShiveringSea, theSiveringSea);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -103,7 +103,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -130,7 +130,7 @@ describe('StateSelectorService', () => {
             areas.set(AreaKey.CastleBlack, castleBlack);
             areas.set(AreaKey.TheShiveringSea, theSiveringSea);
             areas.set(AreaKey.TheStonyShore, theStonyShore);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -141,7 +141,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
 
@@ -157,7 +157,7 @@ describe('StateSelectorService', () => {
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.CastleBlack, castleBlack);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -168,7 +168,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(SupplyRules.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
         });
@@ -182,7 +182,7 @@ describe('StateSelectorService', () => {
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.CastleBlack, castleBlack);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -206,7 +206,7 @@ describe('StateSelectorService', () => {
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.CastleBlack, castleBlack);
-            spyOn(SupplyRules, 'enoughSupplyForArmySize').and.returnValue(true);
+            spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
                 players: [playerStark, playerLannister],
@@ -260,14 +260,14 @@ describe('StateSelectorService', () => {
                 areas: areas,
                 areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
             };
-            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
+            spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
             const actual = StateSelectorService.getAreasAllowedToRecruit(state);
 
             // then
             expect(actual.length).toBe(1);
             expect(actual[0].key).toBe(AreaKey.Winterfell);
-            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
         });
 
         it('should not consider areas which exceed the supply limit', () => {
@@ -283,13 +283,139 @@ describe('StateSelectorService', () => {
                 areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.WhiteHarbor]
             };
 
-            spyOn(SupplyRules, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(1);
+            spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(1);
             // when
             const actual = StateSelectorService.getAreasAllowedToRecruit(state);
 
             // then
-            expect(SupplyRules.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
             expect(actual.length).toBe(0);
+        });
+    });
+
+    describe('calculateAllowedMaxSizeBasedOnSupply', () => {
+        it('should return 3 if house has one army of size 2 and supply 1', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
+                .withSupply(1).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Karhold, karhold);
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
+
+            // when
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+
+            // then
+            expect(actual).toEqual(3);
+        });
+
+        it('should return 3 if house has no army and supply 1', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
+                .withSupply(1).build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Karhold, karhold);
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
+
+            // when
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+
+            // then
+            expect(actual).toEqual(3);
+        });
+
+        it('should return 2 if house has one army of size 3 and supply 1', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
+                .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
+                .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Karhold, karhold);
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
+
+
+            // when
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+
+            // then
+            expect(actual).toEqual(2);
+        });
+
+        it('should return 3 if house has two armies of size 2 and supply 1', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).withSupply(1)
+                .build();
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
+                .withUnits([UnitType.Footman, UnitType.Footman]).build();
+
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.Karhold, karhold);
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            let gameStoreState = {
+                players: [playerStark],
+                currentlyAllowedSupply,
+                currentHouse: House.stark,
+                areas: areas
+            };
+            // when
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
+
+            // then
+            expect(actual).toEqual(3);
+        });
+
+        it('should return 3 if house has no armyies and supply 1', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
+                .build();
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Karhold, karhold);
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 1);
+            const gameStoreState = {
+                ironThroneSuccession: [House.stark],
+                players: [playerStark],
+                currentHouse: House.stark,
+                currentlyAllowedSupply,
+                areas: areas
+            };
+            SupplyStateModificationService.updateSupply(gameStoreState);
+
+            // when
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
+
+            // then
+            expect(actual).toEqual(3);
+        });
+
+        it('should return the size of each army sorted by size', () => {
+
+            // given
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).build();
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
+            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman, UnitType.Footman]).build();
+
+            const areas = [winterfell, karhold, whiteHarbor];
+
+            // when
+            let actual = StateSelectorService.calculateArmiesBySizeForHouse(areas, House.stark);
+
+            // then
+            expect(actual).toEqual([4, 3, 2]);
+
         });
     });
 
