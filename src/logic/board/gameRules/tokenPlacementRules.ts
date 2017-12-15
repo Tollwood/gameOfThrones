@@ -2,8 +2,7 @@ import {Area} from '../area';
 import {House} from '../house';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
-import {gameStore, GameStoreState} from '../gameState/reducer';
-import Player from '../player';
+import {gameStore} from '../gameState/reducer';
 import StateSelectorService from './stateSelectorService';
 export default class TokenPlacementRules {
 
@@ -13,6 +12,7 @@ export default class TokenPlacementRules {
     public static SUPPORT_ORDER_TOKENS = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
 
+    // caluculation logic
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
         const area = StateSelectorService.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
@@ -38,22 +38,17 @@ export default class TokenPlacementRules {
             && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
     }
 
-
-    public static executeAllConsolidatePowerOrders() {
-        return gameStore.getState().areas.values().filter((area) => {
-            return area.orderToken && area.orderToken.isConsolidatePowerToken();
-        }).map((area) => {
-            area.orderToken = null;
-            let additionalPowerToken = area.consolidatePower + 1;
-            let player = gameStore.getState().players.filter((player) => {
-                return player.house === area.controllingHouse;
-            })[0];
-            player.powerToken += additionalPowerToken;
-        });
+    public static isConnectedArea(source: Area, target: Area): boolean {
+        return source.borders.filter((area) => {
+                return area.key === target.key;
+            }).length === 1;
     }
 
-    // TODO immutable - do not modify state
-    // TODO enable recruiting for special Power Token
+    //modify state of player
+
+    // Immutable state modification
+
+    // TODO make this an action and return a new object
     public static consolidateAllPower() {
         gameStore.getState().players.forEach((player) => {
             let additionalPower = 0;
@@ -67,49 +62,16 @@ export default class TokenPlacementRules {
         // Add logic for ships in harbour
     }
 
-    // Immutable state modification
-    public static restrictOrderToken(state: GameStoreState, notAllowedOrderTokenTypes: Array<OrderTokenType>) {
-        return state.currentlyAllowedTokenTypes.filter(function (orderToken) {
-            return notAllowedOrderTokenTypes.indexOf(orderToken) === -1;
+    public static executeAllConsolidatePowerOrders() {
+        return gameStore.getState().areas.values().filter((area) => {
+            return area.orderToken && area.orderToken.isConsolidatePowerToken();
+        }).map((area) => {
+            area.orderToken = null;
+            let additionalPowerToken = area.consolidatePower + 1;
+            let player = gameStore.getState().players.filter((player) => {
+                return player.house === area.controllingHouse;
+            })[0];
+            player.powerToken += additionalPowerToken;
         });
-    }
-
-    public static raidPowerToken(state: GameStoreState, source: AreaKey, target: AreaKey): Player[] {
-
-        const targetArea = state.areas.get(target);
-        const sourceArea = state.areas.get(source);
-        if (targetArea.orderToken.isConsolidatePowerToken()) {
-            const newPlayers = state.players.splice(0);
-            newPlayers.filter((player) => {
-                return player.house === targetArea.controllingHouse;
-            }).map((player) => {
-                if (player.powerToken > 0) {
-                    player.powerToken--;
-                }
-            });
-            newPlayers.filter((player) => {
-                return player.house === sourceArea.controllingHouse;
-            })[0].powerToken++;
-
-            return newPlayers;
-        }
-        return state.players;
-    }
-
-    public static establishControl(players: Player[], establishControl: boolean, house: House): Player[] {
-        if (establishControl) {
-            const newPlayers = players.splice(0);
-            newPlayers.filter((player) => {
-                return player.house === house;
-            })[0].powerToken--;
-            return newPlayers;
-        }
-        return players;
-    }
-
-    public static isConnectedArea(source: Area, target: Area): boolean {
-        return source.borders.filter((area) => {
-                return area.key === target.key;
-            }).length === 1;
     }
 }

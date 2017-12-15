@@ -2,7 +2,6 @@ import {createStore, Store} from 'redux';
 import {ActionTypes, TypeKeys} from './actions';
 import {GamePhase} from '../gamePhase';
 import GameRules from '../gameRules/gameRules';
-import TokenPlacementRules from '../gameRules/tokenPlacementRules';
 import {House} from '../house';
 import VictoryRules from '../gameRules/victoryRules';
 import Player from '../player';
@@ -19,6 +18,7 @@ import RecruitingStateModificationService from './recruitingStateModificationSer
 import {AreaKey} from '../areaKey';
 import AreaModificationService from './areaStateModificationService';
 import StateSelectorService from '../gameRules/stateSelectorService';
+import PlayerStateModificationService from './playerStateModificationService';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -103,7 +103,9 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...state, wildlingsCount: newWildlingCount};
             break;
         case TypeKeys.RESTRICT_ORDER_TOKEN:
-            const currentlyAllowedTokenTypes = TokenPlacementRules.restrictOrderToken(state, action.notAllowedTokens);
+            const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes.filter(function (orderToken) {
+                return action.notAllowedTokens.indexOf(orderToken) === -1;
+            });
             newState = {...state, currentlyAllowedTokenTypes};
             break;
         case TypeKeys.UPDATE_SUPPLY:
@@ -128,7 +130,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {
                 ...state,
                 areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
-                players: TokenPlacementRules.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
+                players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
@@ -173,7 +175,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {
                 ...state,
                 areas: AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
-                players: TokenPlacementRules.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
+                players: PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
                 currentHouse: GamePhaseService.nextHouse(state)
             };
             break;
