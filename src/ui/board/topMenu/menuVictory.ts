@@ -25,7 +25,7 @@ export class MenuVictory extends TopMenuItem {
     }
 
     private getPositionForHouse(house: House): number {
-        let numOfCastlesAndStrongholds = VictoryRules.getVictoryPositionFor(house);
+        let numOfCastlesAndStrongholds = VictoryRules.getVictoryPositionFor(gameStore.getState(), house);
         return POSITION_X[numOfCastlesAndStrongholds - 1];
     }
 }

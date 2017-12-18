@@ -131,24 +131,23 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             break;
         case TypeKeys.MOVE_UNITS:
             // TODO verify its a valid move before updating state
+            // FIXME it looks like one of the methods sets players to an empty array!
+            // moveUnits
+            // establishControl
+            // nextHouse
+            let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             newState = {
                 ...state,
                 areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
                 players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
-                currentHouse: GamePhaseService.nextHouse(state)
+                currentHouse: GamePhaseService.nextHouse(state),
+                winningHouse: winningHouse,
             };
             break;
         // these are no real actions and should be removed
         case TypeKeys.NEXT_PHASE:
             if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
-                const nextGameRound = state.gameRound + 1;
-                let winningHouse = null;
-                if (nextGameRound > 10) {
-                    let sortedPlayersByVictoryPoints = state.players.sort((a, b) => {
-                        return VictoryRules.getVictoryPositionFor(b.house) - VictoryRules.getVictoryPositionFor(a.house);
-                    });
-                    winningHouse = sortedPlayersByVictoryPoints[0].house;
-                }
+                winningHouse = VictoryRules.getWinningHouse(state);
                 newState = {
                     ...state,
                     areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
@@ -160,7 +159,11 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
                 };
             } else {
-                newState = {...state, gamePhase: state.gamePhase + 1};
+                newState = {
+                    ...state,
+                    gamePhase: state.gamePhase + 1,
+                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state)
+                };
             }
             break;
         case TypeKeys.PLACE_ORDER:
@@ -191,7 +194,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = state;
             break;
     }
-    // console.log({action, oldState: state, newState});
+    //console.log({action, oldState: state, newState});
     return newState;
 };
 

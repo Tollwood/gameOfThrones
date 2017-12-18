@@ -67,4 +67,39 @@ describe('NextPhaseAction', () => {
         // then
         expect(playerStark.powerToken).toBe(0);
     });
+
+    it('should return the house with most strongholds/castle after round 10 was completed', () => {
+        let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
+        let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.lannister).build();
+        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
+
+        const areas = new TSMap<AreaKey, Area>();
+        areas.set(AreaKey.Winterfell, winterfell);
+        areas.set(AreaKey.WhiteHarbor, whiteHarbour);
+        areas.set(AreaKey.CastleBlack, castleBlack);
+        const gameStoreState = {
+            gameRound: 10,
+            gamePhase: GamePhase.ACTION_CLEANUP,
+            ironThroneSuccession: [House.stark, House.lannister],
+            players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+            areas: areas
+        };
+        gameStore.dispatch(loadGame(gameStoreState));
+        gameStore.dispatch(nextPhase());
+        expect(gameStore.getState().winningHouse).toBe(House.lannister);
+    });
+
+    it('should switch to first player', () => {
+        const initialState = {
+            areas: new TSMap<AreaKey, Area>(),
+            players: [],
+            ironThroneSuccession: [House.lannister, House.stark]
+        };
+        gameStore.dispatch(loadGame(initialState));
+        gameStore.dispatch(nextPhase());
+
+        // then
+        const newState = gameStore.getState();
+        expect(newState.currentHouse).toBe(House.lannister);
+    });
 });

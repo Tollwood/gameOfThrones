@@ -14,7 +14,6 @@ import GamePhaseService from '../logic/board/gamePhaseService';
 import RecruitingRenderer from '../ui/units/recruitingRenderer';
 import AiPlayer from '../logic/ai/aiPlayer';
 import WesterosCardRules from '../logic/board/gameRules/westerosCardRules';
-import VictoryRules from '../logic/board/gameRules/victoryRules';
 import AiCalculator from '../logic/ai/aiCalculator';
 import {gameStore} from '../logic/board/gameState/reducer';
 import {nextPhase, nextPlayer} from '../logic/board/gameState/actions';
@@ -30,6 +29,7 @@ export default class Game extends Phaser.State {
     private unitRenderer: UnitRenderer;
     private aiCalculator: AiCalculator;
     private recruitingRenderer: RecruitingRenderer;
+    private winningModal: WinningModal;
 
     constructor() {
         super();
@@ -54,6 +54,7 @@ export default class Game extends Phaser.State {
         this.orderTokenRenderer.createGroups(this.game);
         this.recruitingRenderer.init(this.game);
         this.powerTokenRenderer.init(this.game);
+        this.winningModal = new WinningModal(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
         Renderer.rerenderRequired = true;
@@ -119,7 +120,6 @@ export default class Game extends Phaser.State {
                 if (currentGamePhase === GamePhase.ACTION_RAID || currentGamePhase === GamePhase.ACTION_MARCH) {
                     if (currentAiPlayer === null) {
                         this.orderTokenRenderer.renderPlacedOrderTokens(this.game, true);
-                        this.checkForWinner();
                         if ((currentGamePhase === GamePhase.ACTION_RAID && GamePhaseService.allRaidOrdersRevealed(currentHouse)) ||
                             (currentGamePhase === GamePhase.ACTION_MARCH && GamePhaseService.allMarchOrdersRevealed(currentHouse))) {
                             gameStore.dispatch(nextPlayer());
@@ -128,7 +128,6 @@ export default class Game extends Phaser.State {
                     } else {
                         this.aiCalculator.executeOrder(currentAiPlayer);
                         gameStore.dispatch(nextPlayer());
-                        this.checkForWinner();
                         return;
                     }
                 }
@@ -145,14 +144,6 @@ export default class Game extends Phaser.State {
 
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
-    }
-
-    private checkForWinner() {
-        let winningHouse = VictoryRules.getWinningHouse() || gameStore.getState().winningHouse;
-        if (winningHouse !== null) {
-            let winningModal = new WinningModal(this.game, winningHouse);
-            winningModal.show();
-        }
     }
 
     private renderWesterosPhase(currentGamePhase: GamePhase, currentAiPlayer: AiPlayer): boolean {
