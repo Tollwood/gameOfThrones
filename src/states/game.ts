@@ -30,6 +30,7 @@ export default class Game extends Phaser.State {
     private aiCalculator: AiCalculator;
     private recruitingRenderer: RecruitingRenderer;
     private winningModal: WinningModal;
+    private orderTokenMenuRenderer: OrderTokenMenuRenderer;
 
     constructor() {
         super();
@@ -39,6 +40,7 @@ export default class Game extends Phaser.State {
         this.unitRenderer = new UnitRenderer();
         this.aiCalculator = new AiCalculator();
         this.recruitingRenderer = new RecruitingRenderer();
+        this.orderTokenMenuRenderer = new OrderTokenMenuRenderer();
     }
 
     public preload() {
@@ -54,6 +56,7 @@ export default class Game extends Phaser.State {
         this.orderTokenRenderer.createGroups(this.game);
         this.recruitingRenderer.init(this.game);
         this.powerTokenRenderer.init(this.game);
+        this.orderTokenMenuRenderer.init(this.game);
         this.winningModal = new WinningModal(this.game);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
@@ -63,7 +66,7 @@ export default class Game extends Phaser.State {
     // TODO replace all this logic with redux actions
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
-            OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
+            // this.orderTokenMenuRenderer.renderOrderTokenInMenu(AssetLoader.getAreaTokens());
             this.currentGameWidth = window.innerWidth;
         }
 
@@ -91,15 +94,13 @@ export default class Game extends Phaser.State {
             if (currentGamePhase === GamePhase.PLANNING) {
                 if (GamePhaseService.allOrderTokenPlaced()) {
                     GamePhaseService.switchToNextPhase();
-                    OrderTokenMenuRenderer.removeOrderTokenMenu();
                     this.orderTokenRenderer.removePlaceHolder();
                     return;
                 }
 
                 if (currentAiPlayer === null) {
                     this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
-                    OrderTokenMenuRenderer.renderOrderTokenInMenu(this.game, AssetLoader.getAreaTokens());
-                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, currentHouse);
+                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, gameStore.getState().localPlayersHouse);
                     if (remainingPlacableToken === 0) {
                         gameStore.dispatch(nextPlayer());
                         return;

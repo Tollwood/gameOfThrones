@@ -6,7 +6,6 @@ import {Area} from '../../logic/board/area';
 import Renderer from '../../utils/renderer';
 import EstablishControlModalFactory from '../march/establishControlModalFactory';
 import SplitArmyModalFactory from '../march/splitArmyModalFactory';
-import {OrderTokenMenuRenderer} from './orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import FightModal from '../march/combatModal';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
@@ -26,7 +25,6 @@ export default class OrderTokenRenderer {
         this.areasToPlaceToken = game.add.group();
         this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
-        OrderTokenMenuRenderer.createGroups(game);
         this.validAreasToExecuteOrderToken = game.add.group();
     }
 
