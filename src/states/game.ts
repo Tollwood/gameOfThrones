@@ -53,7 +53,7 @@ export default class Game extends Phaser.State {
         BoardRenderer.renderBoard(this.game);
         this.topMenuRenderer = new TopMenuRenderer(this.game);
         this.unitRenderer.createGroups(this.game);
-        this.orderTokenRenderer.createGroups(this.game);
+        this.orderTokenRenderer.init(this.game);
         this.recruitingRenderer.init(this.game);
         this.powerTokenRenderer.init(this.game);
         this.orderTokenMenuRenderer.init(this.game);
@@ -100,11 +100,6 @@ export default class Game extends Phaser.State {
 
                 if (currentAiPlayer === null) {
                     this.orderTokenRenderer.renderPlacedOrderTokens(this.game, false);
-                    let remainingPlacableToken = this.orderTokenRenderer.renderPlaceHolderForOrderToken(this.game, gameStore.getState().localPlayersHouse);
-                    if (remainingPlacableToken === 0) {
-                        gameStore.dispatch(nextPlayer());
-                        return;
-                    }
                 } else {
                     this.aiCalculator.placeAllOrderTokens(currentAiPlayer);
                     gameStore.dispatch(nextPlayer());

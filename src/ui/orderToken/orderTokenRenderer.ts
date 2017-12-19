@@ -1,4 +1,4 @@
-import {convertHouseToNumber, House} from '../../logic/board/house';
+import {convertHouseToNumber} from '../../logic/board/house';
 
 import {GamePhase} from '../../logic/board/gamePhase';
 import UiArea from '../../utils/UiArea';
@@ -11,7 +11,7 @@ import FightModal from '../march/combatModal';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import {AreaKey} from '../../logic/board/areaKey';
-import {gameStore} from '../../logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
 import {executeRaidOrder, nextPlayer, skipOrder} from '../../logic/board/gameState/actions';
 
 export default class OrderTokenRenderer {
@@ -20,12 +20,18 @@ export default class OrderTokenRenderer {
     private placedTokens: Phaser.Group;
     private validAreasToExecuteOrderToken: Phaser.Group;
     private areasToPlaceToken: Phaser.Group;
+    private game: Phaser.Game;
 
-    public createGroups(game: Phaser.Game) {
+    public init(game: Phaser.Game) {
+
         this.areasToPlaceToken = game.add.group();
         this.selectedTokenMarker = game.add.group();
         this.placedTokens = game.add.group();
         this.validAreasToExecuteOrderToken = game.add.group();
+        this.game = game;
+        gameStore.subscribe(() => {
+            this.renderPlaceHolderForOrderToken(gameStore.getState());
+        });
     }
 
     public removePlaceHolder() {
@@ -38,16 +44,22 @@ export default class OrderTokenRenderer {
         this.validAreasToExecuteOrderToken.removeChildren();
     }
 
-    public renderPlaceHolderForOrderToken(game: Phaser.Game, house: House): number {
-        this.areasToPlaceToken.removeChildren();
-        let areas = AssetLoader.getAreaTokens().filter((areaToken: UiArea) => {
-            return TokenPlacementRules.isAllowedToPlaceOrderToken(house, areaToken.name);
-        });
-        areas.forEach((areaToken) => {
-            game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, convertHouseToNumber(house), this.areasToPlaceToken);
-
-        });
-        return areas.length;
+    private renderPlaceHolderForOrderToken(state: GameStoreState) {
+        if (state.gamePhase === GamePhase.PLANNING && state.currentHouse === state.localPlayersHouse) {
+            this.areasToPlaceToken.removeChildren();
+            let areas = AssetLoader.getAreaTokens().filter((areaToken: UiArea) => {
+                return TokenPlacementRules.isAllowedToPlaceOrderToken(state.localPlayersHouse, areaToken.name);
+            });
+            areas.forEach((areaToken) => {
+                this.game.add.sprite(areaToken.x + (areaToken.width / 2), areaToken.y + (areaToken.height / 2), AssetLoader.ORDER_TOKENS_FRONT, convertHouseToNumber(state.localPlayersHouse), this.areasToPlaceToken);
+            });
+            if (areas.length === 0) {
+                gameStore.dispatch(nextPlayer());
+            }
+        }
+        else {
+            this.areasToPlaceToken.removeChildren();
+        }
     }
 
     public renderPlacedOrderTokens(game: Phaser.Game, revealed: boolean) {
