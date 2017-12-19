@@ -238,4 +238,29 @@ describe('GamePhaseService', () => {
 
         });
     });
+
+
+    describe('isPlanningPhaseComplete', () => {
+        it('should return false not all areas with units have an orderToken', () => {
+            const areaKey = AreaKey.Winterfell;
+            const winterfellArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();
+            const ironmansBayArea = new AreaBuilder(AreaKey.IronmansBay).withHouse(House.lannister).build();
+            const whiteHarborArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Footman]).build();
+
+            const areas: Area[] = [whiteHarborArea, winterfellArea, ironmansBayArea];
+            const actual = GamePhaseService.isPlanningPhaseComplete(areas, areaKey);
+            expect(actual).toBeFalsy();
+        });
+
+        it('should return true if all areas have an orderToken', () => {
+            const areaKey = AreaKey.Winterfell;
+            const winterfellArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();
+            const ironmansBayArea = new AreaBuilder(AreaKey.IronmansBay).withHouse(House.lannister).build();
+            const whiteHarborArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withOrderToken(OrderTokenType.march_zero).withUnits([UnitType.Footman]).build();
+
+            const areas: Area[] = [whiteHarborArea, winterfellArea, ironmansBayArea];
+            const actual = GamePhaseService.isPlanningPhaseComplete(areas, areaKey);
+            expect(actual).toBeTruthy();
+        });
+    });
 });

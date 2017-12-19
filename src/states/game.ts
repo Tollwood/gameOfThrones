@@ -92,11 +92,6 @@ export default class Game extends Phaser.State {
             }
 
             if (currentGamePhase === GamePhase.PLANNING) {
-                if (GamePhaseService.allOrderTokenPlaced()) {
-                    GamePhaseService.switchToNextPhase();
-                    return;
-                }
-
                 if (currentAiPlayer !== null) {
                     this.aiCalculator.placeAllOrderTokens(currentAiPlayer);
                     gameStore.dispatch(nextPlayer());

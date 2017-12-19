@@ -122,6 +122,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             };
             break;
         case TypeKeys.RECRUIT_UNITS:
+            // TODO verify if all units area recruited and switch to next Phase
             newState = {
                 ...state,
                 areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
@@ -167,9 +168,19 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             }
             break;
         case TypeKeys.PLACE_ORDER:
+            // TODO Move to stateModificationService
+            let nextPhaseState = {};
+            if (GamePhaseService.isPlanningPhaseComplete(state.areas.values(), action.areaKey)) {
+                nextPhaseState = {
+                    gamePhase: state.gamePhase + 1,
+                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state)
+                };
+            }
+
             newState = {
                 ...state,
-                areas: AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey)
+                areas: AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey),
+                ...nextPhaseState
             };
             break;
         case TypeKeys.SKIP_ORDER:
@@ -194,7 +205,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = state;
             break;
     }
-    //console.log({action, oldState: state, newState});
+    // console.log({action, oldState: state, newState});
     return newState;
 };
 

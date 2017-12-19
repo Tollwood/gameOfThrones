@@ -2,6 +2,8 @@ import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
 import {House} from './house';
 import {gameStore, GameStoreState} from './gameState/reducer';
 import {nextPhase} from './gameState/actions';
+import {AreaKey} from './areaKey';
+import {Area} from './area';
 
 export default class GamePhaseService {
 
@@ -56,4 +58,19 @@ export default class GamePhaseService {
         gameStore.dispatch(nextPhase());
     }
 
+    public static isPlanningPhaseComplete(areas: Area[], areaKey: AreaKey) {
+
+        return areas.filter((area) => {
+                return this.isAreaWithUnitsAndToken(area) || this.isAreaWithoutUnits(area) || areaKey === area.key;
+            }).length === areas.length;
+
+    }
+
+    private static isAreaWithUnitsAndToken(area): boolean {
+        return area.units.length > 0 && area.orderToken != null;
+    }
+
+    private static isAreaWithoutUnits(area): boolean {
+        return area.units.length === 0;
+    }
 }
