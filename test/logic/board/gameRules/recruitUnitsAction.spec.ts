@@ -18,7 +18,16 @@ describe('recruitUnitsAction', () => {
         const currentHouse = House.stark;
         areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withStronghold().withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
         areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withUnits([UnitType.Horse]).build());
-        const initialState: GameStoreState = {ironThroneSuccession, areas, areasAllowedToRecruit, currentHouse};
+        const currentlyAllowedSupply = new TSMap<House, number>();
+        currentlyAllowedSupply.set(House.stark, 0);
+        currentlyAllowedSupply.set(House.lannister, 0);
+        const initialState: GameStoreState = {
+            ironThroneSuccession,
+            areas,
+            areasAllowedToRecruit,
+            currentHouse,
+            currentlyAllowedSupply
+        };
         gameStore.dispatch(loadGame(initialState));
         // when
         gameStore.dispatch(recruitUnits(AreaKey.Winterfell));
@@ -31,7 +40,6 @@ describe('recruitUnitsAction', () => {
         expect(newState.areas.get(AreaKey.Winterfell).units.length).toBe(1);
         expect(newState.areasAllowedToRecruit).not.toBe(initialState.areasAllowedToRecruit);
         expect(newState.areasAllowedToRecruit.lastIndexOf(AreaKey.Winterfell)).toBe(-1);
-        expect(newState.currentHouse).toBe(House.lannister);
     });
 
     it('should add units provide by action to the area', () => {
@@ -39,11 +47,20 @@ describe('recruitUnitsAction', () => {
         // given
         const ironThroneSuccession = [House.stark, House.lannister];
         const areasAllowedToRecruit = [AreaKey.Winterfell, AreaKey.WhiteHarbor];
+        const currentlyAllowedSupply = new TSMap<House, number>();
+        currentlyAllowedSupply.set(House.stark, 5);
+        currentlyAllowedSupply.set(House.lannister, 5);
         const areas = new TSMap<AreaKey, Area>();
         const currentHouse = House.stark;
         areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withStronghold().withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
         areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withUnits([UnitType.Horse]).build());
-        const initialState: GameStoreState = {ironThroneSuccession, areas, areasAllowedToRecruit, currentHouse};
+        const initialState: GameStoreState = {
+            ironThroneSuccession,
+            areas,
+            areasAllowedToRecruit,
+            currentHouse,
+            currentlyAllowedSupply
+        };
         gameStore.dispatch(loadGame(initialState));
         // when
         gameStore.dispatch(recruitUnits(AreaKey.Winterfell, [UnitType.Footman, UnitType.Siege]));
@@ -56,7 +73,6 @@ describe('recruitUnitsAction', () => {
         expect(newState.areas.get(AreaKey.Winterfell).units.length).toBe(3);
         expect(newState.areasAllowedToRecruit).not.toBe(initialState.areasAllowedToRecruit);
         expect(newState.areasAllowedToRecruit.lastIndexOf(AreaKey.Winterfell)).toBe(-1);
-        expect(newState.currentHouse).toBe(House.lannister);
 
     });
 

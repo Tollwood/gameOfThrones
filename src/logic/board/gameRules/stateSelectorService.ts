@@ -59,15 +59,14 @@ export default class StateSelectorService {
 
     // recruiting related
 
-    public static getAreasAllowedToRecruit(state: GameStoreState): Array<Area> {
-
+    public static getAreasAllowedToRecruit(state: GameStoreState, house: House): Array<Area> {
         return state.areasAllowedToRecruit.filter((areaKey: AreaKey) => {
             const area = state.areas.get(areaKey);
-            if (area.controllingHouse !== state.currentHouse) {
+            if (area.controllingHouse !== house) {
                 return false;
             }
 
-            let maxArmySize = this.calculateAllowedMaxSizeBasedOnSupply(state);
+            let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, house);
             return area.units.length < maxArmySize;
         }).map(areaKey => state.areas.get(areaKey));
     }
@@ -77,15 +76,13 @@ export default class StateSelectorService {
 
     private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
 
-    public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState): number {
+    public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
         let areas: Area[] = state.areas.values();
-        let currentHouse: House = state.currentHouse;
-        let supplyScore = state.currentlyAllowedSupply.get(currentHouse);
-        let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, currentHouse);
+        let supplyScore = state.currentlyAllowedSupply.get(house);
+        let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, house);
         let maxSize = 0;
         let index = 0;
         let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[supplyScore];
-
         for (let largestPossibleSize of allowedArmies) {
             let armySize: number = armiesForHouse[index];
             if (armySize === undefined || armySize < largestPossibleSize) {
@@ -108,13 +105,9 @@ export default class StateSelectorService {
     }
 
     public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
-        let atleastOneUnitCanMove = target.units.length + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state);
+        let atleastOneUnitCanMove = target.units.length + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
         return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
     }
-
-
-
-
 
     // TODO Move to an action
     public static resolveFight(combatResult: CombatResult) {

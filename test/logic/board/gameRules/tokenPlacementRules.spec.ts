@@ -291,7 +291,7 @@ describe('TokenPlacementRules', () => {
             gameStore.dispatch(loadGame(state));
 
             // when
-            const actual = TokenPlacementRules.getPlacableOrderTokenTypes(House.stark);
+            const actual = TokenPlacementRules.getPlacableOrderTokenTypes(state, House.stark);
             // then
             expect(actual).toEqual(gameStore.getState().currentlyAllowedTokenTypes);
         });
@@ -308,7 +308,7 @@ describe('TokenPlacementRules', () => {
             gameStore.dispatch(loadGame(state));
 
             // when
-            const actual = TokenPlacementRules.getPlacableOrderTokenTypes(House.stark);
+            const actual = TokenPlacementRules.getPlacableOrderTokenTypes(state, House.stark);
             // then
             expect(actual).toEqual([OrderTokenType.defend_0]);
         });

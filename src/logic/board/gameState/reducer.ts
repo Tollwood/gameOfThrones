@@ -44,7 +44,7 @@ const INITIAL_POWER_TOKEN: number = 5;
 const initialState: GameStoreState = {
     areas: null,
     gameRound: 1,
-    gamePhase: GamePhase.WESTEROS1,
+    gamePhase: GamePhase.PLANNING,
     winningHouse: null,
     fiefdom: initialFiefdom,
     kingscourt: initialKingscourt,
@@ -61,6 +61,8 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
     let newState;
     let areas: TSMap<AreaKey, Area>;
     switch (action.type) {
+
+        // Game Changes
         case TypeKeys.NEW_GAME:
             let players = [];
             action.playerSetup.forEach((config) => {
@@ -93,6 +95,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...action.state};
             break;
 
+        // WildlingCard Actions
         case TypeKeys.INCREASE_WILDLINGCOUNT:
             let newWildlingCount: number;
             if (state.wildlingsCount + action.by >= 12) {
@@ -114,7 +117,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
         case TypeKeys.CONSOLIDATE_ALL_POWER:
             newState = {...state, players: PlayerStateModificationService.consolidateAllPower(state)};
             break;
-
         case TypeKeys.START_RECRUITING:
             newState = {
                 ...state,
@@ -122,72 +124,29 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             };
             break;
         case TypeKeys.RECRUIT_UNITS:
-            // TODO verify if all units area recruited and switch to next Phase
             newState = {
                 ...state,
                 areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
                 areasAllowedToRecruit: RecruitingStateModificationService.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey),
-                currentHouse: GamePhaseService.nextHouse(state)
+                ...GamePhaseService.updateGamePhaseAfterRecruiting(state, action.areaKey)
             };
             break;
-        case TypeKeys.MOVE_UNITS:
-            // TODO verify its a valid move before updating state
-            // FIXME it looks like one of the methods sets players to an empty array!
-            // moveUnits
-            // establishControl
-            // nextHouse
-            let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
-            newState = {
-                ...state,
-                areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
-                players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
-                currentHouse: GamePhaseService.nextHouse(state),
-                winningHouse: winningHouse,
-            };
-            break;
-        // these are no real actions and should be removed
-        case TypeKeys.NEXT_PHASE:
-            if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
-                winningHouse = VictoryRules.getWinningHouse(state);
-                newState = {
-                    ...state,
-                    areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
-                    players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
-                    gamePhase: GamePhase.WESTEROS1,
-                    gameRound: state.gameRound + 1,
-                    winningHouse: winningHouse,
-                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
-                    currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
-                };
-            } else {
-                newState = {
-                    ...state,
-                    gamePhase: state.gamePhase + 1,
-                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state)
-                };
-            }
-            break;
-        case TypeKeys.PLACE_ORDER:
-            // TODO Move to stateModificationService
-            let nextPhaseState = {};
-            if (GamePhaseService.isPlanningPhaseComplete(state.areas.values(), action.areaKey)) {
-                nextPhaseState = {
-                    gamePhase: state.gamePhase + 1,
-                    currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state)
-                };
-            }
 
+        // planningPhase
+        case TypeKeys.PLACE_ORDER:
             newState = {
                 ...state,
                 areas: AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey),
-                ...nextPhaseState
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey)
             };
             break;
+
+        // Action Phase
         case TypeKeys.SKIP_ORDER:
             newState = {
                 ...state,
                 areas: AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey),
-                currentHouse: GamePhaseService.nextHouse(state)
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey)
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
@@ -195,11 +154,22 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 ...state,
                 areas: AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
                 players: PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
-                currentHouse: GamePhaseService.nextHouse(state)
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey)
             };
             break;
-        case TypeKeys.NEXT_PLAYER:
-            newState = {...state, currentHouse: GamePhaseService.nextHouse(state)};
+        case TypeKeys.MOVE_UNITS:
+            // TODO verify its a valid move before updating state
+            // FIXME it looks like one of the methods sets players to an empty array!
+            // moveUnits
+            // establishControl
+            let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
+            newState = {
+                ...state,
+                areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source),
+                winningHouse: winningHouse,
+            };
             break;
         default:
             newState = state;

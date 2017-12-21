@@ -2,7 +2,7 @@ import {Area} from '../area';
 import {House} from '../house';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
 import StateSelectorService from './stateSelectorService';
 export default class TokenPlacementRules {
 
@@ -19,8 +19,8 @@ export default class TokenPlacementRules {
             && area.orderToken === null;
     }
 
-    public static getPlacableOrderTokenTypes(house: House): Array<OrderTokenType> {
-        let alreadyPlacedOrderTokens: Array<OrderTokenType> = gameStore.getState().areas.values().filter((area) => {
+    public static getPlacableOrderTokenTypes(state: GameStoreState, house: House): Array<OrderTokenType> {
+        let alreadyPlacedOrderTokens: Array<OrderTokenType> = state.areas.values().filter((area) => {
             return area.orderToken && area.controllingHouse === house;
         }).map((area) => {
             return area.orderToken.getType();

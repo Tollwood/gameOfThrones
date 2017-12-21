@@ -1,4 +1,3 @@
-import Renderer from '../../utils/renderer';
 import {OrderToken} from '../../logic/orderToken/orderToken';
 import {House} from '../../logic/board/house';
 import UiArea from '../../utils/UiArea';
@@ -30,7 +29,7 @@ export class OrderTokenMenuRenderer {
             const validAreaToPlaceAnOrder: Array<UiArea> = AssetLoader.getAreaTokens();
             this.menu.visible = true;
 
-            let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(gameStore.getState().localPlayersHouse);
+            let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(state, state.localPlayersHouse);
             this.placableOrderTokens.removeChildren();
             this.placableOrderTokens.createMultiple(1, AssetLoader.ORDER_TOKENS, availableOrderToken, true);
             this.placableOrderTokens.align(0, 0, 50, 45);
@@ -40,7 +39,6 @@ export class OrderTokenMenuRenderer {
             this.placableOrderTokens.forEach((orderToken) => {
                 let stopDragAndDropFn = (placableOrderToken) => {
                     this.placeOrderToken(placableOrderToken, validAreaToPlaceAnOrder);
-                    Renderer.rerenderRequired = true;
                 };
                 DragAndDropSupport.createDragAndDrop(orderToken, stopDragAndDropFn);
             }, this, false);

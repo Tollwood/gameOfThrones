@@ -1,5 +1,4 @@
 import DisplayObjectContainer = PIXI.DisplayObjectContainer;
-import Renderer from './renderer';
 export default class Modal extends Phaser.Group {
     _width: number;
     _height: number;
@@ -22,7 +21,6 @@ export default class Modal extends Phaser.Group {
     }
 
     public close() {
-        Renderer.rerenderRequired = true;
         this.visible = false;
         this.destroy();
     };

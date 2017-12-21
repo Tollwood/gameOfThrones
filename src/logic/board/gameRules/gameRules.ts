@@ -1,8 +1,8 @@
 import {House} from '../house';
 import PlayerSetup from '../playerSetup';
-import GameState from '../gameState/GameState';
 import {gameStore} from '../gameState/reducer';
 import {newGame} from '../gameState/actions';
+import GameState from '../gameState/GameState';
 
 // Deprecated remove this class once we got rid of GameState
 export default class GameRules {

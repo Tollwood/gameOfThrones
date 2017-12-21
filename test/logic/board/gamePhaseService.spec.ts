@@ -4,16 +4,11 @@ import {GamePhase} from '../../../src/logic/board/gamePhase';
 import {OrderToken} from '../../../src/logic/orderToken/orderToken';
 import {House} from '../../../src/logic/board/house';
 import GameRules from '../../../src/logic/board/gameRules/gameRules';
-import Player from '../../../src/logic/board/player';
 import AreaBuilder from '../../areaBuilder';
 import {UnitType} from '../../../src/logic/units/unitType';
 import {AreaKey} from '../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
-import {
-    gameStore,
-    GameStoreState,
-    INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
-} from '../../../src/logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/reducer';
 import {loadGame, nextPhase, nextPlayer} from '../../../src/logic/board/gameState/actions';
 import {TSMap} from 'typescript-map';
 import {Area} from '../../../src/logic/board/area';
@@ -147,86 +142,6 @@ describe('GamePhaseService', () => {
         });
     });
 
-
-    describe('nextRound', () => {
-        it('should modify state to be ready for next game round', () => {
-
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
-            const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.Winterfell, winterfell);
-            const gameStoreState = {
-                gameRound: 1,
-                gamePhase: GamePhase.ACTION_CLEANUP,
-                ironThroneSuccession: [House.stark, House.lannister],
-                players: [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])],
-                areas: areas
-
-            };
-            gameStore.dispatch(loadGame(gameStoreState));
-            gameStore.dispatch(nextPhase());
-
-            expect(gameStore.getState().currentlyAllowedTokenTypes).toEqual(INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
-            expect(gameStore.getState().gameRound).toBe(2);
-            expect(gameStore.getState().gamePhase).toBe(GamePhase.WESTEROS1);
-            expect(gameStore.getState().currentHouse).toBe(House.stark);
-            expect(gameStore.getState().areas.values().filter(area => area.orderToken !== null).length).toBe(0);
-        });
-    });
-
-    describe('nextPlayer', () => {
-        it('should take the next player in the ironThroneSuccession', () => {
-            // given
-            const playerStark = new Player(House.stark, 0, []);
-            const playerLannister = new Player(House.lannister, 0, []);
-
-            const gameStoreState = {
-                ironThroneSuccession: [playerLannister.house, playerStark.house],
-                players: [playerLannister, playerStark],
-                currentHouse: House.lannister
-            };
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            gameStore.dispatch(nextPlayer());
-
-            // then
-            expect(gameStore.getState().currentHouse).toBe(House.stark);
-
-        });
-
-        it('should take the first in the ironThroneSuccession, after the last in ironThroneSuccession', () => {
-            // given
-            const playerStark = new Player(House.stark, 0, []);
-            const playerLannister = new Player(House.lannister, 0, []);
-            const gameStoreState = {
-                ironThroneSuccession: [playerLannister.house, playerStark.house],
-                players: [playerLannister, playerStark],
-                currentHouse: House.stark
-            };
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            gameStore.dispatch(nextPlayer());
-            // then
-            expect(gameStore.getState().currentHouse).toBe(House.lannister);
-        });
-    });
-
-    describe('switchToNextPhase', () => {
-        it('should increase GamePhase By one and set first of ironThroneSussession as currentHouse', () => {
-            const playerStark = new Player(House.stark, 0, []);
-            const playerLannister = new Player(House.lannister, 0, []);
-            gameStore.dispatch(loadGame({
-                gamePhase: GamePhase.ACTION_RAID,
-                ironThroneSuccession: [playerLannister.house, playerStark.house],
-                players: [playerLannister, playerStark],
-            }));
-
-            GamePhaseService.switchToNextPhase();
-            expect(gameStore.getState().gamePhase).toBe(GamePhase.ACTION_MARCH);
-        });
-    });
-
     describe('allMarchOrdersRevealed', () => {
         it('should return false if house has not  played all march tokens yet', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
@@ -261,6 +176,82 @@ describe('GamePhaseService', () => {
             const areas: Area[] = [whiteHarborArea, winterfellArea, ironmansBayArea];
             const actual = GamePhaseService.isPlanningPhaseComplete(areas, areaKey);
             expect(actual).toBeTruthy();
+        });
+    });
+
+
+    describe('updateGamePhaseAfterRecruiting', () => {
+        it('should return next player in the order of ironThrone that can recruit', () => {
+            // given
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build());
+            areas.set(AreaKey.Pyke, new AreaBuilder(AreaKey.Pyke).withHouse(House.lannister).withUnits([UnitType.Footman]).build());
+            const areaKey = AreaKey.Winterfell;
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 3);
+            currentlyAllowedSupply.set(House.lannister, 3);
+            const state = {
+                areas: areas,
+                areasAllowedToRecruit: [AreaKey.Winterfell, AreaKey.Pyke],
+                gamePhase: GamePhase.WESTEROS1,
+                ironThroneSuccession: [House.stark, House.lannister],
+                currentHouse: House.stark,
+                currentlyAllowedSupply
+            };
+            // when
+            const actual = GamePhaseService.updateGamePhaseAfterRecruiting(state, areaKey);
+            // then
+
+            expect(actual.gamePhase).toBe(state.gamePhase);
+            expect(actual.currentHouse).toBe(House.lannister);
+        });
+        it('should return first of ironThroneSuccsession and next GamePhase if noone can recruit', () => {
+            // given
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build());
+            areas.set(AreaKey.Pyke, new AreaBuilder(AreaKey.Pyke).withHouse(House.lannister).build());
+            const areaKey = AreaKey.Winterfell;
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 0);
+            currentlyAllowedSupply.set(House.lannister, 0);
+            const state = {
+                areas: areas,
+                areasAllowedToRecruit: [],
+                gamePhase: GamePhase.WESTEROS1,
+                ironThroneSuccession: [House.baratheon, House.stark, House.lannister],
+                currentHouse: House.stark,
+                currentlyAllowedSupply
+            };
+            // when
+            const actual = GamePhaseService.updateGamePhaseAfterRecruiting(state, areaKey);
+            // then
+
+            expect(actual.gamePhase).toBe(state.gamePhase + 1);
+            expect(actual.currentHouse).toBe(House.baratheon);
+        });
+        it('should return currentPlayer if he is the only one who can recruit', () => {
+            // given
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build());
+            areas.set(AreaKey.Pyke, new AreaBuilder(AreaKey.Pyke).withHouse(House.lannister).build());
+            const areaKey = AreaKey.Winterfell;
+            const currentlyAllowedSupply = new TSMap<House, number>();
+            currentlyAllowedSupply.set(House.stark, 0);
+            currentlyAllowedSupply.set(House.lannister, 0);
+            const state = {
+                areas: areas,
+                areasAllowedToRecruit: [AreaKey.Winterfell],
+                gamePhase: GamePhase.WESTEROS1,
+                ironThroneSuccession: [House.baratheon, House.stark, House.lannister],
+                currentHouse: House.stark,
+                currentlyAllowedSupply
+            };
+            // when
+            const actual = GamePhaseService.updateGamePhaseAfterRecruiting(state, areaKey);
+            // then
+
+            expect(actual.gamePhase).toBe(state.gamePhase);
+            expect(actual.currentHouse).toBe(House.stark);
         });
     });
 });

@@ -262,12 +262,12 @@ describe('StateSelectorService', () => {
             };
             spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
-            const actual = StateSelectorService.getAreasAllowedToRecruit(state);
+            const actual = StateSelectorService.getAreasAllowedToRecruit(state, House.stark);
 
             // then
             expect(actual.length).toBe(1);
             expect(actual[0].key).toBe(AreaKey.Winterfell);
-            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state, state.currentHouse);
         });
 
         it('should not consider areas which exceed the supply limit', () => {
@@ -285,10 +285,10 @@ describe('StateSelectorService', () => {
 
             spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(1);
             // when
-            const actual = StateSelectorService.getAreasAllowedToRecruit(state);
+            const actual = StateSelectorService.getAreasAllowedToRecruit(state, House.stark);
 
             // then
-            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state, state.currentHouse);
             expect(actual.length).toBe(0);
         });
     });
@@ -306,7 +306,7 @@ describe('StateSelectorService', () => {
             let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
             // when
-            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
 
             // then
             expect(actual).toEqual(3);
@@ -324,7 +324,7 @@ describe('StateSelectorService', () => {
             let state = {players: [playerStark], currentHouse: House.stark, currentlyAllowedSupply, areas: areas};
 
             // when
-            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
 
             // then
             expect(actual).toEqual(3);
@@ -344,7 +344,7 @@ describe('StateSelectorService', () => {
 
 
             // when
-            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state);
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
 
             // then
             expect(actual).toEqual(2);
@@ -370,7 +370,7 @@ describe('StateSelectorService', () => {
                 areas: areas
             };
             // when
-            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState, gameStoreState.currentHouse);
 
             // then
             expect(actual).toEqual(3);
@@ -395,7 +395,7 @@ describe('StateSelectorService', () => {
             SupplyStateModificationService.updateSupply(gameStoreState);
 
             // when
-            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState);
+            let actual = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStoreState, gameStoreState.currentHouse);
 
             // then
             expect(actual).toEqual(3);

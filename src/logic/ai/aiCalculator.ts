@@ -11,39 +11,38 @@ import {gameStore, GameStoreState} from '../board/gameState/reducer';
 import {moveUnits, placeOrder, skipOrder} from '../board/gameState/actions';
 export default class AiCalculator {
 
-    public executeOrder(aiPlayer: AiPlayer) {
+    public static executeOrder(state: GameStoreState, aiPlayer: AiPlayer) {
 
-        if (gameStore.getState().gamePhase === GamePhase.ACTION_MARCH) {
+        if (state.gamePhase === GamePhase.ACTION_MARCH) {
             let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 // TODO: Pick most important moveToken first
                 let sourceArea = areasWithMoveToken[0];
-                let bestMove = this.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
+                let bestMove = AiCalculator.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
 
                 if (bestMove === null) {
                     gameStore.dispatch(skipOrder(sourceArea.key));
                     return;
                 }
                 if (bestMove.targetArea !== null) {
-                    gameStore.dispatch(moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, this.shouldEstablishControl(sourceArea)));
+                    gameStore.dispatch(moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, AiCalculator.shouldEstablishControl(sourceArea)));
                     return;
                 }
             }
         }
 
-        if (gameStore.getState().gamePhase === GamePhase.ACTION_RAID) {
-            let areasWithRaidToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
+        if (state.gamePhase === GamePhase.ACTION_RAID) {
+            let areasWithRaidToken = this.getAreasForHouseWithToken(state.areas.values(), aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
             // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
                 gameStore.dispatch(skipOrder(areasWithRaidToken[0].key));
             }
         }
 
-
     }
 
     public static recruit(state: GameStoreState, aiPlayer: AiPlayer): Area {
-        const areas = StateSelectorService.getAreasAllowedToRecruit(state);
+        const areas = StateSelectorService.getAreasAllowedToRecruit(state, aiPlayer.house);
         const possibleAreasToRecruit = areas.filter((a) => {
             return aiPlayer.house === a.controllingHouse;
         });
@@ -53,26 +52,26 @@ export default class AiCalculator {
         return null;
     }
 
-    public placeAllOrderTokens(aiPlayer: AiPlayer) {
-        let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(aiPlayer.house);
-        let areasToPlaceAToken = gameStore.getState().areas.values().filter((area) => {
-            return TokenPlacementRules.isAllowedToPlaceOrderToken(aiPlayer.house, area.key);
+    public static placeAllOrderTokens(state: GameStoreState, house: House) {
+        let availableOrderToken = TokenPlacementRules.getPlacableOrderTokenTypes(state, house);
+        let areasToPlaceAToken = state.areas.values().filter((area) => {
+            return TokenPlacementRules.isAllowedToPlaceOrderToken(house, area.key);
         });
         // TODO: consider already placed token when calculating further best moves
         let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area) => {
-            return this.getBestMove(aiPlayer.house, area, availableOrderToken);
+            return this.getBestMove(house, area, availableOrderToken);
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
-            gameStore.dispatch(placeOrder(bestMove.sourceArea.key, new OrderToken(aiPlayer.house, bestMove.orderTokenType) ));
+            gameStore.dispatch(placeOrder(bestMove.sourceArea.key, new OrderToken(house, bestMove.orderTokenType)));
         }
     }
 
-    public controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {
+    public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {
         return area.controllingHouse !== null && area.controllingHouse !== house && area.units.length > 0;
     }
 
-    public getBestMove(currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
+    public static getBestMove(currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
         let allPossibleMoves = this.getAllPossibleMoves(currentHouse, area, availableOrderToken);
         if (allPossibleMoves.length === 0) {
             return null;
@@ -82,7 +81,7 @@ export default class AiCalculator {
         })[0];
     }
 
-    private getAreasForHouseWithToken(areas: Area[], house: House, orderTokens: Array<OrderTokenType>): Array<Area> {
+    public static getAreasForHouseWithToken(areas: Area[], house: House, orderTokens: Array<OrderTokenType>): Array<Area> {
         return areas.filter((area) => {
             return area.orderToken
                 && area.orderToken.getHouse() === house
@@ -90,7 +89,7 @@ export default class AiCalculator {
         });
     }
 
-    private getAllPossibleMoves(currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
+    public static getAllPossibleMoves(currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
         let possibleMoves = [];
         availableOrderToken.forEach((orderTokenType) => {
             switch (orderTokenType) {
@@ -131,7 +130,7 @@ export default class AiCalculator {
         return possibleMoves;
     }
 
-    private calculateValueForDefendingOrders(area: Area, currentHouse: House, factor: number): number {
+    private static calculateValueForDefendingOrders(area: Area, currentHouse: House, factor: number): number {
         let value = 0;
         area.borders
             .forEach((borderArea) => {
@@ -143,12 +142,12 @@ export default class AiCalculator {
         return value;
     }
 
-    private calculateValueForRaidOrders(area: Area, currentHouse: House, factor: number) {
+    private static calculateValueForRaidOrders(area: Area, currentHouse: House, factor: number) {
 
         let value = 0;
         area.borders
             .forEach((borderArea) => {
-                let controlledByOtherPlayerWithEnemyUnits = this.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
+                let controlledByOtherPlayerWithEnemyUnits = AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
                 if (controlledByOtherPlayerWithEnemyUnits) {
                     value += factor;
                 }
@@ -156,19 +155,19 @@ export default class AiCalculator {
         return value;
     }
 
-    private calculateValueForConsolidatePowerOrder(): number {
+    private static calculateValueForConsolidatePowerOrder(): number {
         return 0.1;
     }
 
-    private calculateValueForSupportOrder(): number {
+    private static calculateValueForSupportOrder(): number {
         return 0;
     }
 
-    private calculateValueForMarchOrders(sourceArea: Area, targetArea: Area, currentHouse: House) {
+    private static calculateValueForMarchOrders(sourceArea: Area, targetArea: Area, currentHouse: House) {
         let value = 0;
         let numberOfEnemiesAtBorder = sourceArea.borders
             .filter((borderArea) => {
-                return this.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
+                return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
             }).length;
 
         let unOccupiedOrNoEnemies = this.unOccupiedOrNoEnemies(targetArea, currentHouse);
@@ -186,11 +185,11 @@ export default class AiCalculator {
         return value;
     }
 
-    private unOccupiedOrNoEnemies(area: Area, house: House) {
+    public static unOccupiedOrNoEnemies(area: Area, house: House) {
         return (area.controllingHouse === null || area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
     }
 
-    private shouldEstablishControl(sourceArea: Area): boolean {
+    private static shouldEstablishControl(sourceArea: Area): boolean {
         return (sourceArea.units.length === 0 && (sourceArea.hasCastleOrStronghold() || sourceArea.supply > 0 || sourceArea.consolidatePower > 0 ));
     }
 

@@ -4,21 +4,25 @@ import AssetLoader from '../../utils/assetLoader';
 import Unit from '../../logic/units/units';
 import {UnitType} from '../../logic/units/unitType';
 import {gameStore} from '../../logic/board/gameState/reducer';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 
 export default class UnitRenderer {
 
-
-
     private units: Phaser.Group;
+    private game: Phaser.Game;
 
-    public createGroups(game: Phaser.Game) {
+    public init(game: Phaser.Game) {
+        this.game = game;
         this.units = game.add.group();
+        gameStore.subscribe(() => {
+            this.renderUnits(gameStore.getState());
+        });
     }
 
-    public renderUnits(game: Phaser.Game) {
+    public renderUnits(state: GameStoreState) {
         this.units.removeChildren();
-        gameStore.getState().areas.values()
+        state.areas.values()
             .filter((area: Area) => {
                 return area.units.length > 0;
             })
@@ -28,10 +32,9 @@ export default class UnitRenderer {
                 })[0];
                 let nextX = field.x;
                 area.units.map((unit: Unit) => {
-                    this.units.add(new Phaser.Sprite(game, nextX, field.y, House[unit.getHouse()] + UnitType[unit.getType()]));
+                    this.units.add(new Phaser.Sprite(this.game, nextX, field.y, House[unit.getHouse()] + UnitType[unit.getType()]));
                     nextX += 20;
                 });
-
             });
     }
 }

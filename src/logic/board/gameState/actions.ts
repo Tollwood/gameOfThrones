@@ -7,22 +7,23 @@ import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
 
 export enum TypeKeys {
-    NEXT_PHASE = 'NEXT_PHASE',
-    INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
-    START_RECRUITING = 'START_RECRUITING',
-    RECRUIT_UNITS = 'RECRUIT_UNITS',
-    MOVE_UNITS = 'MOVE_UNITS',
-    SKIP_ORDER = 'SKIP_ORDER',
-    EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
-    PLACE_ORDER = 'PLACE_ORDER',
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
+
+    INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
+    RECRUIT_UNITS = 'RECRUIT_UNITS',
+    START_RECRUITING = 'START_RECRUITING',
     RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
     UPDATE_SUPPLY = 'UPDATE_SUPPLY',
     CONSOLIDATE_ALL_POWER = 'CONSOLIDATE_ALL_POWER',
-        // not a real Action remove once all is moved to the store
-    NEXT_PLAYER = 'NEXT_PLAYER',
+
+
+    PLACE_ORDER = 'PLACE_ORDER',
+    SKIP_ORDER = 'SKIP_ORDER',
+    MOVE_UNITS = 'MOVE_UNITS',
+    EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
+
     OTHER_ACTION = '__any_other_action_type__'
 }
 
@@ -70,9 +71,6 @@ export interface RestrictOrderTokenTypesAction {
     type: TypeKeys.RESTRICT_ORDER_TOKEN;
     notAllowedTokens: OrderTokenType[];
 }
-export interface NextPlayerAction {
-    type: TypeKeys.NEXT_PLAYER;
-}
 
 export interface NewGameAction {
     type: TypeKeys.NEW_GAME;
@@ -97,15 +95,10 @@ export interface OtherAction {
     type: TypeKeys.OTHER_ACTION;
 }
 
-export interface NextPhaseAction {
-    type: TypeKeys.NEXT_PHASE;
-}
-
 export type ActionTypes =
     | NewGameAction
     | LoadGameAction
     | ResetGameAction
-    | NextPhaseAction
     | StartRecruitingAction
     | RecruitUnitsAction
     | MoveUnitsAction
@@ -116,8 +109,7 @@ export type ActionTypes =
     | IncreaseWildlingCountAction
     | RestrictOrderTokenTypesAction
     | UpdateSupplyAction
-    | OtherAction
-    | NextPlayerAction;
+    | OtherAction;
 
 
 export const consolidateAllPower = (): ConsolidateAllPowerAction => ({
@@ -184,12 +176,4 @@ export const newGame = (playerSetup: PlayerSetup[]): NewGameAction => ({
 export const loadGame = (state: GameStoreState): LoadGameAction => ({
     type: TypeKeys.LOAD_GAME,
     state: state
-});
-
-export const nextPhase = (): NextPhaseAction => ({
-    type: TypeKeys.NEXT_PHASE
-});
-
-export const nextPlayer = (): NextPlayerAction => ({
-    type: TypeKeys.NEXT_PLAYER
 });

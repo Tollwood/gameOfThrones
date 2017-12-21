@@ -15,7 +15,7 @@ describe('RecruitingStateModificationService', () => {
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.Winterfell, winterfell);
-            let state = {areas: areas};
+            let state = {areas: areas, currentHouse: House.stark};
 
             spyOn(StateSelectorService, 'calculateAllowedMaxSizeBasedOnSupply').and.returnValue(10);
             // when
@@ -24,7 +24,7 @@ describe('RecruitingStateModificationService', () => {
             // then
             expect(actual.length).toBe(1);
             expect(actual[0]).toEqual(AreaKey.Winterfell);
-            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state);
+            expect(StateSelectorService.calculateAllowedMaxSizeBasedOnSupply).toHaveBeenCalledWith(state, state.currentHouse);
         });
     });
 });

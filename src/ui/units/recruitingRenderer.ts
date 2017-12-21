@@ -18,7 +18,7 @@ export default class RecruitingRenderer {
     private highlightPossibleArea(state: GameStoreState) {
         if (state.areasAllowedToRecruit.length > 0 && state.localPlayersHouse === state.currentHouse) {
 
-            const areasToRecruit = StateSelectorService.getAreasAllowedToRecruit(state);
+            const areasToRecruit = StateSelectorService.getAreasAllowedToRecruit(state, state.localPlayersHouse);
             if (areasToRecruit.length > 0) {
                 areasToRecruit.forEach((area) => {
                     let showModalFn = () => {

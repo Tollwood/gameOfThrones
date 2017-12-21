@@ -1,65 +1,83 @@
-import {ACTION_PHASES, GamePhase, WESTEROS_PHASES} from './gamePhase';
+import {ALL_PHASES, GamePhase} from './gamePhase';
 import {House} from './house';
-import {gameStore, GameStoreState} from './gameState/reducer';
-import {nextPhase} from './gameState/actions';
+import {GameStoreState, INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from './gameState/reducer';
 import {AreaKey} from './areaKey';
 import {Area} from './area';
+import VictoryRules from './gameRules/victoryRules';
+import PlayerStateModificationService from './gameState/playerStateModificationService';
+import AreaModificationService from './gameState/areaStateModificationService';
+import StateSelectorService from './gameRules/stateSelectorService';
 
 export default class GamePhaseService {
 
-    public static isStillIn(gamePhase: GamePhase) {
+    public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey): GameStoreState {
+        const nextGamePhase = this.getNextGamePhaseWithPendingActions(state.areas.values(), state.gamePhase, lastSourceAreaKey);
+        let nextHouse = state.ironThroneSuccession[0];
+        if (nextGamePhase === GamePhase.ACTION_CLEANUP) {
+            const winningHouse = VictoryRules.getWinningHouse(state);
+            return {
+                ...state,
+                areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
+                players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
+                gamePhase: GamePhase.PLANNING,
+                gameRound: state.gameRound + 1,
+                winningHouse: winningHouse,
+                currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
+                currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
+            };
+        }
+        if (state.gamePhase === nextGamePhase) {
+            nextHouse = this.getNextHouseWithPendingActions(state.ironThroneSuccession, state.areas.values(), nextGamePhase, lastSourceAreaKey, this.nextHouse(state.ironThroneSuccession, state.currentHouse));
+        }
+
+        return {
+            gamePhase: nextGamePhase,
+            currentHouse: nextHouse
+        };
+    }
+
+    public static updateGamePhaseAfterRecruiting(state: GameStoreState, areaKey: AreaKey) {
+        const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
+        return {
+            currentHouse: nextHouseToRecruit !== null ? nextHouseToRecruit : state.ironThroneSuccession[0],
+            gamePhase: nextHouseToRecruit !== null ? state.gamePhase : state.gamePhase + 1
+        };
+    }
+
+    private static isStillIn(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey, house?: House) {
         switch (gamePhase) {
+            case GamePhase.PLANNING:
+                return !this.isPlanningPhaseComplete(areas, lastModifiedSourceAreaKey);
             case GamePhase.ACTION_RAID:
-                return !this.allRaidOrdersRevealed();
+                return !this.allRaidOrdersRevealed(areas, lastModifiedSourceAreaKey, house);
             case GamePhase.ACTION_MARCH:
-                return !this.allMarchOrdersRevealed();
+                return !this.allMarchOrdersRevealed(areas, lastModifiedSourceAreaKey, house);
             case GamePhase.ACTION_CLEANUP:
-                // TODO make state immutable
-                return gameStore.getState().areas.values().filter((area) => {
+                return areas.filter((area) => {
                         return area.orderToken;
                     }).length > 0;
         }
     }
 
-    public static isActionPhase(gamePhase: GamePhase) {
-        return ACTION_PHASES.indexOf(gamePhase) > -1;
-    }
-
-    public static isWesterosPhase(gamePhase: GamePhase) {
-        return WESTEROS_PHASES.indexOf(gamePhase) > -1;
-    }
-
-    public static allMarchOrdersRevealed(house?: House): boolean {
-        return gameStore.getState().areas.values().filter((area) => {
-                return area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
+    private static allMarchOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
+        return areas.filter((area) => {
+                return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
-    public static allRaidOrdersRevealed(house?: House): boolean {
-        return gameStore.getState().areas.values().filter((area) => {
-                return area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
+    private static allRaidOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
+        return areas.filter((area) => {
+                return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
             }).length === 0;
     }
 
-    static allOrderTokenPlaced(house?: House): boolean {
-        return gameStore.getState().areas.values().filter((area) => {
-                return area.units.length > 0 && (house === undefined || area.controllingHouse === house) && area.orderToken === null;
-            }).length === 0;
+    private static nextHouse(ironThroneSuccession: House[], house: House): House {
+        let currrentIndex = ironThroneSuccession.indexOf(house);
+        let nextIndex = ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
+        return ironThroneSuccession[nextIndex];
     }
 
-    public static nextHouse(state: GameStoreState): House {
-
-        let currrentIndex = state.ironThroneSuccession.indexOf(state.currentHouse);
-        let nextIndex = state.ironThroneSuccession.length > currrentIndex + 1 ? currrentIndex + 1 : 0;
-        return state.ironThroneSuccession[nextIndex];
-    }
-
-    public static switchToNextPhase() {
-        gameStore.dispatch(nextPhase());
-    }
-
-    public static isPlanningPhaseComplete(areas: Area[], areaKey: AreaKey) {
-
+    private static isPlanningPhaseComplete(areas: Area[], areaKey?: AreaKey) {
         return areas.filter((area) => {
                 return this.isAreaWithUnitsAndToken(area) || this.isAreaWithoutUnits(area) || areaKey === area.key;
             }).length === areas.length;
@@ -72,5 +90,65 @@ export default class GamePhaseService {
 
     private static isAreaWithoutUnits(area): boolean {
         return area.units.length === 0;
+    }
+
+    private static getNextRoundState(state: GameStoreState): GameStoreState {
+        return {
+            ...state,
+            areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
+            players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
+            gamePhase: GamePhase.PLANNING,
+            gameRound: state.gameRound + 1,
+            winningHouse: VictoryRules.getWinningHouse(state),
+            currentHouse: state.ironThroneSuccession[0],
+            currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
+        };
+    }
+
+    private static getNextHouseToRecruit(state: GameStoreState, areaKey: AreaKey) {
+        let possibleNextHouse = this.nextHouse(state.ironThroneSuccession, state.currentHouse);
+        while (possibleNextHouse !== state.currentHouse) {
+            if (this.isAllowedToRecruit(state, possibleNextHouse)) {
+                return possibleNextHouse;
+            }
+            else {
+                possibleNextHouse = this.nextHouse(state.ironThroneSuccession, possibleNextHouse);
+            }
+        }
+        console.log(possibleNextHouse);
+        if (this.isAllowedToRecruit(state, state.currentHouse, areaKey)) {
+            return state.currentHouse;
+        }
+        return null;
+    }
+
+    private static isAllowedToRecruit(state: GameStoreState, house: House, areaKey?: AreaKey) {
+        const areasAllowedToRecruit = StateSelectorService.getAreasAllowedToRecruit(state, house).map(area => {
+            console.log(area);
+            return area.key;
+        });
+        console.log(areasAllowedToRecruit);
+        const lastIndex = areasAllowedToRecruit.lastIndexOf(areaKey);
+        if (lastIndex > 0) {
+            areasAllowedToRecruit.splice(lastIndex, 1);
+        }
+        return areasAllowedToRecruit.length > 0;
+    }
+
+    private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
+
+        if (this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey)) {
+            return gamePhase;
+        }
+        const nextGamePhase = ALL_PHASES.length === gamePhase ? gamePhase[0] : gamePhase + 1;
+        return this.getNextGamePhaseWithPendingActions(areas, nextGamePhase, lastModifiedSourceAreaKey);
+    }
+
+    private static getNextHouseWithPendingActions(ironThroneSuccession: House[], areas: Area[], gamePhase: GamePhase, lastSourceAreaKey: AreaKey, house: House) {
+        if (this.isStillIn(areas, gamePhase, lastSourceAreaKey, house)) {
+            return house;
+        }
+        const nextHouse = this.nextHouse(ironThroneSuccession, house);
+        return this.getNextHouseWithPendingActions(ironThroneSuccession, areas, gamePhase, lastSourceAreaKey, nextHouse);
     }
 }

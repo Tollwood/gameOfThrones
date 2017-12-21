@@ -1,17 +1,6 @@
 import AssetLoader from './assetLoader';
 import {AreaKey} from '../logic/board/areaKey';
 export default class Renderer {
-
-    private static _rerenderRequired = false;
-
-    static get rerenderRequired(): boolean {
-        return this._rerenderRequired;
-    }
-
-    static set rerenderRequired(value: boolean) {
-        this._rerenderRequired = value;
-    }
-
     public static drawRectangleAroundAreaName(game, areaKey: AreaKey, color: number, onInputDown: Function, group?: Phaser.Group) {
         let areaName = AssetLoader.getAreaNameByKey(areaKey);
         let graphics = game.add.graphics(0, 0, group);

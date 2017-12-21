@@ -8,7 +8,7 @@ export default class RecruitingStateModificationService {
         return state.areas.values().filter((area) => {
             return area.controllingHouse !== null
                 && area.hasCastleOrStronghold()
-                && StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state) > area.units.length;
+                && StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse) > area.units.length;
         }).map(area => area.key);
     }
 

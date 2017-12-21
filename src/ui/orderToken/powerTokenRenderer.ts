@@ -3,24 +3,31 @@ import {convertHouseToNumber, House} from '../../logic/board/house';
 import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
 import {TSMap} from 'typescript-map';
-import {gameStore} from '../../logic/board/gameState/reducer';
+import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
 
 export default class PowerTokenRenderer {
     private powerTokenGroup: Phaser.Group;
     private controlMarkerGroup: Phaser.Group;
     private powerTokenText: TSMap<House, Phaser.Text>;
+    private game: Phaser.Game;
 
     public init(game: Phaser.Game) {
+        this.game = game;
         this.powerTokenGroup = game.add.group();
         this.controlMarkerGroup = game.add.group();
-        this.powerTokenText = this.addPowerToken(game);
-        gameStore.subscribe(() => this.updatePowerToken());
+        gameStore.subscribe(() => {
+            let state = gameStore.getState();
+            if (!this.powerTokenText) {
+                this.powerTokenText = this.addPowerToken(state);
+            }
+            this.updatePowerToken(state);
+            this.renderControlToken(state);
+        });
     }
 
-    public renderControlToken(game: Phaser.Game) {
+    private renderControlToken(state: GameStoreState) {
         this.controlMarkerGroup.removeChildren();
-
-        gameStore.getState().areas.values()
+        state.areas.values()
             .filter((area: Area) => {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })
@@ -28,19 +35,19 @@ export default class PowerTokenRenderer {
                 let field = AssetLoader.getControlMarker().filter((areaField) => {
                     return areaField.name === area.key;
                 })[0];
-                game.add.sprite(field.x, field.y, this.getImageNameByHouse(area.controllingHouse), undefined, this.controlMarkerGroup);
+                this.game.add.sprite(field.x, field.y, this.getImageNameByHouse(area.controllingHouse), undefined, this.controlMarkerGroup);
             });
 
     }
 
-    private addPowerToken(game: Phaser.Game): TSMap<House, Phaser.Text> {
+    private addPowerToken(state: GameStoreState): TSMap<House, Phaser.Text> {
         const style = {font: '28px Arial', fill: '#000000', boundsAlignH: 'right'};
         const powerTokenText = new TSMap<House, Phaser.Text>();
-        for (let player of gameStore.getState().players) {
-            const cachedImage = game.cache.getImage(this.getImageNameByHouse(player.house));
-            const image = game.add.image(convertHouseToNumber(player.house) * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
+        for (let player of state.players) {
+            const cachedImage = this.game.cache.getImage(this.getImageNameByHouse(player.house));
+            const image = this.game.add.image(convertHouseToNumber(player.house) * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);
             image.fixedToCamera = true;
-            const text: Phaser.Text = game.add.text(convertHouseToNumber(player.house) * cachedImage.width, 0 + cachedImage.height, '', style);
+            const text: Phaser.Text = this.game.add.text(convertHouseToNumber(player.house) * cachedImage.width, 0 + cachedImage.height, '', style);
             text.text = player.powerToken + '';
             text.fixedToCamera = true;
             powerTokenText.set(player.house, text);
@@ -48,8 +55,8 @@ export default class PowerTokenRenderer {
         return powerTokenText;
     }
 
-    private updatePowerToken() {
-        for (let player of gameStore.getState().players) {
+    private updatePowerToken(state: GameStoreState) {
+        for (let player of state.players) {
             let textUi = this.powerTokenText.get(player.house);
             textUi.text = player.powerToken + '';
         }

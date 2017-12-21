@@ -24,12 +24,14 @@ export default class SplitArmyModal extends Modal {
     private _moreOrdersQuestionGroup: Phaser.Group;
     private _establishControlText: Phaser.Text;
     private _rectangleAroundEstablishControlText: Phaser.Graphics;
+    private _closeFn: Function;
 
-    constructor(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey) {
+    constructor(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey, closeFn: Function) {
         super(game);
         this._game = game;
         this._sourceArea = sourceArea;
         this._targetAreaKey = targetAreaKey;
+        this._closeFn = closeFn;
     }
 
     public show() {
@@ -71,7 +73,7 @@ export default class SplitArmyModal extends Modal {
         let targetAreaArmySize = StateSelectorService.getAreaByKey(this._targetAreaKey).units.length;
 
         let selectedUnits = this.getSelectedUnits();
-        let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState());
+        let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState(), gameStore.getState().currentHouse);
         let maxArmySizeReached = targetAreaArmySize + selectedUnits.length === maxArmySize;
 
 
@@ -170,6 +172,11 @@ export default class SplitArmyModal extends Modal {
     private orderComplete() {
         gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits()));
         this.close();
+    }
+
+    close() {
+        super.close();
+        this._closeFn();
     }
 }
 
