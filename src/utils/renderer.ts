@@ -4,7 +4,7 @@ import UiArea from './UiArea';
 import RecruitingModal from '../ui/units/recruitingModal';
 import {Area} from '../logic/board/area';
 import {OrderTokenType} from '../logic/orderToken/orderTokenType';
-import DragAndDropSupport from './dragAndDropSupport';
+import UiInteractionSupport from './uiInteractionSupport';
 export default class Renderer {
     private _game: Phaser.Game;
 
@@ -88,7 +88,7 @@ export default class Renderer {
         this.placableOrderTokens.cameraOffset.x = 10;
         this.placableOrderTokens.cameraOffset.y = window.innerHeight - 55;
         this.placableOrderTokens.forEach((orderToken) => {
-            DragAndDropSupport.createDragAndDrop(orderToken, placeOrderTokenFn);
+            UiInteractionSupport.createDragAndDrop(orderToken, placeOrderTokenFn);
         }, this, false);
     }
 
@@ -99,17 +99,5 @@ export default class Renderer {
         menu.visible = visible;
         return menu;
     }
-
-
-    // calculate things
-    public intersects(sprite: Phaser.Sprite, area: UiArea): boolean {
-        const scale: Phaser.Point = this.game.camera.scale;
-        let boundsA = new Phaser.Rectangle(sprite.worldPosition.x * scale.x, sprite.worldPosition.y * scale.y, sprite.width * scale.x, sprite.height * scale.y);
-        let relativeX = area.x - this.game.camera.x;
-        let relativeY = area.y - this.game.camera.y;
-        let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-        return Phaser.Rectangle.intersects(boundsA, boundsB);
-    }
-
 
 }

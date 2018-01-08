@@ -8,6 +8,7 @@ import {gameStore} from '../../logic/board/gameState/reducer';
 import {moveUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import Renderer from '../../utils/renderer';
+import UiInteractionSupport from '../../utils/uiInteractionSupport';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -43,7 +44,7 @@ export default class SplitArmyModal extends Modal {
         this._moveAllUnitsText = this.addText('Move all Units', 130, 0, false, () => this.moveAllUnits());
         this._establishControlText = this.addText('Establish Control', 80, 0, false, () => this.toggleEstablishControl());
         this._rectangleAroundEstablishControlText = this.drawRectangleAroundObject(this._establishControlText);
-        Modal.addInputDownCallback(() => {
+        UiInteractionSupport.addInputDownCallback(() => {
             this._rectangleAroundEstablishControlText.visible = !this._rectangleAroundEstablishControlText.visible;
         }, this._establishControlText);
         super.show();

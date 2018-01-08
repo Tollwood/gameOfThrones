@@ -8,6 +8,7 @@ import {placeOrder} from '../../logic/board/gameState/actions';
 import {GamePhase} from '../../logic/board/gamePhase';
 import Renderer from '../../utils/renderer';
 import {OrderTokenType} from '../../logic/orderToken/orderTokenType';
+import UiInteractionSupport from '../../utils/uiInteractionSupport';
 
 export class OrderTokenMenuRenderer {
     private _renderer: Renderer;
@@ -34,7 +35,7 @@ export class OrderTokenMenuRenderer {
     private placeOrderToken(sprite) {
         const localPlayersHouse: House = gameStore.getState().localPlayersHouse;
         AssetLoader.getAreaTokens().forEach((area: UiArea) => {
-            if (this._renderer.intersects(sprite, area) && TokenPlacementRules.isAllowedToPlaceOrderToken(localPlayersHouse, area.name)) {
+            if (UiInteractionSupport.intersects(this._renderer.game.camera, sprite, area) && TokenPlacementRules.isAllowedToPlaceOrderToken(localPlayersHouse, area.name)) {
                 gameStore.dispatch(placeOrder(area.name, new OrderToken(localPlayersHouse, sprite.frame)));
             }
         });

@@ -158,7 +158,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             };
             break;
         case TypeKeys.MOVE_UNITS:
-            // TODO verify its a valid move before updating state
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             newState = {
                 ...state,

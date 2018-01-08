@@ -16,7 +16,6 @@ export default class AiCalculator {
         if (state.gamePhase === GamePhase.ACTION_MARCH) {
             let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
-                // TODO: Pick most important moveToken first
                 let sourceArea = areasWithMoveToken[0];
                 let bestMove = AiCalculator.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
 
@@ -33,7 +32,6 @@ export default class AiCalculator {
 
         if (state.gamePhase === GamePhase.ACTION_RAID) {
             let areasWithRaidToken = this.getAreasForHouseWithToken(state.areas.values(), aiPlayer.house, TokenPlacementRules.RAID_ORDER_TOKENS);
-            // TODO add logic to Execute RAID Order
             if (areasWithRaidToken.length > 0) {
                 gameStore.dispatch(skipOrder(areasWithRaidToken[0].key));
             }
@@ -57,7 +55,6 @@ export default class AiCalculator {
         let areasToPlaceAToken = state.areas.values().filter((area) => {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(house, area.key);
         });
-        // TODO: consider already placed token when calculating further best moves
         let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area) => {
             return this.getBestMove(house, area, availableOrderToken);
         });
@@ -113,7 +110,6 @@ export default class AiCalculator {
                 case OrderTokenType.raid_0:
                 case OrderTokenType.raid_1:
                 case OrderTokenType.raid_special:
-                    // TODO: Filter areas where it is allowed to raid (land units can not raid sea areas)
                     possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForRaidOrders(area, currentHouse, 0.1)));
                     break;
 

@@ -11,12 +11,10 @@ export default class StateSelectorService {
         return state.ironThroneSuccession[0];
     }
 
-    // TODO should get State as input parameter
     public static getAreaByKey(areaKey: AreaKey): Area {
         return gameStore.getState().areas.get(areaKey);
     }
 
-    // TODO should get State as input parameter
     public static getPlayerByHouse(house: House): Player {
         return gameStore.getState().players.filter(player => player.house === house)[0];
     }
@@ -111,7 +109,7 @@ export default class StateSelectorService {
     public static resolveFight(combatResult: CombatResult) {
         let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
         let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
-        // TODO immutable -> do not change state, return new object instead
+        // FIXME immutable -> do not change state, return new object instead
         if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
             loosingArea.controllingHouse = winningArea.controllingHouse;
             loosingArea.orderToken = null;

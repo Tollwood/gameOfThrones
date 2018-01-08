@@ -55,22 +55,20 @@ export default class Game extends Phaser.State {
         GameRules.newGame();
     }
 
-    // TODO replace all this logic with redux actions
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
             // this.orderTokenMenuRenderer.renderOrderTokenInMenu(AssetLoader.getAreaTokens());
             this.currentGameWidth = window.innerWidth;
         }
-
         this.topMenuRenderer.renderTopMenu(this.game);
 
+        // FIXME Reenable Westeros Cards
         // if (GamePhaseService.isWesterosPhase(currentGamePhase)) {
         //     let rerender = this.renderWesterosPhase(currentGamePhase, currentAiPlayer);
         //    if (rerender) {
         //        return;
         //    }
         // }
-
 
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
@@ -114,7 +112,6 @@ export default class Game extends Phaser.State {
      return card;
      }
      else {
-     // TODO handle in gameStore
      // GamePhaseService.switchToNextPhase();
      GameRules.gameState.currentWesterosCard = null;
      card.state = WesterosCardState.played;

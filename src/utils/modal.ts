@@ -1,5 +1,6 @@
 import DisplayObjectContainer = PIXI.DisplayObjectContainer;
 import Renderer from './renderer';
+import UiInteractionSupport from './uiInteractionSupport';
 export default class Modal extends Phaser.Group {
     _width: number;
     _height: number;
@@ -66,7 +67,7 @@ export default class Modal extends Phaser.Group {
         text.x = ((game.width / 2) - (text.width / 2)) + offsetX;
         text.y = ((game.height / 2) - (text.height / 2)) + offsetY;
         text.visible = visible;
-        Modal.addInputDownCallback(callback, text);
+        UiInteractionSupport.addInputDownCallback(callback, text);
         this.addToTop(text);
         return text;
 
@@ -76,10 +77,10 @@ export default class Modal extends Phaser.Group {
 
         let text = this.addText(content, offsetY, offsetX, visible, callback, fontSize, align);
         let rectangleAroundImage = this.drawRectangleAroundObject(text);
-        Modal.addInputDownCallback(() => {
+        UiInteractionSupport.addInputDownCallback(() => {
             rectangleAroundImage.visible = !rectangleAroundImage.visible;
         }, text);
-        Modal.addInputDownCallback(callback, text);
+        UiInteractionSupport.addInputDownCallback(callback, text);
         return text;
 
     }
@@ -88,10 +89,10 @@ export default class Modal extends Phaser.Group {
         let image = this.addImage(content, offsetY, offsetX);
 
         let rectangleAroundImage = this.drawRectangleAroundObject(image);
-        Modal.addInputDownCallback(() => {
+        UiInteractionSupport.addInputDownCallback(() => {
             rectangleAroundImage.visible = !rectangleAroundImage.visible;
         }, image);
-        Modal.addInputDownCallback(callback, image);
+        UiInteractionSupport.addInputDownCallback(callback, image);
         return image;
     }
 
@@ -127,15 +128,7 @@ export default class Modal extends Phaser.Group {
         closeOnModalClickGraphic.beginFill(0, 0);
         closeOnModalClickGraphic.drawRoundedRect(0, 0, this.width, this.height, 40);
         closeOnModalClickGraphic.endFill();
-        Modal.addInputDownCallback(closeFn, closeOnModalClickGraphic);
+        UiInteractionSupport.addInputDownCallback(closeFn, closeOnModalClickGraphic);
         this.addToTop(closeOnModalClickGraphic);
-    }
-
-    // TODO Move to another class
-    public static addInputDownCallback(callback: Function, image: Phaser.Image | Phaser.Graphics | Phaser.Text) {
-        if (callback) {
-            image.inputEnabled = true;
-            image.events.onInputDown.add(callback, image);
-        }
     }
 }
