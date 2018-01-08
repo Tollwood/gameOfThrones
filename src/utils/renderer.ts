@@ -69,8 +69,7 @@ export default class Renderer {
         modal.show();
     }
 
-    public removeSelectedToken(sprite: Phaser.Sprite) {
-        sprite.destroy();
+    public removeSelectedToken() {
         this.selectedTokenMarker.removeChildren();
         this.validAreasToExecuteOrderToken.removeChildren();
     }
@@ -109,7 +108,7 @@ export default class Renderer {
         let relativeX = area.x - this.game.camera.x;
         let relativeY = area.y - this.game.camera.y;
         let boundsB = new Phaser.Rectangle(relativeX * scale.x, relativeY * scale.y, area.width * scale.x, area.height * scale.y);
-        return Phaser.Rectangle.intersects(boundsA, boundsB)
+        return Phaser.Rectangle.intersects(boundsA, boundsB);
     }
 
 

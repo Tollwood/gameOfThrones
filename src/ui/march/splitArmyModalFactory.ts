@@ -35,7 +35,6 @@ export default class SplitArmyModal extends Modal {
 
     public show() {
 
-        // FIXME Modal is not updated for splitting units
         this.addText('Select units to move from ' + this._sourceArea.key + ' to ' + this._targetAreaKey, -100);
         this.addImageForEachUnit();
 

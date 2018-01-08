@@ -82,7 +82,7 @@ export default class OrderTokenRenderer {
     private highlightAreaNameToSkipOrder(sprite: Phaser.Sprite, areaKey: AreaKey) {
         let skipOrderFn = () => {
             gameStore.dispatch(skipOrder(areaKey));
-            this.renderer.removeSelectedToken(sprite);
+            this.renderer.removeSelectedToken();
         };
         this.renderer.drawRectangleAroundAreaName(areaKey, 0xFF0000, skipOrderFn, this.renderer.validAreasToExecuteOrderToken);
     }
@@ -95,7 +95,7 @@ export default class OrderTokenRenderer {
                 let targetArea = StateSelectorService.getAreaByKey(targetAreaKey);
                 if (sourceArea.units.length > 1 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentHouse || (targetArea.controllingHouse !== currentHouse && targetArea.units.length === 0) )) {
                     let modal = new SplitArmyModalFactory(this.renderer, sourceArea, targetAreaKey, () => {
-                        this.renderer.removeSelectedToken(sprite);
+                        this.renderer.removeSelectedToken();
                     });
                     modal.show();
                 }
@@ -103,13 +103,13 @@ export default class OrderTokenRenderer {
                 if (sourceArea.units.length === 1 && StateSelectorService.getPlayerByHouse(currentHouse).powerToken > 0 && (targetArea.controllingHouse === null || targetArea.controllingHouse === currentHouse)) {
 
                     let establishControlModal = new EstablishControlModalFactory(this.renderer, sourceArea, targetAreaKey, () => {
-                        this.renderer.removeSelectedToken(sprite);
+                        this.renderer.removeSelectedToken();
                     });
                     establishControlModal.show();
                 }
                 // fight
                 let onCloseFn = () => {
-                    this.renderer.removeSelectedToken(sprite);
+                    this.renderer.removeSelectedToken();
                 };
                 if (targetArea.controllingHouse !== currentHouse && targetArea.units.length > 0) {
                     let modal = new FightModal(this.renderer, sourceArea, targetArea, onCloseFn);
@@ -128,7 +128,7 @@ export default class OrderTokenRenderer {
 
             let raidAreaFunction = (targetAreaKey) => {
                 gameStore.dispatch(executeRaidOrder(areaKey, targetAreaKey));
-                this.renderer.removeSelectedToken(sprite);
+                this.renderer.removeSelectedToken();
             };
             let areaToPlaceToken = StateSelectorService.getAreaByKey(areaKey);
             let areasAllowedToExecuteOrder: Array<Area> = gameStore.getState().areas.values()

@@ -23,7 +23,7 @@ export class OrderTokenMenuRenderer {
         if (state.gamePhase === GamePhase.PLANNING) {
             let availableOrderToken: OrderTokenType[] = TokenPlacementRules.getPlacableOrderTokenTypes(state, state.localPlayersHouse);
             this._renderer.displayOrderTokenInMenu(availableOrderToken, (sprite: Phaser.Sprite) => {
-                this.placeOrderToken(sprite)
+                this.placeOrderToken(sprite);
             });
         }
         else {

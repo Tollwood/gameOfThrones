@@ -4,9 +4,11 @@ export default class Modal extends Phaser.Group {
     _width: number;
     _height: number;
     private _color: number;
+    private _renderer: Renderer;
 
     constructor(renderer: Renderer, width: number = 600, height: number = 300, color = Phaser.Color.getColor(255, 255, 255)) {
         super(renderer.game);
+        this._renderer = renderer;
         this._width = width;
         this._height = height;
         this._color = color;
@@ -23,6 +25,7 @@ export default class Modal extends Phaser.Group {
 
     public close() {
         this.visible = false;
+        this._renderer.removeSelectedToken();
         this.destroy();
     };
 
