@@ -9,7 +9,23 @@ A clone of the game of Thrones board game. Goal of this project is to implement 
 **[Trello Board](https://trello.com/b/IM4aFTeY/game-of-thrones)** to track current planned, ongoing and completed feautres
 
 Completed Features:
-- 
+- WesterosCards
+    - Recruit Units
+    - Restrict Order Token (march, raid, defence, support)
+- Planning Phase
+    - Highlight placable areas
+    - Place Order Token
+- Action Phase
+    - Raid Order considering consolidate Power
+    - March Order
+        - Highlight All Areas to move to
+        - split army
+        - move to more than one location
+        - attack enemy
+        
+    - Skip Order
+   
+    
 - asdasd
 
 Planned Features:

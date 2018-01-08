@@ -48,7 +48,6 @@ export default class AreaStateModificationService {
         return newAreaMap;
     }
 
-
     public static removeOrderTokens(areas: Area[], areaKeys: AreaKey[]): TSMap<AreaKey, Area> {
         const newAreaMap = new TSMap<AreaKey, Area>();
         areas.forEach(area => {

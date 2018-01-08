@@ -92,19 +92,6 @@ export default class GamePhaseService {
         return area.units.length === 0;
     }
 
-    private static getNextRoundState(state: GameStoreState): GameStoreState {
-        return {
-            ...state,
-            areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
-            players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
-            gamePhase: GamePhase.PLANNING,
-            gameRound: state.gameRound + 1,
-            winningHouse: VictoryRules.getWinningHouse(state),
-            currentHouse: state.ironThroneSuccession[0],
-            currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
-        };
-    }
-
     private static getNextHouseToRecruit(state: GameStoreState, areaKey: AreaKey) {
         let possibleNextHouse = this.nextHouse(state.ironThroneSuccession, state.currentHouse);
         while (possibleNextHouse !== state.currentHouse) {
@@ -130,7 +117,7 @@ export default class GamePhaseService {
         console.log(areasAllowedToRecruit);
         const lastIndex = areasAllowedToRecruit.lastIndexOf(areaKey);
         if (lastIndex > 0) {
-            areasAllowedToRecruit.splice(lastIndex, 1);
+            areasAllowedToRecruit.slice(lastIndex, 1);
         }
         return areasAllowedToRecruit.length > 0;
     }

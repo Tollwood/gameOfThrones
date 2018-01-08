@@ -5,10 +5,11 @@ import Modal from '../../utils/modal';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {recruitUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
+import Renderer from '../../utils/renderer';
 export default class RecruitingModal extends Modal {
 
-    constructor(game: Phaser.Game, area: Area, closeFn: Function) {
-        super(game);
+    constructor(renderer: Renderer, area: Area, closeFn: Function) {
+        super(renderer);
         this.addText('Recruit new Units: ', -80, 0, true);
         this.addNewUnits(area, closeFn);
 

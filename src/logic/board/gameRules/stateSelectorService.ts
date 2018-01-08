@@ -18,9 +18,7 @@ export default class StateSelectorService {
 
     // TODO should get State as input parameter
     public static getPlayerByHouse(house: House): Player {
-        return gameStore.getState().players.filter((player) => {
-            return player.house === house;
-        })[0];
+        return gameStore.getState().players.filter(player => player.house === house)[0];
     }
 
     // move related

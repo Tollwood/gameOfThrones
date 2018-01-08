@@ -9,7 +9,7 @@ export default class PlayerStateModificationService {
         const targetArea = state.areas.get(target);
         const sourceArea = state.areas.get(source);
         if (targetArea.orderToken.isConsolidatePowerToken()) {
-            const newPlayers = state.players.splice(0);
+            const newPlayers = state.players.slice(0);
             newPlayers.filter((player) => {
                 return player.house === targetArea.controllingHouse;
             }).map((player) => {
@@ -28,7 +28,7 @@ export default class PlayerStateModificationService {
 
     public static establishControl(players: Player[], establishControl: boolean, house: House): Player[] {
         if (establishControl) {
-            const newPlayers = players.splice(0);
+            const newPlayers = players.slice(0);
             newPlayers.filter((player) => {
                 return player.house === house;
             })[0].powerToken--;
@@ -56,7 +56,7 @@ export default class PlayerStateModificationService {
 
 
     public static executeAllConsolidatePowerOrders(state: GameStoreState): Player[] {
-        const updatedPlayers: Player[] = state.players.splice(0);
+        const updatedPlayers: Player[] = state.players.slice(0);
         state.areas.values().filter((area) => {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();
         }).map((area) => {

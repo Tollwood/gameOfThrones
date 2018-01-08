@@ -159,9 +159,6 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             break;
         case TypeKeys.MOVE_UNITS:
             // TODO verify its a valid move before updating state
-            // FIXME it looks like one of the methods sets players to an empty array!
-            // moveUnits
-            // establishControl
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             newState = {
                 ...state,

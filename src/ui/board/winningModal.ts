@@ -3,10 +3,11 @@ import Modal from '../../utils/modal';
 import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
 import {newGame} from '../../logic/board/gameState/actions';
 import PlayerSetup from '../../logic/board/playerSetup';
+import Renderer from '../../utils/renderer';
 export default class WinningModal extends Modal {
 
-    constructor(game: Phaser.Game) {
-        super(game);
+    constructor(renderer: Renderer) {
+        super(renderer);
         gameStore.subscribe(() => {
             this.showModal(gameStore.getState());
         });

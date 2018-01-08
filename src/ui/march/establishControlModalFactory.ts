@@ -6,8 +6,8 @@ import {moveUnits} from '../../logic/board/gameState/actions';
 export default class EstablishControlModal extends Modal {
     private _closeFn: Function;
 
-    constructor(game, sourceArea: Area, targetAreaKey: AreaKey, closeFn: Function) {
-        super(game);
+    constructor(renderer, sourceArea: Area, targetAreaKey: AreaKey, closeFn: Function) {
+        super(renderer);
         this._closeFn = closeFn;
         this.addText('Establish Control over ' + sourceArea.key, -50);
         this.addText('Yes', 50, -100, true, () => {

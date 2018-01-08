@@ -7,6 +7,7 @@ import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {moveUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
+import Renderer from '../../utils/renderer';
 export default class SplitArmyModal extends Modal {
 
     // business
@@ -18,23 +19,23 @@ export default class SplitArmyModal extends Modal {
     private _selectableUnits: Array<MovingUnit> = [];
 
     // ui
-    private _game: Phaser.Game;
     private _otherOrdersText: Phaser.Text;
     private _moveAllUnitsText: Phaser.Text;
     private _moreOrdersQuestionGroup: Phaser.Group;
     private _establishControlText: Phaser.Text;
     private _rectangleAroundEstablishControlText: Phaser.Graphics;
-    private _closeFn: Function;
+    private _removeTokenFn: Function;
 
-    constructor(game: Phaser.Game, sourceArea: Area, targetAreaKey: AreaKey, closeFn: Function) {
-        super(game);
-        this._game = game;
+    constructor(renderer: Renderer, sourceArea: Area, targetAreaKey: AreaKey, removeTokenFn: Function) {
+        super(renderer);
         this._sourceArea = sourceArea;
         this._targetAreaKey = targetAreaKey;
-        this._closeFn = closeFn;
+        this._removeTokenFn = removeTokenFn;
     }
 
     public show() {
+
+        // FIXME Modal is not updated for splitting units
         this.addText('Select units to move from ' + this._sourceArea.key + ' to ' + this._targetAreaKey, -100);
         this.addImageForEachUnit();
 
@@ -146,7 +147,7 @@ export default class SplitArmyModal extends Modal {
         gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
             return movingUnit.unit;
         }), true, this._establishControl));
-        this.close();
+        this.closeAndRemoveToken();
     }
 
     private toggleEstablishControl() {
@@ -171,12 +172,12 @@ export default class SplitArmyModal extends Modal {
 
     private orderComplete() {
         gameStore.dispatch(moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits()));
-        this.close();
+        this.closeAndRemoveToken();
     }
 
-    close() {
+    closeAndRemoveToken() {
         super.close();
-        this._closeFn();
+        this._removeTokenFn();
     }
 }
 

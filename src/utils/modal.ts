@@ -1,11 +1,12 @@
 import DisplayObjectContainer = PIXI.DisplayObjectContainer;
+import Renderer from './renderer';
 export default class Modal extends Phaser.Group {
     _width: number;
     _height: number;
     private _color: number;
 
-    constructor(game: Phaser.Game, width: number = 600, height: number = 300, color = Phaser.Color.getColor(255, 255, 255)) {
-        super(game);
+    constructor(renderer: Renderer, width: number = 600, height: number = 300, color = Phaser.Color.getColor(255, 255, 255)) {
+        super(renderer.game);
         this._width = width;
         this._height = height;
         this._color = color;

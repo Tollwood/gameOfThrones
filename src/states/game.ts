@@ -9,6 +9,7 @@ import AssetLoader from '../utils/assetLoader';
 import RecruitingRenderer from '../ui/units/recruitingRenderer';
 import AiCalculator from '../logic/ai/aiCalculator';
 import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
+import Renderer from '../utils/renderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -38,15 +39,17 @@ export default class Game extends Phaser.State {
     }
 
     public create(): void {
+        const renderer = new Renderer(this.game);
         AssetLoader.createAssets(this.game);
         BoardRenderer.renderBoard(this.game);
         this.topMenuRenderer = new TopMenuRenderer(this.game);
         this.unitRenderer.init(this.game);
-        this.orderTokenRenderer.init(this.game);
-        this.recruitingRenderer.init(this.game);
+        this.orderTokenRenderer.init(renderer);
+        this.recruitingRenderer.init(renderer);
         this.powerTokenRenderer.init(this.game);
-        this.orderTokenMenuRenderer.init(this.game);
-        this.winningModal = new WinningModal(this.game);
+        renderer.initGameLayers();
+        this.orderTokenMenuRenderer.init(renderer);
+        this.winningModal = new WinningModal(renderer);
         this.game.input.enabled = true;
         this.currentGameWidth = window.innerWidth;
         GameRules.newGame();
