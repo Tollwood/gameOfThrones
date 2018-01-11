@@ -8,7 +8,9 @@ import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import AiPlayer from './aiPlayer';
 import {OrderToken} from '../orderToken/orderToken';
 import {gameStore, GameStoreState} from '../board/gameState/reducer';
-import {moveUnits, placeOrder, skipOrder} from '../board/gameState/actions';
+import {moveUnits, placeOrder, resolveFight, skipOrder} from '../board/gameState/actions';
+import CombatResult from '../march/combatResult';
+import CombatCalculator from '../march/combatCalculator';
 export default class AiCalculator {
 
     public static executeOrder(state: GameStoreState, aiPlayer: AiPlayer) {
@@ -18,15 +20,18 @@ export default class AiCalculator {
             if (areasWithMoveToken.length > 0) {
                 let sourceArea = areasWithMoveToken[0];
                 let bestMove = AiCalculator.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
-
+                const targetArea = state.areas.get(bestMove.targetAreaKey);
                 if (bestMove === null) {
                     gameStore.dispatch(skipOrder(sourceArea.key));
                     return;
                 }
-                if (bestMove.targetArea !== null) {
-                    gameStore.dispatch(moveUnits(sourceArea.key, bestMove.targetArea.key, sourceArea.units, true, AiCalculator.shouldEstablishControl(sourceArea)));
+                if (targetArea.units.length > 0 && targetArea.controllingHouse !== sourceArea.controllingHouse) {
+                    const comabtResult: CombatResult = CombatCalculator.calculateCombat(sourceArea, targetArea);
+                    gameStore.dispatch(resolveFight(comabtResult));
                     return;
                 }
+                gameStore.dispatch(moveUnits(sourceArea.key, bestMove.targetAreaKey, sourceArea.units, true, AiCalculator.shouldEstablishControl(sourceArea)));
+                return;
             }
         }
 
@@ -60,7 +65,7 @@ export default class AiCalculator {
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
-            gameStore.dispatch(placeOrder(bestMove.sourceArea.key, new OrderToken(house, bestMove.orderTokenType)));
+            gameStore.dispatch(placeOrder(bestMove.sourceAreaKey, new OrderToken(house, bestMove.orderTokenType)));
         }
     }
 
@@ -93,31 +98,31 @@ export default class AiCalculator {
                 case OrderTokenType.consolidatePower_0:
                 case OrderTokenType.consolidatePower_1:
                 case OrderTokenType.consolidatePower_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForConsolidatePowerOrder()));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForConsolidatePowerOrder()));
                     break;
                 case OrderTokenType.defend_0:
                 case OrderTokenType.defend_1:
                 case OrderTokenType.defend_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForDefendingOrders(area, currentHouse, 0.1)));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForDefendingOrders(area, currentHouse, 0.1)));
                     break;
 
                 case OrderTokenType.support_0:
                 case OrderTokenType.support_1:
                 case OrderTokenType.support_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForSupportOrder()));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForSupportOrder()));
                     break;
 
                 case OrderTokenType.raid_0:
                 case OrderTokenType.raid_1:
                 case OrderTokenType.raid_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForRaidOrders(area, currentHouse, 0.1)));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForRaidOrders(area, currentHouse, 0.1)));
                     break;
 
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
                     StateSelectorService.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
-                        possibleMoves.push(new PossibleMove(orderTokenType, area, this.calculateValueForMarchOrders(area, possibleArea, currentHouse), possibleArea));
+                        possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(area, possibleArea, currentHouse), possibleArea.key));
                     });
                     break;
             }

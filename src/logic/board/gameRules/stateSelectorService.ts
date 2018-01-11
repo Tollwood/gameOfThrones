@@ -1,7 +1,5 @@
 import {Area} from '../area';
-import CombatResult from '../../march/combatResult';
 import {gameStore, GameStoreState} from '../gameState/reducer';
-import {moveUnits} from '../gameState/actions';
 import {AreaKey} from '../areaKey';
 import Player from '../player';
 import {House} from '../house';
@@ -103,23 +101,5 @@ export default class StateSelectorService {
     public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
         let atleastOneUnitCanMove = target.units.length + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
         return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
-    }
-
-    // TODO Move to an action
-    public static resolveFight(combatResult: CombatResult) {
-        let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
-        let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
-        // FIXME immutable -> do not change state, return new object instead
-        if (combatResult.attackingArea.controllingHouse === winningArea.controllingHouse) {
-            loosingArea.controllingHouse = winningArea.controllingHouse;
-            loosingArea.orderToken = null;
-            loosingArea.units = [];
-            gameStore.dispatch(moveUnits(winningArea.key, loosingArea.key, winningArea.units, true, true));
-        }
-        else {
-            loosingArea.units = [];
-            loosingArea.orderToken = null;
-            loosingArea.controllingHouse = null;
-        }
     }
 }

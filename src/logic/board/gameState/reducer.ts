@@ -167,6 +167,16 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 winningHouse: winningHouse,
             };
             break;
+        case TypeKeys.RESOLVE_FIGHT:
+            const combatResult = action.combatResult;
+            let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
+            let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
+            newState = {
+                ...state,
+                areas: AreaModificationService.updateAfterFight(state.areas.values(), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units)
+            };
+
+            break;
         default:
             newState = state;
             break;

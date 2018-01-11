@@ -91,8 +91,7 @@ export default class AreaStateModificationService {
             sourceArea.orderToken = null;
         }
         if (completeOrder && establishControl) {
-            let player = StateSelectorService.getPlayerByHouse(controllingHouse);
-            sourceArea.controllingHouse = player.house;
+            sourceArea.controllingHouse = controllingHouse;
         }
     }
 
@@ -102,5 +101,34 @@ export default class AreaStateModificationService {
             targetArea.controllingHouse = movingUnits[0].getHouse();
         }
 
+    }
+
+    public static updateAfterFight(areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
+
+        const newAreasMap = new TSMap<AreaKey, Area>();
+        areas.forEach((area) => {
+            const newArea = area.copy();
+            if (attackingAreaKey === winningAreaKey) {
+                const winningArea: Area = StateSelectorService.getAreaByKey(winningAreaKey);
+                if (newArea.key === winningAreaKey) {
+                    newArea.units = [];
+                    newArea.orderToken = null;
+                    newArea.controllingHouse = winningArea.controllingHouse;
+                } else if (newArea.key === loosingAreaKey) {
+                    newArea.units = units;
+                    newArea.orderToken = null;
+                    newArea.controllingHouse = winningArea.controllingHouse;
+                }
+
+            } else if (attackingAreaKey === loosingAreaKey) {
+                if (newArea.key === attackingAreaKey) {
+                    newArea.units = [];
+                    newArea.orderToken = null;
+                    newArea.controllingHouse = null;
+                }
+            }
+            newAreasMap.set(newArea.key, newArea);
+        });
+        return newAreasMap;
     }
 }

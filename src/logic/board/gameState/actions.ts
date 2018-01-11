@@ -5,6 +5,7 @@ import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
+import CombatResult from '../../march/combatResult';
 
 export enum TypeKeys {
     RESET_GAME = 'RESET_GAME',
@@ -22,9 +23,15 @@ export enum TypeKeys {
     PLACE_ORDER = 'PLACE_ORDER',
     SKIP_ORDER = 'SKIP_ORDER',
     MOVE_UNITS = 'MOVE_UNITS',
+    RESOLVE_FIGHT = 'RESOLVE_FIGHT',
     EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
 
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface ResolveFightAction {
+    type: TypeKeys.RESOLVE_FIGHT;
+    combatResult: CombatResult;
 }
 
 export interface ConsolidateAllPowerAction {
@@ -102,6 +109,7 @@ export type ActionTypes =
     | StartRecruitingAction
     | RecruitUnitsAction
     | MoveUnitsAction
+    | ResolveFightAction
     | PlaceOrderAction
     | SkipOrderAction
     | ExecuteRaidOrderAction
@@ -111,6 +119,11 @@ export type ActionTypes =
     | UpdateSupplyAction
     | OtherAction;
 
+
+export const resolveFight = (combatResult: CombatResult): ResolveFightAction => ({
+    type: TypeKeys.RESOLVE_FIGHT,
+    combatResult
+});
 
 export const consolidateAllPower = (): ConsolidateAllPowerAction => ({
     type: TypeKeys.CONSOLIDATE_ALL_POWER

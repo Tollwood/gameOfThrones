@@ -1,16 +1,15 @@
-import {Area} from '../board/area';
 import {OrderTokenType} from '../orderToken/orderTokenType';
+import {AreaKey} from '../board/areaKey';
 export default class PossibleMove {
-
     private _orderTokenType: OrderTokenType;
-    private _sourceArea: Area;
-    private _targetArea: Area;
+    private _sourceAreaKey: AreaKey;
+    private _targetAreaKey: AreaKey;
     private _value: number;
 
-    constructor(orderTokenType: OrderTokenType, sourceArea: Area, value: number, targetArea?: Area) {
+    constructor(orderTokenType: OrderTokenType, sourceAreaKey: AreaKey, value: number, targetAreaKey?: AreaKey) {
         this._orderTokenType = orderTokenType;
-        this._sourceArea = sourceArea;
-        this._targetArea = targetArea;
+        this._sourceAreaKey = sourceAreaKey;
+        this._targetAreaKey = targetAreaKey;
         this._value = value;
     }
 
@@ -19,12 +18,12 @@ export default class PossibleMove {
         return this._orderTokenType;
     }
 
-    get sourceArea(): Area {
-        return this._sourceArea;
+    get targetAreaKey(): AreaKey {
+        return this._targetAreaKey;
     }
 
-    get targetArea(): Area {
-        return this._targetArea;
+    get sourceAreaKey(): AreaKey {
+        return this._sourceAreaKey;
     }
 
     get value(): number {
