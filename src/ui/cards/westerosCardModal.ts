@@ -1,22 +1,21 @@
-import {WesterosCard, WesterosCardState} from '../../logic/cards/westerosCard';
-import CardAbilities from '../../logic/cards/cardAbilities';
+import {WesterosCard} from '../../logic/cards/westerosCard';
 import Modal from '../../utils/modal';
 import {gameStore} from '../../logic/board/gameState/reducer';
-import {increaseWildlingCount} from '../../logic/board/gameState/actions';
+import {executeWesterosCard} from '../../logic/board/gameState/actions';
+import Renderer from '../../utils/renderer';
+
 export default class WesterosCardModal extends Modal {
 
-    constructor(game: Phaser.Game, card: WesterosCard) {
-        super(game, undefined, undefined, Phaser.Color.getColor(139, 69, 19));
+    constructor(renderer: Renderer, card: WesterosCard) {
+        super(renderer, undefined, undefined, Phaser.Color.getColor(139, 69, 19));
 
         if (card.options.length > 1) {
             let nextTextY = 60;
             let textYIncrement = 30;
             card.options.forEach((cardFunction) => {
                 let onOptionCloseFn = () => {
-                    CardAbilities[cardFunction.functionName](card);
-                    card.state = WesterosCardState.executeCard;
                     card.selectedFunction = cardFunction;
-                    gameStore.dispatch(increaseWildlingCount(card.wildling));
+                    gameStore.dispatch(executeWesterosCard(card));
                     this.close();
                 };
                 this.addText(cardFunction.description, nextTextY, 0, true, onOptionCloseFn, '18px', 'left');
@@ -32,10 +31,8 @@ export default class WesterosCardModal extends Modal {
             this.addImage('westeros' + card.cardType, -30, 135);
         } else {
             let onCloseFn = () => {
-                CardAbilities[card.options[0].functionName](card);
-                card.state = WesterosCardState.executeCard;
                 card.selectedFunction = card.options[0];
-                gameStore.dispatch(increaseWildlingCount(card.wildling));
+                gameStore.dispatch(executeWesterosCard(card));
                 this.close();
             };
             this._height = 200;

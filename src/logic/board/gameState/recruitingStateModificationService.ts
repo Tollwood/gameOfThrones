@@ -16,7 +16,7 @@ export default class RecruitingStateModificationService {
     public static updateAreasAllowedToRecruit(areasAllowedToRecruit: AreaKey[], areaKey: AreaKey): AreaKey[] {
         let newAreasAllowedToRecruit = areasAllowedToRecruit.slice();
         let index = newAreasAllowedToRecruit.indexOf(areaKey);
-        newAreasAllowedToRecruit.slice(index, 1);
+        newAreasAllowedToRecruit.splice(index, 1);
         return newAreasAllowedToRecruit;
     }
 }

@@ -1,32 +1,40 @@
 import {GameStoreState} from './reducer';
 import PlayerSetup from '../playerSetup';
-import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
 import CombatResult from '../../march/combatResult';
+import {WesterosCard} from '../../cards/westerosCard';
 
 export enum TypeKeys {
     RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
 
-    INCREASE_WILDLINGCOUNT = 'INCREASE_WILDLINGCOUNT',
+    PLAY_WESTEROS_CARD = 'PLAY_WESTEROS_CARD',
+    EXECUTE_WESTEROS_CARD = 'EXECUTE_WESTEROS_CARD',
+
     RECRUIT_UNITS = 'RECRUIT_UNITS',
-    START_RECRUITING = 'START_RECRUITING',
-    RESTRICT_ORDER_TOKEN = 'RESTRICT_ORDER_TOKEN',
-    UPDATE_SUPPLY = 'UPDATE_SUPPLY',
-    CONSOLIDATE_ALL_POWER = 'CONSOLIDATE_ALL_POWER',
 
 
     PLACE_ORDER = 'PLACE_ORDER',
     SKIP_ORDER = 'SKIP_ORDER',
+    EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
     MOVE_UNITS = 'MOVE_UNITS',
     RESOLVE_FIGHT = 'RESOLVE_FIGHT',
-    EXECUTE_RAID_ORDER = 'EXECUTE_RAID_ORDER',
 
     OTHER_ACTION = '__any_other_action_type__'
+}
+
+export interface PlayWesterosCardAction {
+    type: TypeKeys.PLAY_WESTEROS_CARD;
+    card: WesterosCard;
+}
+
+export interface ExecuteWesterosCardAction {
+    type: TypeKeys.EXECUTE_WESTEROS_CARD;
+    card: WesterosCard;
 }
 
 export interface ResolveFightAction {
@@ -34,9 +42,6 @@ export interface ResolveFightAction {
     combatResult: CombatResult;
 }
 
-export interface ConsolidateAllPowerAction {
-    type: TypeKeys.CONSOLIDATE_ALL_POWER;
-}
 export interface ExecuteRaidOrderAction {
     type: TypeKeys.EXECUTE_RAID_ORDER;
     sourceAreaKey: AreaKey;
@@ -47,12 +52,14 @@ export interface SkipOrderAction {
     type: TypeKeys.SKIP_ORDER;
     areaKey: AreaKey;
 }
-export interface  PlaceOrderAction {
+
+export interface PlaceOrderAction {
     type: TypeKeys.PLACE_ORDER;
     areaKey: AreaKey;
     orderToken: OrderToken;
 }
-export interface  RecruitUnitsAction {
+
+export interface RecruitUnitsAction {
     type: TypeKeys.RECRUIT_UNITS;
     areaKey: AreaKey;
     units: UnitType[];
@@ -67,26 +74,9 @@ export interface MoveUnitsAction {
     establishControl: boolean;
 }
 
-export interface StartRecruitingAction {
-    type: TypeKeys.START_RECRUITING;
-}
-export interface UpdateSupplyAction {
-    type: TypeKeys.UPDATE_SUPPLY;
-}
-
-export interface RestrictOrderTokenTypesAction {
-    type: TypeKeys.RESTRICT_ORDER_TOKEN;
-    notAllowedTokens: OrderTokenType[];
-}
-
 export interface NewGameAction {
     type: TypeKeys.NEW_GAME;
     playerSetup: Array<PlayerSetup>;
-}
-
-export interface IncreaseWildlingCountAction {
-    type: TypeKeys.INCREASE_WILDLINGCOUNT;
-    by: number;
 }
 
 export interface LoadGameAction {
@@ -106,27 +96,29 @@ export type ActionTypes =
     | NewGameAction
     | LoadGameAction
     | ResetGameAction
-    | StartRecruitingAction
     | RecruitUnitsAction
     | MoveUnitsAction
     | ResolveFightAction
     | PlaceOrderAction
     | SkipOrderAction
     | ExecuteRaidOrderAction
-    | ConsolidateAllPowerAction
-    | IncreaseWildlingCountAction
-    | RestrictOrderTokenTypesAction
-    | UpdateSupplyAction
+    | ExecuteWesterosCardAction
+    | PlayWesterosCardAction
     | OtherAction;
 
+export const playWesterosCard = (card: WesterosCard): PlayWesterosCardAction => ({
+    type: TypeKeys.PLAY_WESTEROS_CARD,
+    card
+});
+
+export const executeWesterosCard = (card: WesterosCard): ExecuteWesterosCardAction => ({
+    type: TypeKeys.EXECUTE_WESTEROS_CARD,
+    card
+});
 
 export const resolveFight = (combatResult: CombatResult): ResolveFightAction => ({
     type: TypeKeys.RESOLVE_FIGHT,
     combatResult
-});
-
-export const consolidateAllPower = (): ConsolidateAllPowerAction => ({
-    type: TypeKeys.CONSOLIDATE_ALL_POWER
 });
 
 export const executeRaidOrder = (sourceAreaKey: AreaKey, targetAreaKey: AreaKey): ExecuteRaidOrderAction => ({
@@ -144,10 +136,6 @@ export const placeOrder = (areaKey: AreaKey, orderToken: OrderToken): PlaceOrder
     areaKey,
     orderToken
 });
-export const startRecruiting = (): StartRecruitingAction => ({
-    type: TypeKeys.START_RECRUITING,
-});
-
 
 export const moveUnits = (source: AreaKey, target: AreaKey, units: Unit[] = [], completeOrder: boolean = true, establishControl: boolean = false): MoveUnitsAction => ({
     type: TypeKeys.MOVE_UNITS,
@@ -162,19 +150,6 @@ export const recruitUnits = (areaKey: AreaKey, units: UnitType[] = []): RecruitU
     type: TypeKeys.RECRUIT_UNITS,
     areaKey,
     units
-});
-export const updateSupply = (): UpdateSupplyAction => ({
-    type: TypeKeys.UPDATE_SUPPLY,
-});
-
-export const resctrictOrderToken = (notAllowedTokens: OrderTokenType[]): RestrictOrderTokenTypesAction => ({
-    type: TypeKeys.RESTRICT_ORDER_TOKEN,
-    notAllowedTokens
-});
-
-export const increaseWildlingCount = (by: number): IncreaseWildlingCountAction => ({
-    type: TypeKeys.INCREASE_WILDLINGCOUNT,
-    by
 });
 
 export const resetGame = (): ResetGameAction => ({

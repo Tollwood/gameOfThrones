@@ -12,6 +12,7 @@ import {gameStore, GameStoreState} from '../../../src/logic/board/gameState/redu
 import {loadGame, nextPhase, nextPlayer} from '../../../src/logic/board/gameState/actions';
 import {TSMap} from 'typescript-map';
 import {Area} from '../../../src/logic/board/area';
+
 describe('GamePhaseService', () => {
 
     let gameState: GameState;
@@ -107,7 +108,7 @@ describe('GamePhaseService', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
-            storeGameState.gamePhase = GamePhase.PLANNING;
+            storeGameState.gamePhase = GamePhase.WESTEROS1;
             storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             expect(GamePhaseService.allOrderTokenPlaced()).toBeTruthy();
@@ -120,7 +121,7 @@ describe('GamePhaseService', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
-            storeGameState.gamePhase = GamePhase.PLANNING;
+            storeGameState.gamePhase = GamePhase.WESTEROS1;
             storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);
@@ -134,7 +135,7 @@ describe('GamePhaseService', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             let storeGameState = new GameStoreState();
-            storeGameState.gamePhase = GamePhase.PLANNING;
+            storeGameState.gamePhase = GamePhase.WESTEROS1;
             storeGameState.areas = areas;
             gameStore.dispatch(loadGame(storeGameState));
             GameRules.load(gameState);

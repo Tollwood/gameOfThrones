@@ -10,6 +10,7 @@ import RecruitingRenderer from '../ui/units/recruitingRenderer';
 import AiCalculator from '../logic/ai/aiCalculator';
 import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
 import Renderer from '../utils/renderer';
+import {WesterosCardRenderer} from '../ui/cards/westerosCardRenderer';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -22,6 +23,7 @@ export default class Game extends Phaser.State {
     private recruitingRenderer: RecruitingRenderer;
     private winningModal: WinningModal;
     private orderTokenMenuRenderer: OrderTokenMenuRenderer;
+    private westerosCardRenderer: WesterosCardRenderer;
 
     constructor() {
         super();
@@ -32,6 +34,7 @@ export default class Game extends Phaser.State {
         this.aiCalculator = new AiCalculator();
         this.recruitingRenderer = new RecruitingRenderer();
         this.orderTokenMenuRenderer = new OrderTokenMenuRenderer();
+        this.westerosCardRenderer = new WesterosCardRenderer();
     }
 
     public preload() {
@@ -39,6 +42,8 @@ export default class Game extends Phaser.State {
     }
 
     public create(): void {
+        this.game.input.enabled = true;
+        this.currentGameWidth = window.innerWidth;
         const renderer = new Renderer(this.game);
         AssetLoader.createAssets(this.game);
         BoardRenderer.renderBoard(this.game);
@@ -47,78 +52,20 @@ export default class Game extends Phaser.State {
         this.orderTokenRenderer.init(renderer);
         this.recruitingRenderer.init(renderer);
         this.powerTokenRenderer.init(this.game);
+        this.westerosCardRenderer.init(renderer);
         renderer.initGameLayers();
         this.orderTokenMenuRenderer.init(renderer);
         this.winningModal = new WinningModal(renderer);
-        this.game.input.enabled = true;
-        this.currentGameWidth = window.innerWidth;
         GameRules.newGame();
     }
 
     public update() {
         if (this.currentGameWidth !== window.innerWidth) {
-            // this.orderTokenMenuRenderer.renderOrderTokenInMenu(AssetLoader.getAreaTokens());
             this.currentGameWidth = window.innerWidth;
         }
+        // TODO render based on gameState
         this.topMenuRenderer.renderTopMenu(this.game);
-
-        // FIXME Reenable Westeros Cards
-        // if (GamePhaseService.isWesterosPhase(currentGamePhase)) {
-        //     let rerender = this.renderWesterosPhase(currentGamePhase, currentAiPlayer);
-        //    if (rerender) {
-        //        return;
-        //    }
-        // }
-
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
     }
-
-    /*  private renderWesterosPhase(currentGamePhase: GamePhase, currentAiPlayer: AiPlayer): boolean {
-
-     let card: WesterosCard;
-
-     switch (currentGamePhase) {
-     case GamePhase.WESTEROS1:
-     card = this.getWesterosCard(1);
-     break;
-     case GamePhase.WESTEROS2:
-     card = this.getWesterosCard(2);
-     break;
-     case GamePhase.WESTEROS3:
-     card = this.getWesterosCard(3);
-     break;
-     }
-
-     if (card.state === WesterosCardState.showCard) {
-     let modal = new WesterosCardModal(this.game, card);
-     modal.show();
-     card.state = WesterosCardState.displayCard;
-     }
-     if (card.state === WesterosCardState.played) {
-     return true;
-     }
-     }
-
-     private getWesterosCard(cardType: number) {
-     let card = GameRules.gameState.currentWesterosCard;
-
-     if (card == null) {
-     card = WesterosCardRules.getNextCard(cardType);
-     GameRules.gameState.currentWesterosCard = card;
-     }
-     else if (card !== null && card.state === WesterosCardState.executeCard) {
-     if (WesterosCardRules.stillPlayingWesterosCard()) {
-     return card;
-     }
-     else {
-     // GamePhaseService.switchToNextPhase();
-     GameRules.gameState.currentWesterosCard = null;
-     card.state = WesterosCardState.played;
-     return card;
-     }
-     }
-     GameRules.gameState.currentWesterosCard = card;
-     return card;
-     }*/
 }

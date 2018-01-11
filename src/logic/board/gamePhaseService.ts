@@ -19,7 +19,7 @@ export default class GamePhaseService {
                 ...state,
                 areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
                 players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
-                gamePhase: GamePhase.PLANNING,
+                gamePhase: GamePhase.WESTEROS1,
                 gameRound: state.gameRound + 1,
                 winningHouse: winningHouse,
                 currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
@@ -36,7 +36,7 @@ export default class GamePhaseService {
         };
     }
 
-    public static updateGamePhaseAfterRecruiting(state: GameStoreState, areaKey: AreaKey) {
+    public static updateGamePhaseAfterRecruiting(state: GameStoreState, areaKey?: AreaKey) {
         const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
         return {
             currentHouse: nextHouseToRecruit !== null ? nextHouseToRecruit : state.ironThroneSuccession[0],

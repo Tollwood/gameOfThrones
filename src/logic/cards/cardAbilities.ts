@@ -1,211 +1,148 @@
-import CombatResult from '../march/combatResult';
-import HouseCard from './houseCard';
-import {WesterosCard} from './westerosCard';
 import {OrderTokenType} from '../orderToken/orderTokenType';
-import {gameStore} from '../board/gameState/reducer';
-import {consolidateAllPower, resctrictOrderToken, startRecruiting, updateSupply} from '../board/gameState/actions';
+import {GameStoreState} from '../board/gameState/reducer';
+import PlayerStateModificationService from '../board/gameState/playerStateModificationService';
+import SupplyStateModificationService from '../board/gameState/supplyStateModificationService';
+import RecruitingStateModificationService from '../board/gameState/recruitingStateModificationService';
+import GamePhaseService from '../board/gamePhaseService';
+import CardFactory from './cardFactory';
 
 export default class CardAbilities {
-    public static getAllCardsBack(currentCard: HouseCard, combatResult?: CombatResult): CombatResult {
-        gameStore.getState().players
-            .filter((player) => {
-                return player.house === currentCard.house;
-            })
-            .map((player) => {
-                player.cards.map((card) => {
-                    card.played = false;
-                });
-            });
-        return combatResult;
+
+    public static shuffleCards(state: GameStoreState) {
+        let westerosCards1 = state.westerosCards1.slice();
+        let westerosCards2 = state.westerosCards2.slice();
+        let westerosCards3 = state.westerosCards3.slice();
+        if (state.currentWesterosCard.cardType === 1) {
+            CardFactory.shuffle(westerosCards1);
+        }
+        if (state.currentWesterosCard.cardType === 2) {
+            CardFactory.shuffle(westerosCards2);
+        }
+        if (state.currentWesterosCard.cardType === 3) {
+            CardFactory.shuffle(westerosCards3);
+        }
+        return {
+            ...state,
+            currentWesterosCard: null,
+            westerosCards1,
+            westerosCards2,
+            westerosCards3,
+
+        };
     }
 
-    public static defineEnemiesRetreat(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('defineEnemiesRetreat was called');
-        return combatResult;
+    public static supply(state: GameStoreState) {
+        return {
+            ...state,
+            currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state),
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1
+        };
     }
 
-    public static doubleDefenseToken(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        /* let defenderHouse = combatResult.defendingArea.controllingHouse;
-         let defenderCardHouse = combatResult.defendersCard.house;
-         if (defenderCardHouse === defenderHouse && combatResult.defendingArea.orderToken.isDefendToken()) {
-         combatResult.defenderStrength += combatResult.defendingArea.orderToken.value;
-
-         }*/
-        return combatResult;
+    public static recruit(state: GameStoreState) {
+        const stateWithUnitsAllowedToRecruit = {
+            ...state,
+            areasAllowedToRecruit: RecruitingStateModificationService.calculateAreasAllowedToRecruit(state),
+        };
+        return {
+            ...stateWithUnitsAllowedToRecruit,
+            ...GamePhaseService.updateGamePhaseAfterRecruiting(stateWithUnitsAllowedToRecruit),
+        };
     }
 
-    public static noLossesDuringFight(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('noLossesDuringFight was called');
-        return combatResult;
+    public static nothing(state: GameStoreState) {
+        return {
+            ...state,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1
+        };
     }
 
-    public static fightForStannisBaratheon(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        /*GameRules.gameState.players
-            .filter((player) => {
-                player.house === currentCard.house;
-            })
-            .map((player) => {
-                player.cards.filter((card) => {
-                    card.id === 12;
-                });
-            });*/
-        return combatResult;
-    }
-
-    public static navelPowerThroughSupport(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('navelPowerThroughSupport was called');
-        return combatResult;
-    }
-
-    public static dropAdditionalEnemiesCard(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('dropAdditionalEnemiesCard was called');
-        return combatResult;
-    }
-
-    public static demandForPower(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        /*
-         //switch House -> Player
-         let opponent: Player = combatResult.attackersCard.house === currentCard.house ? combatResult.defendersCard.house : combatResult.attackersCard.house;
-
-         if (GameRules.gameState.ironThroneSuccession.indexOf(currentCard.house) > GameRules.gameState.ironThroneSuccession.indexOf(opponent)) {
-
-         }
-         if (currentCard.house === combatResult.attackersCard.house) {
-         combatResult.attackerStrength += 1;
-         }
-         else {
-         combatResult.defenderStrength += 1;
-         }*/
-        return combatResult;
-    }
-
-    public static accolade(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        return combatResult;
-    }
-
-    public static removeEnemiesOrderTokenForSuccess(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('removeEnemiesOrderTokenForSuccess was called');
-        return combatResult;
-    }
-
-    public static denyEnemiesHouseCard(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('denyEnemiesHouseCard was called');
-        return combatResult;
-    }
-
-    public static powerForSuccess(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('powerForSuccess was called');
-        return combatResult;
-    }
-
-    public static strongAttackingShips(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('strongAttackingShips was called');
-        return combatResult;
-    }
-
-    public static greatDefender(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('greatDefender was called');
-        return combatResult;
-    }
-
-    public static fearfulnessEnemy(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('fearfulnessEnemy was called');
-        return combatResult;
-    }
-
-    public static lonlyFighter(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('lonlyFighter was called');
-        return combatResult;
-    }
-
-    public static replaceHousecard(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('replaceHousecard was called');
-        return combatResult;
-    }
-
-    public static agonyOfFootman(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('agonyOfFootman was called');
-        return combatResult;
-    }
-
-    public static longCombat(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('longCombat was called');
-        return combatResult;
-    }
-
-    public static beStrong(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('beStrong was called');
-        /*if (currentCard.house === combatResult.attackersCard.house) {
-         combatResult.attackerStrength += 1;
-         }
-         else {
-         combatResult.defenderStrength += 1;
-         }
-         */
-        return combatResult;
-    }
-
-    public static thwartInvasion(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('thwartInvasion was called');
-        return combatResult;
-    }
-
-    public static lostInfluence(currentCard: HouseCard, combatResult: CombatResult): CombatResult {
-        console.log('lostInfluence was called');
-        return combatResult;
-    }
-
-
-    public static shuffleCards(card: WesterosCard) {
-        console.log('shuffle');
-    }
-
-    public static supply(card?: WesterosCard) {
-        gameStore.dispatch(updateSupply());
-    }
-
-    public static recruit(card: WesterosCard) {
-        gameStore.dispatch(startRecruiting());
-    }
-
-    public static nothing(card: WesterosCard) {
-        // does nothing
-    }
-
-    public static invluence(card: WesterosCard) {
+    public static invluence(state: GameStoreState) {
         console.log('invluence');
+        return {
+            ...state,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1
+        };
     }
 
-    public static power(card: WesterosCard) {
-        gameStore.dispatch(consolidateAllPower());
+    public static power(state: GameStoreState) {
+        return {
+            ...state,
+            players: PlayerStateModificationService.consolidateAllPower(state),
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1,
+        };
     }
 
-    public static noDefenseOrders(card: WesterosCard) {
-        let restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
-        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
+    public static noDefenseOrders(state: GameStoreState) {
+        const restrictedTokenTypes = [OrderTokenType.defend_0, OrderTokenType.defend_1, OrderTokenType.defend_special];
+        const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
+            .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
+        return {
+            ...state,
+            currentlyAllowedTokenTypes,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1,
+        };
     }
 
-    public static noSpecialMarchOrder(card: WesterosCard) {
-        let restrictedTokenTypes = [OrderTokenType.march_special];
-        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
+    public static noSpecialMarchOrder(state: GameStoreState) {
+        const restrictedTokenTypes = [OrderTokenType.march_special];
+        const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
+            .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
+        return {
+            ...state,
+            currentlyAllowedTokenTypes,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1,
+        };
     }
 
-    public static noRaidOrders(card: WesterosCard) {
-        let restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
-        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
+    public static noRaidOrders(state: GameStoreState) {
+        const restrictedTokenTypes = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];
+        const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
+            .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
+        return {
+            ...state,
+            currentlyAllowedTokenTypes,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1,
+        };
     }
 
-    public static noConsolidatePowerOrders(card: WesterosCard) {
-        let restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
-        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
+    public static noConsolidatePowerOrders(state: GameStoreState) {
+        const restrictedTokenTypes = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
+        const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
+            .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
+        return {
+            ...state,
+            currentlyAllowedTokenTypes,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1,
+        };
     }
 
-    public static noSupportOrders(card: WesterosCard) {
-        let restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
-        gameStore.dispatch(resctrictOrderToken(restrictedTokenTypes));
+    public static noSupportOrders(state: GameStoreState) {
+        const restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
+        const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
+            .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
+        return {
+            ...state,
+            currentlyAllowedTokenTypes,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1
+        };
     }
 
-    public static wildlingAttack(card: WesterosCard) {
+    public static wildlingAttack(state: GameStoreState): GameStoreState {
         console.log('wildlingAttack');
+        return {
+            ...state,
+            currentWesterosCard: null,
+            gamePhase: state.gamePhase + 1
+        };
     }
 }

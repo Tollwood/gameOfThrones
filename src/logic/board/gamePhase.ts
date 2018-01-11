@@ -1,27 +1,27 @@
 enum GamePhase {
-    //  WESTEROS1,
-    //  WESTEROS2,
-    //  WESTEROS3,
+    WESTEROS1,
+    WESTEROS2,
+    WESTEROS3,
     PLANNING,
     ACTION_RAID,
     ACTION_MARCH,
     ACTION_CLEANUP
 }
 
-let ACTION_PHASES = new Array(GamePhase.ACTION_RAID,
+const ACTION_PHASES = new Array(GamePhase.ACTION_RAID,
     GamePhase.ACTION_MARCH,
     GamePhase.ACTION_CLEANUP);
 
 
-let WESTEROS_PHASES = new Array(
-    /*GamePhase.WESTEROS1,
+const WESTEROS_PHASES = new Array(
+    GamePhase.WESTEROS1,
     GamePhase.WESTEROS2,
-     GamePhase.WESTEROS3*/);
+    GamePhase.WESTEROS3);
 
-let ALL_PHASES = new Array(
-    /*GamePhase.WESTEROS1,
-     GamePhase.WESTEROS2,
-     GamePhase.WESTEROS3*/
+const ALL_PHASES = new Array(
+    GamePhase.WESTEROS1,
+    GamePhase.WESTEROS2,
+    GamePhase.WESTEROS3,
     GamePhase.PLANNING,
     GamePhase.ACTION_RAID,
     GamePhase.ACTION_MARCH,

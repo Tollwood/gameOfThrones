@@ -1,4 +1,5 @@
 import CardFunction from './cardFuncttion';
+
 export class WesterosCard {
 
     private _id: number;
@@ -8,7 +9,6 @@ export class WesterosCard {
     private _cardType: number;
     private _wildling: number;
     private _options: Array<CardFunction>;
-    private _state: WesterosCardState;
     private _selectedFunction: CardFunction;
 
     constructor(id: number, title: string, description: string, artwork: string, cardType: number, wildling: number, options: Array<CardFunction>) {
@@ -19,7 +19,6 @@ export class WesterosCard {
         this._cardType = cardType;
         this._wildling = wildling;
         this._options = options;
-        this._state = WesterosCardState.showCard;
     }
 
     get options(): Array<CardFunction> {
@@ -50,14 +49,6 @@ export class WesterosCard {
         return this._id;
     }
 
-    get state(): WesterosCardState {
-        return this._state;
-    }
-
-    set state(value: WesterosCardState) {
-        this._state = value;
-    }
-
     get selectedFunction(): CardFunction {
         return this._selectedFunction;
     }
@@ -67,10 +58,3 @@ export class WesterosCard {
     }
 }
 
-
-export enum WesterosCardState {
-    showCard,
-    displayCard,
-    executeCard,
-    played
-}

@@ -1,7 +1,6 @@
 import {createStore, Store} from 'redux';
 import {ActionTypes, TypeKeys} from './actions';
 import {GamePhase} from '../gamePhase';
-import GameRules from '../gameRules/gameRules';
 import {House} from '../house';
 import VictoryRules from '../gameRules/victoryRules';
 import Player from '../player';
@@ -9,7 +8,6 @@ import SupplyStateModificationService from './supplyStateModificationService';
 import CardFactory from '../../cards/cardFactory';
 import {AreaInitiator} from '../areaInitiator';
 import AiPlayer from '../../ai/aiPlayer';
-import GameState from './GameState';
 import {TSMap} from 'typescript-map';
 import GamePhaseService from '../gamePhaseService';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
@@ -19,6 +17,8 @@ import {AreaKey} from '../areaKey';
 import AreaModificationService from './areaStateModificationService';
 import StateSelectorService from '../gameRules/stateSelectorService';
 import PlayerStateModificationService from './playerStateModificationService';
+import {WesterosCard} from '../../cards/westerosCard';
+import CardAbilities from '../../cards/cardAbilities';
 
 class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -35,7 +35,12 @@ class GameStoreState {
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
     areasAllowedToRecruit?: AreaKey[];
+    currentWesterosCard?: WesterosCard;
+    westerosCards1?: WesterosCard[];
+    westerosCards2?: WesterosCard[];
+    westerosCards3?: WesterosCard[];
 }
+
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
 const initialFiefdom = [House.greyjoy, House.tyrell, House.martell, House.stark, House.baratheon, House.greyjoy];
@@ -44,7 +49,7 @@ const INITIAL_POWER_TOKEN: number = 5;
 const initialState: GameStoreState = {
     areas: null,
     gameRound: 1,
-    gamePhase: GamePhase.PLANNING,
+    gamePhase: GamePhase.WESTEROS1,
     winningHouse: null,
     fiefdom: initialFiefdom,
     kingscourt: initialKingscourt,
@@ -54,7 +59,11 @@ const initialState: GameStoreState = {
     localPlayersHouse: House.stark,
     currentHouse: null,
     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
-    areasAllowedToRecruit: []
+    areasAllowedToRecruit: [],
+    currentWesterosCard: null,
+    westerosCards1: [],
+    westerosCards2: [],
+    westerosCards3: []
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -73,19 +82,17 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                     players.push(new Player(config.house, INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
                 }
             });
-            const gameState = new GameState();
-            gameState.westerosCards1 = CardFactory.getWesterosCards(1);
-            gameState.westerosCards2 = CardFactory.getWesterosCards(2);
-            gameState.westerosCards3 = CardFactory.getWesterosCards(3);
 
             areas = AreaInitiator.getInitalState(players.map(player => player.house));
-            GameRules.load(gameState);
             newState = {
                 ...initialState,
                 areas,
                 players,
                 currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(initialState),
-                currentlyAllowedSupply: SupplyStateModificationService.updateSupply({players, areas})
+                currentlyAllowedSupply: SupplyStateModificationService.updateSupply({players, areas}),
+                westerosCards1: CardFactory.getWesterosCards(1),
+                westerosCards2: CardFactory.getWesterosCards(2),
+                westerosCards3: CardFactory.getWesterosCards(3),
             };
             break;
         case TypeKeys.RESET_GAME:
@@ -95,39 +102,13 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
             newState = {...action.state};
             break;
 
-        // WildlingCard Actions
-        case TypeKeys.INCREASE_WILDLINGCOUNT:
-            let newWildlingCount: number;
-            if (state.wildlingsCount + action.by >= 12) {
-                newWildlingCount = 12;
-            } else {
-                newWildlingCount = state.wildlingsCount += action.by;
-            }
-            newState = {...state, wildlingsCount: newWildlingCount};
-            break;
-        case TypeKeys.RESTRICT_ORDER_TOKEN:
-            const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes.filter(function (orderToken) {
-                return action.notAllowedTokens.indexOf(orderToken) === -1;
-            });
-            newState = {...state, currentlyAllowedTokenTypes};
-            break;
-        case TypeKeys.UPDATE_SUPPLY:
-            newState = {...state, currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state)};
-            break;
-        case TypeKeys.CONSOLIDATE_ALL_POWER:
-            newState = {...state, players: PlayerStateModificationService.consolidateAllPower(state)};
-            break;
-        case TypeKeys.START_RECRUITING:
-            newState = {
-                ...state,
-                areasAllowedToRecruit: RecruitingStateModificationService.calculateAreasAllowedToRecruit(state)
-            };
-            break;
         case TypeKeys.RECRUIT_UNITS:
+            const areasAllowedToRecruit = RecruitingStateModificationService.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey);
             newState = {
                 ...state,
                 areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
-                areasAllowedToRecruit: RecruitingStateModificationService.updateAreasAllowedToRecruit(state.areasAllowedToRecruit, action.areaKey),
+                areasAllowedToRecruit: areasAllowedToRecruit,
+                currentWesterosCard: areasAllowedToRecruit.length > 0 ? state.currentWesterosCard : null,
                 ...GamePhaseService.updateGamePhaseAfterRecruiting(state, action.areaKey)
             };
             break;
@@ -157,6 +138,22 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey)
             };
             break;
+        case TypeKeys.PLAY_WESTEROS_CARD:
+            newState = {...state, currentWesterosCard: action.card};
+            break;
+
+        case TypeKeys.EXECUTE_WESTEROS_CARD:
+            let newWildlingCount: number;
+            if (state.wildlingsCount + action.card.wildling >= 12) {
+                newWildlingCount = 12;
+            } else {
+                newWildlingCount = state.wildlingsCount += action.card.wildling;
+            }
+            newState = {
+                ...CardAbilities[action.card.selectedFunction.functionName](state),
+                wildlingsCount: newWildlingCount
+            };
+            break;
         case TypeKeys.MOVE_UNITS:
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             newState = {
@@ -164,18 +161,18 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
                 players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
                 ...GamePhaseService.getNextPhaseAndPlayer(state, action.source),
-                winningHouse: winningHouse,
+                winningHouse,
             };
             break;
         case TypeKeys.RESOLVE_FIGHT:
+            // TODO verify winning conditions
             const combatResult = action.combatResult;
             let loosingArea = combatResult.looser === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
             let winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
             newState = {
                 ...state,
-                areas: AreaModificationService.updateAfterFight(state.areas.values(), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units)
+                areas: AreaModificationService.updateAfterFight(state.areas.values(), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units),
             };
-
             break;
         default:
             newState = state;

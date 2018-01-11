@@ -1,29 +1,32 @@
 import {WesterosCard} from '../../cards/westerosCard';
-import GameRules from './gameRules';
-import {gameStore} from '../gameState/reducer';
+import {gameStore, GameStoreState} from '../gameState/reducer';
+import {GamePhase} from '../gamePhase';
+import {playWesterosCard} from '../gameState/actions';
 
 
 export default class WesterosCardRules {
 
-    public static getNextCard(cardType: number): WesterosCard {
+    public static getNextCard(state: GameStoreState): WesterosCard {
         let cards: WesterosCard[];
-        switch (cardType) {
-            case 1:
-                cards = GameRules.gameState.westerosCards1;
+        switch (state.gamePhase) {
+            case GamePhase.WESTEROS1:
+                cards = state.westerosCards1;
                 break;
-            case 2:
-                cards = GameRules.gameState.westerosCards2;
+            case GamePhase.WESTEROS2:
+                cards = state.westerosCards2;
                 break;
-            case 3:
-                cards = GameRules.gameState.westerosCards3;
+            case GamePhase.WESTEROS3:
+                cards = state.westerosCards3;
                 break;
         }
 
-        return this.moveCardToEndOfTheStack(cards);
+        const cardToPlay = this.moveCardToEndOfTheStack(cards);
+        gameStore.dispatch(playWesterosCard(cardToPlay));
+        return cardToPlay;
     }
 
     public static stillPlayingWesterosCard() {
-        let gameState = GameRules.gameState;
+        const gameState = gameStore.getState();
         switch (gameState.currentWesterosCard.selectedFunction.functionName) {
             case 'recruit':
                 let areasAllowedToRecruit = gameStore.getState().areasAllowedToRecruit;
