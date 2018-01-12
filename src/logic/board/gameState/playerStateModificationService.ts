@@ -2,9 +2,12 @@ import {AreaKey} from '../areaKey';
 import Player from '../player';
 import {House} from '../house';
 import {GameStoreState} from './gameStoreState';
+import PlayerSetup from '../playerSetup';
+import CardFactory from '../../cards/cardFactory';
+import AiPlayer from '../../ai/aiPlayer';
 
 export default class PlayerStateModificationService {
-
+    private static INITIAL_POWER_TOKEN: number = 5;
     public static raidPowerToken(state: GameStoreState, source: AreaKey, target: AreaKey): Player[] {
 
         const targetArea = state.areas.get(target);
@@ -72,5 +75,18 @@ export default class PlayerStateModificationService {
             updatedPlayers[indexOfPlayer] = newPlayer;
         });
         return updatedPlayers;
+    }
+
+    public static initPlayers(playerSetup: Array<PlayerSetup>): Player[] {
+        const players: Player[] = [];
+        playerSetup.forEach((config) => {
+            if (config.ai) {
+                players.push(new AiPlayer(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+            }
+            else {
+                players.push(new Player(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+            }
+        });
+        return players;
     }
 }

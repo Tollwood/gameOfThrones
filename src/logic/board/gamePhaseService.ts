@@ -1,6 +1,5 @@
 import {ALL_PHASES, GamePhase} from './gamePhase';
 import {House} from './house';
-import {INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from './gameState/reducer';
 import {AreaKey} from './areaKey';
 import {Area} from './area';
 import VictoryRules from './gameRules/victoryRules';
@@ -8,6 +7,7 @@ import PlayerStateModificationService from './gameState/playerStateModificationS
 import AreaModificationService from './gameState/areaStateModificationService';
 import StateSelectorService from './gameRules/stateSelectorService';
 import {GameStoreState} from './gameState/gameStoreState';
+import GameStateModificationService from './gameState/gameStateModificationService';
 
 export default class GamePhaseService {
 
@@ -24,7 +24,7 @@ export default class GamePhaseService {
                 gameRound: state.gameRound + 1,
                 winningHouse: winningHouse,
                 currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(state),
-                currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
+                currentlyAllowedTokenTypes: GameStateModificationService.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
             };
         }
         if (state.gamePhase === nextGamePhase) {

@@ -8,7 +8,6 @@ import {WesterosCard} from '../../cards/westerosCard';
 import {GameStoreState} from './gameStoreState';
 
 export enum TypeKeys {
-    RESET_GAME = 'RESET_GAME',
     LOAD_GAME = 'LOAD_GAME',
     NEW_GAME = 'NEW_GAME',
 
@@ -16,7 +15,6 @@ export enum TypeKeys {
     EXECUTE_WESTEROS_CARD = 'EXECUTE_WESTEROS_CARD',
 
     RECRUIT_UNITS = 'RECRUIT_UNITS',
-
 
     PLACE_ORDER = 'PLACE_ORDER',
     SKIP_ORDER = 'SKIP_ORDER',
@@ -84,10 +82,6 @@ export interface LoadGameAction {
     state: GameStoreState;
 }
 
-export interface ResetGameAction {
-    type: TypeKeys.RESET_GAME;
-}
-
 export interface OtherAction {
     type: TypeKeys.OTHER_ACTION;
 }
@@ -95,7 +89,6 @@ export interface OtherAction {
 export type ActionTypes =
     | NewGameAction
     | LoadGameAction
-    | ResetGameAction
     | RecruitUnitsAction
     | MoveUnitsAction
     | ResolveFightAction
@@ -150,10 +143,6 @@ export const recruitUnits = (areaKey: AreaKey, units: UnitType[] = []): RecruitU
     type: TypeKeys.RECRUIT_UNITS,
     areaKey,
     units
-});
-
-export const resetGame = (): ResetGameAction => ({
-    type: TypeKeys.RESET_GAME
 });
 
 export const newGame = (playerSetup: PlayerSetup[]): NewGameAction => ({
