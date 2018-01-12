@@ -28,7 +28,7 @@ export default class WesterosCardModal extends Modal {
             if (card.wildling > 0) {
                 this.addImage('wildlingsSymbol', -90, 130);
             }
-            this.addImage('westeros' + card.cardType, -30, 135);
+            this.addImage(card.gamePhase, -30, 135);
         } else {
             let onCloseFn = () => {
                 card.selectedFunction = card.options[0];
@@ -42,7 +42,7 @@ export default class WesterosCardModal extends Modal {
             if (card.wildling > 0) {
                 this.addImage('wildlingsSymbol', -40, 130);
             }
-            this.addImage('westeros' + card.cardType, 20, 135);
+            this.addImage(card.gamePhase, 20, 135);
             this.closeOnModalClick(onCloseFn);
         }
 

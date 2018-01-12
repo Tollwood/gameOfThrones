@@ -9,26 +9,15 @@ import CardFactory from './cardFactory';
 export default class CardAbilities {
 
     public static shuffleCards(state: GameStoreState) {
-        let westerosCards1 = state.westerosCards1.slice();
-        let westerosCards2 = state.westerosCards2.slice();
-        let westerosCards3 = state.westerosCards3.slice();
-        if (state.currentWesterosCard.cardType === 1) {
-            CardFactory.shuffle(westerosCards1);
-        }
-        if (state.currentWesterosCard.cardType === 2) {
-            CardFactory.shuffle(westerosCards2);
-        }
-        if (state.currentWesterosCard.cardType === 3) {
-            CardFactory.shuffle(westerosCards3);
-        }
-        return {
+        let cards = state.westerosCards.get(state.currentWesterosCard.gamePhase).slice();
+        CardFactory.shuffle(cards);
+
+        const newState = {
             ...state,
             currentWesterosCard: null,
-            westerosCards1,
-            westerosCards2,
-            westerosCards3,
-
         };
+        newState.westerosCards.set(state.currentWesterosCard.gamePhase, cards);
+        return newState;
     }
 
     public static supply(state: GameStoreState) {
@@ -36,7 +25,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedSupply: SupplyStateModificationService.updateSupply(state),
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -55,7 +44,7 @@ export default class CardAbilities {
         return {
             ...state,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -64,7 +53,7 @@ export default class CardAbilities {
         return {
             ...state,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -73,7 +62,7 @@ export default class CardAbilities {
             ...state,
             players: PlayerStateModificationService.consolidateAllPower(state),
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1,
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -85,7 +74,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedTokenTypes,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1,
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -97,7 +86,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedTokenTypes,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1,
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -109,7 +98,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedTokenTypes,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1,
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -121,7 +110,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedTokenTypes,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1,
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -133,7 +122,7 @@ export default class CardAbilities {
             ...state,
             currentlyAllowedTokenTypes,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -142,7 +131,7 @@ export default class CardAbilities {
         return {
             ...state,
             currentWesterosCard: null,
-            gamePhase: state.gamePhase + 1
+            gamePhase: GamePhaseService.getNextGamePhase(state.gamePhase),
         };
     }
 }

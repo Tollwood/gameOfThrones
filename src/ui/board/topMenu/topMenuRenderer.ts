@@ -59,7 +59,6 @@ export default class TopMenuRenderer {
     }
 
     private updateGamePhase(): void {
-        const gamePhase = GamePhase[gameStore.getState().gamePhase];
-        this.currentPhase.text = gamePhase;
+        this.currentPhase.text = gameStore.getState().gamePhase;
     }
 }

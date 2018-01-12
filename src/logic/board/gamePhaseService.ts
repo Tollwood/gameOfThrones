@@ -40,8 +40,13 @@ export default class GamePhaseService {
         const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
         return {
             currentHouse: nextHouseToRecruit !== null ? nextHouseToRecruit : state.ironThroneSuccession[0],
-            gamePhase: nextHouseToRecruit !== null ? state.gamePhase : state.gamePhase + 1
+            gamePhase: nextHouseToRecruit !== null ? state.gamePhase : ALL_PHASES[ALL_PHASES.lastIndexOf(state.gamePhase) + 1],
         };
+    }
+
+    public static getNextGamePhase(currentGamePhase: GamePhase): GamePhase {
+        const currentIndex = ALL_PHASES.lastIndexOf(currentGamePhase);
+        return ALL_PHASES.length === currentIndex ? ALL_PHASES[0] : ALL_PHASES[currentIndex + 1];
     }
 
     private static isStillIn(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey, house?: House) {
@@ -54,21 +59,15 @@ export default class GamePhaseService {
                 return !this.allMarchOrdersRevealed(areas, lastModifiedSourceAreaKey, house);
             case GamePhase.ACTION_CLEANUP:
                 return areas.filter((area) => {
-                        return area.orderToken;
-                    }).length > 0;
+                    return area.orderToken;
+                }).length > 0;
         }
     }
 
     private static allMarchOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
         return areas.filter((area) => {
-                return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
-            }).length === 0;
-    }
-
-    private static allRaidOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
-        return areas.filter((area) => {
-                return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
-            }).length === 0;
+            return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isMoveToken() && (house === undefined || house === area.controllingHouse);
+        }).length === 0;
     }
 
     private static nextHouse(ironThroneSuccession: House[], house: House): House {
@@ -77,11 +76,10 @@ export default class GamePhaseService {
         return ironThroneSuccession[nextIndex];
     }
 
-    private static isPlanningPhaseComplete(areas: Area[], areaKey?: AreaKey) {
+    private static allRaidOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
         return areas.filter((area) => {
-                return this.isAreaWithUnitsAndToken(area) || this.isAreaWithoutUnits(area) || areaKey === area.key;
-            }).length === areas.length;
-
+            return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
+        }).length === 0;
     }
 
     private static isAreaWithUnitsAndToken(area): boolean {
@@ -122,13 +120,19 @@ export default class GamePhaseService {
         return areasAllowedToRecruit.length > 0;
     }
 
+    private static isPlanningPhaseComplete(areas: Area[], areaKey?: AreaKey) {
+        return areas.filter((area) => {
+            return this.isAreaWithUnitsAndToken(area) || this.isAreaWithoutUnits(area) || areaKey === area.key;
+        }).length === areas.length;
+
+    }
+
     private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
 
         if (this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey)) {
             return gamePhase;
         }
-        const nextGamePhase = ALL_PHASES.length === gamePhase ? gamePhase[0] : gamePhase + 1;
-        return this.getNextGamePhaseWithPendingActions(areas, nextGamePhase, lastModifiedSourceAreaKey);
+        return this.getNextGamePhaseWithPendingActions(areas, this.getNextGamePhase(gamePhase), lastModifiedSourceAreaKey);
     }
 
     private static getNextHouseWithPendingActions(ironThroneSuccession: House[], areas: Area[], gamePhase: GamePhase, lastSourceAreaKey: AreaKey, house: House) {

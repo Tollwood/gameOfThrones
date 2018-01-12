@@ -36,9 +36,7 @@ class GameStoreState {
     currentlyAllowedSupply?: TSMap<House, number>;
     areasAllowedToRecruit?: AreaKey[];
     currentWesterosCard?: WesterosCard;
-    westerosCards1?: WesterosCard[];
-    westerosCards2?: WesterosCard[];
-    westerosCards3?: WesterosCard[];
+    westerosCards?: TSMap<GamePhase, WesterosCard[]>;
 }
 
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
@@ -61,9 +59,7 @@ const initialState: GameStoreState = {
     currentlyAllowedTokenTypes: INITIALLY_ALLOWED_ORDER_TOKEN_TYPES,
     areasAllowedToRecruit: [],
     currentWesterosCard: null,
-    westerosCards1: [],
-    westerosCards2: [],
-    westerosCards3: []
+    westerosCards: new TSMap<GamePhase, WesterosCard[]>(),
 };
 
 const gameStateReducer = (state: GameStoreState = initialState, action: ActionTypes): GameStoreState => {
@@ -90,9 +86,7 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
                 players,
                 currentHouse: StateSelectorService.getFirstFromIronThroneSuccession(initialState),
                 currentlyAllowedSupply: SupplyStateModificationService.updateSupply({players, areas}),
-                westerosCards1: CardFactory.getWesterosCards(1),
-                westerosCards2: CardFactory.getWesterosCards(2),
-                westerosCards3: CardFactory.getWesterosCards(3),
+                westerosCards: CardFactory.getWesterosCards(),
             };
             break;
         case TypeKeys.RESET_GAME:

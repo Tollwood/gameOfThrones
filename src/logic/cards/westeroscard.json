@@ -4,7 +4,7 @@
     "title": "Der Winter naht",
     "description": "Diesen Stapel komplett mischen. Dann eine neue Karte ziehen und ausführen.",
     "artwork": "winterIsComming",
-    "cardType": 1,
+    "gamePhase": "WESTEROS1",
     "wildling": 0,
     "options": [
       {
@@ -18,7 +18,7 @@
     "title": "Ein Thron aus Schwertern",
     "description": "Der Spieler mit dem Eisernen Thron wählt eine Option:",
     "artwork": "aThroneMadeOfSwords",
-    "cardType": 1,
+    "gamePhase": "WESTEROS1",
     "wildling": 1,
     "options": [
       {
@@ -40,7 +40,7 @@
     "title": "Versorgung",
     "description": "Versorgungsleiste aktualisieren. Armeen entsprechend anpassen.",
     "artwork": "supply",
-    "cardType": 1,
+    "gamePhase": "WESTEROS1",
     "wildling": 0,
     "options": [
       {
@@ -54,7 +54,7 @@
     "title": "Rekrutierung",
     "description": "Neue Einheiten an Burgen und Festungen rekrutieren.",
     "artwork": "recruit",
-    "cardType": 1,
+    "gamePhase": "WESTEROS1",
     "wildling": 0,
     "options": [
       {
@@ -68,7 +68,7 @@
     "title": "Die letzen Tage des Sommers",
     "description": "Nichts passiert",
     "artwork": "lastDaysOfSummer",
-    "cardType": 1,
+    "gamePhase": "WESTEROS1",
     "wildling": 1,
     "options": [
       {
@@ -82,7 +82,7 @@
     "title": "Dunkle Schwingen, Dunkle Worte",
     "description": "Der Spieler mit dem Botenraben whält eine Option:",
     "artwork": "darkWingsDarkWords",
-    "cardType": 2,
+    "gamePhase": "WESTEROS2",
     "wildling": 1,
     "options": [
       {
@@ -104,7 +104,7 @@
     "title": "Die letzen Tage des Sommers",
     "description": "Nichts passiert",
     "artwork": "lastDaysOfSummer",
-    "cardType": 1,
+    "gamePhase": "WESTEROS2",
     "wildling": 2,
     "options": [
       {
@@ -118,7 +118,7 @@
     "title": "Königsfehde",
     "description": "Um Positionen auf den Einflussleisten bieten.",
     "artwork": "royalFeud",
-    "cardType": 2,
+    "gamePhase": "WESTEROS2",
     "wildling": 0,
     "options": [
       {
@@ -132,7 +132,7 @@
     "title": "Spiel der Throne",
     "description": "Jeder Spieler erhält je einen Machtmarker pro Machtsymbol in eigenen Gebieten und pro eigenem Hafen mit Schiff",
     "artwork": "gameOfThrones",
-    "cardType": 2,
+    "gamePhase": "WESTEROS2",
     "wildling": 0,
     "options": [
       {
@@ -146,7 +146,7 @@
     "title": "Der Winter naht",
     "description": "Diesen Stapel komplett mischen. Dann eine neue Karte ziehen und ausführen.",
     "artwork": "winterIsComming",
-    "cardType": 2,
+    "gamePhase": "WESTEROS2",
     "wildling": 0,
     "options": [
       {
@@ -160,7 +160,7 @@
     "title": "Lasst die Schwerter sprechen",
     "description": "Der Spieler mit der Valyrischer-Stahl-Klinge wählt eine Option:",
     "artwork": "letTheSwordSpeak",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 0,
     "options": [
       {
@@ -182,7 +182,7 @@
     "title": "Stürmische See",
     "description": "In der Planungsphase können keine Überfallbefehle erteilt werden.",
     "artwork": "stormySea",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 1,
     "options": [
       {
@@ -196,7 +196,7 @@
     "title": "Ein Fest für Krähen",
     "description": "In der Planungsphase können keine Machtzuwachsbefehle erteilt werden.",
     "artwork": "feastOfCrows",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 1,
     "options": [
       {
@@ -210,7 +210,7 @@
     "title": "Herbstregen",
     "description": "In der Planungsphase können keine Marschbefehle mit Bonus +1 erteilt werden.",
     "artwork": "autumnrain",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 1,
     "options": [
       {
@@ -225,7 +225,7 @@
     "title": "Wildlingsangriff",
     "description": "Die Wildlinge greifen Westeros an.",
     "artwork": "wildlingsattack",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 0,
     "options": [
       {
@@ -240,7 +240,7 @@
     "title": "Lügen und Intriegen",
     "description": "In dieser Planungsphase können keine Unterstützungsbefehle erteilt werden.",
     "artwork": "liesAndIntrigue",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 1,
     "options": [
       {
@@ -255,7 +255,7 @@
     "title": "Sturm der Schwerter",
     "description": "In dieser Planungsphase können keine Verteidigungsbefehle erteilt werden.",
     "artwork": "letTheSwordSpeak",
-    "cardType": 3,
+    "gamePhase": "WESTEROS3",
     "wildling": 1,
     "options": [
       {

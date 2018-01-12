@@ -1,4 +1,5 @@
 import CardFunction from './cardFuncttion';
+import {GamePhase} from '../board/gamePhase';
 
 export class WesterosCard {
 
@@ -6,20 +7,22 @@ export class WesterosCard {
     private _title: string;
     private _description: string;
     private _artwork: string;
-    private _cardType: number;
-    private _wildling: number;
-    private _options: Array<CardFunction>;
-    private _selectedFunction: CardFunction;
 
-    constructor(id: number, title: string, description: string, artwork: string, cardType: number, wildling: number, options: Array<CardFunction>) {
+    constructor(id: number, title: string, description: string, artwork: string, gamePhase: GamePhase, wildling: number, options: Array<CardFunction>) {
         this._id = id;
         this._title = title;
         this._description = description;
         this._artwork = artwork;
-        this._cardType = cardType;
+        this._gamePhase = gamePhase;
         this._wildling = wildling;
         this._options = options;
     }
+
+    private _wildling: number;
+    private _options: Array<CardFunction>;
+    private _selectedFunction: CardFunction;
+
+    private _gamePhase: GamePhase;
 
     get options(): Array<CardFunction> {
         return this._options;
@@ -29,8 +32,8 @@ export class WesterosCard {
         return this._wildling;
     }
 
-    get cardType(): number {
-        return this._cardType;
+    get gamePhase(): GamePhase {
+        return this._gamePhase;
     }
 
     get artwork(): string {

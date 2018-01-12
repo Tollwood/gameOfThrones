@@ -5,6 +5,9 @@ import * as westerosCardData from './westeroscard.json';
 import HouseCard from './houseCard';
 import {WesterosCard} from './westerosCard';
 import CardFunction from './cardFuncttion';
+import {TSMap} from 'typescript-map';
+import {GamePhase} from '../board/gamePhase';
+
 export default class CardFactory {
 
     public static getHouseCards(house: House): Array<HouseCard> {
@@ -20,25 +23,18 @@ export default class CardFactory {
 
     }
 
-    public static getWesterosCards(cardType: number): Array<WesterosCard> {
-        let cards = new Array<WesterosCard>();
+    public static getWesterosCards(): TSMap<GamePhase, WesterosCard[]> {
+        const cards = new TSMap<GamePhase, WesterosCard[]>();
+        cards.set(GamePhase.WESTEROS1, []);
+        cards.set(GamePhase.WESTEROS2, []);
+        cards.set(GamePhase.WESTEROS3, []);
 
         (<any>westerosCardData).forEach((jsonCard) => {
-            let type = jsonCard.cardType;
-            if (cardType === type) {
-                let count = westerosCards[cardType - 1].filter((cardId) => {
-                    return cardId === jsonCard.id;
-                }).length;
-                for (let i = 0; i < count; i++) {
-                    cards.push(this.parseWesterosCards(jsonCard));
-                }
-            }
-        });
-        cards.filter((card) => {
-            return card.cardType === cardType;
+            const gamePhase: GamePhase = jsonCard.gamePhase;
+            cards.get(gamePhase).push(this.parseWesterosCards(jsonCard));
         });
 
-        this.shuffle(cards);
+        cards.forEach(cards => this.shuffle(cards));
         return cards;
 
     }
@@ -60,7 +56,7 @@ export default class CardFactory {
         json.options.forEach((option) => {
             cardFunctions.push(new CardFunction(option.functionName, option.description));
         });
-        return new WesterosCard(json.id, json.title, json.description, json.artwork, json.cardType, json.wildling, cardFunctions);
+        return new WesterosCard(json.id, json.title, json.description, json.artwork, json.gamePhase, json.wildling, cardFunctions);
     }
 
 }

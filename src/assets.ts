@@ -386,30 +386,45 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/westerosCard/supply.png'); };
     }
-    export class ImagesWesterosCardWesteros1 {
-        static getName(): string { return 'westeros1'; };
 
-        static getPNG(): string { return require('assets/images/westerosCard/westeros1.png'); };
+    export class ImagesWesterosCardWESTEROS1 {
+        static getName(): string {
+            return 'WESTEROS1';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/westerosCard/WESTEROS1.png');
+        };
     }
     export class ImagesWesterosCardWesteros1Back {
         static getName(): string { return 'Westeros1Back'; };
 
         static getPNG(): string { return require('assets/images/westerosCard/Westeros1Back.png'); };
     }
-    export class ImagesWesterosCardWesteros2 {
-        static getName(): string { return 'westeros2'; };
 
-        static getPNG(): string { return require('assets/images/westerosCard/westeros2.png'); };
+    export class ImagesWesterosCardWESTEROS2 {
+        static getName(): string {
+            return 'WESTEROS2';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/westerosCard/WESTEROS2.png');
+        };
     }
     export class ImagesWesterosCardWesteros2Back {
         static getName(): string { return 'Westeros2Back'; };
 
         static getPNG(): string { return require('assets/images/westerosCard/Westeros2Back.png'); };
     }
-    export class ImagesWesterosCardWesteros3 {
-        static getName(): string { return 'westeros3'; };
 
-        static getPNG(): string { return require('assets/images/westerosCard/westeros3.png'); };
+    export class ImagesWesterosCardWESTEROS3 {
+        static getName(): string {
+            return 'WESTEROS3';
+        };
+
+        static getPNG(): string {
+            return require('assets/images/westerosCard/WESTEROS3.png');
+        };
     }
     export class ImagesWesterosCardWesteros3Back {
         static getName(): string { return 'Westeros3Back'; };
