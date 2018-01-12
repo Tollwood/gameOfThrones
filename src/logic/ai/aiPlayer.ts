@@ -3,9 +3,11 @@ import Player from '../board/player';
 import HousecCard from '../cards/houseCard';
 import {recruitUnits} from '../board/gameState/actions';
 import AiCalculator from './aiCalculator';
-import {gameStore, GameStoreState} from '../board/gameState/reducer';
+import {gameStore} from '../board/gameState/reducer';
 import StateSelectorService from '../board/gameRules/stateSelectorService';
 import {GamePhase} from '../board/gamePhase';
+import {GameStoreState} from '../board/gameState/gameStoreState';
+
 export default class AiPlayer extends Player {
 
     constructor(house: House, powerToken: number, cards: HousecCard[]) {

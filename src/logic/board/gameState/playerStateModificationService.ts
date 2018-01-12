@@ -1,7 +1,8 @@
-import {GameStoreState} from './reducer';
 import {AreaKey} from '../areaKey';
 import Player from '../player';
 import {House} from '../house';
+import {GameStoreState} from './gameStoreState';
+
 export default class PlayerStateModificationService {
 
     public static raidPowerToken(state: GameStoreState, source: AreaKey, target: AreaKey): Player[] {

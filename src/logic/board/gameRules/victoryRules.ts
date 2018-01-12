@@ -1,7 +1,8 @@
 import {House} from '../house';
 import {Area} from '../area';
-import {GameStoreState} from '../gameState/reducer';
 import {AreaKey} from '../areaKey';
+import {GameStoreState} from '../gameState/gameStoreState';
+
 export default class VictoryRules {
 
     public static getVictoryPositionFor(state: GameStoreState, house: House) {

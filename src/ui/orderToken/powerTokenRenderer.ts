@@ -3,7 +3,8 @@ import {convertHouseToNumber, House} from '../../logic/board/house';
 import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
 import {TSMap} from 'typescript-map';
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 export default class PowerTokenRenderer {
     private powerTokenGroup: Phaser.Group;

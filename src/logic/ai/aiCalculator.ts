@@ -7,10 +7,12 @@ import {GamePhase} from '../board/gamePhase';
 import TokenPlacementRules from '../board/gameRules/tokenPlacementRules';
 import AiPlayer from './aiPlayer';
 import {OrderToken} from '../orderToken/orderToken';
-import {gameStore, GameStoreState} from '../board/gameState/reducer';
+import {gameStore} from '../board/gameState/reducer';
 import {moveUnits, placeOrder, resolveFight, skipOrder} from '../board/gameState/actions';
 import CombatResult from '../march/combatResult';
 import CombatCalculator from '../march/combatCalculator';
+import {GameStoreState} from '../board/gameState/gameStoreState';
+
 export default class AiCalculator {
 
     public static executeOrder(state: GameStoreState, aiPlayer: AiPlayer) {

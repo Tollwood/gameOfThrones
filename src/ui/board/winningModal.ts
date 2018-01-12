@@ -1,9 +1,11 @@
 import {House} from '../../logic/board/house';
 import Modal from '../../utils/modal';
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
 import {newGame} from '../../logic/board/gameState/actions';
 import PlayerSetup from '../../logic/board/playerSetup';
 import Renderer from '../../utils/renderer';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
+
 export default class WinningModal extends Modal {
 
     constructor(renderer: Renderer) {

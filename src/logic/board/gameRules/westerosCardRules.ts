@@ -1,6 +1,7 @@
 import {WesterosCard} from '../../cards/westerosCard';
-import {gameStore, GameStoreState} from '../gameState/reducer';
+import {gameStore} from '../gameState/reducer';
 import {playWesterosCard} from '../gameState/actions';
+import {GameStoreState} from '../gameState/gameStoreState';
 
 
 export default class WesterosCardRules {

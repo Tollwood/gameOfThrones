@@ -1,7 +1,8 @@
 import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {Area} from '../area';
-import {GameStoreState} from './reducer';
+import {GameStoreState} from './gameStoreState';
+
 export default class SupplyStateModificationService {
 
     public static updateSupply(state: GameStoreState): TSMap<House, number> {

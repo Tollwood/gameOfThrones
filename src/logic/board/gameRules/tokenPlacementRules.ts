@@ -2,8 +2,10 @@ import {Area} from '../area';
 import {House} from '../house';
 import {AreaKey} from '../areaKey';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
-import {gameStore, GameStoreState} from '../gameState/reducer';
+import {gameStore} from '../gameState/reducer';
 import StateSelectorService from './stateSelectorService';
+import {GameStoreState} from '../gameState/gameStoreState';
+
 export default class TokenPlacementRules {
 
     public static RAID_ORDER_TOKENS = [OrderTokenType.raid_0, OrderTokenType.raid_1, OrderTokenType.raid_special];

@@ -1,6 +1,8 @@
 import Renderer from '../../utils/renderer';
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
+
 export default class RecruitingRenderer {
 
     private renderer: Renderer;

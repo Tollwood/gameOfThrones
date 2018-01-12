@@ -1,4 +1,3 @@
-import {GameStoreState} from './reducer';
 import PlayerSetup from '../playerSetup';
 import {UnitType} from '../../units/unitType';
 import Unit from '../../units/units';
@@ -6,6 +5,7 @@ import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
 import CombatResult from '../../march/combatResult';
 import {WesterosCard} from '../../cards/westerosCard';
+import {GameStoreState} from './gameStoreState';
 
 export enum TypeKeys {
     RESET_GAME = 'RESET_GAME',

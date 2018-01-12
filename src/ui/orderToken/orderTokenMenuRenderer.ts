@@ -3,12 +3,13 @@ import {House} from '../../logic/board/house';
 import UiArea from '../../utils/UiArea';
 import AssetLoader from '../../utils/assetLoader';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
 import {placeOrder} from '../../logic/board/gameState/actions';
 import {GamePhase} from '../../logic/board/gamePhase';
 import Renderer from '../../utils/renderer';
 import {OrderTokenType} from '../../logic/orderToken/orderTokenType';
 import UiInteractionSupport from '../../utils/uiInteractionSupport';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 export class OrderTokenMenuRenderer {
     private _renderer: Renderer;

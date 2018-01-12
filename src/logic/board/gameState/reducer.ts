@@ -19,25 +19,7 @@ import StateSelectorService from '../gameRules/stateSelectorService';
 import PlayerStateModificationService from './playerStateModificationService';
 import {WesterosCard} from '../../cards/westerosCard';
 import CardAbilities from '../../cards/cardAbilities';
-
-class GameStoreState {
-    areas?: TSMap<AreaKey, Area>;
-    gameRound?: number;
-    gamePhase?: GamePhase;
-    winningHouse?: House;
-    fiefdom?: House[];
-    kingscourt?: House[];
-    ironThroneSuccession?: House[];
-    wildlingsCount?: number;
-    players?: Array<Player>;
-    localPlayersHouse?: House;
-    currentHouse?: House;
-    currentlyAllowedTokenTypes?: Array<OrderTokenType>;
-    currentlyAllowedSupply?: TSMap<House, number>;
-    areasAllowedToRecruit?: AreaKey[];
-    currentWesterosCard?: WesterosCard;
-    westerosCards?: TSMap<GamePhase, WesterosCard[]>;
-}
+import {GameStoreState} from './gameStoreState';
 
 const initialIronThroneSuccession = [House.baratheon, House.lannister, House.stark, House.martell, House.tyrell, House.greyjoy];
 const initialKingscourt = [House.lannister, House.stark, House.martell, House.baratheon, House.tyrell, House.greyjoy];
@@ -178,4 +160,4 @@ const gameStateReducer = (state: GameStoreState = initialState, action: ActionTy
 
 const gameStore: Store<GameStoreState> = createStore(gameStateReducer);
 
-export {gameStore, GameStoreState};
+export {gameStore};

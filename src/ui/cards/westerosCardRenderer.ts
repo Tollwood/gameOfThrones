@@ -1,8 +1,9 @@
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
 import {WESTEROS_PHASES} from '../../logic/board/gamePhase';
 import WesterosCardModal from './westerosCardModal';
 import WesterosCardRules from '../../logic/board/gameRules/westerosCardRules';
 import Renderer from '../../utils/renderer';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 export class WesterosCardRenderer {
     private renderer: Renderer;

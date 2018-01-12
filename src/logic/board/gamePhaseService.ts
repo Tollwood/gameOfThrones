@@ -1,12 +1,13 @@
 import {ALL_PHASES, GamePhase} from './gamePhase';
 import {House} from './house';
-import {GameStoreState, INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from './gameState/reducer';
+import {INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from './gameState/reducer';
 import {AreaKey} from './areaKey';
 import {Area} from './area';
 import VictoryRules from './gameRules/victoryRules';
 import PlayerStateModificationService from './gameState/playerStateModificationService';
 import AreaModificationService from './gameState/areaStateModificationService';
 import StateSelectorService from './gameRules/stateSelectorService';
+import {GameStoreState} from './gameState/gameStoreState';
 
 export default class GamePhaseService {
 

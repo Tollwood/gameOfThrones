@@ -1,10 +1,10 @@
 import {OrderTokenType} from '../orderToken/orderTokenType';
-import {GameStoreState} from '../board/gameState/reducer';
 import PlayerStateModificationService from '../board/gameState/playerStateModificationService';
 import SupplyStateModificationService from '../board/gameState/supplyStateModificationService';
 import RecruitingStateModificationService from '../board/gameState/recruitingStateModificationService';
 import GamePhaseService from '../board/gamePhaseService';
 import CardFactory from './cardFactory';
+import {GameStoreState} from '../board/gameState/gameStoreState';
 
 export default class CardAbilities {
 

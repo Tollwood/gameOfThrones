@@ -1,8 +1,10 @@
 import {Area} from '../area';
-import {gameStore, GameStoreState} from '../gameState/reducer';
+import {gameStore} from '../gameState/reducer';
 import {AreaKey} from '../areaKey';
 import Player from '../player';
 import {House} from '../house';
+import {GameStoreState} from '../gameState/gameStoreState';
+
 export default class StateSelectorService {
 
     public static getFirstFromIronThroneSuccession(state: GameStoreState): House {

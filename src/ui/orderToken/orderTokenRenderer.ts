@@ -10,8 +10,9 @@ import FightModal from '../march/combatModal';
 import TokenPlacementRules from '../../logic/board/gameRules/tokenPlacementRules';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import {AreaKey} from '../../logic/board/areaKey';
-import {gameStore, GameStoreState} from '../../logic/board/gameState/reducer';
+import {gameStore} from '../../logic/board/gameState/reducer';
 import {executeRaidOrder, skipOrder} from '../../logic/board/gameState/actions';
+import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 export default class OrderTokenRenderer {
 

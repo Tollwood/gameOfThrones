@@ -5,6 +5,7 @@ import {GamePhase} from '../gamePhase';
 import {House} from '../house';
 import Player from '../player';
 import {OrderTokenType} from '../../orderToken/orderTokenType';
+import {WesterosCard} from '../../cards/westerosCard';
 
 export class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
@@ -21,4 +22,6 @@ export class GameStoreState {
     currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
     areasAllowedToRecruit?: AreaKey[];
+    currentWesterosCard?: WesterosCard;
+    westerosCards?: TSMap<GamePhase, WesterosCard[]>;
 }

@@ -1,6 +1,6 @@
-import {GameStoreState} from './reducer';
 import {AreaKey} from '../areaKey';
 import StateSelectorService from '../gameRules/stateSelectorService';
+import {GameStoreState} from './gameStoreState';
 
 export default class RecruitingStateModificationService {
 
