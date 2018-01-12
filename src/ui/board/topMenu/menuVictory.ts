@@ -13,8 +13,6 @@ export class MenuVictory extends TopMenuItem {
         this.marker = game.add.group();
     }
 
-
-
     renderMarker(overlay: Phaser.Sprite) {
         if (overlay.key === TopMenuRenderer.OVERLAY + MenuVictory.name) {
             gameStore.getState().players.forEach((player) => {

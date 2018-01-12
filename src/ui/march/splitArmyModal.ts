@@ -9,6 +9,7 @@ import {moveUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import Renderer from '../../utils/renderer';
 import UiInteractionSupport from '../../utils/uiInteractionSupport';
+
 export default class SplitArmyModal extends Modal {
 
     // business

@@ -6,6 +6,7 @@ import {gameStore} from '../../logic/board/gameState/reducer';
 import {recruitUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import Renderer from '../../utils/renderer';
+
 export default class RecruitingModal extends Modal {
 
     constructor(renderer: Renderer, area: Area, closeFn: Function) {
@@ -31,9 +32,9 @@ export default class RecruitingModal extends Modal {
             }).map((ru) => {
                 return ru.unitType;
             });
+            gameStore.dispatch(recruitUnits(area.key, unitTypesToRecruit));
             closeFn();
             this.close();
-            gameStore.dispatch(recruitUnits(area.key, unitTypesToRecruit));
         });
 
 
@@ -61,6 +62,7 @@ export default class RecruitingModal extends Modal {
         unitsToRecruit.filter((ru) => {
             return ru.selected;
         }).forEach((ru) => {
+            // TODO Recruiting costs should be outside of the modal
             switch (ru.unitType) {
                 case UnitType.Footman:
                     remainingPoints -= 1;
