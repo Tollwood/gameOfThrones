@@ -1,4 +1,3 @@
-import GameState from '../src/logic/board/gameState/GameState';
 import {Area} from '../src/logic/board/area';
 import {House} from '../src/logic/board/house';
 import {UnitType} from '../src/logic/units/unitType';
@@ -6,6 +5,7 @@ import {OrderToken} from '../src/logic/orderToken/orderToken';
 import Unit from '../src/logic/units/units';
 import {AreaKey} from '../src/logic/board/areaKey';
 import {OrderTokenType} from '../src/logic/orderToken/orderTokenType';
+
 export default class AreaBuilder {
 
     private _key: AreaKey;
@@ -18,7 +18,6 @@ export default class AreaBuilder {
     private _units: Array<UnitType> = [];
     private _isLandArea: boolean = true;
     private _controllingHouse: House = null;
-    private _gameState: GameState = null;
     private _orderTokenType: OrderTokenType = null;
 
     constructor(key: AreaKey) {

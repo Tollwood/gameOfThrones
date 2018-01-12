@@ -5,8 +5,9 @@ import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {TSMap} from 'typescript-map';
 import {Area} from '../../../../src/logic/board/area';
-import {gameStore, GameStoreState} from '../../../../src/logic/board/gameState/reducer';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
 import {loadGame, recruitUnits} from '../../../../src/logic/board/gameState/actions';
+import {GameStoreState} from '../../../../src/logic/board/gameState/gameStoreState';
 
 describe('recruitUnitsAction', () => {
 

@@ -7,6 +7,7 @@ import {OrderTokenType} from '../../src/logic/orderToken/orderTokenType';
 import PossibleMove from '../../src/logic/ai/possibleMove';
 import StateSelectorService from '../../src/logic/board/gameRules/stateSelectorService';
 import {gameStore} from '../../src/logic/board/gameState/reducer';
+
 describe('AiCalculator', () => {
 
     describe('controlledByOtherPlayerWithEnemyUnits', () => {
@@ -145,8 +146,8 @@ describe('AiCalculator', () => {
             const actualPossibleMove = actual[0];
             expect(actualPossibleMove.orderTokenType).toBe(OrderTokenType.march_zero);
             expect(actualPossibleMove.value).toBe(0);
-            expect(actualPossibleMove.sourceArea).toEqual(area);
-            expect(actualPossibleMove.targetArea).toEqual(whiteHarbor);
+            expect(actualPossibleMove.sourceAreaKey).toEqual(area.key);
+            expect(actualPossibleMove.targetAreaKey).toEqual(whiteHarbor.key);
         });
 
         it('should return no possible move for march_zero order with no units', () => {

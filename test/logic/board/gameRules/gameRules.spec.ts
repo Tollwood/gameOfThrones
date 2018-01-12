@@ -1,6 +1,8 @@
 import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {GamePhase} from '../../../../src/logic/board/gamePhase';
-import {gameStore, INITIALLY_ALLOWED_ORDER_TOKEN_TYPES} from '../../../../src/logic/board/gameState/reducer';
+import {gameStore} from '../../../../src/logic/board/gameState/reducer';
+import GameStateModificationService from '../../../../src/logic/board/gameState/gameStateModificationService';
+
 describe('GameRules', () => {
     describe('newGame', () => {
         it('should initiziale a Game with 6 players', () => {
@@ -10,7 +12,7 @@ describe('GameRules', () => {
             expect(state.gamePhase).toBe(GamePhase.WESTEROS1);
             expect(state.wildlingsCount).toBe(0);
             expect(state.currentHouse).toBe(state.ironThroneSuccession[0]);
-            expect(state.currentlyAllowedTokenTypes).toEqual(INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
+            expect(state.currentlyAllowedTokenTypes).toEqual(GameStateModificationService.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES);
         });
     });
 });

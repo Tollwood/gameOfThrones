@@ -7,6 +7,7 @@ import {TSMap} from 'typescript-map';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {House} from '../../../../src/logic/board/house';
 import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
+import AreaModificationService from '../../../../src/logic/board/gameState/areaStateModificationService';
 
 describe('AreaStateModificationService', () => {
 
@@ -18,13 +19,16 @@ describe('AreaStateModificationService', () => {
             areas.set(AreaKey.Winterfell, area);
             let gameStoreState = {areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
-            spyOn(GamePhaseService, 'nextHouse');
-
+            spyOn(AreaModificationService, 'removeOrderToken').and.returnValue(areas);
+            spyOn(GamePhaseService, 'getNextPhaseAndPlayer');
+            // AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey),
+            // ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey)
             gameStore.dispatch(skipOrder(AreaKey.Winterfell));
 
             const newAreas = gameStore.getState().areas;
-            expect(newAreas.get(AreaKey.Winterfell).orderToken).toBeNull();
-            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
+            expect(newAreas).toEqual(areas);
+            expect(AreaModificationService.removeOrderToken).toHaveBeenCalled();
+            expect(GamePhaseService.getNextPhaseAndPlayer).toHaveBeenCalled();
         });
     });
 

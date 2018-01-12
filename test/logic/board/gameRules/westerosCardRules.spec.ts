@@ -1,78 +1,36 @@
 import WesterosCardRules from '../../../../src/logic/board/gameRules/westerosCardRules';
-import GameRules from '../../../../src/logic/board/gameRules/gameRules';
 import {WesterosCard} from '../../../../src/logic/cards/westerosCard';
-import CardFunction from '../../../../src/logic/cards/cardFuncttion';
-import GameState from '../../../../src/logic/board/gameState/GameState';
-import {AreaKey} from '../../../../src/logic/board/areaKey';
-import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {loadGame} from '../../../../src/logic/board/gameState/actions';
-import game = PIXI.game;
+import {GamePhase} from '../../../../src/logic/board/gamePhase';
+import {TSMap} from 'typescript-map';
+
 describe('WesterosCardRules', () => {
 
-    let gameState: GameState;
 
-    beforeEach(() => {
-        gameState = new GameState();
-    });
 
     describe('getNextCard', () => {
         it('should play westerosCards1 if cardTpye is 1', () => {
-            const expectedCard = new WesterosCard(1, '', '', '', 1, 1, []);
-            gameState.westerosCards1 = [expectedCard];
-            GameRules.load(gameState);
+            const expectedCard = new WesterosCard(1, '', '', '', GamePhase.WESTEROS1, 1, []);
+            const gameState = {westerosCards: new TSMap().set(GamePhase.WESTEROS1, [expectedCard])};
             const card: WesterosCard = WesterosCardRules.getNextCard(1);
             expect(card).toEqual(expectedCard);
         });
 
         it('should play westerosCards2 if cardTpye is 2', () => {
-            const expectedCard = new WesterosCard(1, '', '', '', 2, 1, []);
-            gameState.westerosCards2 = [expectedCard];
-            GameRules.load(gameState);
+            const expectedCard = new WesterosCard(1, '', '', '', GamePhase.WESTEROS2, 1, []);
+            const gameState = {westerosCards: new TSMap().set(GamePhase.WESTEROS2, [expectedCard])};
             const card: WesterosCard = WesterosCardRules.getNextCard(2);
             expect(card).toEqual(expectedCard);
         });
 
         it('should play westerosCards3 if cardTpye is 3', () => {
-            const expectedCard = new WesterosCard(1, '', '', '', 3, 1, []);
-            gameState.westerosCards3 = [expectedCard];
-            GameRules.load(gameState);
-            const card: WesterosCard = WesterosCardRules.getNextCard(3);
+            const expectedCard = new WesterosCard(1, '', '', '', GamePhase.WESTEROS3, 1, []);
+            const cards = new TSMap<GamePhase, WesterosCard[]>();
+            cards.set(GamePhase.WESTEROS3, [expectedCard]);
+            const gameState = {westerosCards: cards, gamePhase: GamePhase.WESTEROS3};
+            const card: WesterosCard = WesterosCardRules.getNextCard(gameState);
             expect(card).toEqual(expectedCard);
         });
     });
 
-
-    describe('stillPlayingWesterosCard', () => {
-
-        it('should return true if not all areas have recruited, while playing the recruit card', () => {
-            const cardFunction = new CardFunction('recruit', '');
-            gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
-            gameState.currentWesterosCard.selectedFunction = cardFunction;
-            gameStore.dispatch(loadGame({areasAllowedToRecruit: [AreaKey.Winterfell]}));
-            GameRules.load(gameState);
-            const actual = WesterosCardRules.stillPlayingWesterosCard();
-            expect(actual).toBeTruthy();
-        });
-
-        it('should return false if all areas have recruited, while playing the recruit card', () => {
-            const cardFunction = new CardFunction('recruit', '');
-            gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
-            gameState.currentWesterosCard.selectedFunction = cardFunction;
-            GameRules.load(gameState);
-            const gameStoreState = {areasAllowedToRecruit: []};
-            gameStore.dispatch(loadGame(gameStoreState));
-            const actual = WesterosCardRules.stillPlayingWesterosCard();
-            expect(actual).toBeFalsy();
-        });
-
-        it('should return false by default', () => {
-            const cardFunction = new CardFunction('nothing', '');
-            gameState.currentWesterosCard = new WesterosCard(1, '', '', '', 1, 1, [cardFunction]);
-            gameState.currentWesterosCard.selectedFunction = cardFunction;
-            GameRules.load(gameState);
-            const actual = WesterosCardRules.stillPlayingWesterosCard();
-            expect(actual).toBeFalsy();
-        });
-    });
 
 });

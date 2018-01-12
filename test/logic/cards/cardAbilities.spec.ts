@@ -1,200 +1,24 @@
 import CardAbilities from '../../../src/logic/cards/cardAbilities';
 import SupplyStateModificationService from '../../../src/logic/board/gameState/supplyStateModificationService';
-import Player from '../../../src/logic/board/player';
-import {House} from '../../../src/logic/board/house';
-import HousecCard from '../../../src/logic/cards/houseCard';
-import HouseCardBuilder from '../../HouseCardBuilder';
-import GameRules from '../../../src/logic/board/gameRules/gameRules';
-import GameState from '../../../src/logic/board/gameState/GameState';
-import CombatResult from '../../../src/logic/march/combatResult';
 import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../src/logic/board/gameState/reducer';
-import {consolidateAllPower, loadGame, newGame, startRecruiting} from '../../../src/logic/board/gameState/actions';
-describe('CardAbilities', () => {
-    let gameState: GameState;
-    const combatResult = new CombatResult(null, null, 0, 0);
-    beforeEach(() => {
-        gameState = new GameState();
-        let gameStoreState = {players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])]};
-        gameStore.dispatch(loadGame(gameStoreState));
-    });
+import {executeWesterosCard, newGame} from '../../../src/logic/board/gameState/actions';
+import {WesterosCard} from '../../../src/logic/cards/westerosCard';
+import {AreaKey} from '../../../src/logic/board/areaKey';
+import {TSMap} from 'typescript-map';
+import {House} from '../../../src/logic/board/house';
+import Player from '../../../src/logic/board/player';
+import {Area} from '../../../src/logic/board/area';
+import AreaBuilder from '../../areaBuilder';
 
+describe('CardAbilities', () => {
 
     describe('supply', () => {
         it(' should call updateSuppy', () => {
+            const state = {};
             spyOn(SupplyStateModificationService, 'updateSupply');
-            CardAbilities.supply();
+            CardAbilities.supply(state);
             expect(SupplyStateModificationService.updateSupply).toHaveBeenCalled();
-        });
-    });
-
-    describe('getAllCardsBack', () => {
-        it(' should set all cards of player playing the card to not played', () => {
-            // given
-
-            const houseCard1 = new HouseCardBuilder().house(House.stark).played().build();
-            const houseCard2 = new HouseCardBuilder().house(House.stark).build();
-            const cards: HousecCard[] = [houseCard1, houseCard2];
-            GameRules.load(gameState);
-            let gameStoreState = { players: [new Player(House.stark, 0, cards)]};
-            gameStore.dispatch(loadGame(gameStoreState));
-
-            // when
-            const actual = CardAbilities.getAllCardsBack(houseCard2, combatResult);
-
-            // then
-            expect(actual).toBe(combatResult);
-            expect(houseCard1.played).toBeFalsy();
-            expect(houseCard2.played).toBeFalsy();
-
-
-        });
-    });
-
-    describe('defineEnemiesRetreat', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.defineEnemiesRetreat(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('doubleDefenseToken', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.doubleDefenseToken(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('doubleDefenseToken', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.doubleDefenseToken(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('noLossesDuringFight', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.noLossesDuringFight(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('fightForStannisBaratheon', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.fightForStannisBaratheon(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('navelPowerThroughSupport', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.navelPowerThroughSupport(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('dropAdditionalEnemiesCard', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.dropAdditionalEnemiesCard(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('demandForPower', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.demandForPower(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('accolade', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.accolade(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('removeEnemiesOrderTokenForSuccess', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.removeEnemiesOrderTokenForSuccess(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('denyEnemiesHouseCard', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.denyEnemiesHouseCard(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-    describe('powerForSuccess', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.powerForSuccess(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('strongAttackingShips', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.strongAttackingShips(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('agonyOfFootman', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.agonyOfFootman(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('replaceHousecard', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.replaceHousecard(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('lonlyFighter', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.lonlyFighter(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('fearfulnessEnemy', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.fearfulnessEnemy(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('greatDefender', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.greatDefender(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('lostInfluence', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.lostInfluence(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('thwartInvasion', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.thwartInvasion(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('beStrong', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.beStrong(null, combatResult);
-            expect(actual).toBe(combatResult);
-        });
-    });
-
-    describe('longCombat', () => {
-        it(' should do nothing for now', () => {
-            const actual = CardAbilities.longCombat(null, combatResult);
-            expect(actual).toBe(combatResult);
         });
     });
 
@@ -212,9 +36,10 @@ describe('CardAbilities', () => {
 
     describe('recruit', () => {
         it(' should set all areas allowed to recruit', () => {
+            const card: WesterosCard = null;
             spyOn(gameStore, 'dispatch');
             CardAbilities.recruit(null);
-            expect(gameStore.dispatch).toHaveBeenCalledWith(startRecruiting());
+            expect(gameStore.dispatch).toHaveBeenCalledWith(executeWesterosCard(card));
         });
     });
 
@@ -273,10 +98,34 @@ describe('CardAbilities', () => {
         });
     });
     describe('power', () => {
-        it(' should do nothing for now', () => {
-            spyOn(gameStore, 'dispatch');
-            CardAbilities.power(null);
-            expect(gameStore.dispatch).toHaveBeenCalledWith(consolidateAllPower());
+        it('should increase power for all player owning areas with consolidate power symbols', () => {
+            // given
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).build();
+            const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).build();
+            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).build();
+
+            const playerStark = new Player(House.stark, 0, []);
+            const playerLannister = new Player(House.lannister, 0, []);
+
+            const areas = new TSMap<AreaKey, Area>();
+            areas.set(AreaKey.Winterfell, winterfell);
+            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            let gameStoreState = {
+                players: [playerStark, playerLannister],
+                areas: areas
+            };
+
+            // when
+            CardAbilities.power(gameStoreState);
+            const newState = gameStore.getState();
+            const newPlayerStark = newState.players.filter(player => player.house === House.stark)[0];
+            const newPlayerLannister = newState.players.filter(player => player.house === House.lannister)[0];
+            // then
+            expect(newPlayerStark).not.toBe(playerStark);
+            expect(newPlayerStark.powerToken).toBe(3);
+            expect(newPlayerLannister).not.toBe(playerLannister);
+            expect(newPlayerLannister.powerToken).toBe(1);
         });
     });
 
@@ -290,7 +139,7 @@ describe('CardAbilities', () => {
         it(' should remove the support token for currently allowedOrderTokenTypes', () => {
             gameStore.dispatch(newGame([]));
             CardAbilities.noSupportOrders(null);
-            const state =  gameStore.getState();
+            const state = gameStore.getState();
             expect(state.currentlyAllowedTokenTypes.length).toBe(12);
             expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_0)).toBe(-1);
             expect(state.currentlyAllowedTokenTypes.indexOf(OrderTokenType.support_1)).toBe(-1);

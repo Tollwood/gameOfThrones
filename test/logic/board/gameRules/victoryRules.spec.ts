@@ -3,16 +3,11 @@ import {House} from '../../../../src/logic/board/house';
 import Player from '../../../../src/logic/board/player';
 import AreaBuilder from '../../../areaBuilder';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
-import {gameStore, GameStoreState} from '../../../../src/logic/board/gameState/reducer';
-import {resetGame} from '../../../../src/logic/board/gameState/actions';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
+import {GameStoreState} from '../../../../src/logic/board/gameState/gameStoreState';
+
 describe('VictoryRules', () => {
-
-    beforeEach(() => {
-        gameStore.dispatch(resetGame());
-    });
-
 
     describe('getVictoryPositionFor', () => {
         it('should count castle and stronghold for given house', () => {

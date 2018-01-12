@@ -13,17 +13,6 @@ export default class WesterosCardRules {
         return cardToPlay;
     }
 
-    public static stillPlayingWesterosCard() {
-        const gameState = gameStore.getState();
-        switch (gameState.currentWesterosCard.selectedFunction.functionName) {
-            case 'recruit':
-                let areasAllowedToRecruit = gameStore.getState().areasAllowedToRecruit;
-                return areasAllowedToRecruit.length > 0;
-            default:
-                return false;
-        }
-    }
-
     public static moveCardToEndOfTheStack(westerosCards: Array<WesterosCard>): WesterosCard {
         let cardToPlay: WesterosCard = westerosCards.shift();
         westerosCards.push(cardToPlay);

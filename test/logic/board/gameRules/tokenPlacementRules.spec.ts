@@ -2,12 +2,11 @@ import {House} from '../../../../src/logic/board/house';
 import TokenPlacementRules from '../../../../src/logic/board/gameRules/tokenPlacementRules';
 import AreaBuilder from '../../../areaBuilder';
 import Player from '../../../../src/logic/board/player';
-import GamePhaseService from '../../../../src/logic/board/gamePhaseService';
 import {UnitType} from '../../../../src/logic/units/unitType';
 import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {gameStore} from '../../../../src/logic/board/gameState/reducer';
-import {executeRaidOrder, loadGame, resctrictOrderToken} from '../../../../src/logic/board/gameState/actions';
+import {executeRaidOrder, loadGame} from '../../../../src/logic/board/gameState/actions';
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
 
@@ -203,7 +202,6 @@ describe('TokenPlacementRules', () => {
             const notAllowedOrderTokenTypes: OrderTokenType[] = [OrderTokenType.consolidatePower_0];
             const state = {currentlyAllowedTokenTypes: [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1]};
             gameStore.dispatch(loadGame(state));
-            gameStore.dispatch(resctrictOrderToken(notAllowedOrderTokenTypes));
 
             expect(gameStore.getState().currentlyAllowedTokenTypes).toEqual([OrderTokenType.consolidatePower_1]);
         });
@@ -228,7 +226,6 @@ describe('TokenPlacementRules', () => {
             let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
 
-            spyOn(GamePhaseService, 'nextHouse');
             gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
             const newState = gameStore.getState();
             expect(newState).not.toBe(gameStoreState);
@@ -236,7 +233,6 @@ describe('TokenPlacementRules', () => {
             expect(newState.areas.get(sourceArea.key).orderToken).toBeNull();
             expect(newState.areas.get(targetArea.key)).not.toBe(targetArea);
             expect(newState.areas.get(targetArea.key).orderToken).toBeNull();
-            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
         });
 
         it('should increase consolidate power if targetAre contains consolidate Power Token and not reduce target player.powerToken < 0', () => {
@@ -250,12 +246,10 @@ describe('TokenPlacementRules', () => {
             areas.set(AreaKey.WhiteHarbor, targetArea);
             let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
-            spyOn(GamePhaseService, 'nextHouse');
             gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
             const newState = gameStore.getState();
             expect(newState).not.toBe(gameStoreState);
 
-            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
             expect(playerStark.powerToken).toEqual(0);
         });
@@ -273,9 +267,7 @@ describe('TokenPlacementRules', () => {
             let gameStoreState = {players: [playerStark, playerLannister], areas: areas};
             gameStore.dispatch(loadGame(gameStoreState));
 
-            spyOn(GamePhaseService, 'nextHouse');
             gameStore.dispatch(executeRaidOrder(sourceArea.key, targetArea.key));
-            expect(GamePhaseService.nextHouse).toHaveBeenCalled();
             expect(playerLannister.powerToken).toEqual(1);
             expect(playerStark.powerToken).toEqual(4);
         });
