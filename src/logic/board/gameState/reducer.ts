@@ -1,11 +1,8 @@
 import {createStore, Store} from 'redux';
 import {ActionTypes, TypeKeys} from './actions';
 import VictoryRules from '../gameRules/victoryRules';
-import {TSMap} from 'typescript-map';
 import GamePhaseService from '../gamePhaseService';
-import {Area} from '../area';
 import RecruitingStateModificationService from './recruitingStateModificationService';
-import {AreaKey} from '../areaKey';
 import AreaModificationService from './areaStateModificationService';
 import PlayerStateModificationService from './playerStateModificationService';
 import CardAbilities from '../../cards/cardAbilities';
@@ -16,7 +13,6 @@ import GameStateModificationService from './gameStateModificationService';
 
 const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): GameStoreState => {
     let newState;
-    let areas: TSMap<AreaKey, Area>;
     switch (action.type) {
         case TypeKeys.NEW_GAME:
             newState = {
@@ -39,26 +35,29 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
 
         case TypeKeys.PLACE_ORDER:
+            const areasAfterPlacingOrder = AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey);
             newState = {
                 ...state,
-                areas: AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey)
+                areas: areasAfterPlacingOrder,
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterPlacingOrder.values())
             };
             break;
 
         case TypeKeys.SKIP_ORDER:
+            const areasAfterSkippingOrder = AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey);
             newState = {
                 ...state,
-                areas: AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey)
+                areas: areasAfterSkippingOrder,
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterSkippingOrder.values())
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
+            const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]);
             newState = {
                 ...state,
-                areas: AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]),
+                areas: areasAfterExecutingRaidOrder,
                 players: PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey)
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey, areasAfterExecutingRaidOrder.values())
             };
             break;
         case TypeKeys.PLAY_WESTEROS_CARD:
@@ -73,11 +72,12 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
         case TypeKeys.MOVE_UNITS:
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
+            const areasAfterMove = AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl);
             newState = {
                 ...state,
-                areas: AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl),
+                areas: areasAfterMove,
                 players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source),
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source, areasAfterMove.values()),
                 winningHouse,
             };
             break;

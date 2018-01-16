@@ -54,13 +54,14 @@ describe('moveUnitsAction', () => {
     it('should set controllingHouse to null if all units leave source area', () => {
         // given
         const horseUnit = new Unit(UnitType.Horse, House.stark);
+        const horseUnit1 = new Unit(UnitType.Horse, House.stark);
         const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
-        sourceArea.units = [horseUnit];
+        sourceArea.units = [horseUnit, horseUnit1];
         const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);
         areas.set(AreaKey.WhiteHarbor, targetArea);
-        const unitsToMove = [horseUnit];
+        const unitsToMove = [horseUnit, horseUnit1];
         const completeOrder = false;
         const establishControl = false;
         let gameStoreState = {
@@ -75,7 +76,9 @@ describe('moveUnitsAction', () => {
         gameStore.dispatch(moveUnits(sourceArea.key, targetArea.key, unitsToMove, completeOrder, establishControl));
         const actual = gameStore.getState().areas;
         // then
-        expect(actual.get(sourceArea.key).controllingHouse).toBeNull();
+        const actualSource = actual.get(sourceArea.key);
+        expect(actualSource.units.length).toBe(0);
+        expect(actualSource.controllingHouse).toBeNull();
     });
     it('should set the orderToken to null incase order is complete', () => {
         // given

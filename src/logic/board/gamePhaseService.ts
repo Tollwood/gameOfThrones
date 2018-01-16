@@ -11,14 +11,13 @@ import GameStateModificationService from './gameState/gameStateModificationServi
 
 export default class GamePhaseService {
 
-    public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey): GameStoreState {
-        const nextGamePhase = this.getNextGamePhaseWithPendingActions(state.areas.values(), state.gamePhase, lastSourceAreaKey);
+    public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey, updatedAreas: Area[]): GameStoreState {
+        const nextGamePhase = this.getNextGamePhaseWithPendingActions(updatedAreas, state.gamePhase, lastSourceAreaKey);
         let nextHouse = state.ironThroneSuccession[0];
         if (nextGamePhase === GamePhase.ACTION_CLEANUP) {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
-                ...state,
-                areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
+                areas: AreaModificationService.removeAllRemainingTokens(updatedAreas),
                 players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
                 gamePhase: GamePhase.WESTEROS1,
                 gameRound: state.gameRound + 1,
@@ -30,7 +29,6 @@ export default class GamePhaseService {
         if (state.gamePhase === nextGamePhase) {
             nextHouse = this.getNextHouseWithPendingActions(state.ironThroneSuccession, state.areas.values(), nextGamePhase, lastSourceAreaKey, this.nextHouse(state.ironThroneSuccession, state.currentHouse));
         }
-
         return {
             gamePhase: nextGamePhase,
             currentHouse: nextHouse
@@ -128,7 +126,7 @@ export default class GamePhaseService {
 
     }
 
-    private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
+    public static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
 
         if (this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey)) {
             return gamePhase;
