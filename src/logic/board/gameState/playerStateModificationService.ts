@@ -5,6 +5,7 @@ import {GameStoreState} from './gameStoreState';
 import PlayerSetup from '../playerSetup';
 import CardFactory from '../../cards/cardFactory';
 import AiPlayer from '../../ai/aiPlayer';
+import {Area} from '../area';
 
 export default class PlayerStateModificationService {
     private static INITIAL_POWER_TOKEN: number = 5;
@@ -59,9 +60,9 @@ export default class PlayerStateModificationService {
     }
 
 
-    public static executeAllConsolidatePowerOrders(state: GameStoreState): Player[] {
-        const updatedPlayers: Player[] = state.players.slice(0);
-        state.areas.values().filter((area) => {
+    public static executeAllConsolidatePowerOrders(players: Player[], areas: Area[]): Player[] {
+        const updatedPlayers: Player[] = players.slice(0);
+        areas.filter((area) => {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();
         }).map((area) => {
             area.orderToken = null;

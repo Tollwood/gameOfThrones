@@ -39,7 +39,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             newState = {
                 ...state,
                 areas: areasAfterPlacingOrder,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterPlacingOrder.values())
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterPlacingOrder.values(), state.players)
             };
             break;
 
@@ -48,16 +48,17 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             newState = {
                 ...state,
                 areas: areasAfterSkippingOrder,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterSkippingOrder.values())
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterSkippingOrder.values(), state.players)
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
             const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]);
+            const playersAfterRaidOrder = PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey);
             newState = {
                 ...state,
                 areas: areasAfterExecutingRaidOrder,
-                players: PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey, areasAfterExecutingRaidOrder.values())
+                players: playersAfterRaidOrder,
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey, areasAfterExecutingRaidOrder.values(), playersAfterRaidOrder)
             };
             break;
         case TypeKeys.PLAY_WESTEROS_CARD:
@@ -73,11 +74,12 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
         case TypeKeys.MOVE_UNITS:
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             const areasAfterMove = AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl);
+            const playersAfterMove = PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse);
             newState = {
                 ...state,
                 areas: areasAfterMove,
-                players: PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse),
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source, areasAfterMove.values()),
+                players: playersAfterMove,
+                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source, areasAfterMove.values(), playersAfterMove),
                 winningHouse,
             };
             break;

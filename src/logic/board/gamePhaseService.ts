@@ -8,17 +8,18 @@ import AreaModificationService from './gameState/areaStateModificationService';
 import StateSelectorService from './gameRules/stateSelectorService';
 import {GameStoreState} from './gameState/gameStoreState';
 import GameStateModificationService from './gameState/gameStateModificationService';
+import Player from './player';
 
 export default class GamePhaseService {
 
-    public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey, updatedAreas: Area[]): GameStoreState {
+    public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey, updatedAreas: Area[], players: Player[]): GameStoreState {
         const nextGamePhase = this.getNextGamePhaseWithPendingActions(updatedAreas, state.gamePhase, lastSourceAreaKey);
         let nextHouse = state.ironThroneSuccession[0];
         if (nextGamePhase === GamePhase.ACTION_CLEANUP) {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
                 areas: AreaModificationService.removeAllRemainingTokens(updatedAreas),
-                players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state),
+                players: PlayerStateModificationService.executeAllConsolidatePowerOrders(players, updatedAreas),
                 gamePhase: GamePhase.WESTEROS1,
                 gameRound: state.gameRound + 1,
                 winningHouse: winningHouse,
