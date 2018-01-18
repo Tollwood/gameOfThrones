@@ -11,8 +11,8 @@ describe('VictoryRules', () => {
 
     describe('getVictoryPositionFor', () => {
         it('should count castle and stronghold for given house', () => {
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
-            let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withCastle().withHouse(House.stark).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
+            let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);

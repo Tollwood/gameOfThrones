@@ -117,7 +117,7 @@ export default class OrderTokenRenderer {
                     modal.show();
                 }
             };
-            let areasAllowedToExecuteOrder: Array<Area> = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea);
+            let areasAllowedToExecuteOrder: Array<AreaKey> = StateSelectorService.getAllAreasAllowedToMarchTo(state, sourceArea);
             if (gameStore.getState().gamePhase === GamePhase.ACTION_MARCH) {
                 this.highlightDuringActionPhase(sprite, sourceArea.key, moveUnitFunction, areasAllowedToExecuteOrder);
             }

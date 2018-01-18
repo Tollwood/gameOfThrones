@@ -85,7 +85,6 @@ describe('TokenPlacementRules', () => {
 
             const winterfell = new AreaBuilder(AreaKey.Winterfell)
                 .withOrderToken(OrderTokenType.consolidatePower_0)
-                .withBorders([whiteHarbour])
                 .withHouse(House.stark)
                 .build();
 
@@ -108,7 +107,6 @@ describe('TokenPlacementRules', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell)
                 .withOrderToken(OrderTokenType.consolidatePower_0)
                 .withHouse(House.stark)
-                .withBorders([whiteHarbour])
                 .build();
 
             const areas = new TSMap<AreaKey, Area>();
@@ -127,13 +125,11 @@ describe('TokenPlacementRules', () => {
             const whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor)
                 .withOrderToken(OrderTokenType.consolidatePower_0)
                 .withHouse(House.stark)
-                .isSeaArea()
                 .build();
 
             const winterfell = new AreaBuilder(AreaKey.Winterfell)
                 .withOrderToken(OrderTokenType.consolidatePower_0)
                 .withHouse(House.lannister)
-                .withBorders([whiteHarbour])
                 .build();
 
             const areas = new TSMap<AreaKey, Area>();
@@ -156,8 +152,6 @@ describe('TokenPlacementRules', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell)
                 .withOrderToken(OrderTokenType.raid_0)
                 .withHouse(House.lannister)
-                .isSeaArea()
-                .withBorders([whiteHarbour])
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, winterfell);
@@ -180,7 +174,6 @@ describe('TokenPlacementRules', () => {
             const winterfell = new AreaBuilder(AreaKey.Winterfell)
                 .withOrderToken(OrderTokenType.raid_0)
                 .withHouse(House.lannister)
-                .withBorders([whiteHarbour])
                 .build();
 
             const areas = new TSMap<AreaKey, Area>();
@@ -313,7 +306,8 @@ describe('TokenPlacementRules', () => {
 
             // given
             let karhold = new AreaBuilder(AreaKey.Karhold).build();
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell)
+                .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.Karhold, karhold);
@@ -332,7 +326,8 @@ describe('TokenPlacementRules', () => {
 
             // given
             let karhold = new AreaBuilder(AreaKey.Karhold).build();
-            let winterfell = new AreaBuilder(AreaKey.Winterfell).withBorders([karhold]).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell)
+                .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.Karhold, karhold);

@@ -12,7 +12,7 @@ describe('SupplyStateModificationService', () => {
 
     it('should return empty array for house with no army', () => {
         // given
-        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1).build();
+        const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Karhold, karhold);
         let state = {players: [new Player(House.stark, 5, [])], areas: areas};

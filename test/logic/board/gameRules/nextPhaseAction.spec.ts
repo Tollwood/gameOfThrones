@@ -14,9 +14,9 @@ xdescribe('NextPhaseAction', () => {
         const playerStark = new Player(House.stark, 0, []);
         const playerLannister = new Player(House.lannister, 0, []);
         // given
-        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_1).build();
-        const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withConsolidatePower(2).withOrderToken(OrderTokenType.consolidatePower_0).build();
-        const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withConsolidatePower(1).withOrderToken(OrderTokenType.consolidatePower_special).build();
+        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
+        const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_0).build();
+        const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withOrderToken(OrderTokenType.consolidatePower_special).build();
 
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, winterfell);
@@ -47,7 +47,7 @@ xdescribe('NextPhaseAction', () => {
 
         // given
         const playerStark = new Player(House.stark, 0, []);
-        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withConsolidatePower(1).withOrderToken(OrderTokenType.raid_0).build();
+        const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.raid_0).build();
 
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, winterfell);
@@ -69,9 +69,9 @@ xdescribe('NextPhaseAction', () => {
     });
 
     it('should return the house with most strongholds/castle after round 10 was completed', () => {
-        let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
-        let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.lannister).build();
-        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.lannister).build();
+        let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
+        let whiteHarbour = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).build();
+        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.lannister).build();
 
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, winterfell);

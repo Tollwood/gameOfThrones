@@ -17,8 +17,8 @@ describe('recruitUnitsAction', () => {
         const areasAllowedToRecruit = [AreaKey.Winterfell, AreaKey.WhiteHarbor];
         const areas = new TSMap<AreaKey, Area>();
         const currentHouse = House.stark;
-        areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withStronghold().withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
-        areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withUnits([UnitType.Horse]).build());
+        areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
+        areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).build());
         const currentlyAllowedSupply = new TSMap<House, number>();
         currentlyAllowedSupply.set(House.stark, 0);
         currentlyAllowedSupply.set(House.lannister, 0);
@@ -53,8 +53,8 @@ describe('recruitUnitsAction', () => {
         currentlyAllowedSupply.set(House.lannister, 5);
         const areas = new TSMap<AreaKey, Area>();
         const currentHouse = House.stark;
-        areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withStronghold().withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
-        areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withUnits([UnitType.Horse]).build());
+        areas.set(AreaKey.Winterfell, new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).withOrderToken(OrderTokenType.consolidatePower_special).build());
+        areas.set(AreaKey.WhiteHarbor, new AreaBuilder(AreaKey.WhiteHarbor).withUnits([UnitType.Horse]).build());
         const initialState: GameStoreState = {
             ironThroneSuccession,
             areas,

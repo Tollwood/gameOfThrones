@@ -9,19 +9,24 @@ import {WesterosCard} from '../../cards/westerosCard';
 
 export class GameStoreState {
     areas?: TSMap<AreaKey, Area>;
+
     gameRound?: number;
     gamePhase?: GamePhase;
     winningHouse?: House;
+
     fiefdom?: House[];
     kingscourt?: House[];
     ironThroneSuccession?: House[];
-    wildlingsCount?: number;
+    currentlyAllowedTokenTypes?: Array<OrderTokenType>;
+
     players?: Array<Player>;
     localPlayersHouse?: House;
     currentHouse?: House;
-    currentlyAllowedTokenTypes?: Array<OrderTokenType>;
     currentlyAllowedSupply?: TSMap<House, number>;
+
     areasAllowedToRecruit?: AreaKey[];
+
     currentWesterosCard?: WesterosCard;
     westerosCards?: TSMap<GamePhase, WesterosCard[]>;
+    wildlingsCount?: number;
 }

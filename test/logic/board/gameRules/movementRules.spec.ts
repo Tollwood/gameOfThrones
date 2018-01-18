@@ -32,7 +32,7 @@ describe('StateSelectorService', () => {
 
         it('should return no valid areas if source area has no units', () => {
             // given
-            const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).build();
+            const area = new AreaBuilder(AreaKey.Winterfell).build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, area);
             let state = {
@@ -51,7 +51,6 @@ describe('StateSelectorService', () => {
             let karhold = new AreaBuilder(AreaKey.Karhold).build();
             let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
-                .withBorders([karhold])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
@@ -70,19 +69,16 @@ describe('StateSelectorService', () => {
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
             expect(result.length).toBe(1);
-            expect(result.indexOf(karhold)).toBeGreaterThan(-1);
+            expect(result.indexOf(karhold.key)).toBeGreaterThan(-1);
         });
 
         it('should be allowed to move land units from WhiteHarbor via theShiveringsea using a friendly ship to castleBlack', () => {
             // given
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).build();
             let theSiveringSea = new AreaBuilder(AreaKey.TheShiveringSea).withHouse(House.stark).withUnits([UnitType.Ship])
-                .withBorders([castleBlack])
-                .isSeaArea()
                 .build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
-                .withBorders([theSiveringSea])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
@@ -102,24 +98,20 @@ describe('StateSelectorService', () => {
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
-            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
+            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
         });
         it('should be allowed to move land units from WhiteHarbor via two sea areas using a friendly ship to castleBlack', () => {
             // given
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).build();
             let theSiveringSea = new AreaBuilder(AreaKey.TheShiveringSea).withHouse(House.stark)
                 .withUnits([UnitType.Ship])
-                .withBorders([castleBlack])
-                .isSeaArea().build();
+                .build();
 
             let theStonyShore = new AreaBuilder(AreaKey.TheStonyShore).withHouse(House.stark)
                 .withUnits([UnitType.Ship])
-                .withBorders([theSiveringSea])
-                .isSeaArea()
                 .build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor)
                 .withHouse(House.stark).withUnits([UnitType.Footman])
-                .withBorders([theStonyShore])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
@@ -140,7 +132,7 @@ describe('StateSelectorService', () => {
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
-            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
+            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
 
         });
         it('should be allowed to move unit into an enemy area with establish control of other player', () => {
@@ -148,7 +140,6 @@ describe('StateSelectorService', () => {
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
-                .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
@@ -167,14 +158,14 @@ describe('StateSelectorService', () => {
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
             expect(result.length).toBe(1);
-            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
+            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
         });
         it('should be allowed to move units into an occupied area', () => {
             // given
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon)
                 .withUnits([UnitType.Footman]).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
-                .withUnits([UnitType.Footman]).withBorders([castleBlack]).withOrderToken(OrderTokenType.march_minusOne)
+                .withUnits([UnitType.Footman]).withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
@@ -190,14 +181,13 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(result.indexOf(castleBlack)).toBeGreaterThan(-1);
+            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
         });
         it('should not move land unit into a sea area ', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).isSeaArea().build();
+            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
-                .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
@@ -214,15 +204,14 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(result.indexOf(castleBlack)).toBe(-1);
+            expect(result.indexOf(castleBlack.key)).toBe(-1);
         });
         it('should not move sea unit into a land area ', () => {
             // given
             let castleBlack = new AreaBuilder(AreaKey.CastleBlack).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).withUnits([UnitType.Ship])
-                .withBorders([castleBlack])
                 .withOrderToken(OrderTokenType.march_minusOne)
-                .isSeaArea().build();
+                .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             areas.set(AreaKey.CastleBlack, castleBlack);
@@ -239,7 +228,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(result.indexOf(castleBlack)).toBe(-1);
+            expect(result.indexOf(castleBlack.key)).toBe(-1);
 
         });
     });
@@ -295,7 +284,7 @@ describe('StateSelectorService', () => {
 
             // given
             const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
-                .withSupply(1).build();
+                .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Karhold, karhold);
             const currentlyAllowedSupply = new TSMap<House, number>();
@@ -313,7 +302,7 @@ describe('StateSelectorService', () => {
 
             // given
             const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
-                .withSupply(1).build();
+                .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Karhold, karhold);
             const currentlyAllowedSupply = new TSMap<House, number>();
@@ -331,7 +320,7 @@ describe('StateSelectorService', () => {
 
             // given
             const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
-                .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman]).withSupply(1)
+                .withUnits([UnitType.Footman, UnitType.Footman, UnitType.Footman])
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Karhold, karhold);
@@ -350,7 +339,7 @@ describe('StateSelectorService', () => {
         it('should return 3 if house has two armies of size 2 and supply 1', () => {
 
             // given
-            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman]).withSupply(1)
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withUnits([UnitType.Footman, UnitType.Footman])
                 .build();
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark)
                 .withUnits([UnitType.Footman, UnitType.Footman]).build();
@@ -376,7 +365,7 @@ describe('StateSelectorService', () => {
         it('should return 3 if house has no armyies and supply 1', () => {
 
             // given
-            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).withSupply(1)
+            const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Karhold, karhold);

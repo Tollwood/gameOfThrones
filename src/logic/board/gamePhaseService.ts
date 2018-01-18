@@ -40,7 +40,7 @@ export default class GamePhaseService {
         const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
         return {
             currentHouse: nextHouseToRecruit !== null ? nextHouseToRecruit : state.ironThroneSuccession[0],
-            gamePhase: nextHouseToRecruit !== null ? state.gamePhase : ALL_PHASES[ALL_PHASES.lastIndexOf(state.gamePhase) + 1],
+            gamePhase: nextHouseToRecruit !== null ? state.gamePhase : this.getNextGamePhase(state.gamePhase),
         };
     }
 
@@ -100,7 +100,6 @@ export default class GamePhaseService {
                 possibleNextHouse = this.nextHouse(state.ironThroneSuccession, possibleNextHouse);
             }
         }
-        console.log(possibleNextHouse);
         if (this.isAllowedToRecruit(state, state.currentHouse, areaKey)) {
             return state.currentHouse;
         }
@@ -109,10 +108,8 @@ export default class GamePhaseService {
 
     private static isAllowedToRecruit(state: GameStoreState, house: House, areaKey?: AreaKey) {
         const areasAllowedToRecruit = StateSelectorService.getAreasAllowedToRecruit(state, house).map(area => {
-            console.log(area);
             return area.key;
         });
-        console.log(areasAllowedToRecruit);
         const lastIndex = areasAllowedToRecruit.lastIndexOf(areaKey);
         if (lastIndex > 0) {
             areasAllowedToRecruit.slice(lastIndex, 1);
@@ -127,7 +124,7 @@ export default class GamePhaseService {
 
     }
 
-    public static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
+    private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
 
         if (this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey)) {
             return gamePhase;

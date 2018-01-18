@@ -12,6 +12,8 @@ import {moveUnits, placeOrder, resolveFight, skipOrder} from '../board/gameState
 import CombatResult from '../march/combatResult';
 import CombatCalculator from '../march/combatCalculator';
 import {GameStoreState} from '../board/gameState/gameStoreState';
+import {AreaStatsService} from '../board/AreaStatsService';
+import {AreaKey} from '../board/areaKey';
 
 export default class AiCalculator {
 
@@ -71,8 +73,9 @@ export default class AiCalculator {
         }
     }
 
-    public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {
-        return area.controllingHouse !== null && area.controllingHouse !== house && area.units.length > 0;
+    public static controlledByOtherPlayerWithEnemyUnits(areaKey: AreaKey, house: House) {
+        const area = gameStore.getState().areas.get(areaKey);
+        return area !== undefined && area.controllingHouse !== house && area.units.length > 0;
     }
 
     public static getBestMove(currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
@@ -124,7 +127,7 @@ export default class AiCalculator {
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
                     StateSelectorService.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
-                        possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(area, possibleArea, currentHouse), possibleArea.key));
+                        possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(area.key, possibleArea, currentHouse), possibleArea));
                     });
                     break;
             }
@@ -133,24 +136,17 @@ export default class AiCalculator {
         return possibleMoves;
     }
 
-    private static calculateValueForDefendingOrders(area: Area, currentHouse: House, factor: number): number {
-        let value = 0;
-        area.borders
-            .forEach((borderArea) => {
-                let controlledByOtherPlayerWithEnemyUnits = borderArea.controllingHouse !== null && borderArea.controllingHouse !== currentHouse && borderArea.units.length > 0;
-                if (controlledByOtherPlayerWithEnemyUnits) {
-                    value += factor;
-                }
-            });
-        return value;
+    public static unOccupiedOrNoEnemies(areaKey: AreaKey, house: House) {
+        const area = gameStore.getState().areas.get(areaKey);
+        return area === undefined || (area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
     }
 
-    private static calculateValueForRaidOrders(area: Area, currentHouse: House, factor: number) {
-
+    private static calculateValueForDefendingOrders(area: Area, currentHouse: House, factor: number): number {
         let value = 0;
-        area.borders
-            .forEach((borderArea) => {
-                let controlledByOtherPlayerWithEnemyUnits = AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
+        AreaStatsService.getInstance().areaStats.get(area.key).borders
+            .forEach((borderAreaKey) => {
+                const borderArea = gameStore.getState().areas.get(borderAreaKey);
+                let controlledByOtherPlayerWithEnemyUnits = borderArea !== undefined && borderArea.controllingHouse !== null && borderArea.controllingHouse !== currentHouse && borderArea.units.length > 0;
                 if (controlledByOtherPlayerWithEnemyUnits) {
                     value += factor;
                 }
@@ -166,34 +162,47 @@ export default class AiCalculator {
         return 0;
     }
 
-    private static calculateValueForMarchOrders(sourceArea: Area, targetArea: Area, currentHouse: House) {
+    private static calculateValueForRaidOrders(area: Area, currentHouse: House, factor: number) {
+
         let value = 0;
-        let numberOfEnemiesAtBorder = sourceArea.borders
-            .filter((borderArea) => {
-                return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderArea, currentHouse);
+        AreaStatsService.getInstance().areaStats.get(area.key).borders
+            .forEach((borderAreaKey) => {
+                let controlledByOtherPlayerWithEnemyUnits = AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderAreaKey, currentHouse);
+                if (controlledByOtherPlayerWithEnemyUnits) {
+                    value += factor;
+                }
+            });
+        return value;
+    }
+
+    private static calculateValueForMarchOrders(sourceAreaKey: AreaKey, targetAreaKey: AreaKey, currentHouse: House) {
+        let value = 0;
+        const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceAreaKey);
+        let numberOfEnemiesAtBorder = sourceAreaStats.borders
+            .filter((borderAreaKey) => {
+                return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderAreaKey, currentHouse);
             }).length;
 
-        let unOccupiedOrNoEnemies = this.unOccupiedOrNoEnemies(targetArea, currentHouse);
-        if (targetArea.hasCastleOrStronghold() && unOccupiedOrNoEnemies) {
+        let unOccupiedOrNoEnemies = this.unOccupiedOrNoEnemies(targetAreaKey, currentHouse);
+        const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetAreaKey);
+
+        if (targetAreaStats.hasCastleOrStronghold() && unOccupiedOrNoEnemies) {
             value += 0.9;
         }
-        if (targetArea.supply > 0 && unOccupiedOrNoEnemies) {
-            value += (0.1 * targetArea.supply);
+        if (targetAreaStats.supply > 0 && unOccupiedOrNoEnemies) {
+            value += (0.1 * targetAreaStats.supply);
         }
-        if (targetArea.consolidatePower > 0 && unOccupiedOrNoEnemies) {
-            value += (0.1 * targetArea.consolidatePower);
+        if (targetAreaStats.consolidatePower > 0 && unOccupiedOrNoEnemies) {
+            value += (0.1 * targetAreaStats.consolidatePower);
         }
         value -= (numberOfEnemiesAtBorder * 0.1);
 
         return value;
     }
 
-    public static unOccupiedOrNoEnemies(area: Area, house: House) {
-        return (area.controllingHouse === null || area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
-    }
-
     private static shouldEstablishControl(sourceArea: Area): boolean {
-        return (sourceArea.units.length === 0 && (sourceArea.hasCastleOrStronghold() || sourceArea.supply > 0 || sourceArea.consolidatePower > 0 ));
+        const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
+        return (sourceArea.units.length === 0 && (sourceAreaStats.hasCastleOrStronghold() || sourceAreaStats.supply > 0 || sourceAreaStats.consolidatePower > 0));
     }
 
 }

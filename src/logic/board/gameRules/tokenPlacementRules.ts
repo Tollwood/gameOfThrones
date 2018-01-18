@@ -5,6 +5,7 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {gameStore} from '../gameState/reducer';
 import StateSelectorService from './stateSelectorService';
 import {GameStoreState} from '../gameState/gameStoreState';
+import {AreaStatsService} from '../AreaStatsService';
 
 export default class TokenPlacementRules {
 
@@ -15,7 +16,7 @@ export default class TokenPlacementRules {
     public static CONSOLIDATE_POWER_ORDER_TOKENS = [OrderTokenType.consolidatePower_0, OrderTokenType.consolidatePower_1, OrderTokenType.consolidatePower_special];
 
     public static isAllowedToPlaceOrderToken(house: House, areaKey: AreaKey): boolean {
-        const area = StateSelectorService.getAreaByKey(areaKey);
+        const area: Area = StateSelectorService.getAreaByKey(areaKey);
         return area !== null && area.units.length > 0
             && area.controllingHouse === house
             && area.orderToken === null;
@@ -34,14 +35,16 @@ export default class TokenPlacementRules {
     }
 
     public static isAllowedToRaid(sourceArea: Area, targetArea: Area): boolean {
+        const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
+        const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetArea.key);
         return this.isConnectedArea(sourceArea, targetArea) && targetArea.controllingHouse !== null
             && sourceArea.controllingHouse !== targetArea.controllingHouse
-            && (sourceArea.isLandArea && targetArea.isLandArea || !sourceArea.isLandArea);
+            && (sourceAreaStats.isLandArea && targetAreaStats.isLandArea || !sourceAreaStats.isLandArea);
     }
 
     public static isConnectedArea(source: Area, target: Area): boolean {
-        return source.borders.filter((area) => {
-                return area.key === target.key;
+        return AreaStatsService.getInstance().areaStats.get(source.key).borders.filter((areaKey) => {
+            return areaKey === target.key;
             }).length === 1;
     }
 }

@@ -6,6 +6,7 @@ import {gameStore} from '../../logic/board/gameState/reducer';
 import {recruitUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import Renderer from '../../utils/renderer';
+import {AreaStatsService} from '../../logic/board/AreaStatsService';
 
 export default class RecruitingModal extends Modal {
 
@@ -58,7 +59,8 @@ export default class RecruitingModal extends Modal {
     }
 
     private  getRemainingRecruitingPoints(area: Area, unitsToRecruit: RecruitingUnit[]) {
-        let remainingPoints = area.stronghold ? 2 : area.castle ? 1 : 0;
+        const areaStats = AreaStatsService.getInstance().areaStats.get(area.key);
+        let remainingPoints = areaStats.stronghold ? 2 : areaStats.castle ? 1 : 0;
         unitsToRecruit.filter((ru) => {
             return ru.selected;
         }).forEach((ru) => {

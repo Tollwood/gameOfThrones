@@ -49,7 +49,6 @@ export default class CardAbilities {
     }
 
     public static invluence(state: GameStoreState) {
-        console.log('invluence');
         return {
             ...state,
             currentWesterosCard: null,
@@ -114,7 +113,7 @@ export default class CardAbilities {
         };
     }
 
-    public static noSupportOrders(state: GameStoreState) {
+    public static noSupportOrders(state: GameStoreState): GameStoreState {
         const restrictedTokenTypes = [OrderTokenType.support_0, OrderTokenType.support_1, OrderTokenType.support_special];
         const currentlyAllowedTokenTypes = state.currentlyAllowedTokenTypes
             .filter((orderToken) => restrictedTokenTypes.indexOf(orderToken) === -1);
@@ -127,7 +126,6 @@ export default class CardAbilities {
     }
 
     public static wildlingAttack(state: GameStoreState): GameStoreState {
-        console.log('wildlingAttack');
         return {
             ...state,
             currentWesterosCard: null,

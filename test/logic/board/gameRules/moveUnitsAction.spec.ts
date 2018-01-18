@@ -134,18 +134,18 @@ describe('moveUnitsAction', () => {
     });
 
     it('should return the house that has exactly 7 strongholds/ castle', () => {
-        let winterfell = new AreaBuilder(AreaKey.Winterfell).withStronghold().withHouse(House.stark).build();
-        let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withStronghold().withHouse(House.stark).build();
-        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withStronghold().withHouse(House.stark).build();
-        let pyke = new AreaBuilder(AreaKey.Pyke).withStronghold().withHouse(House.stark).build();
-        let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withStronghold().withHouse(House.stark).build();
-        let blackWater = new AreaBuilder(AreaKey.Blackwater).withStronghold().withHouse(House.stark).build();
+        let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
+        let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
+        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).build();
+        let pyke = new AreaBuilder(AreaKey.Pyke).withHouse(House.stark).build();
+        let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withHouse(House.stark).build();
+        let blackWater = new AreaBuilder(AreaKey.Blackwater).withHouse(House.stark).build();
         let widowsWatch = new AreaBuilder(AreaKey.WidowsWatch)
             .withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman])
             .withOrderToken(OrderTokenType.march_zero)
             .build();
-        let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).withStronghold().build();
+        let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, winterfell);
         areas.set(AreaKey.WhiteHarbor, whiteHarbor);

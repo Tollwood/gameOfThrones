@@ -2,12 +2,13 @@ import {House} from '../house';
 import {Area} from '../area';
 import {AreaKey} from '../areaKey';
 import {GameStoreState} from '../gameState/gameStoreState';
+import {AreaStatsService} from '../AreaStatsService';
 
 export default class VictoryRules {
 
     public static getVictoryPositionFor(state: GameStoreState, house: House) {
         return state.areas.values().filter((area: Area) => {
-            return area.controllingHouse === house && area.hasCastleOrStronghold();
+            return area.controllingHouse === house && AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold();
         }).length;
     }
 
@@ -28,7 +29,7 @@ export default class VictoryRules {
         const player = state.players.filter((player) => {
             return player.house === house;
         })[0];
-        if (this.getVictoryPositionFor(state, player.house) === 6 && state.areas.get(targetAreaKey).hasCastleOrStronghold()) {
+        if (this.getVictoryPositionFor(state, player.house) === 6 && AreaStatsService.getInstance().areaStats.get(targetAreaKey).hasCastleOrStronghold()) {
             winningHouse = player.house;
         }
         return winningHouse;

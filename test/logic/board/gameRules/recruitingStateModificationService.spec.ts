@@ -10,7 +10,7 @@ describe('RecruitingStateModificationService', () => {
     describe('calculateAreasAllowedToRecruit', () => {
         it('should set all areas controlled by a  house that has a stronghold and enough supply', () => {
             // given
-            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withCastle().build();
+            const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);

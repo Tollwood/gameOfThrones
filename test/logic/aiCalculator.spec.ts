@@ -15,7 +15,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -23,7 +23,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -31,7 +31,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -40,7 +40,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -50,7 +50,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -59,7 +59,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -68,7 +68,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -77,7 +77,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -132,7 +132,7 @@ describe('AiCalculator', () => {
         it('should return a possible move for march_zero', () => {
             // given
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).build();
-            const area = new AreaBuilder(AreaKey.Winterfell).withBorders([whiteHarbor]).withUnits([UnitType.Horse]).build();
+            const area = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Horse]).build();
             const state = {};
             spyOn(gameStore, 'getState').and.returnValue(state);
             spyOn(StateSelectorService, 'getAllAreasAllowedToMarchTo').and.returnValue([whiteHarbor]);
@@ -151,7 +151,7 @@ describe('AiCalculator', () => {
         });
 
         it('should return no possible move for march_zero order with no units', () => {
-            const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).withUnits([]).build();
+            const area = new AreaBuilder(AreaKey.Winterfell).withUnits([]).build();
             const actual = AiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.march_zero]);
             expect(actual.length).toBe(0);
         });
@@ -164,7 +164,7 @@ describe('AiCalculator', () => {
         });
 
         it('should return a possible move for raid_1', () => {
-            const area = new AreaBuilder(AreaKey.Winterfell).withBorders([]).build();
+            const area = new AreaBuilder(AreaKey.Winterfell).build();
             const actual = AiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.raid_1]);
             expect(actual.length).toBe(1);
             expect(actual[0].orderTokenType).toBe(OrderTokenType.raid_1);

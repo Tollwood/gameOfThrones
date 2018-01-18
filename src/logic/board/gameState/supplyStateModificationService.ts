@@ -2,6 +2,7 @@ import {House} from '../house';
 import {TSMap} from 'typescript-map';
 import {Area} from '../area';
 import {GameStoreState} from './gameStoreState';
+import {AreaStatsService} from '../AreaStatsService';
 
 export default class SupplyStateModificationService {
 
@@ -15,9 +16,11 @@ export default class SupplyStateModificationService {
 
     private static calculateNumberOfSupply(areas: Area[], house: House): number {
         return areas.filter((area: Area) => {
-            return area.controllingHouse === house && area.supply > 0;
+            const areaStats = AreaStatsService.getInstance().areaStats.get(area.key);
+            return area.controllingHouse === house && areaStats.supply > 0;
         }).map((area) => {
-            return area.supply;
+            const areaStats = AreaStatsService.getInstance().areaStats.get(area.key);
+            return areaStats.supply;
         }).reduce(
             (accumulator,
              currentValue) => {

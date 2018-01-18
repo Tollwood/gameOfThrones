@@ -6,6 +6,7 @@ import PlayerSetup from '../playerSetup';
 import CardFactory from '../../cards/cardFactory';
 import AiPlayer from '../../ai/aiPlayer';
 import {Area} from '../area';
+import {AreaStatsService} from '../AreaStatsService';
 
 export default class PlayerStateModificationService {
     private static INITIAL_POWER_TOKEN: number = 5;
@@ -48,7 +49,7 @@ export default class PlayerStateModificationService {
             let additionalPower = 0;
             state.areas.values().forEach((area) => {
                 if (area.controllingHouse === player.house) {
-                    additionalPower += area.consolidatePower;
+                    additionalPower += AreaStatsService.getInstance().areaStats.get(area.key).consolidatePower;
                 }
             });
             const newPlayer = player.copy();
@@ -66,7 +67,7 @@ export default class PlayerStateModificationService {
             return area.orderToken && area.orderToken.isConsolidatePowerToken();
         }).map((area) => {
             area.orderToken = null;
-            let additionalPowerToken = area.consolidatePower + 1;
+            let additionalPowerToken = AreaStatsService.getInstance().areaStats.get(area.key).consolidatePower + 1;
             let player = updatedPlayers.filter((player) => {
                 return player.house === area.controllingHouse;
             })[0];

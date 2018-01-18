@@ -6,58 +6,61 @@ import Unit from '../units/units';
 import {UnitType} from '../units/unitType';
 import {AreaKey} from './areaKey';
 import {TSMap} from 'typescript-map';
+import {AreaStats} from './areaStats';
 
 export class AreaInitiator {
 
     public static getInitalState(playingHouses: Array<House>): TSMap<AreaKey, Area> {
         let areas: TSMap<AreaKey, Area> = new TSMap();
-
-        (<any>areaConfigData).forEach((jsonConfig) => {
-            const area = this.parseAreas(jsonConfig);
-            areas.set(area.key, area);
-        });
-
-        areas.values().map(area => {
-            this.addBorderAreas(area, areas.values());
-        });
-
         (<any>unitsConfigData).forEach((jsonConfig) => {
-            areas.values().filter(area => {
-                return AreaKey[<string>jsonConfig.key] === area.key && playingHouses.indexOf(House[<string>jsonConfig.controllingHouse]) > -1;
-            }).map(area => {
-                this.updateArea(area, jsonConfig);
-            });
+            if (playingHouses.indexOf(House[<string>jsonConfig.controllingHouse]) > -1) {
+                const area = this.createArea(jsonConfig);
+                areas.set(area.key, area);
+            }
         });
 
         return areas;
     }
 
-    private static parseAreas(json: any): Area {
-        return new Area(AreaKey[<string>json.key], json.consolidatePower, json.harbor, json.castle, json.stronghold, json.isLandArea, json.supply);
+    public static getAreaStats(): TSMap<AreaKey, AreaStats> {
+        let areasStats: TSMap<AreaKey, AreaStats> = new TSMap();
+
+        (<any>areaConfigData).forEach((jsonConfig) => {
+            const areaStats = this.parseAreas(jsonConfig);
+            areasStats.set(areaStats.key, areaStats);
+        });
+
+        areasStats.values().map(areaStats => {
+            this.addBorderAreas(areaStats);
+        });
+        return areasStats;
     }
 
-    private static updateArea(area: Area, json: any) {
-        area.controllingHouse = House[<string>json.controllingHouse];
-        area.units = [];
+    private static parseAreas(json: any): AreaStats {
+        return new AreaStats(AreaKey[<string>json.key], json.consolidatePower, json.harbor, json.castle, json.stronghold, json.isLandArea, json.supply);
+    }
+
+    private static createArea(json: any) {
+        const areaKey: AreaKey = AreaKey[<string>json.key];
+        const controllingHouse: House = House[<string>json.controllingHouse];
+        const units: Unit[] = [];
         json.units.forEach((unitTypeJson => {
             const unitType: UnitType = UnitType[<string>unitTypeJson];
-            const unit = new Unit(unitType, area.controllingHouse);
-            area.units.push(unit);
+            const unit = new Unit(unitType, controllingHouse);
+            units.push(unit);
         }));
+        return new Area(areaKey, controllingHouse, units);
     }
 
-    private static addBorderAreas(area: Area, areas: Area[]) {
+    private static addBorderAreas(areaStats: AreaStats) {
         const jsonConfigArea = (<any>areaConfigData)
             .filter(jsonConfig => {
-                return AreaKey[<string>jsonConfig.key] === area.key;
+                return AreaKey[<string>jsonConfig.key] === areaStats.key;
             })[0];
-        const borders: Area[] = (<any>jsonConfigArea.borders).map(borderKey => {
-            const matchinArea = areas.filter(potenialBorder => {
-                return potenialBorder.key === AreaKey[<string>borderKey];
-            })[0];
-            return matchinArea;
+        const borders: AreaKey[] = (<any>jsonConfigArea.borders).map(borderKey => {
+            return AreaKey[<string>borderKey];
         });
-        area.borders = borders;
+        areaStats.borders = borders;
 
     }
 }

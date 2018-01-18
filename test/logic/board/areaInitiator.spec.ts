@@ -4,11 +4,13 @@ import {House} from '../../../src/logic/board/house';
 import {Area} from '../../../src/logic/board/area';
 import {UnitType} from '../../../src/logic/units/unitType';
 import {TSMap} from 'typescript-map';
+import {AreaStats} from '../../../src/logic/board/areaStats';
+
 describe('AreaInitiator', () => {
     describe('getInitalState', () => {
 
         it('should load json file and parse areas', () => {
-            const actual: TSMap<AreaKey, Area> = AreaInitiator.getInitalState([]);
+            const actual: TSMap<AreaKey, AreaStats> = AreaInitiator.getAreaStats();
             const areaKeys = getAreaKeys();
             expect(actual.length).toEqual(areaKeys.length);
 

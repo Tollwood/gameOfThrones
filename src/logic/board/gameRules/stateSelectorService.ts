@@ -4,6 +4,7 @@ import {AreaKey} from '../areaKey';
 import Player from '../player';
 import {House} from '../house';
 import {GameStoreState} from '../gameState/gameStoreState';
+import {AreaStatsService} from '../AreaStatsService';
 
 export default class StateSelectorService {
 
@@ -12,7 +13,8 @@ export default class StateSelectorService {
     }
 
     public static getAreaByKey(areaKey: AreaKey): Area {
-        return gameStore.getState().areas.get(areaKey);
+        const area = gameStore.getState().areas.get(areaKey);
+        return area ? area : null;
     }
 
     public static getPlayerByHouse(house: House): Player {
@@ -21,35 +23,37 @@ export default class StateSelectorService {
 
     // move related
 
-    public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): Array<Area> {
-        let validAreas = [];
+    public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): AreaKey[] {
+        let validAreas: AreaKey[] = [];
         if (sourceArea.units.length === 0) {
             return validAreas;
         }
-        return validAreas.concat(this.getValidAreas(state, sourceArea, sourceArea.borders));
+        const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
+        return validAreas.concat(this.getValidAreas(state, sourceArea, sourceAreaStats.borders));
     }
 
-    private static getValidAreas(state: GameStoreState, sourceArea: Area, areasToCheck: Area[]) {
-        let validAreas = [];
-        areasToCheck
-            .forEach((area) => {
-                if (this.isAllowedToMove(state, sourceArea, area)) {
-                    validAreas.push(area);
-                }
-                if (sourceArea.isLandArea && !area.isLandArea && area.units.length > 0 && area.controllingHouse === sourceArea.controllingHouse) {
-                    validAreas = validAreas.concat(this.getValidAreas(state, sourceArea, area.borders));
-                }
-            });
+    public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
+        let areas: Area[] = state.areas.values();
+        let supplyScore = state.currentlyAllowedSupply.get(house);
+        let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, house);
+        let maxSize = 0;
+        let index = 0;
+        let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[supplyScore];
 
-        return validAreas;
+        for (let largestPossibleSize of allowedArmies) {
+            let armySize: number = armiesForHouse[index];
+            if (armySize === undefined || armySize < largestPossibleSize) {
+                return largestPossibleSize;
+            }
+            index++;
+        }
+        return maxSize;
     }
 
-    private static isAllowedToMove(state: GameStoreState, source: Area, target: Area): boolean {
-        const landToLandMove = source.isLandArea && target.isLandArea;
-        const seaToSeaMove = !source.isLandArea && !target.isLandArea;
-        const enoughSupplyForArmySize = this.enoughSupplyForArmySize(state, source, target);
-
-        return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
+    public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
+        const targetArmySize = target === undefined ? 0 : target.units.length;
+        let atleastOneUnitCanMove = targetArmySize + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
+        return target === undefined || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
     }
 
 
@@ -72,21 +76,22 @@ export default class StateSelectorService {
 
     private static SUPPLY_VS_ARMY_SIZE = [[2, 2], [3, 2], [3, 2, 2], [3, 2, 2, 2], [3, 3, 2, 2], [4, 3, 2, 2], [4, 3, 2, 2, 2]];
 
-    public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
-        let areas: Area[] = state.areas.values();
-        let supplyScore = state.currentlyAllowedSupply.get(house);
-        let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, house);
-        let maxSize = 0;
-        let index = 0;
-        let allowedArmies = this.SUPPLY_VS_ARMY_SIZE[supplyScore];
-        for (let largestPossibleSize of allowedArmies) {
-            let armySize: number = armiesForHouse[index];
-            if (armySize === undefined || armySize < largestPossibleSize) {
-                return largestPossibleSize;
-            }
-            index++;
-        }
-        return maxSize;
+    private static getValidAreas(state: GameStoreState, sourceArea: Area, areasToCheck: AreaKey[]) {
+        let validAreas: AreaKey[] = [];
+        areasToCheck
+            .forEach((areaKey) => {
+                if (this.isAllowedToMove(state, sourceArea, areaKey)) {
+                    validAreas.push(areaKey);
+                }
+                const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
+                const areaStats = AreaStatsService.getInstance().areaStats.get(areaKey);
+                const area = gameStore.getState().areas.get(areaKey);
+                if (sourceAreaStats.isLandArea && !areaStats.isLandArea && (area !== undefined && (area.units.length > 0 && area.controllingHouse === sourceArea.controllingHouse))) {
+                    validAreas = validAreas.concat(this.getValidAreas(state, sourceArea, areaStats.borders));
+                }
+            });
+
+        return validAreas;
     }
 
     public static calculateArmiesBySizeForHouse(areas: Area[], house: House): Array<number> {
@@ -100,8 +105,13 @@ export default class StateSelectorService {
         });
     }
 
-    public static enoughSupplyForArmySize(state: GameStoreState, source: Area, target: Area): boolean {
-        let atleastOneUnitCanMove = target.units.length + 1 <= this.calculateAllowedMaxSizeBasedOnSupply(state, state.currentHouse);
-        return target.controllingHouse === null || target.controllingHouse !== source.controllingHouse || (target.controllingHouse === source.controllingHouse && atleastOneUnitCanMove);
+    private static isAllowedToMove(state: GameStoreState, source: Area, targetKey: AreaKey): boolean {
+        const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(source.key);
+        const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetKey);
+        const landToLandMove = sourceAreaStats.isLandArea && targetAreaStats.isLandArea;
+        const seaToSeaMove = !sourceAreaStats.isLandArea && !targetAreaStats.isLandArea;
+        const enoughSupplyForArmySize = this.enoughSupplyForArmySize(state, source, gameStore.getState().areas.get(targetKey));
+
+        return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
     }
 }
