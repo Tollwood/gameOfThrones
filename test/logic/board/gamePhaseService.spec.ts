@@ -68,7 +68,7 @@ describe('GamePhaseService', () => {
             const actual = GamePhaseService.updateGamePhaseAfterRecruiting(state, areaKey);
             // then
 
-            expect(actual.gamePhase).toBe(state.gamePhase + 1);
+            expect(actual.gamePhase).toBe(GamePhase.WESTEROS2);
             expect(actual.currentHouse).toBe(House.baratheon);
         });
         it('should return currentPlayer if he is the only one who can recruit', () => {

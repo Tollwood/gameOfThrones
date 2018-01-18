@@ -15,8 +15,8 @@ describe('TokenPlacementRules', () => {
     let playerStark: Player;
     let playerLannister: Player;
     beforeEach(() => {
-        playerStark = new Player(House.stark, 0, []);
-        playerLannister = new Player(House.lannister, 0, []);
+        playerStark = new Player(House.stark, 0);
+        playerLannister = new Player(House.lannister, 0);
     });
 
     it('should be allowed to place a token on winterfell', () => {

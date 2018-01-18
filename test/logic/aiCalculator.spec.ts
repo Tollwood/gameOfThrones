@@ -6,7 +6,8 @@ import {UnitType} from '../../src/logic/units/unitType';
 import {OrderTokenType} from '../../src/logic/orderToken/orderTokenType';
 import PossibleMove from '../../src/logic/ai/possibleMove';
 import StateSelectorService from '../../src/logic/board/gameRules/stateSelectorService';
-import {gameStore} from '../../src/logic/board/gameState/reducer';
+import {TSMap} from 'typescript-map';
+import {Area} from '../../src/logic/board/area';
 
 describe('AiCalculator', () => {
 
@@ -15,7 +16,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -23,7 +24,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -31,7 +32,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -40,7 +41,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             // when
-            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area.key, House.stark);
+            const actual = AiCalculator.controlledByOtherPlayerWithEnemyUnits(area, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -50,7 +51,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -59,7 +60,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(undefined, House.stark);
             // then
             expect(actual).toBeTruthy();
         });
@@ -68,7 +69,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -77,7 +78,7 @@ describe('AiCalculator', () => {
             // given
             const area = new AreaBuilder(AreaKey.Winterfell).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
             // when
-            const actual = AiCalculator.unOccupiedOrNoEnemies(area.key, House.stark);
+            const actual = AiCalculator.unOccupiedOrNoEnemies(area, House.stark);
             // then
             expect(actual).toBeFalsy();
         });
@@ -97,33 +98,31 @@ describe('AiCalculator', () => {
     });
     describe('getBestMove', () => {
         it('should return null if no orderTokenTypes available', () => {
-            expect(AiCalculator.getBestMove(House.stark, null, [])).toBeNull();
+            expect(AiCalculator.getBestMove({}, House.stark, null, [])).toBeNull();
         });
 
         it('should return the possible move with highest value', () => {
             // given
+            const state = {};
             const availableOrderTokenTypes = [];
             const possibleMove1 = new PossibleMove(OrderTokenType.consolidatePower_special, null, 0.5);
             const possibleMove2 = new PossibleMove(OrderTokenType.consolidatePower_special, null, 1);
             spyOn(AiCalculator, 'getAllPossibleMoves').and.returnValue([possibleMove1, possibleMove2]);
 
             // when
-            const actual = AiCalculator.getBestMove(House.stark, null, availableOrderTokenTypes);
+            const actual = AiCalculator.getBestMove(state, House.stark, null, availableOrderTokenTypes);
             // then
             expect(actual).toBe(possibleMove2);
-            expect(AiCalculator.getAllPossibleMoves).toHaveBeenCalledWith(House.stark, null, availableOrderTokenTypes);
+            expect(AiCalculator.getAllPossibleMoves).toHaveBeenCalledWith({}, House.stark, null, availableOrderTokenTypes);
         });
     });
     describe('getAllPossibleMoves', () => {
         it('should return a possible move for consolidatePower_0', () => {
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, null, [OrderTokenType.consolidatePower_0]);
-            expect(actual.length).toBe(1);
-            expect(actual[0].orderTokenType).toBe(OrderTokenType.consolidatePower_0);
-            expect(actual[0].value).toBe(0.1);
-        });
-
-        it('should return a possible move for consolidatePower_0', () => {
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, null, [OrderTokenType.consolidatePower_0]);
+            const area = new AreaBuilder(AreaKey.Winterfell).build();
+            const areas: TSMap<AreaKey, Area> = new TSMap<AreaKey, Area>();
+            areas.set(area.key, area);
+            const state = {areas};
+            const actual = AiCalculator.getAllPossibleMoves(state, House.stark, area, [OrderTokenType.consolidatePower_0]);
             expect(actual.length).toBe(1);
             expect(actual[0].orderTokenType).toBe(OrderTokenType.consolidatePower_0);
             expect(actual[0].value).toBe(0.1);
@@ -133,12 +132,14 @@ describe('AiCalculator', () => {
             // given
             const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).build();
             const area = new AreaBuilder(AreaKey.Winterfell).withUnits([UnitType.Horse]).build();
-            const state = {};
-            spyOn(gameStore, 'getState').and.returnValue(state);
-            spyOn(StateSelectorService, 'getAllAreasAllowedToMarchTo').and.returnValue([whiteHarbor]);
+            const areas: TSMap<AreaKey, Area> = new TSMap<AreaKey, Area>();
+            areas.set(area.key, area);
+            areas.set(whiteHarbor.key, whiteHarbor);
+            const state = {areas};
+            spyOn(StateSelectorService, 'getAllAreasAllowedToMarchTo').and.returnValue([whiteHarbor.key]);
 
             // when
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.march_zero]);
+            const actual = AiCalculator.getAllPossibleMoves(state, House.stark, area, [OrderTokenType.march_zero]);
 
             // then
             expect(StateSelectorService.getAllAreasAllowedToMarchTo).toHaveBeenCalledWith(state, area);
@@ -152,12 +153,17 @@ describe('AiCalculator', () => {
 
         it('should return no possible move for march_zero order with no units', () => {
             const area = new AreaBuilder(AreaKey.Winterfell).withUnits([]).build();
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.march_zero]);
+            const state = {};
+            const actual = AiCalculator.getAllPossibleMoves(state, House.stark, area, [OrderTokenType.march_zero]);
             expect(actual.length).toBe(0);
         });
 
         it('should return a possible move for support_1', () => {
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, null, [OrderTokenType.support_1]);
+            const area = new AreaBuilder(AreaKey.Winterfell).build();
+            const areas: TSMap<AreaKey, Area> = new TSMap<AreaKey, Area>();
+            areas.set(area.key, area);
+            const state = {areas};
+            const actual = AiCalculator.getAllPossibleMoves(state, House.stark, area, [OrderTokenType.support_1]);
             expect(actual.length).toBe(1);
             expect(actual[0].orderTokenType).toBe(OrderTokenType.support_1);
             expect(actual[0].value).toBe(0);
@@ -165,7 +171,10 @@ describe('AiCalculator', () => {
 
         it('should return a possible move for raid_1', () => {
             const area = new AreaBuilder(AreaKey.Winterfell).build();
-            const actual = AiCalculator.getAllPossibleMoves(House.stark, area, [OrderTokenType.raid_1]);
+            const areas: TSMap<AreaKey, Area> = new TSMap<AreaKey, Area>();
+            areas.set(area.key, area);
+            const state = {areas};
+            const actual = AiCalculator.getAllPossibleMoves(state, House.stark, area, [OrderTokenType.raid_1]);
             expect(actual.length).toBe(1);
             expect(actual[0].orderTokenType).toBe(OrderTokenType.raid_1);
             expect(actual[0].value).toBe(0);

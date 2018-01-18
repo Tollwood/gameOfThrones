@@ -15,7 +15,7 @@ describe('SupplyStateModificationService', () => {
         const karhold = new AreaBuilder(AreaKey.Karhold).withHouse(House.stark).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Karhold, karhold);
-        let state = {players: [new Player(House.stark, 5, [])], areas: areas};
+        let state = {players: [new Player(House.stark, 5)], areas: areas};
         SupplyStateModificationService.updateSupply(state);
 
         expect(StateSelectorService.calculateArmiesBySizeForHouse(state.areas.values(), House.stark)).toEqual([]);

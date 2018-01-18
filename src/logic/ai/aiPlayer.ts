@@ -1,6 +1,5 @@
 import {House} from '../board/house';
 import Player from '../board/player';
-import HousecCard from '../cards/houseCard';
 import {recruitUnits} from '../board/gameState/actions';
 import AiCalculator from './aiCalculator';
 import {gameStore} from '../board/gameState/reducer';
@@ -10,8 +9,8 @@ import {GameStoreState} from '../board/gameState/gameStoreState';
 
 export default class AiPlayer extends Player {
 
-    constructor(house: House, powerToken: number, cards: HousecCard[]) {
-        super(house, powerToken, cards);
+    constructor(house: House, powerToken: number) {
+        super(house, powerToken);
         gameStore.subscribe(() => {
             const state = gameStore.getState();
             this.recruit(state);

@@ -11,8 +11,8 @@ import {GamePhase} from '../../../../src/logic/board/gamePhase';
 
 xdescribe('NextPhaseAction', () => {
     it('should increase power for all player owning areas with consolidate power symbols and give one additional power for each token', () => {
-        const playerStark = new Player(House.stark, 0, []);
-        const playerLannister = new Player(House.lannister, 0, []);
+        const playerStark = new Player(House.stark, 0);
+        const playerLannister = new Player(House.lannister, 0);
         // given
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_1).build();
         const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).withOrderToken(OrderTokenType.consolidatePower_0).build();
@@ -46,7 +46,7 @@ xdescribe('NextPhaseAction', () => {
     it('should not increase power if no consolidate power token exist in area', () => {
 
         // given
-        const playerStark = new Player(House.stark, 0, []);
+        const playerStark = new Player(House.stark, 0);
         const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.raid_0).build();
 
         const areas = new TSMap<AreaKey, Area>();
@@ -81,7 +81,7 @@ xdescribe('NextPhaseAction', () => {
             gameRound: 10,
             gamePhase: GamePhase.ACTION_CLEANUP,
             ironThroneSuccession: [House.stark, House.lannister],
-            players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+            players: [new Player(House.stark, 0), new Player(House.lannister, 0)],
             areas: areas
         };
         gameStore.dispatch(loadGame(gameStoreState));

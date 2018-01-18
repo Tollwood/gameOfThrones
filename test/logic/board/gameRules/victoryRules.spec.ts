@@ -17,7 +17,7 @@ describe('VictoryRules', () => {
             areas.set(AreaKey.Winterfell, winterfell);
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
             const state = {
-                players: [new Player(House.stark, 0, []), new Player(House.lannister, 0, [])],
+                players: [new Player(House.stark, 0), new Player(House.lannister, 0)],
                 areas: areas
             };
             const actual = VictoryRules.getVictoryPositionFor(state, House.stark);

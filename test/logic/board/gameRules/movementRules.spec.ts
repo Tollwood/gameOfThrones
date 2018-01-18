@@ -11,8 +11,8 @@ import {Area} from '../../../../src/logic/board/area';
 
 describe('StateSelectorService', () => {
 
-    const playerLannister = new Player(House.lannister, 0, []);
-    const playerStark = new Player(House.stark, 1, []);
+    const playerLannister = new Player(House.lannister, 0);
+    const playerStark = new Player(House.stark, 1);
 
     describe('getAllAreasAllowedToMarchTo', () => {
 

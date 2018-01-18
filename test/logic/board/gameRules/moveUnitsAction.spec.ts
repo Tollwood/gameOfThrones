@@ -11,8 +11,8 @@ import {loadGame, moveUnits} from '../../../../src/logic/board/gameState/actions
 import Player from '../../../../src/logic/board/player';
 
 describe('moveUnitsAction', () => {
-    const playerLannister = new Player(House.lannister, 0, []);
-    const playerStark = new Player(House.stark, 1, []);
+    const playerLannister = new Player(House.lannister, 0);
+    const playerStark = new Player(House.stark, 1);
 
     it('should move the units and establish control in targetArea, aswell as moving on to the next player', () => {
         // given
@@ -159,7 +159,7 @@ describe('moveUnitsAction', () => {
             winningHouse: null,
             ironThroneSuccession: [House.stark, House.lannister],
             areas: areas,
-            players: [new Player(House.lannister, 0, []), new Player(House.stark, 0, [])]
+            players: [new Player(House.lannister, 0), new Player(House.stark, 0)]
         };
         gameStore.dispatch(loadGame(gameStoreState));
         gameStore.dispatch(moveUnits(AreaKey.WidowsWatch, AreaKey.BlackwaterBay, [new Unit(UnitType.Footman, House.stark)], true, true));

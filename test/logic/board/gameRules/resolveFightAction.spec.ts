@@ -14,8 +14,8 @@ describe('resolveFight', () => {
         // given
         const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Horse]).build();
         const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Footman]).build();
-        const playerStark = new Player(House.stark, 5, []);
-        const players = [playerStark, new Player(House.lannister, 5, [])];
+        const playerStark = new Player(House.stark, 5);
+        const players = [playerStark, new Player(House.lannister, 5)];
         const ironThroneSuccession = [House.lannister, House.stark];
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, attackingArea);

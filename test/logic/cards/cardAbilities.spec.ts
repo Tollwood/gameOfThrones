@@ -49,7 +49,7 @@ describe('CardAbilities', () => {
 
             // when
             const actual = CardAbilities.nothing(initialState);
-            expect(actual.gamePhase).toBe(GamePhase.WESTEROS2)
+            expect(actual.gamePhase).toBe(GamePhase.WESTEROS2);
         });
     });
 
@@ -202,8 +202,8 @@ describe('CardAbilities', () => {
             const castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.lannister).build();
             const kingsLanding = new AreaBuilder(AreaKey.KingsLanding).withHouse(House.stark).build();
 
-            const playerStark = new Player(House.stark, 0, []);
-            const playerLannister = new Player(House.lannister, 0, []);
+            const playerStark = new Player(House.stark, 0);
+            const playerLannister = new Player(House.lannister, 0);
 
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.Winterfell, winterfell);

@@ -1,26 +1,16 @@
-import {House} from '../board/house';
-
-import * as houseCardData from './houseCard.json';
 import * as westerosCardData from './westeroscard.json';
-import HouseCard from './houseCard';
 import {WesterosCard} from './westerosCard';
 import CardFunction from './cardFuncttion';
 import {TSMap} from 'typescript-map';
-import {GamePhase} from '../board/gamePhase';
+import {ALL_PHASES, GamePhase} from '../board/gamePhase';
 
 export default class CardFactory {
 
-    public static getHouseCards(house: House): Array<HouseCard> {
-        let cards = new Array<HouseCard>();
-
-        (<any>houseCardData).forEach((jsonCard) => {
-            cards.push(this.parseHouseCards(jsonCard));
-        });
-
-        return cards.filter((card) => {
-            return card.house === house;
-        });
-
+    public static shuffle(cards: Array<any>) {
+        for (let i = cards.length; i; i--) {
+            let j = Math.floor(Math.random() * i);
+            [cards[i - 1], cards[j]] = [cards[j], cards[i - 1]];
+        }
     }
 
     public static getWesterosCards(): TSMap<GamePhase, WesterosCard[]> {
@@ -31,24 +21,18 @@ export default class CardFactory {
 
         (<any>westerosCardData).forEach((jsonCard) => {
             const gamePhase: GamePhase = jsonCard.gamePhase;
-            cards.get(gamePhase).push(this.parseWesterosCards(jsonCard));
+            let count = westerosCards[ALL_PHASES.lastIndexOf(gamePhase)].filter((cardId) => {
+                return cardId === jsonCard.id;
+            }).length;
+            for (let i = 0; i < count; i++) {
+                cards.get(gamePhase).push(this.parseWesterosCards(jsonCard));
+            }
+
         });
 
         cards.forEach(cards => this.shuffle(cards));
         return cards;
 
-    }
-
-    public static shuffle(cards: Array<any>) {
-        for (let i = cards.length; i; i--) {
-            let j = Math.floor(Math.random() * i);
-            [cards[i - 1], cards[j]] = [cards[j], cards[i - 1]];
-        }
-    }
-
-    private static parseHouseCards(json: any): HouseCard {
-        let house = <string>json.house;
-        return new HouseCard(json.id, json.leaderName, json.artWork, json.combatStrength, json.sword, json.fortification, json.ability, json.abilityFn, House[house], json.cardExecutionPoint);
     }
 
     private static parseWesterosCards(json: any): WesterosCard {

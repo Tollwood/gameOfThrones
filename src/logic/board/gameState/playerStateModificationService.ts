@@ -3,7 +3,6 @@ import Player from '../player';
 import {House} from '../house';
 import {GameStoreState} from './gameStoreState';
 import PlayerSetup from '../playerSetup';
-import CardFactory from '../../cards/cardFactory';
 import AiPlayer from '../../ai/aiPlayer';
 import {Area} from '../area';
 import {AreaStatsService} from '../AreaStatsService';
@@ -83,10 +82,10 @@ export default class PlayerStateModificationService {
         const players: Player[] = [];
         playerSetup.forEach((config) => {
             if (config.ai) {
-                players.push(new AiPlayer(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+                players.push(new AiPlayer(config.house, this.INITIAL_POWER_TOKEN));
             }
             else {
-                players.push(new Player(config.house, this.INITIAL_POWER_TOKEN, CardFactory.getHouseCards(config.house)));
+                players.push(new Player(config.house, this.INITIAL_POWER_TOKEN));
             }
         });
         return players;

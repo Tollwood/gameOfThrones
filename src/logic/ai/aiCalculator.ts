@@ -20,10 +20,10 @@ export default class AiCalculator {
     public static executeOrder(state: GameStoreState, aiPlayer: AiPlayer) {
 
         if (state.gamePhase === GamePhase.ACTION_MARCH) {
-            let areasWithMoveToken = this.getAreasForHouseWithToken(gameStore.getState().areas.values(), aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
+            let areasWithMoveToken = this.getAreasForHouseWithToken(state.areas.values(), aiPlayer.house, TokenPlacementRules.MARCH_ORDER_TOKENS);
             if (areasWithMoveToken.length > 0) {
                 let sourceArea = areasWithMoveToken[0];
-                let bestMove = AiCalculator.getBestMove(aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
+                let bestMove = AiCalculator.getBestMove(state, aiPlayer.house, sourceArea, [sourceArea.orderToken.getType()]);
                 const targetArea = state.areas.get(bestMove.targetAreaKey);
                 if (bestMove === null) {
                     gameStore.dispatch(skipOrder(sourceArea.key));
@@ -65,7 +65,7 @@ export default class AiCalculator {
             return TokenPlacementRules.isAllowedToPlaceOrderToken(house, area.key);
         });
         let bestMovesForAllPlaceableToken = areasToPlaceAToken.map((area) => {
-            return this.getBestMove(house, area, availableOrderToken);
+            return this.getBestMove(state, house, area, availableOrderToken);
         });
 
         for (let bestMove of bestMovesForAllPlaceableToken) {
@@ -73,13 +73,12 @@ export default class AiCalculator {
         }
     }
 
-    public static controlledByOtherPlayerWithEnemyUnits(areaKey: AreaKey, house: House) {
-        const area = gameStore.getState().areas.get(areaKey);
+    public static controlledByOtherPlayerWithEnemyUnits(area: Area, house: House) {
         return area !== undefined && area.controllingHouse !== house && area.units.length > 0;
     }
 
-    public static getBestMove(currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
-        let allPossibleMoves = this.getAllPossibleMoves(currentHouse, area, availableOrderToken);
+    public static getBestMove(state: GameStoreState, currentHouse: House, area: Area, availableOrderToken: OrderTokenType[]): PossibleMove {
+        let allPossibleMoves = this.getAllPossibleMoves(state, currentHouse, area, availableOrderToken);
         if (allPossibleMoves.length === 0) {
             return null;
         }
@@ -96,7 +95,7 @@ export default class AiCalculator {
         });
     }
 
-    public static getAllPossibleMoves(currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
+    public static getAllPossibleMoves(state: GameStoreState, currentHouse: House, area: Area, availableOrderToken: Array<OrderTokenType>): PossibleMove[] {
         let possibleMoves = [];
         availableOrderToken.forEach((orderTokenType) => {
             switch (orderTokenType) {
@@ -108,7 +107,7 @@ export default class AiCalculator {
                 case OrderTokenType.defend_0:
                 case OrderTokenType.defend_1:
                 case OrderTokenType.defend_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForDefendingOrders(area, currentHouse, 0.1)));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForDefendingOrders(state, area, currentHouse, 0.1)));
                     break;
 
                 case OrderTokenType.support_0:
@@ -120,14 +119,15 @@ export default class AiCalculator {
                 case OrderTokenType.raid_0:
                 case OrderTokenType.raid_1:
                 case OrderTokenType.raid_special:
-                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForRaidOrders(area, currentHouse, 0.1)));
+                    possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForRaidOrders(state, area, currentHouse, 0.1)));
                     break;
 
                 case OrderTokenType.march_zero:
                 case OrderTokenType.march_minusOne:
                 case OrderTokenType.march_special:
-                    StateSelectorService.getAllAreasAllowedToMarchTo(gameStore.getState(), area).forEach((possibleArea) => {
-                        possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(area.key, possibleArea, currentHouse), possibleArea));
+                    StateSelectorService.getAllAreasAllowedToMarchTo(state, area).forEach((possibleAreaKey) => {
+                        const possibleArea = state.areas.get(possibleAreaKey);
+                        possibleMoves.push(new PossibleMove(orderTokenType, area.key, this.calculateValueForMarchOrders(state, area.key, possibleArea, currentHouse), possibleAreaKey));
                     });
                     break;
             }
@@ -136,16 +136,15 @@ export default class AiCalculator {
         return possibleMoves;
     }
 
-    public static unOccupiedOrNoEnemies(areaKey: AreaKey, house: House) {
-        const area = gameStore.getState().areas.get(areaKey);
+    public static unOccupiedOrNoEnemies(area: Area, house: House) {
         return area === undefined || (area.controllingHouse !== null && area.controllingHouse !== house) && area.units.length === 0;
     }
 
-    private static calculateValueForDefendingOrders(area: Area, currentHouse: House, factor: number): number {
+    private static calculateValueForDefendingOrders(state: GameStoreState, area: Area, currentHouse: House, factor: number): number {
         let value = 0;
         AreaStatsService.getInstance().areaStats.get(area.key).borders
             .forEach((borderAreaKey) => {
-                const borderArea = gameStore.getState().areas.get(borderAreaKey);
+                const borderArea = state.areas.get(borderAreaKey);
                 let controlledByOtherPlayerWithEnemyUnits = borderArea !== undefined && borderArea.controllingHouse !== null && borderArea.controllingHouse !== currentHouse && borderArea.units.length > 0;
                 if (controlledByOtherPlayerWithEnemyUnits) {
                     value += factor;
@@ -162,12 +161,12 @@ export default class AiCalculator {
         return 0;
     }
 
-    private static calculateValueForRaidOrders(area: Area, currentHouse: House, factor: number) {
+    private static calculateValueForRaidOrders(state: GameStoreState, area: Area, currentHouse: House, factor: number) {
 
         let value = 0;
         AreaStatsService.getInstance().areaStats.get(area.key).borders
             .forEach((borderAreaKey) => {
-                let controlledByOtherPlayerWithEnemyUnits = AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderAreaKey, currentHouse);
+                let controlledByOtherPlayerWithEnemyUnits = AiCalculator.controlledByOtherPlayerWithEnemyUnits(state.areas.get(borderAreaKey), currentHouse);
                 if (controlledByOtherPlayerWithEnemyUnits) {
                     value += factor;
                 }
@@ -175,16 +174,16 @@ export default class AiCalculator {
         return value;
     }
 
-    private static calculateValueForMarchOrders(sourceAreaKey: AreaKey, targetAreaKey: AreaKey, currentHouse: House) {
+    private static calculateValueForMarchOrders(state: GameStoreState, sourceAreaKey: AreaKey, targetArea: Area, currentHouse: House) {
         let value = 0;
         const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceAreaKey);
         let numberOfEnemiesAtBorder = sourceAreaStats.borders
             .filter((borderAreaKey) => {
-                return AiCalculator.controlledByOtherPlayerWithEnemyUnits(borderAreaKey, currentHouse);
+                return AiCalculator.controlledByOtherPlayerWithEnemyUnits(state.areas.get(borderAreaKey), currentHouse);
             }).length;
 
-        let unOccupiedOrNoEnemies = this.unOccupiedOrNoEnemies(targetAreaKey, currentHouse);
-        const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetAreaKey);
+        let unOccupiedOrNoEnemies = this.unOccupiedOrNoEnemies(targetArea, currentHouse);
+        const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetArea.key);
 
         if (targetAreaStats.hasCastleOrStronghold() && unOccupiedOrNoEnemies) {
             value += 0.9;
