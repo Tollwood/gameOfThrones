@@ -48,16 +48,24 @@ describe('resolveFight', () => {
         const attackingArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withUnits([UnitType.Footman]).build();
         const defendingArea = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.lannister).withUnits([UnitType.Horse]).build();
         const combatResult = new CombatResult(attackingArea, defendingArea, 1, 2);
+        const areas: TSMap<AreaKey, Area> = new TSMap<AreaKey, Area>();
+        areas.set(attackingArea.key, attackingArea);
+        areas.set(defendingArea.key, defendingArea);
 
+        const state = {areas};
+
+        gameStore.dispatch(loadGame(state));
 
         // when
         gameStore.dispatch(resolveFight(combatResult));
-
+        const newState = gameStore.getState();
         // then
-        expect(attackingArea.units.length).toBe(0);
-        expect(attackingArea.orderToken).toBeNull();
-        expect(attackingArea.controllingHouse).toBeNull();
-        expect(defendingArea.units.length).toBe(1);
+        const updatedAttackingArea = newState.areas.get(attackingArea.key);
+        const updatedDefendingArea = newState.areas.get(defendingArea.key);
+        expect(updatedAttackingArea.units.length).toBe(0);
+        expect(updatedAttackingArea.orderToken).toBeNull();
+        expect(updatedAttackingArea.controllingHouse).toBeNull();
+        expect(updatedDefendingArea.units.length).toBe(1);
 
     });
 });

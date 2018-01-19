@@ -11,9 +11,9 @@ describe('RecruitingStateModificationService', () => {
         it('should set all areas controlled by a  house that has a stronghold and enough supply', () => {
             // given
             const winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
-            const whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
+            const theStonyShore = new AreaBuilder(AreaKey.TheStonyShore).withHouse(House.stark).build();
             const areas = new TSMap<AreaKey, Area>();
-            areas.set(AreaKey.WhiteHarbor, whiteHarbor);
+            areas.set(AreaKey.TheStonyShore, theStonyShore);
             areas.set(AreaKey.Winterfell, winterfell);
             let state = {areas: areas, currentHouse: House.stark};
 

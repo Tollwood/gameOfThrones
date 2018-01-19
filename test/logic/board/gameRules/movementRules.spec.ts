@@ -8,6 +8,7 @@ import {AreaKey} from '../../../../src/logic/board/areaKey';
 import {OrderTokenType} from '../../../../src/logic/orderToken/orderTokenType';
 import {TSMap} from 'typescript-map';
 import {Area} from '../../../../src/logic/board/area';
+import {AreaStatsService} from '../../../../src/logic/board/AreaStatsService';
 
 describe('StateSelectorService', () => {
 
@@ -68,7 +69,6 @@ describe('StateSelectorService', () => {
 
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, winterfell, karhold);
-            expect(result.length).toBe(1);
             expect(result.indexOf(karhold.key)).toBeGreaterThan(-1);
         });
 
@@ -97,7 +97,6 @@ describe('StateSelectorService', () => {
 
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
-            expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
         });
         it('should be allowed to move land units from WhiteHarbor via two sea areas using a friendly ship to castleBlack', () => {
@@ -131,20 +130,19 @@ describe('StateSelectorService', () => {
 
             // then
             expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
-            expect(result.length).toBe(1);
             expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
 
         });
         it('should be allowed to move unit into an enemy area with establish control of other player', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon).build();
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.baratheon).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman])
                 .withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
-            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.Winterfell, winterfell);
             spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             const state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
@@ -156,20 +154,23 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, castleBlack);
-            expect(result.length).toBe(1);
-            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
+            expect(StateSelectorService.enoughSupplyForArmySize).toHaveBeenCalledWith(state, whiteHarbor, winterfell);
+            const landAreaBorders = AreaStatsService.getInstance()
+                .areaStats.get(whiteHarbor.key).borders
+                .filter(border => AreaStatsService.getInstance().areaStats.get(border).isLandArea).length;
+            expect(result.length).toBe(landAreaBorders);
+            expect(result.indexOf(winterfell.key)).toBeGreaterThan(-1);
         });
         it('should be allowed to move units into an occupied area', () => {
             // given
-            let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.baratheon)
+            let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.baratheon)
                 .withUnits([UnitType.Footman]).build();
             let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark)
                 .withUnits([UnitType.Footman]).withOrderToken(OrderTokenType.march_minusOne)
                 .build();
             const areas = new TSMap<AreaKey, Area>();
             areas.set(AreaKey.WhiteHarbor, whiteHarbor);
-            areas.set(AreaKey.CastleBlack, castleBlack);
+            areas.set(AreaKey.Winterfell, winterfell);
             spyOn(StateSelectorService, 'enoughSupplyForArmySize').and.returnValue(true);
             let state = {
                 ironThroneSuccession: [playerLannister.house, playerStark.house],
@@ -181,7 +182,7 @@ describe('StateSelectorService', () => {
             let result = StateSelectorService.getAllAreasAllowedToMarchTo(state, whiteHarbor);
 
             // then
-            expect(result.indexOf(castleBlack.key)).toBeGreaterThan(-1);
+            expect(result.indexOf(winterfell.key)).toBeGreaterThan(-1);
         });
         it('should not move land unit into a sea area ', () => {
             // given

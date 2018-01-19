@@ -85,7 +85,7 @@ export default class StateSelectorService {
                 }
                 const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
                 const areaStats = AreaStatsService.getInstance().areaStats.get(areaKey);
-                const area = gameStore.getState().areas.get(areaKey);
+                const area = state.areas.get(areaKey);
                 if (sourceAreaStats.isLandArea && !areaStats.isLandArea && (area !== undefined && (area.units.length > 0 && area.controllingHouse === sourceArea.controllingHouse))) {
                     validAreas = validAreas.concat(this.getValidAreas(state, sourceArea, areaStats.borders));
                 }
@@ -110,7 +110,7 @@ export default class StateSelectorService {
         const targetAreaStats = AreaStatsService.getInstance().areaStats.get(targetKey);
         const landToLandMove = sourceAreaStats.isLandArea && targetAreaStats.isLandArea;
         const seaToSeaMove = !sourceAreaStats.isLandArea && !targetAreaStats.isLandArea;
-        const enoughSupplyForArmySize = this.enoughSupplyForArmySize(state, source, gameStore.getState().areas.get(targetKey));
+        const enoughSupplyForArmySize = this.enoughSupplyForArmySize(state, source, state.areas.get(targetKey));
 
         return (landToLandMove || seaToSeaMove) && enoughSupplyForArmySize;
     }

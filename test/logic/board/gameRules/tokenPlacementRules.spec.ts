@@ -10,7 +10,7 @@ import {executeRaidOrder, loadGame} from '../../../../src/logic/board/gameState/
 import {Area} from '../../../../src/logic/board/area';
 import {TSMap} from 'typescript-map';
 
-describe('TokenPlacementRules', () => {
+xdescribe('TokenPlacementRules', () => {
 
     let playerStark: Player;
     let playerLannister: Player;

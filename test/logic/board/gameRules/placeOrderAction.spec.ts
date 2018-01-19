@@ -20,7 +20,8 @@ describe('placeOrderAction', () => {
         areas.set(sourceArea.key, sourceArea);
         areas.set(secondArea.key, secondArea);
         let gameStoreState = {
-            areas: areas
+            areas: areas,
+            ironThroneSuccession: [House.stark]
         };
         gameStore.dispatch(loadGame(gameStoreState));
 
@@ -34,6 +35,7 @@ describe('placeOrderAction', () => {
         expect(orderToken).toBeDefined();
         expect(orderToken.getHouse()).toBe(House.stark);
         expect(orderToken.getType()).toBe(OrderTokenType.defend_0);
+        expect(newState.currentHouse).toBe(House.stark);
 
     });
 

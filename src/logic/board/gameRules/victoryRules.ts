@@ -29,7 +29,9 @@ export default class VictoryRules {
         const player = state.players.filter((player) => {
             return player.house === house;
         })[0];
-        if (this.getVictoryPositionFor(state, player.house) === 6 && AreaStatsService.getInstance().areaStats.get(targetAreaKey).hasCastleOrStronghold()) {
+        const victoryPosition = this.getVictoryPositionFor(state, player.house);
+        const targetAreaHasStronghold = AreaStatsService.getInstance().areaStats.get(targetAreaKey).hasCastleOrStronghold();
+        if (victoryPosition === 6 && targetAreaHasStronghold) {
             winningHouse = player.house;
         }
         return winningHouse;

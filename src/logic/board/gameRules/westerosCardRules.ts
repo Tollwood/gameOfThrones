@@ -14,6 +14,7 @@ export default class WesterosCardRules {
     }
 
     public static moveCardToEndOfTheStack(westerosCards: Array<WesterosCard>): WesterosCard {
+        // FIXME state change outside reducer
         let cardToPlay: WesterosCard = westerosCards.shift();
         westerosCards.push(cardToPlay);
         return cardToPlay;

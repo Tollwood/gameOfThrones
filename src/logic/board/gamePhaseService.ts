@@ -13,8 +13,9 @@ import Player from './player';
 export default class GamePhaseService {
 
     public static getNextPhaseAndPlayer(state: GameStoreState, lastSourceAreaKey: AreaKey, updatedAreas: Area[], players: Player[]): GameStoreState {
-        const nextGamePhase = this.getNextGamePhaseWithPendingActions(updatedAreas, state.gamePhase, lastSourceAreaKey);
-        let nextHouse = state.ironThroneSuccession[0];
+        const nextGamePhase: GamePhase = this.getNextGamePhaseWithPendingActions(updatedAreas, state.gamePhase, lastSourceAreaKey);
+
+
         if (nextGamePhase === GamePhase.ACTION_CLEANUP) {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
@@ -27,6 +28,7 @@ export default class GamePhaseService {
                 currentlyAllowedTokenTypes: GameStateModificationService.INITIALLY_ALLOWED_ORDER_TOKEN_TYPES
             };
         }
+        let nextHouse = state.ironThroneSuccession[0];
         if (state.gamePhase === nextGamePhase) {
             nextHouse = this.getNextHouseWithPendingActions(state.ironThroneSuccession, state.areas.values(), nextGamePhase, lastSourceAreaKey, this.nextHouse(state.ironThroneSuccession, state.currentHouse));
         }
@@ -36,6 +38,10 @@ export default class GamePhaseService {
         };
     }
 
+    public static getNextHouse() {
+
+
+    }
     public static updateGamePhaseAfterRecruiting(state: GameStoreState, areaKey?: AreaKey) {
         const nextHouseToRecruit = this.getNextHouseToRecruit(state, areaKey);
         return {
@@ -52,9 +58,9 @@ export default class GamePhaseService {
     private static isStillIn(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey, house?: House) {
         switch (gamePhase) {
             case GamePhase.PLANNING:
-                return !this.isPlanningPhaseComplete(areas, lastModifiedSourceAreaKey);
+                return !this.isPlanningPhaseComplete(areas);
             case GamePhase.ACTION_RAID:
-                return !this.allRaidOrdersRevealed(areas, lastModifiedSourceAreaKey, house);
+                return !this.allRaidOrdersRevealed(areas, house);
             case GamePhase.ACTION_MARCH:
                 return !this.allMarchOrdersRevealed(areas, lastModifiedSourceAreaKey, house);
             case GamePhase.ACTION_CLEANUP:
@@ -76,9 +82,9 @@ export default class GamePhaseService {
         return ironThroneSuccession[nextIndex];
     }
 
-    private static allRaidOrdersRevealed(areas: Area[], lastModifiedSourceAreaKey: AreaKey, house?: House): boolean {
+    private static allRaidOrdersRevealed(areas: Area[], house?: House): boolean {
         return areas.filter((area) => {
-            return area.key !== lastModifiedSourceAreaKey && area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
+            return area.orderToken && area.orderToken.isRaidToken() && (house === undefined || house === area.controllingHouse);
         }).length === 0;
     }
 
@@ -117,16 +123,19 @@ export default class GamePhaseService {
         return areasAllowedToRecruit.length > 0;
     }
 
-    private static isPlanningPhaseComplete(areas: Area[], areaKey?: AreaKey) {
-        return areas.filter((area) => {
-            return this.isAreaWithUnitsAndToken(area) || this.isAreaWithoutUnits(area) || areaKey === area.key;
-        }).length === areas.length;
+    private static isPlanningPhaseComplete(areas: Area[]) {
+        const completedAreas = areas.filter((area) => {
+            const isAreaWithUnitsAndToken = this.isAreaWithUnitsAndToken(area);
+            const isAreaWithoutUnits = this.isAreaWithoutUnits(area);
+            return isAreaWithUnitsAndToken || isAreaWithoutUnits;
+        }).length;
+        return completedAreas === areas.length;
 
     }
 
     private static getNextGamePhaseWithPendingActions(areas: Area[], gamePhase: GamePhase, lastModifiedSourceAreaKey: AreaKey): GamePhase {
-
-        if (this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey)) {
+        const isStillIn = this.isStillIn(areas, gamePhase, lastModifiedSourceAreaKey);
+        if (isStillIn) {
             return gamePhase;
         }
         return this.getNextGamePhaseWithPendingActions(areas, this.getNextGamePhase(gamePhase), lastModifiedSourceAreaKey);

@@ -136,25 +136,25 @@ describe('moveUnitsAction', () => {
     it('should return the house that has exactly 7 strongholds/ castle', () => {
         let winterfell = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).build();
         let whiteHarbor = new AreaBuilder(AreaKey.WhiteHarbor).withHouse(House.stark).build();
-        let castleBlack = new AreaBuilder(AreaKey.CastleBlack).withHouse(House.stark).build();
+        let flintsFinger = new AreaBuilder(AreaKey.FlintsFinger).withHouse(House.stark).build();
         let pyke = new AreaBuilder(AreaKey.Pyke).withHouse(House.stark).build();
-        let bayOfIce = new AreaBuilder(AreaKey.BayOfIce).withHouse(House.stark).build();
-        let blackWater = new AreaBuilder(AreaKey.Blackwater).withHouse(House.stark).build();
+        let moatCailin = new AreaBuilder(AreaKey.MoatCailin).withHouse(House.stark).build();
+        let seagard = new AreaBuilder(AreaKey.Seagard).withHouse(House.stark).build();
         let widowsWatch = new AreaBuilder(AreaKey.WidowsWatch)
             .withHouse(House.stark)
             .withUnits([UnitType.Footman, UnitType.Footman])
             .withOrderToken(OrderTokenType.march_zero)
             .build();
-        let blackWaterBay = new AreaBuilder(AreaKey.BlackwaterBay).build();
+        let theEyrie = new AreaBuilder(AreaKey.TheEyrie).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, winterfell);
         areas.set(AreaKey.WhiteHarbor, whiteHarbor);
-        areas.set(AreaKey.CastleBlack, castleBlack);
+        areas.set(AreaKey.FlintsFinger, flintsFinger);
         areas.set(AreaKey.Pyke, pyke);
-        areas.set(AreaKey.BayOfIce, bayOfIce);
-        areas.set(AreaKey.Blackwater, blackWater);
+        areas.set(AreaKey.MoatCailin, moatCailin);
+        areas.set(AreaKey.Seagard, seagard);
         areas.set(AreaKey.WidowsWatch, widowsWatch);
-        areas.set(AreaKey.BlackwaterBay, blackWaterBay);
+        areas.set(AreaKey.TheEyrie, theEyrie);
         let gameStoreState = {
             winningHouse: null,
             ironThroneSuccession: [House.stark, House.lannister],
@@ -162,7 +162,7 @@ describe('moveUnitsAction', () => {
             players: [new Player(House.lannister, 0), new Player(House.stark, 0)]
         };
         gameStore.dispatch(loadGame(gameStoreState));
-        gameStore.dispatch(moveUnits(AreaKey.WidowsWatch, AreaKey.BlackwaterBay, [new Unit(UnitType.Footman, House.stark)], true, true));
+        gameStore.dispatch(moveUnits(AreaKey.WidowsWatch, AreaKey.TheEyrie, [new Unit(UnitType.Footman, House.stark)], true, true));
         const newState = gameStore.getState();
         expect(newState.winningHouse).toBe(House.stark);
     });
