@@ -91,10 +91,11 @@ describe('CardAbilities', () => {
             // given
             const westerosCards: TSMap<GamePhase, WesterosCard[]> = new TSMap();
             const card1 = new WesterosCardBuilder().build();
-            const card2 = new WesterosCardBuilder().build();
-            const card3 = new WesterosCardBuilder().build();
-            const card4 = new WesterosCardBuilder().build();
-            const westeros1Cards: WesterosCard[] = [card1, card2, card3, card4];
+            const westeros1Cards: WesterosCard[] = [card1];
+
+            for (let i: number = 0; i < 1000000; i++) {
+                westeros1Cards.push(new WesterosCardBuilder().build());
+            }
             westerosCards.set(GamePhase.WESTEROS1, westeros1Cards);
             const initialState = {
                 westerosCards,
@@ -106,8 +107,8 @@ describe('CardAbilities', () => {
 
             // then
             expect(actual.gamePhase).toBe(GamePhase.WESTEROS1);
-            expect(actual.westerosCards.get(GamePhase.WESTEROS1).length).toBe(4);
-            // this works with random shuffeling... is this expectation stable enough?
+            expect(actual.westerosCards.get(GamePhase.WESTEROS1).length).toBe(1000001);
+            // testing random... can fail with a chance of 1 to a million
             expect(actual.westerosCards.get(GamePhase.WESTEROS1)[0]).not.toBe(card1);
 
         });

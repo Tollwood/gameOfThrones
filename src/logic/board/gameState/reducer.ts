@@ -36,29 +36,35 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
 
         case TypeKeys.PLACE_ORDER:
             const areasAfterPlacingOrder = AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey);
+            let nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterPlacingOrder.values());
             newState = {
                 ...state,
                 areas: areasAfterPlacingOrder,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterPlacingOrder.values(), state.players)
+                gamePhase: nextGamePhase,
+                currentHouse: GamePhaseService.getNextHouse(state, nextGamePhase, action.areaKey),
             };
             break;
 
         case TypeKeys.SKIP_ORDER:
             const areasAfterSkippingOrder = AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey);
+            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterSkippingOrder.values());
             newState = {
                 ...state,
                 areas: areasAfterSkippingOrder,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.areaKey, areasAfterSkippingOrder.values(), state.players)
+                gamePhase: nextGamePhase,
+                currentHouse: GamePhaseService.getNextHouse(state, nextGamePhase, action.areaKey),
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
             const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]);
             const playersAfterRaidOrder = PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey);
+            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterExecutingRaidOrder.values());
             newState = {
                 ...state,
                 areas: areasAfterExecutingRaidOrder,
                 players: playersAfterRaidOrder,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.sourceAreaKey, areasAfterExecutingRaidOrder.values(), playersAfterRaidOrder)
+                gamePhase: nextGamePhase,
+                currentHouse: GamePhaseService.getNextHouse(state, nextGamePhase, action.sourceAreaKey)
             };
             break;
         case TypeKeys.PLAY_WESTEROS_CARD:
@@ -75,11 +81,13 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
             const areasAfterMove = AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl);
             const playersAfterMove = PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse);
+            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterMove.values());
             newState = {
                 ...state,
                 areas: areasAfterMove,
                 players: playersAfterMove,
-                ...GamePhaseService.getNextPhaseAndPlayer(state, action.source, areasAfterMove.values(), playersAfterMove),
+                gamePhase: nextGamePhase,
+                currentHouse: GamePhaseService.getNextHouse(state, nextGamePhase, action.source),
                 winningHouse,
             };
             break;
@@ -97,8 +105,9 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             newState = state;
             break;
     }
-    // console.log({action, oldState: state, newState});
-    return newState;
+    const nextState = GamePhaseService.cleanupBoard(newState);
+    // console.log({action, oldState: nextState, nextState, newState: newState});
+    return nextState;
 };
 
 const gameStore: Store<GameStoreState> = createStore(gameStateReducer);

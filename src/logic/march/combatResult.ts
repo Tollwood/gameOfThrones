@@ -1,20 +1,14 @@
 import {House} from '../board/house';
 import Unit from '../units/units';
 import {Area} from '../board/area';
-import HouseCard from '../cards/houseCard';
+
 export default class CombatResult {
 
     private _attackingArea: Area;
-    private _attackersCard: HouseCard;
     private _attackerStrength: number;
-    private _attackerSword: number;
-    private _attackerFortification: number;
 
     private _defendingArea: Area;
-    private _defendersCard: HouseCard;
     private _defenderStrength: number;
-    private _defenderSword: number;
-    private _defenderFortification: number;
 
     constructor(attackingArea: Area, defendingArea: Area, attackerStrength: number, defenderStrength: number) {
         this._attackingArea = attackingArea;

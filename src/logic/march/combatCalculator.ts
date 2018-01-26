@@ -1,13 +1,10 @@
 import {Area} from '../board/area';
 import CombatResult from './combatResult';
 import {OrderToken} from '../orderToken/orderToken';
-import HouseCard from '../cards/houseCard';
-import {CardExecutionPoint} from '../cards/cardExecutionPoint';
-import CardAbilities from '../cards/cardAbilities';
 import Unit from '../units/units';
 import {UnitType} from '../units/unitType';
 import {OrderTokenType} from '../orderToken/orderTokenType';
-import {gameStore} from '../board/gameState/reducer';
+
 export default class CombatCalculator {
 
     public static calculateCombat(sourceArea: Area, targetArea: Area): CombatResult {
@@ -72,23 +69,5 @@ export default class CombatCalculator {
             }
         });
         return strength;
-    }
-
-    public static resolveHouseCard(combatResult: CombatResult, cardExecutionPoint: CardExecutionPoint, attackersCard: HouseCard, defendersCard: HouseCard) {
-        let cardsToResolve = new Array<HouseCard>();
-        if (attackersCard.cardExecutionPoint === cardExecutionPoint) {
-            cardsToResolve.push(attackersCard);
-        }
-
-        if (defendersCard.cardExecutionPoint === cardExecutionPoint) {
-            cardsToResolve.push(defendersCard);
-        }
-        cardsToResolve.sort((a, b) => {
-            return gameStore.getState().ironThroneSuccession.indexOf(a.house) - gameStore.getState().ironThroneSuccession.indexOf(b.house);
-        });
-
-        cardsToResolve.forEach((card) => {
-            CardAbilities[card.abilityFn](card, combatResult);
-        });
     }
 }
