@@ -1,6 +1,5 @@
 import OrderTokenRenderer from '../ui/orderToken/orderTokenRenderer';
 import BoardRenderer from '../ui/board/boardRenderer';
-import TopMenuRenderer from '../ui/board/topMenu/topMenuRenderer';
 import UnitRenderer from '../ui/units/unitRenderer';
 import GameRules from '../logic/board/gameRules/gameRules';
 import WinningModal from '../ui/board/winningModal';
@@ -15,7 +14,6 @@ import {WesterosCardRenderer} from '../ui/cards/westerosCardRenderer';
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
     private boardRenderer: BoardRenderer;
-    private topMenuRenderer: TopMenuRenderer;
     private powerTokenRenderer: PowerTokenRenderer;
     private currentGameWidth: number;
     private unitRenderer: UnitRenderer;
@@ -47,7 +45,6 @@ export default class Game extends Phaser.State {
         const renderer = new Renderer(this.game);
         AssetLoader.createAssets(this.game);
         BoardRenderer.renderBoard(this.game);
-        this.topMenuRenderer = new TopMenuRenderer(this.game);
         this.unitRenderer.init(this.game);
         this.orderTokenRenderer.init(renderer);
         this.recruitingRenderer.init(renderer);
@@ -63,8 +60,6 @@ export default class Game extends Phaser.State {
         if (this.currentGameWidth !== window.innerWidth) {
             this.currentGameWidth = window.innerWidth;
         }
-        // TODO render based on gameState
-        // this.topMenuRenderer.renderTopMenu(this.game);
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
     }
