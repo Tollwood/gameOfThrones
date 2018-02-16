@@ -26,6 +26,7 @@ export default class GamePhaseService {
         if (state.gamePhase === GamePhase.ACTION_CLEANUP) {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
+                ...state,
                 areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
                 players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state.players, state.areas.values()),
                 gamePhase: GamePhase.WESTEROS1,

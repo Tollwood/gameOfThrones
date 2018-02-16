@@ -64,7 +64,7 @@ export default class Game extends Phaser.State {
             this.currentGameWidth = window.innerWidth;
         }
         // TODO render based on gameState
-        this.topMenuRenderer.renderTopMenu(this.game);
+        // this.topMenuRenderer.renderTopMenu(this.game);
         this.boardRenderer.handleNavigationOnMap(this.game);
         this.boardRenderer.handleZoom(this.game);
     }

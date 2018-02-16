@@ -2,10 +2,11 @@ import {Area} from '../area';
 import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
-import {House} from '../house';
 import Unit from '../../units/units';
 import {UnitType} from '../../units/unitType';
 import StateSelectorService from '../gameRules/stateSelectorService';
+import AreaBuilder from '../../../../test/areaBuilder';
+
 export default class AreaStateModificationService {
 
     public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): TSMap<AreaKey, Area> {
@@ -66,20 +67,37 @@ export default class AreaStateModificationService {
 
     public static moveUnits(areas: Area[], source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false): TSMap<AreaKey, Area> {
         const newAreasMap = new TSMap<AreaKey, Area>();
+        let foundTarget = false;
         areas.forEach((area) => {
-            const newArea = area.copy();
-            if (newArea.key === source) {
-                this.updateSourceArea(newArea, movingUnits, completeOrder, establishControl, newArea.controllingHouse);
+            let updatedArea: Area;
+            if (area.key === source) {
+                updatedArea = this.updateSourceArea(area, movingUnits, completeOrder, establishControl);
+                updatedArea ? newAreasMap.set(updatedArea.key, updatedArea) : null;
+            } else if (area.key === target) {
+                foundTarget = true;
+                updatedArea = this.updateTargetArea(area, movingUnits);
             }
-            if (newArea.key === target) {
-                this.updateTargetArea(newArea, movingUnits);
+            else {
+                updatedArea = area.copy();
             }
-            newAreasMap.set(newArea.key, newArea);
+            updatedArea ? newAreasMap.set(updatedArea.key, updatedArea) : null;
+
         });
+        if (!foundTarget) {
+            const newArea = new AreaBuilder(target)
+                .withHouse(movingUnits[0].getHouse())
+                .withUnits(movingUnits.map(units => units.getType()))
+                .build();
+            newAreasMap.set(newArea.key, newArea);
+        }
         return newAreasMap;
     }
 
-    private static updateSourceArea(sourceArea: Area, movingUnits: Unit[], completeOrder: boolean, establishControl: boolean, controllingHouse: House) {
+    private static updateSourceArea(oldArea: Area, movingUnits: Unit[], completeOrder: boolean, establishControl: boolean): Area {
+        if (oldArea.units.length === movingUnits.length && !establishControl) {
+            return null;
+        }
+        const sourceArea = oldArea.copy();
         let remainingUnits = sourceArea.units.filter((sourceUnit) => {
             return movingUnits.indexOf(sourceUnit) === -1;
         });
@@ -91,15 +109,18 @@ export default class AreaStateModificationService {
             sourceArea.orderToken = null;
         }
         if (completeOrder && establishControl) {
-            sourceArea.controllingHouse = controllingHouse;
+            sourceArea.controllingHouse = oldArea.controllingHouse;
         }
+        return sourceArea;
     }
 
-    private static updateTargetArea(targetArea: Area, movingUnits: Unit[]) {
+    private static updateTargetArea(oldArea: Area, movingUnits: Unit[]): Area {
+        const targetArea = oldArea.copy();
         targetArea.units = targetArea.units.concat(movingUnits);
         if (movingUnits.length > 0) {
             targetArea.controllingHouse = movingUnits[0].getHouse();
         }
+        return targetArea;
 
     }
 

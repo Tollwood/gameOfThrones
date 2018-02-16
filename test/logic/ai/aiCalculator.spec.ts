@@ -1,13 +1,13 @@
-import AreaBuilder from '../areaBuilder';
-import {AreaKey} from '../../src/logic/board/areaKey';
-import AiCalculator from '../../src/logic/ai/aiCalculator';
-import {House} from '../../src/logic/board/house';
-import {UnitType} from '../../src/logic/units/unitType';
-import {OrderTokenType} from '../../src/logic/orderToken/orderTokenType';
-import PossibleMove from '../../src/logic/ai/possibleMove';
-import StateSelectorService from '../../src/logic/board/gameRules/stateSelectorService';
+import AreaBuilder from '../../areaBuilder';
+import {AreaKey} from '../../../src/logic/board/areaKey';
+import AiCalculator from '../../../src/logic/ai/aiCalculator';
+import {House} from '../../../src/logic/board/house';
+import {UnitType} from '../../../src/logic/units/unitType';
+import {OrderTokenType} from '../../../src/logic/orderToken/orderTokenType';
+import PossibleMove from '../../../src/logic/ai/possibleMove';
+import StateSelectorService from '../../../src/logic/board/gameRules/stateSelectorService';
 import {TSMap} from 'typescript-map';
-import {Area} from '../../src/logic/board/area';
+import {Area} from '../../../src/logic/board/area';
 
 describe('AiCalculator', () => {
 

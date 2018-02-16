@@ -24,11 +24,6 @@ export default class Player {
         return this._house;
     }
 
-
-    isAiPlayer(): boolean {
-        return false;
-    }
-
     copy(): Player {
         return new Player(this.house, this.powerToken);
     }

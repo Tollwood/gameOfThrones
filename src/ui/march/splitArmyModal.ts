@@ -72,7 +72,8 @@ export default class SplitArmyModal extends Modal {
 
     private updateModal() {
         let availableUnits = this._sourceArea.units;
-        let targetAreaArmySize = StateSelectorService.getAreaByKey(this._targetAreaKey).units.length;
+        const tragetArea = StateSelectorService.getAreaByKey(this._targetAreaKey);
+        let targetAreaArmySize = tragetArea ? tragetArea.units.length : 0;
 
         let selectedUnits = this.getSelectedUnits();
         let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameStore.getState(), gameStore.getState().currentHouse);

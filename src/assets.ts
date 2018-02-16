@@ -386,7 +386,6 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/westerosCard/supply.png'); };
     }
-
     export class ImagesWesterosCardWESTEROS1 {
         static getName(): string {
             return 'WESTEROS1';
@@ -401,7 +400,6 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/westerosCard/Westeros1Back.png'); };
     }
-
     export class ImagesWesterosCardWESTEROS2 {
         static getName(): string {
             return 'WESTEROS2';
@@ -416,7 +414,6 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/westerosCard/Westeros2Back.png'); };
     }
-
     export class ImagesWesterosCardWESTEROS3 {
         static getName(): string {
             return 'WESTEROS3';

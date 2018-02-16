@@ -24,12 +24,11 @@ export default class StateSelectorService {
     // move related
 
     public static getAllAreasAllowedToMarchTo(state: GameStoreState, sourceArea: Area): AreaKey[] {
-        let validAreas: AreaKey[] = [];
         if (sourceArea.units.length === 0) {
-            return validAreas;
+            return [];
         }
         const sourceAreaStats = AreaStatsService.getInstance().areaStats.get(sourceArea.key);
-        return validAreas.concat(this.getValidAreas(state, sourceArea, sourceAreaStats.borders));
+        return this.getValidAreas(state, sourceArea, sourceAreaStats.borders);
     }
 
     public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
@@ -90,7 +89,7 @@ export default class StateSelectorService {
                     validAreas = validAreas.concat(this.getValidAreas(state, sourceArea, areaStats.borders));
                 }
             });
-
+        // TODO Filter duplicates
         return validAreas;
     }
 

@@ -77,14 +77,14 @@ describe('moveUnitsAction', () => {
         const actual = gameStore.getState().areas;
         // then
         const actualSource = actual.get(sourceArea.key);
-        expect(actualSource.units.length).toBe(0);
-        expect(actualSource.controllingHouse).toBeNull();
+        expect(actualSource).toBe(undefined);
     });
     it('should set the orderToken to null incase order is complete', () => {
         // given
         const horseUnit = new Unit(UnitType.Horse, House.stark);
+        const horseUnit1 = new Unit(UnitType.Horse, House.stark);
         const sourceArea = new AreaBuilder(AreaKey.Winterfell).withHouse(House.stark).withOrderToken(OrderTokenType.march_special).build();
-        sourceArea.units = [horseUnit];
+        sourceArea.units = [horseUnit, horseUnit1];
         const targetArea = new AreaBuilder(AreaKey.WhiteHarbor).build();
         const areas = new TSMap<AreaKey, Area>();
         areas.set(AreaKey.Winterfell, sourceArea);

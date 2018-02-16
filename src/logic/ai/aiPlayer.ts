@@ -19,10 +19,6 @@ export default class AiPlayer extends Player {
         });
     }
 
-    isAiPlayer(): boolean {
-        return true;
-    }
-
     private recruit(state: GameStoreState) {
         if (state.areasAllowedToRecruit.length > 0 && state.currentHouse === this.house) {
             if (StateSelectorService.getAreasAllowedToRecruit(state, this.house).length > 0) {

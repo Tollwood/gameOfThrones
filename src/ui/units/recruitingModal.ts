@@ -23,9 +23,9 @@ export default class RecruitingModal extends Modal {
         let recruitingPointsText = 'recruit points left: ';
 
         let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
-            gameStore.dispatch(recruitUnits(area.key));
             closeFn();
             this.close();
+            gameStore.dispatch(recruitUnits(area.key));
         });
         let textRecruitNewUnits = this.addText('Recruit new units', 100, 0, true, () => {
             let unitTypesToRecruit = unitsToRecruit.filter((ru) => {
@@ -33,9 +33,9 @@ export default class RecruitingModal extends Modal {
             }).map((ru) => {
                 return ru.unitType;
             });
-            gameStore.dispatch(recruitUnits(area.key, unitTypesToRecruit));
             closeFn();
             this.close();
+            gameStore.dispatch(recruitUnits(area.key, unitTypesToRecruit));
         });
 
 
