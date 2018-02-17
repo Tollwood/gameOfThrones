@@ -106,7 +106,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
     }
     const nextState = GamePhaseService.cleanupBoard(newState);
-    //console.log({action, oldState: nextState, nextState, newState: newState});
+    // console.log({action, oldState: nextState, nextState, newState: newState});
     return nextState;
 };
 
