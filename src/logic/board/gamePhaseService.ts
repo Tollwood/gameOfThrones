@@ -17,7 +17,7 @@ export default class GamePhaseService {
 
     public static getNextHouse(state: GameStoreState, nextGamePhase: GamePhase, lastSourceAreaKey: AreaKey) {
         if (state.gamePhase === nextGamePhase) {
-            return this.getNextHouseWithPendingActions(state.ironThroneSuccession, state.areas.values(), nextGamePhase, lastSourceAreaKey, this.nextHouse(state.ironThroneSuccession, state.currentHouse));
+            return this.getNextHouseWithPendingActions(state.ironThroneSuccession, Array.from(state.areas.values()), nextGamePhase, lastSourceAreaKey, this.nextHouse(state.ironThroneSuccession, state.currentHouse));
         }
         return state.ironThroneSuccession[0];
     }
@@ -27,8 +27,8 @@ export default class GamePhaseService {
             const winningHouse = VictoryRules.getWinningHouse(state);
             return {
                 ...state,
-                areas: AreaModificationService.removeAllRemainingTokens(state.areas.values()),
-                players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state.players, state.areas.values()),
+                areas: AreaModificationService.removeAllRemainingTokens(Array.from(state.areas.values())),
+                players: PlayerStateModificationService.executeAllConsolidatePowerOrders(state.players, Array.from(state.areas.values())),
                 gamePhase: GamePhase.WESTEROS1,
                 gameRound: state.gameRound + 1,
                 winningHouse: winningHouse,

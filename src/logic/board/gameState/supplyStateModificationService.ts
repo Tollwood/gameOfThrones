@@ -1,15 +1,14 @@
 import {House} from '../house';
-import {TSMap} from 'typescript-map';
 import {Area} from '../area';
 import {GameStoreState} from './gameStoreState';
 import {AreaStatsService} from '../AreaStatsService';
 
 export default class SupplyStateModificationService {
 
-    public static updateSupply(state: GameStoreState): TSMap<House, number> {
-        let updatedSupply = new TSMap<House, number>();
+    public static updateSupply(state: GameStoreState): Map<House, number> {
+        let updatedSupply = new Map<House, number>();
         state.players.forEach((player) => {
-            updatedSupply.set(player.house, this.calculateNumberOfSupply(state.areas.values(), player.house));
+            updatedSupply.set(player.house, this.calculateNumberOfSupply(Array.from(state.areas.values()), player.house));
         });
         return updatedSupply;
     }

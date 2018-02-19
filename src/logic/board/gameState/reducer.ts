@@ -27,7 +27,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             const currentWesterosCard = areasAllowedToRecruit.length > 0 ? state.currentWesterosCard : null;
             newState = {
                 ...state,
-                areas: AreaModificationService.recruitUnits(state.areas.values(), action.areaKey, action.units),
+                areas: AreaModificationService.recruitUnits(Array.from(state.areas.values()), action.areaKey, action.units),
                 areasAllowedToRecruit,
                 currentWesterosCard,
                 ...GamePhaseService.updateGamePhaseAfterRecruiting(state, action.areaKey)
@@ -35,8 +35,8 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
 
         case TypeKeys.PLACE_ORDER:
-            const areasAfterPlacingOrder = AreaModificationService.addOrderToken(state.areas.values(), action.orderToken, action.areaKey);
-            let nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterPlacingOrder.values());
+            const areasAfterPlacingOrder = AreaModificationService.addOrderToken(Array.from(state.areas.values()), action.orderToken, action.areaKey);
+            let nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterPlacingOrder.values()));
             newState = {
                 ...state,
                 areas: areasAfterPlacingOrder,
@@ -46,8 +46,8 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
 
         case TypeKeys.SKIP_ORDER:
-            const areasAfterSkippingOrder = AreaModificationService.removeOrderToken(state.areas.values(), action.areaKey);
-            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterSkippingOrder.values());
+            const areasAfterSkippingOrder = AreaModificationService.removeOrderToken(Array.from(state.areas.values()), action.areaKey);
+            nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterSkippingOrder.values()));
             newState = {
                 ...state,
                 areas: areasAfterSkippingOrder,
@@ -56,9 +56,9 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             };
             break;
         case TypeKeys.EXECUTE_RAID_ORDER:
-            const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(state.areas.values(), [action.sourceAreaKey, action.targetAreaKey]);
+            const areasAfterExecutingRaidOrder = AreaModificationService.removeOrderTokens(Array.from(state.areas.values()), [action.sourceAreaKey, action.targetAreaKey]);
             const playersAfterRaidOrder = PlayerStateModificationService.raidPowerToken(state, action.sourceAreaKey, action.targetAreaKey);
-            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterExecutingRaidOrder.values());
+            nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterExecutingRaidOrder.values()));
             newState = {
                 ...state,
                 areas: areasAfterExecutingRaidOrder,
@@ -79,9 +79,9 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
         case TypeKeys.MOVE_UNITS:
             let winningHouse = VictoryRules.verifyWinningHouseAfterMove(state, state.areas.get(action.source).controllingHouse, action.target);
-            const areasAfterMove = AreaModificationService.moveUnits(state.areas.values(), action.source, action.target, action.units, action.completeOrder, action.establishControl);
+            const areasAfterMove = AreaModificationService.moveUnits(Array.from(state.areas.values()), action.source, action.target, action.units, action.completeOrder, action.establishControl);
             const playersAfterMove = PlayerStateModificationService.establishControl(state.players, action.establishControl, state.areas.get(action.source).controllingHouse);
-            nextGamePhase = GamePhaseService.getNextPhase(state, areasAfterMove.values());
+            nextGamePhase = GamePhaseService.getNextPhase(state, Array.from(areasAfterMove.values()));
             newState = {
                 ...state,
                 areas: areasAfterMove,
@@ -98,7 +98,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             const winningArea = combatResult.winner === combatResult.attackingArea.controllingHouse ? combatResult.attackingArea : combatResult.defendingArea;
             newState = {
                 ...state,
-                areas: AreaModificationService.updateAfterFight(state.areas.values(), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units),
+                areas: AreaModificationService.updateAfterFight(Array.from(state.areas.values()), combatResult.attackingArea.key, winningArea.key, loosingArea.key, winningArea.units),
             };
             break;
         default:
@@ -106,7 +106,7 @@ const gameStateReducer = (state: GameStoreState = {}, action: ActionTypes): Game
             break;
     }
     const nextState = GamePhaseService.cleanupBoard(newState);
-    // console.log({action, oldState: nextState, nextState, newState: newState});
+    console.log({action, oldState: nextState, nextState, newState: newState});
     return nextState;
 };
 

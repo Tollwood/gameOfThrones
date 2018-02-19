@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import AssetLoader from '../../utils/assetLoader';
 
 export default class BoardRenderer {

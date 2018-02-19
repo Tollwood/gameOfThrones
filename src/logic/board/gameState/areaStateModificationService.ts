@@ -1,5 +1,4 @@
 import {Area} from '../area';
-import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
 import {OrderToken} from '../../orderToken/orderToken';
 import Unit from '../../units/units';
@@ -9,8 +8,8 @@ import AreaBuilder from '../../../../test/areaBuilder';
 
 export default class AreaStateModificationService {
 
-    public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): TSMap<AreaKey, Area> {
-        const newAreaMap = new TSMap<AreaKey, Area>();
+    public static recruitUnits(areas: Area[], areaKey: AreaKey, unitTypes: UnitType[]): Map<AreaKey, Area> {
+        const newAreaMap = new Map<AreaKey, Area>();
         areas.forEach(area => {
             const newArea = area.copy();
             if (newArea.key === areaKey) {
@@ -26,8 +25,8 @@ export default class AreaStateModificationService {
 
     }
 
-    public static removeAllRemainingTokens(areas: Area[]): TSMap<AreaKey, Area> {
-        const newAreasMap = new TSMap<AreaKey, Area>();
+    public static removeAllRemainingTokens(areas: Area[]): Map<AreaKey, Area> {
+        const newAreasMap = new Map<AreaKey, Area>();
         areas.forEach(area => {
             const copyOfArea = area.copy();
             copyOfArea.orderToken = null;
@@ -37,8 +36,8 @@ export default class AreaStateModificationService {
         return newAreasMap;
     }
 
-    public static addOrderToken(areas: Area[], ordertoken: OrderToken, areaKey: AreaKey): TSMap<AreaKey, Area> {
-        const newAreaMap = new TSMap<AreaKey, Area>();
+    public static addOrderToken(areas: Area[], ordertoken: OrderToken, areaKey: AreaKey): Map<AreaKey, Area> {
+        const newAreaMap = new Map<AreaKey, Area>();
         areas.forEach(area => {
             const newArea = area.copy();
             if (newArea.key === areaKey) {
@@ -49,8 +48,8 @@ export default class AreaStateModificationService {
         return newAreaMap;
     }
 
-    public static removeOrderTokens(areas: Area[], areaKeys: AreaKey[]): TSMap<AreaKey, Area> {
-        const newAreaMap = new TSMap<AreaKey, Area>();
+    public static removeOrderTokens(areas: Area[], areaKeys: AreaKey[]): Map<AreaKey, Area> {
+        const newAreaMap = new Map<AreaKey, Area>();
         areas.forEach(area => {
             const newArea = area.copy();
             if (areaKeys.lastIndexOf(newArea.key) > -1) {
@@ -61,12 +60,12 @@ export default class AreaStateModificationService {
         return newAreaMap;
     }
 
-    public static removeOrderToken(areas: Area[], areaKey: AreaKey): TSMap<AreaKey, Area> {
+    public static removeOrderToken(areas: Area[], areaKey: AreaKey): Map<AreaKey, Area> {
         return this.addOrderToken(areas, null, areaKey);
     }
 
-    public static moveUnits(areas: Area[], source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false): TSMap<AreaKey, Area> {
-        const newAreasMap = new TSMap<AreaKey, Area>();
+    public static moveUnits(areas: Area[], source: AreaKey, target: AreaKey, movingUnits: Array<Unit>, completeOrder: boolean = true, establishControl: boolean = false): Map<AreaKey, Area> {
+        const newAreasMap = new Map<AreaKey, Area>();
         let foundTarget = false;
         areas.forEach((area) => {
             let updatedArea: Area;
@@ -126,7 +125,7 @@ export default class AreaStateModificationService {
 
     public static updateAfterFight(areas: Area[], attackingAreaKey: AreaKey, winningAreaKey: AreaKey, loosingAreaKey: AreaKey, units: Array<Unit>) {
 
-        const newAreasMap = new TSMap<AreaKey, Area>();
+        const newAreasMap = new Map<AreaKey, Area>();
         areas.forEach((area) => {
             const newArea = area.copy();
             if (attackingAreaKey === winningAreaKey) {

@@ -3,6 +3,7 @@ import Modal from '../../utils/modal';
 import {AreaKey} from '../../logic/board/areaKey';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {moveUnits} from '../../logic/board/gameState/actions';
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 
 export default class EstablishControlModal extends Modal {
     private _closeFn: Function;

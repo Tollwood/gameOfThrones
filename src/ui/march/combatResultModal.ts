@@ -4,6 +4,8 @@ import Modal from '../../utils/modal';
 import Renderer from '../../utils/renderer';
 import {resolveFight} from '../../logic/board/gameState/actions';
 import {gameStore} from '../../logic/board/gameState/reducer';
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
+
 export default class CombatResultModal extends Modal {
 
     constructor(renderer: Renderer, combatResult: CombatResult, onCloseFn: Function) {

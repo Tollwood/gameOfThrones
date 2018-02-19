@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import UiArea from './UiArea';
 export default class UiInteractionSupport {
 

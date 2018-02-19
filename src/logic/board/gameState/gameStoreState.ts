@@ -1,4 +1,3 @@
-import {TSMap} from 'typescript-map';
 import {AreaKey} from '../areaKey';
 import {Area} from '../area';
 import {GamePhase} from '../gamePhase';
@@ -8,7 +7,7 @@ import {OrderTokenType} from '../../orderToken/orderTokenType';
 import {WesterosCard} from '../../cards/westerosCard';
 
 export class GameStoreState {
-    areas?: TSMap<AreaKey, Area>;
+    areas?: Map<AreaKey, Area>;
 
     gameRound?: number;
     gamePhase?: GamePhase;
@@ -22,11 +21,11 @@ export class GameStoreState {
     players?: Array<Player>;
     localPlayersHouse?: House;
     currentHouse?: House;
-    currentlyAllowedSupply?: TSMap<House, number>;
+    currentlyAllowedSupply?: Map<House, number>;
 
     areasAllowedToRecruit?: AreaKey[];
 
     currentWesterosCard?: WesterosCard;
-    westerosCards?: TSMap<GamePhase, WesterosCard[]>;
+    westerosCards?: Map<GamePhase, WesterosCard[]>;
     wildlingsCount?: number;
 }

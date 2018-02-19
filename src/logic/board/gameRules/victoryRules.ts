@@ -7,7 +7,7 @@ import {AreaStatsService} from '../AreaStatsService';
 export default class VictoryRules {
 
     public static getVictoryPositionFor(state: GameStoreState, house: House) {
-        return state.areas.values().filter((area: Area) => {
+        return Array.from(state.areas.values()).filter((area: Area) => {
             return area.controllingHouse === house && AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold();
         }).length;
     }

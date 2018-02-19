@@ -4,6 +4,8 @@ import CombatResultModal from './combatResultModal';
 import CombatCalculator from '../../logic/march/combatCalculator';
 import Modal from '../../utils/modal';
 import Renderer from '../../utils/renderer';
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
+
 export default class CombatModal extends Modal {
 
     constructor(renderer: Renderer, sourceArea: Area, targetArea: Area, onCloseFn: Function) {

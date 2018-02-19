@@ -23,7 +23,7 @@ export default class TokenPlacementRules {
     }
 
     public static getPlacableOrderTokenTypes(state: GameStoreState, house: House): Array<OrderTokenType> {
-        let alreadyPlacedOrderTokens: Array<OrderTokenType> = state.areas.values().filter((area) => {
+        let alreadyPlacedOrderTokens: Array<OrderTokenType> = Array.from(state.areas.values()).filter((area) => {
             return area.orderToken && area.controllingHouse === house;
         }).map((area) => {
             return area.orderToken.getType();

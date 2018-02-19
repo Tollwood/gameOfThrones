@@ -1,4 +1,3 @@
-import {TSMap} from 'typescript-map';
 import {AreaKey} from './areaKey';
 import {AreaStats} from './areaStats';
 import {AreaInitiator} from './areaInitiator';
@@ -10,9 +9,9 @@ export class AreaStatsService {
         this._areaStats = AreaInitiator.getAreaStats();
     }
 
-    private _areaStats: TSMap<AreaKey, AreaStats>;
+    private _areaStats: Map<AreaKey, AreaStats>;
 
-    get areaStats(): TSMap<AreaKey, AreaStats> {
+    get areaStats(): Map<AreaKey, AreaStats> {
         return this._areaStats;
     }
 

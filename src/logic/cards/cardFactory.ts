@@ -1,7 +1,6 @@
 import * as westerosCardData from './westeroscard.json';
 import {WesterosCard} from './westerosCard';
 import CardFunction from './cardFuncttion';
-import {TSMap} from 'typescript-map';
 import {ALL_PHASES, GamePhase} from '../board/gamePhase';
 
 export default class CardFactory {
@@ -13,8 +12,8 @@ export default class CardFactory {
         }
     }
 
-    public static getWesterosCards(): TSMap<GamePhase, WesterosCard[]> {
-        const cards = new TSMap<GamePhase, WesterosCard[]>();
+    public static getWesterosCards(): Map<GamePhase, WesterosCard[]> {
+        const cards = new Map<GamePhase, WesterosCard[]>();
         cards.set(GamePhase.WESTEROS1, []);
         cards.set(GamePhase.WESTEROS2, []);
         cards.set(GamePhase.WESTEROS3, []);

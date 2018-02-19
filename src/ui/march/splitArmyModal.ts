@@ -9,6 +9,7 @@ import {moveUnits} from '../../logic/board/gameState/actions';
 import StateSelectorService from '../../logic/board/gameRules/stateSelectorService';
 import Renderer from '../../utils/renderer';
 import UiInteractionSupport from '../../utils/uiInteractionSupport';
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 
 export default class SplitArmyModal extends Modal {
 
@@ -118,10 +119,10 @@ export default class SplitArmyModal extends Modal {
     };
 
     private addMoreOrdersGroup(): Phaser.Group {
-        let moreOrdersQuestionGroup = this.game.add.group();
+        let moreOrdersQuestionGroup = this.group.game.add.group();
         moreOrdersQuestionGroup.visible = false;
-        this.add(moreOrdersQuestionGroup);
-        this.bringToTop(moreOrdersQuestionGroup);
+        this.group.add(moreOrdersQuestionGroup);
+        this.group.bringToTop(moreOrdersQuestionGroup);
 
 
         let moreOrdersText = this.addText('More orders for ' + this._sourceArea.key, 50);

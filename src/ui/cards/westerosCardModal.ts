@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {WesterosCard} from '../../logic/cards/westerosCard';
 import Modal from '../../utils/modal';
 import {gameStore} from '../../logic/board/gameState/reducer';

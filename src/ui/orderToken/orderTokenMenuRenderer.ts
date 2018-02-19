@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {OrderToken} from '../../logic/orderToken/orderToken';
 import {House} from '../../logic/board/house';
 import UiArea from '../../utils/UiArea';

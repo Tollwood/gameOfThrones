@@ -10,6 +10,7 @@ import AiCalculator from '../logic/ai/aiCalculator';
 import PowerTokenRenderer from '../ui/orderToken/powerTokenRenderer';
 import Renderer from '../utils/renderer';
 import {WesterosCardRenderer} from '../ui/cards/westerosCardRenderer';
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 
 export default class Game extends Phaser.State {
     private orderTokenRenderer: OrderTokenRenderer;
@@ -22,9 +23,11 @@ export default class Game extends Phaser.State {
     private winningModal: WinningModal;
     private orderTokenMenuRenderer: OrderTokenMenuRenderer;
     private westerosCardRenderer: WesterosCardRenderer;
+  private game: Phaser.Game;
 
     constructor() {
         super();
+        this.game;
         this.orderTokenRenderer = new OrderTokenRenderer();
         this.boardRenderer = new BoardRenderer();
         this.powerTokenRenderer = new PowerTokenRenderer();

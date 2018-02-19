@@ -1,15 +1,14 @@
 import {convertHouseToNumber, House} from '../../logic/board/house';
-
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {Area} from '../../logic/board/area';
 import AssetLoader from '../../utils/assetLoader';
-import {TSMap} from 'typescript-map';
 import {gameStore} from '../../logic/board/gameState/reducer';
 import {GameStoreState} from '../../logic/board/gameState/gameStoreState';
 
 export default class PowerTokenRenderer {
     private powerTokenGroup: Phaser.Group;
     private controlMarkerGroup: Phaser.Group;
-    private powerTokenText: TSMap<House, Phaser.Text>;
+    private powerTokenText: Map<House, Phaser.Text>;
     private game: Phaser.Game;
 
     public init(game: Phaser.Game) {
@@ -28,7 +27,7 @@ export default class PowerTokenRenderer {
 
     private renderControlToken(state: GameStoreState) {
         this.controlMarkerGroup.removeChildren();
-        state.areas.values()
+      Array.from(state.areas.values())
             .filter((area: Area) => {
                 return area.units.length === 0 && area.controllingHouse !== null;
             })
@@ -41,9 +40,9 @@ export default class PowerTokenRenderer {
 
     }
 
-    private addPowerToken(state: GameStoreState): TSMap<House, Phaser.Text> {
+    private addPowerToken(state: GameStoreState): Map<House, Phaser.Text> {
         const style = {font: '28px Arial', fill: '#000000', boundsAlignH: 'right'};
-        const powerTokenText = new TSMap<House, Phaser.Text>();
+        const powerTokenText = new Map<House, Phaser.Text>();
         for (let player of state.players) {
             const cachedImage = this.game.cache.getImage(this.getImageNameByHouse(player.house));
             const image = this.game.add.image(convertHouseToNumber(player.house) * cachedImage.width, 0, this.getImageNameByHouse(player.house), undefined, this.powerTokenGroup);

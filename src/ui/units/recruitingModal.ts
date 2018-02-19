@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {Area} from '../../logic/board/area';
 import {UnitType} from '../../logic/units/unitType';
 import {House} from '../../logic/board/house';

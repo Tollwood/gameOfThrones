@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {convertHouseToNumber} from '../../logic/board/house';
 
 import {GamePhase} from '../../logic/board/gamePhase';
@@ -35,10 +36,10 @@ export default class OrderTokenRenderer {
         }
     }
 
-    private renderPlacedOrderTokens(state) {
+    private renderPlacedOrderTokens(state: GameStoreState) {
         this.renderer.placedTokens.removeChildren();
         if (state.gamePhase === GamePhase.PLANNING) {
-            state.areas.values()
+            Array.from(state.areas.values())
                 .filter(area => area.orderToken !== null)
                 .map((sourceArea: Area) => {
                     if (sourceArea.controllingHouse === state.localPlayersHouse) {
@@ -50,7 +51,7 @@ export default class OrderTokenRenderer {
                 });
         }
         else if (state.gamePhase === GamePhase.ACTION_RAID || state.gamePhase === GamePhase.ACTION_MARCH) {
-            state.areas.values()
+            Array.from(state.areas.values())
                 .filter(area => area.orderToken !== null)
                 .map((sourceArea: Area) => {
                     if (sourceArea.controllingHouse === state.localPlayersHouse) {
@@ -132,7 +133,7 @@ export default class OrderTokenRenderer {
                 this.renderer.removeSelectedToken();
             };
             let areaToPlaceToken = StateSelectorService.getAreaByKey(areaKey);
-            let areasAllowedToExecuteOrder: Array<Area> = gameStore.getState().areas.values()
+            let areasAllowedToExecuteOrder: Array<Area> = Array.from(gameStore.getState().areas.values())
                 .filter((area) => {
                     return TokenPlacementRules.isAllowedToRaid(areaToPlaceToken, area);
                 });

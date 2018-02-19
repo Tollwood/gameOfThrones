@@ -6,7 +6,7 @@ import {AreaStatsService} from '../AreaStatsService';
 export default class RecruitingStateModificationService {
 
     public static calculateAreasAllowedToRecruit(state: GameStoreState): AreaKey[] {
-        return state.areas.values().filter((area) => {
+        return Array.from(state.areas.values()).filter((area) => {
             return area.controllingHouse !== null
                 && AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold()
                 && StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(state, area.controllingHouse) > area.units.length;

@@ -46,7 +46,7 @@ export default class PlayerStateModificationService {
         const newPlayers = [];
         state.players.forEach((player) => {
             let additionalPower = 0;
-            state.areas.values().forEach((area) => {
+          Array.from(state.areas.values()).forEach((area) => {
                 if (area.controllingHouse === player.house) {
                     additionalPower += AreaStatsService.getInstance().areaStats.get(area.key).consolidatePower;
                 }

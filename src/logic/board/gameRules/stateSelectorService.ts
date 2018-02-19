@@ -32,7 +32,7 @@ export default class StateSelectorService {
     }
 
     public static calculateAllowedMaxSizeBasedOnSupply(state: GameStoreState, house: House): number {
-        let areas: Area[] = state.areas.values();
+        let areas: Area[] = Array.from(state.areas.values());
         let supplyScore = state.currentlyAllowedSupply.get(house);
         let armiesForHouse: Array<number> = this.calculateArmiesBySizeForHouse(areas, house);
         let maxSize = 0;
