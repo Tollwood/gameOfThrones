@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import 'phaser-ce/build/custom/pixi';
 import 'phaser-ce/build/custom/p2';
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {GameFactory} from '../gameFactory';
+import {GameFactory} from '../../got-ui/src/gameFactory';
 
 @Component({
   selector: 'app-root',
