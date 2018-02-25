@@ -1,27 +1,26 @@
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {ActionFactory, Area, AreaStatsService, GameStoreState, House, StateSelectorService, UnitType} from 'got-store';
+import {ActionFactory, Area, AreaStatsService, GameLogic, House, StateSelectorService, UnitType} from 'got-store';
 import Modal from '../../../utils/modal';
 import Renderer from '../../../utils/renderer';
-import {Store} from 'redux';
 
 export default class RecruitingModal extends Modal {
 
-  constructor(store: Store<GameStoreState>, renderer: Renderer, area: Area, closeFn: Function) {
+  constructor(gameLogic: GameLogic, renderer: Renderer, area: Area, closeFn: Function) {
         super(renderer);
         this.addText('Recruit new Units: ', -80, 0, true);
-    this.addNewUnits(store, area, closeFn);
+    this.addNewUnits(gameLogic, area, closeFn);
 
     }
 
 
-  private addNewUnits(store: Store<GameStoreState>, area: Area, closeFn: Function) {
+  private addNewUnits(gameLogic: GameLogic, area: Area, closeFn: Function) {
         let unitsToRecruit: RecruitingUnit[] = [];
         let recruitingPointsText = 'recruit points left: ';
 
         let textSkipRecruiting = this.addText('skip recruit for this area', 100, 0, true, () => {
             closeFn();
             this.close();
-          store.dispatch(ActionFactory.recruitUnits(area.key));
+          gameLogic.execute(ActionFactory.recruitUnits(area.key));
         });
         let textRecruitNewUnits = this.addText('Recruit new units', 100, 0, true, () => {
             let unitTypesToRecruit = unitsToRecruit.filter((ru) => {
@@ -31,7 +30,7 @@ export default class RecruitingModal extends Modal {
             });
             closeFn();
             this.close();
-          store.dispatch(ActionFactory.recruitUnits(area.key, unitTypesToRecruit));
+          gameLogic.execute(ActionFactory.recruitUnits(area.key, unitTypesToRecruit));
         });
 
 
@@ -43,7 +42,7 @@ export default class RecruitingModal extends Modal {
             let recruitingUnit: RecruitingUnit;
             let onUnitSelectFn = () => {
                 recruitingUnit.selected = !recruitingUnit.selected;
-              this.updateModal(store, area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
+              this.updateModal(gameLogic, area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
             };
 
             let unit = this.addClickableImage(House[area.controllingHouse] + UnitType[unitType], 0, nextX, onUnitSelectFn);
@@ -51,7 +50,7 @@ export default class RecruitingModal extends Modal {
             unitsToRecruit.push(recruitingUnit);
             nextX += 50;
         });
-    this.updateModal(store, area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
+    this.updateModal(gameLogic, area, unitsToRecruit, textSkipRecruiting, textRecruitNewUnits, textRecruitingPoints, recruitingPointsText);
     }
 
     private  getRemainingRecruitingPoints(area: Area, unitsToRecruit: RecruitingUnit[]) {
@@ -100,7 +99,7 @@ export default class RecruitingModal extends Modal {
         }
     }
 
-  private updateModal(store: Store<GameStoreState>, area: Area, unitsToRecruit: RecruitingUnit[], textSkipRecruiting: Phaser.Text, textRecruitingUnits: Phaser.Text, textRecruitingPoints: Phaser.Text, recruitingPointsText: string) {
+  private updateModal(gameLogic: GameLogic, area: Area, unitsToRecruit: RecruitingUnit[], textSkipRecruiting: Phaser.Text, textRecruitingUnits: Phaser.Text, textRecruitingPoints: Phaser.Text, recruitingPointsText: string) {
         let numOfSelectedUnits = unitsToRecruit.filter((unit) => {
             return unit.selected === true;
         }).length;
@@ -108,7 +107,7 @@ export default class RecruitingModal extends Modal {
         textSkipRecruiting.visible = !unitsSelected;
         textRecruitingUnits.visible = unitsSelected;
         let remainingRecruitingPoints = this.getRemainingRecruitingPoints(area, unitsToRecruit);
-    let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(store.getState(), store.getState().currentHouse);
+    let maxArmySize = StateSelectorService.calculateAllowedMaxSizeBasedOnSupply(gameLogic.getState(), gameLogic.getState().currentHouse);
         if (area.units.length + numOfSelectedUnits === maxArmySize) {
             remainingRecruitingPoints = 0;
         }

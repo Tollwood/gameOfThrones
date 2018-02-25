@@ -1,9 +1,8 @@
-import {ActionFactory, Area, AreaKey, GameStoreState, House, StateSelectorService, Unit, UnitType} from 'got-store';
+import {ActionFactory, Area, AreaKey, GameLogic, House, StateSelectorService, Unit, UnitType} from 'got-store';
 import Modal from '../../../utils/modal';
 import Renderer from '../../../utils/renderer';
 import UiInteractionSupport from '../../../utils/uiInteractionSupport';
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {Store} from 'redux';
 
 export default class SplitArmyModal extends Modal {
 
@@ -22,11 +21,11 @@ export default class SplitArmyModal extends Modal {
   private _establishControlText: Phaser.Text;
   private _rectangleAroundEstablishControlText: Phaser.Graphics;
   private _removeTokenFn: Function;
-  private _store: Store<GameStoreState>;
+  private _gameLogic: GameLogic;
 
-  constructor(store: Store<GameStoreState>, renderer: Renderer, sourceArea: Area, targetAreaKey: AreaKey, removeTokenFn: Function) {
+  constructor(gameLogic: GameLogic, renderer: Renderer, sourceArea: Area, targetAreaKey: AreaKey, removeTokenFn: Function) {
     super(renderer);
-    this._store = store;
+    this._gameLogic = gameLogic;
     this._sourceArea = sourceArea;
     this._targetAreaKey = targetAreaKey;
     this._removeTokenFn = removeTokenFn;
@@ -39,7 +38,7 @@ export default class SplitArmyModal extends Modal {
 
     this._moreOrdersQuestionGroup = this.addMoreOrdersGroup();
     this._otherOrdersText = this.addText('Take other orders', 80, 0, true, () => this.close());
-    this._moveAllUnitsText = this.addText('Move all Units', 130, 0, false, () => this.moveAllUnits(this._store));
+    this._moveAllUnitsText = this.addText('Move all Units', 130, 0, false, () => this.moveAllUnits(this._gameLogic));
     this._establishControlText = this.addText('Establish Control', 80, 0, false, () => this.toggleEstablishControl());
     this._rectangleAroundEstablishControlText = this.drawRectangleAroundObject(this._establishControlText);
     UiInteractionSupport.addInputDownCallback(() => {
@@ -73,7 +72,7 @@ export default class SplitArmyModal extends Modal {
   }
 
   private updateModal() {
-    const state = this._store.getState();
+    const state = this._gameLogic.getState();
     let availableUnits = this._sourceArea.units;
     const tragetArea = StateSelectorService.getAreaByKey(state, this._targetAreaKey);
     let targetAreaArmySize = tragetArea ? tragetArea.units.length : 0;
@@ -147,8 +146,8 @@ export default class SplitArmyModal extends Modal {
     });
   }
 
-  private moveAllUnits(store: Store<GameStoreState>) {
-    store.dispatch(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
+  private moveAllUnits(gameLogic: GameLogic) {
+    gameLogic.execute(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this._selectableUnits.map((movingUnit) => {
       return movingUnit.unit;
     }), true, this._establishControl));
     this.closeAndRemoveToken();
@@ -159,7 +158,7 @@ export default class SplitArmyModal extends Modal {
   }
 
   private moveUnits() {
-    this._store.dispatch(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false));
+    this._gameLogic.execute(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits(), false));
     this.close();
   }
 
@@ -174,7 +173,7 @@ export default class SplitArmyModal extends Modal {
   }
 
   private orderComplete() {
-    this._store.dispatch(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits()));
+    this._gameLogic.execute(ActionFactory.moveUnits(this._sourceArea.key, this._targetAreaKey, this.getSelectedUnits()));
     this.closeAndRemoveToken();
   }
 }

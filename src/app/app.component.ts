@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import 'phaser-ce/build/custom/pixi';
 import 'phaser-ce/build/custom/p2';
-import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {GameFactory} from '../../got-ui/src/gameFactory';
+
+import {House, PlayerSetup} from 'got-store';
+import {GameUiFactory} from "../../got-ui/src/gameFactory";
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,10 @@ import {GameFactory} from '../../got-ui/src/gameFactory';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app';
-  game: Phaser.Game;
+
 
   constructor() {
-    this.game = GameFactory.initGame();
+    const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
+    GameUiFactory.initGame(playerSetup);
   }
 }

@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {Area, GameStoreState, House, Unit, UnitType} from 'got-store';
+import {Area, GameLogic, House, State, Unit, UnitType} from 'got-store';
 import AssetLoader from '../../../utils/assetLoader';
-import {Store} from 'redux';
 
 
 export default class UnitRenderer {
@@ -9,15 +8,16 @@ export default class UnitRenderer {
   private units: Phaser.Group;
   private game: Phaser.Game;
 
-  public init(store: Store<GameStoreState>, game: Phaser.Game) {
+  public init(store: GameLogic, game: Phaser.Game) {
     this.game = game;
     this.units = game.add.group();
+    this.renderUnits(store.getState());
     store.subscribe(() => {
       this.renderUnits(store.getState());
     });
   }
 
-  public renderUnits(state: GameStoreState) {
+  public renderUnits(state: State) {
     this.units.removeChildren();
     Array.from(state.areas.values())
       .filter((area: Area) => {

@@ -1,10 +1,9 @@
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import AssetLoader from './assetLoader';
-import {Area, AreaKey, GameStoreState, House, OrderTokenType} from 'got-store';
+import {Area, AreaKey, GameLogic, House, OrderTokenType} from 'got-store';
 import UiArea from './UiArea';
 import RecruitingModal from '../states/game/units/recruitingModal';
 import UiInteractionSupport from './uiInteractionSupport';
-import {Store} from 'redux';
 
 export default class Renderer {
 
@@ -66,8 +65,8 @@ export default class Renderer {
     graphics.drawCircle(area.x + area.width, area.y + area.height, area.width + 5);
   }
 
-  public showRecruitingModal(store: Store<GameStoreState>, area: Area) {
-    let modal = new RecruitingModal(store, this, area, () => this.areasToRecruit.removeChildren());
+  public showRecruitingModal(gameLogic: GameLogic, area: Area) {
+    let modal = new RecruitingModal(gameLogic, this, area, () => this.areasToRecruit.removeChildren());
     modal.show();
   }
 

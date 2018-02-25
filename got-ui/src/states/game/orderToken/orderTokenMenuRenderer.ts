@@ -1,30 +1,27 @@
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
-import {
-  ActionFactory, GamePhase, GameStoreState, House, OrderToken, OrderTokenType,
-  StateSelectorService
-} from 'got-store';
+import {ActionFactory, GameLogic, GamePhase, House, OrderToken, OrderTokenType, StateSelectorService} from 'got-store';
 import UiArea from '../../../utils/UiArea';
 import AssetLoader from '../../../utils/assetLoader';
 import Renderer from '../../../utils/renderer';
 import UiInteractionSupport from '../../../utils/uiInteractionSupport';
-import {Store} from 'redux';
 
 export class OrderTokenMenuRenderer {
     private _renderer: Renderer;
 
-  init(store: Store<GameStoreState>, renderer: Renderer) {
+  init(gameLogic: GameLogic, renderer: Renderer) {
         this._renderer = renderer;
-    store.subscribe(() => {
-      this.renderOrderTokenInMenu(store);
+    this.renderOrderTokenInMenu(gameLogic);
+    gameLogic.subscribe(() => {
+      this.renderOrderTokenInMenu(gameLogic);
         });
     }
 
-  private renderOrderTokenInMenu(store: Store<GameStoreState>) {
-    const state = store.getState();
+  private renderOrderTokenInMenu(gameLogic: GameLogic) {
+    const state = gameLogic.getState();
     if (state.gamePhase === GamePhase.PLANNING) {
       let availableOrderToken: OrderTokenType[] = StateSelectorService.getPlacableOrderTokenTypes(state, state.localPlayersHouse);
             this._renderer.displayOrderTokenInMenu(availableOrderToken, (sprite: Phaser.Sprite) => {
-              this.placeOrderToken(store, sprite);
+              this.placeOrderToken(gameLogic, sprite);
             });
         }
         else {
@@ -32,11 +29,11 @@ export class OrderTokenMenuRenderer {
         }
     }
 
-  private placeOrderToken(store: Store<GameStoreState>, sprite) {
-    const localPlayersHouse: House = store.getState().localPlayersHouse;
+  private placeOrderToken(gameLogic: GameLogic, sprite) {
+    const localPlayersHouse: House = gameLogic.getState().localPlayersHouse;
         AssetLoader.getAreaTokens().forEach((area: UiArea) => {
-          if (UiInteractionSupport.intersects(this._renderer.game.camera, sprite, area) && StateSelectorService.isAllowedToPlaceOrderToken(store.getState(), localPlayersHouse, area.name)) {
-            store.dispatch(ActionFactory.placeOrder(area.name, new OrderToken(localPlayersHouse, sprite.frame)));
+          if (UiInteractionSupport.intersects(this._renderer.game.camera, sprite, area) && StateSelectorService.isAllowedToPlaceOrderToken(gameLogic.getState(), localPlayersHouse, area.name)) {
+            gameLogic.execute(ActionFactory.placeOrder(area.name, new OrderToken(localPlayersHouse, sprite.frame)));
             }
         });
     }
