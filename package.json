@@ -11,12 +11,9 @@
     "ng": "ng",
     "start": "webpack-dev-server --port=4200",
     "build": "webpack",
-    "test": "karma start ./karma.conf.js",
-    "lint": "ng lint",
     "e2e": "protractor ./protractor.conf.js",
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet",
     "test": "karma start karma.conf.js",
-    "test-coverage": "karma start karma.coverage.conf.js --single-run",
     "test-single": "karma start karma.conf.js --single-run",
     "lint": "tslint src/**/*.ts -t verbose",
     "lint-fix": "tslint --fix **/*.ts -t verbose",
@@ -28,21 +25,16 @@
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
     "@angular/forms": "^5.0.0",
-    "@angular/http": "^5.0.0",
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
-    "@angular/router": "^5.0.0",
     "core-js": "^2.4.1",
     "expose-loader": "^0.7.4",
-    "phaser-ce": "^2.9.4",
-    "redux": "^3.7.2",
-    "rxjs": "^5.5.2",
+    "phaser-ce": "2.9.4",
     "zone.js": "^0.8.14",
-    "got-store": "0.1.4",
-    "got-ai": "^0.1.0"
+    "got-store": "0.1.5"
   },
   "devDependencies": {
-    "@angular/cli": "1.6.2",
+    "@angular/cli": "1.7.1",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "@types/jasmine": "~2.5.53",
@@ -82,6 +74,7 @@
     "url-loader": "^0.6.2",
     "webpack": "~3.10.0",
     "webpack-dev-server": "~2.9.3",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.1.1",
+    "postcss-custom-properties": "^7.0.0"
   }
 }

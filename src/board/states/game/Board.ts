@@ -10,7 +10,7 @@ import Renderer from '../../utils/renderer';
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {GameLogic} from 'got-store'
 
-class GameState extends Phaser.State {
+class Board extends Phaser.State {
   private orderTokenRenderer: OrderTokenRenderer;
   private boardRenderer: BoardRenderer;
   private powerTokenRenderer: PowerTokenRenderer;
@@ -63,4 +63,4 @@ class GameState extends Phaser.State {
   }
 }
 
-export {GameState}
+export {Board}
