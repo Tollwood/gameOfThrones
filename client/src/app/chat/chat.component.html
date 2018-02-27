@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h4>Chat</h4>
+    </div>
+    <h6>Available Players:</h6>
+    <div class="col-12 ">
+      <div *ngFor="let connectedPlayer of connectedPlayers">
+        {{connectedPlayer.name}}
+      </div>
+    </div>
+    <div class="col-12 chat-frame">
+      <div class="chat-row" *ngFor="let existingMessage of messages">
+        {{existingMessage.from.name}}: {{existingMessage.content}}
+      </div>
+    </div>
+    <div class="col-8">
+      <input class="w-100" [(ngModel)]="message.content" #ctrl="ngModel"
+             (keyup.enter)="sendMessage()"
+             maxlength="140"
+             placeholder="Type your message">
+    </div>
+    <div class="col-4">
+      <button type="submit" class="btn btn-success" (click)="sendMessage()">send message</button>
+    </div>
+  </div>
+</div>

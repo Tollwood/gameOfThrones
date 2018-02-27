@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-12">
+    <h4>Login to play with others</h4>
+  </div>
+  <div class="col-12">
+    <input [(ngModel)]="player.name" #ctrl="ngModel"
+           (keyup.enter)="login()">
+  </div>
+  <div class="col-12">
+    <button (click)="login()">connect</button>
+  </div>
+</div>

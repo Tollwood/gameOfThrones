@@ -1,0 +1,29 @@
+{
+  "name": "su-server",
+  "version": "1.0.0",
+  "description": "Web Server to enable multiplayer for scotland united",
+  "private": true,
+  "scripts": {
+    "build": "gulp build",
+    "prestart": "npm run build",
+    "start": "node dist/index.js"
+  },
+  "author": "Tobias Manger",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "gulp-typescript": "~3.2.1",
+    "typescript": "~2.5.0",
+    "@types/express": "^4.11.1",
+    "@types/node": "^9.4.6",
+    "@types/winston": "^2.3.8",
+    "@types/socket.io": "^1.4.31",
+    "@types/uuid": "^3.4.3"
+  },
+  "dependencies": {
+    "express": "^4.11.1",
+    "winston": "^2.4.0",
+    "socket.io": "^2.0.4",
+    "uuid": "^3.2.1"
+  }
+}
