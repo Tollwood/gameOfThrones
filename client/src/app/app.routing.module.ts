@@ -7,7 +7,7 @@ import {LobbyComponent} from './lobby/lobby.component';
 
 const routes: Routes = [
   {path: '', component: MainMenuComponent, pathMatch: 'full'},
-  {path: 'local', component: GotGameComponent, pathMatch: 'full'},
+  {path: 'game/:id', component: GotGameComponent, pathMatch: 'full'},
   {path: 'lobby', component: LobbyComponent, pathMatch: 'full'},
   {path: 'overview', component: GameOverviewComponent, pathMatch: 'full'}
 ];

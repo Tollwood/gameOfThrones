@@ -3,6 +3,7 @@ import {Player} from '../../../../server/src/model/player';
 import {Game} from '../../../../server/src/model/game';
 import {Message} from '../../../../server/src/model/message';
 import {WebSocketService} from '../web-socket.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-lobby',
@@ -15,11 +16,8 @@ export class LobbyComponent implements OnInit {
   private players: Player[] = [];
   private games: Game[] = [];
   private currentGame: Game;
-  private wsService: WebSocketService;
 
-
-  constructor(webSocketService: WebSocketService) {
-    this.wsService = webSocketService;
+  constructor(private wsService: WebSocketService, private router: Router) {
   }
 
   ngOnInit() {
@@ -47,7 +45,7 @@ export class LobbyComponent implements OnInit {
 
     this.wsService.onGameStarted()
       .subscribe((game: Game) => {
-        this.currentGame = game;
+        this.router.navigate(['/game/' + game.id]);
       });
 
   }

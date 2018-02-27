@@ -6,7 +6,8 @@ import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {Board} from './board/states/game/Board';
 import Preloader from './board/states/preloader';
 import {GameLogic, GameLogicFactory, House, PlayerSetup} from 'got-store';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-got-game',
@@ -14,16 +15,23 @@ import {Router} from '@angular/router';
   styleUrls: ['./got-game.component.scss']
 })
 export class GotGameComponent implements OnInit {
+  private id: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
     this.startGame();
   }
 
 
   closeGame() {
+    if (this.id === 'local') {
+      this.router.navigate(['/']);
+      return;
+    }
     this.router.navigate(['/lobby']);
   }
 
