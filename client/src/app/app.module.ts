@@ -6,8 +6,10 @@ import {ChatComponent} from './chat/chat.component';
 import {LoginComponent} from './login/login.component';
 import {GameOverviewComponent} from './game-overview/game-overview.component';
 import {FormsModule} from '@angular/forms';
-import {GameComponent} from './game/game.component';
 import {GotGameComponent} from './got-game/got-game.component';
+import {AppRoutingModule} from './app.routing.module';
+import {MainMenuComponent} from './main-menu/main-menu.component';
+import {LobbyComponent} from './lobby/lobby.component';
 
 
 @NgModule({
@@ -16,12 +18,14 @@ import {GotGameComponent} from './got-game/got-game.component';
     ChatComponent,
     LoginComponent,
     GameOverviewComponent,
-    GameComponent,
-    GotGameComponent
+    GotGameComponent,
+    MainMenuComponent,
+    LobbyComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

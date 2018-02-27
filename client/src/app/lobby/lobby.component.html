@@ -1,0 +1,21 @@
+<button routerLink="/" routerLinkActive="active">Main Menu</button>
+<div *ngIf="!localPlayer">
+  You need to login via main Menu
+</div>
+<div class="col-lg-6 col-md-12" *ngIf="localPlayer && !currentGame">
+  <app-game-overview [localPlayer]="localPlayer"
+                     [games]="games"
+                     (onCreateGame)="onCreateGame($event)"
+                     (onCancelGame)="onCancelGame($event)"
+                     (onJoinGame)="onJoinGame($event)"
+                     (onLeaveGame)="onLeaveGame($event)"
+                     (onStartGame)="onStartGame($event)"
+  ></app-game-overview>
+</div>
+<div class="col-lg-6 col-md-12" *ngIf="localPlayer && !currentGame">
+  <app-chat
+    [localPlayer]="localPlayer"
+    [connectedPlayers]="players"
+    [messages]="messages"
+    (onSendMessage)="onSendMessage($event)"></app-chat>
+</div>

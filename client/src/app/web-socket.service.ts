@@ -10,7 +10,7 @@ import {Game} from '../../../server/src/model/game';
 export class WebSocketService {
   private SERVER_URL: string = 'http://localhost:3000';
   private socket: SocketIOClient.Socket;
-
+  private localPlayer: Player;
 
   constructor() {
     this.socket = socketIo(this.SERVER_URL);
@@ -22,7 +22,10 @@ export class WebSocketService {
 
   public onPlayerConnected(): Observable<Player> {
     return new Observable<Player>(observer => {
-      this.socket.on(Events.PLAYER_CONNECTED, (data: Player) => observer.next(data));
+      this.socket.on(Events.PLAYER_CONNECTED, (data: Player) => {
+        this.localPlayer = data;
+        observer.next(data);
+      });
     });
   }
 
@@ -72,5 +75,9 @@ export class WebSocketService {
 
   public startGame(gameId: string) {
     this.socket.emit(Events.START_GAME, gameId);
+  }
+
+  public getLocalPlayer() {
+    return this.localPlayer;
   }
 }
