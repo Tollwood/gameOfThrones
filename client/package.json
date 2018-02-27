@@ -8,11 +8,8 @@
     "url": "git+https://github.com/Tollwood/gameOfThrones.git"
   },
   "scripts": {
-    "ng": "ng",
     "start": "webpack-dev-server --port=4200",
     "build": "webpack",
-    "e2e": "protractor ./protractor.conf.js",
-    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet",
     "test": "karma start karma.conf.js",
     "test-single": "karma start karma.conf.js --single-run",
     "lint": "tslint src/**/*.ts -t verbose",
@@ -47,6 +44,7 @@
     "@types/node": "^6.0.101",
     "@types/socket.io-client": "^1.4.32",
     "autoprefixer": "^8.0.0",
+    "clean-webpack-plugin": "^0.1.18",
     "circular-dependency-plugin": "^4.2.1",
     "codelyzer": "^4.0.1",
     "copy-webpack-plugin": "^4.1.1",

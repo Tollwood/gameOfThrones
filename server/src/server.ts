@@ -40,9 +40,7 @@ export class ScotlandUnitedServer {
       log('info', `Listening on ${this.port}`);
     });
 
-    this.app.get('/', function (req, res) {
-      res.sendFile(__dirname + '/index.html');
-    });
+    this.app.use(express.static(__dirname + '/client/'));
 
     this.io.on('connect', (socket: SocketIO.Socket) => {
       log('info', 'Connected client on port %s.', this.port);
