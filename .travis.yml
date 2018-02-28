@@ -3,7 +3,7 @@ git:
   depth: 3
 node_js:
 - '6'
-script: npm run full-build-prod
+script: npm run heroku-prebuild
 deploy:
   provider: heroku
   api_key:
