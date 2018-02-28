@@ -32,9 +32,10 @@
     "got-store": "0.1.5",
     "phaser-ce": "2.9.4",
     "socket.io-client": "^2.0.4",
-    "zone.js": "^0.8.14"
-  },
-  "devDependencies": {
+    "zone.js": "^0.8.14",
+
+
+
     "node-sass": "^4.7.2",
     "@angular/cli": "1.7.1",
     "@angular/compiler-cli": "^5.0.0",
@@ -80,5 +81,8 @@
     "webpack-dev-server": "~2.9.3",
     "webpack-merge": "^4.1.1",
     "postcss-custom-properties": "^7.0.0"
+  },
+  "devDependencies": {
+
   }
 }
