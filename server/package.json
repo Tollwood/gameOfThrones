@@ -4,8 +4,7 @@
   "description": "Web Server to enable multiplayer for scotland united",
   "private": true,
   "scripts": {
-    "copy-client": "gulp copy_client",
-    "build": "gulp build && gulp copy_client",
+    "build": "gulp build",
     "prestart": "npm run build",
     "start": "node dist/index.js"
   },
