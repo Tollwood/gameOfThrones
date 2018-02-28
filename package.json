@@ -6,8 +6,10 @@
   "scripts": {
     "cleanup-build-dir": "rm -rf build",
     "build-client": "npm --prefix client run build --prod",
+    "install-client": "npm --prefix client install",
     "build-server": "npm --prefix server run build",
-    "full-build-prod": "npm run cleanup-build-dir && npm run build-server && npm run build-client",
+    "install-server": "npm --prefix server install",
+    "full-build-prod": "npm run cleanup-build-dir && npm run install-client && npm run install-server && npm run build-server && npm run build-client",
     "start": "node build/index.js"
   },
   "author": "Tobias Manger",
