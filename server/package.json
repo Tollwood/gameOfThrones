@@ -6,7 +6,7 @@
   "scripts": {
     "build": "gulp build",
     "prestart": "npm run build",
-    "start": "node dist/index.js"
+    "start": "node ../build/index.js"
   },
   "author": "Tobias Manger",
   "license": "MIT",

@@ -1,3 +1,7 @@
 .DS_STore
 .idea/*
 node_modules
+build
+
+client/src/**/*.js
+client/src/**/*.map
