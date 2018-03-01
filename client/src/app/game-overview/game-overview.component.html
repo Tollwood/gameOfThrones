@@ -2,7 +2,9 @@
   <span>{{title}}</span>
   <i class="fa fa-plus" aria-hidden="true" (click)="toggleShowGameForm()" *ngIf="canCreateNewGame()"> </i>
 </h3>
-
+<div class="col-12 " align="center" *ngIf="!localPlayer">
+  <app-login (onLoggedIn)="onLoggedIn($event)"></app-login>
+</div>
 <div *ngIf="isShowNewGameForm">
   <input placeholder="Name" #newGameName>
   <i class="fa fa-check-circle" (click)="createNewGame(newGameName.value)"> </i>

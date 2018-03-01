@@ -1,3 +1,40 @@
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~font-awesome/css/font-awesome.css";
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.main-menu {
+  background-image: url('../assets/images/scotland-flag.jpg');
+  background-color: black;
+  /* Full height */
+  height: 100%;
+  width: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  button {
+    margin-bottom: 30px;
+    width: 200px;
+    padding: 5px;
+    font-weight: bold;
+  }
+}
+
+.center-all {
+
+  width: 100%;
+  height: 100px;
+
+  position: absolute;
+  top: -53px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
+
+}
