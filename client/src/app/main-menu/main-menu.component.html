@@ -1,10 +1,14 @@
 <div class="container">
   <div class="row">
-    <button routerLink="/game/local" routerLinkActive="active">Singleplayer Game</button>
-    <div class="col-12" *ngIf="!localPlayer">
+    <div class="col-md-12 col-lg-4">
+      <button routerLink="/game/local" routerLinkActive="active">Singleplayer Game</button>
+    </div>
+    <div class="col-md-12 col-lg-4" *ngIf="!localPlayer">
       <app-login (onLoggedIn)="onLoggedIn($event)"></app-login>
     </div>
-    <div class="col-12" *ngIf="localPlayer">
+
+    <div class="col-md-12 col-lg-4"></div>
+    <div class="col-md-12 col-lg-4" *ngIf="localPlayer">
       Welcome {{localPlayer.name}}!
       <button routerLink="/lobby" routerLinkActive="active">Multiplayer Game</button>
     </div>
