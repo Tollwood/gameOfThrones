@@ -3,8 +3,4 @@ git:
   depth: 3
 node_js:
 - '6'
-script: npm run heroku-prebuild
-deploy:
-  provider: heroku
-  api_key:
-    secure: Ig4tVnMFyzW6OvhO7y0mXs0UAqcv6aYs+88UcKjEGXm4R5CzuCluq0xn50ej4gBudx2a2lT7Zg9Q3RWJV8K+6E8DjyxrS2vsuhT9CCxCFtH3gNltqqHQeM8uFVakW8TGyfxIi08s69xNkmAuOt9Nk18BtxHAPr0w9NVisot76iMsNydE7PejR/E6g8oKtEuRKGm11bPSBIzbgDxqK6tCQnulJtVF5UAz7tprxkRmA0U+3EOaQMiDwhKEStGvnzvPsaynVYecxszwIrIU85DTH+nTQkcHpdutJWFjXk8y/sTbZ2PC7241bAHyb4tPmWEk1/8xT3fd0ySj0dOdSlmewjqZQKs/Mc1maSlmJLTVcXPfmn+guaofA1SA7EFFdof6ffyz3XK17/Ml90m+q32b+2V7T2GMnF10PD7FnB0H1oo/yJsOwuhjhIieMrMp9iEDSgZt/iLcg7w+AYIleYUIJ8WsBdGJ7uUw58/zTl0bd4Zm+bJtBETfNcz7WfpQ79Fz638cSKuqqC9FLKt7WH2ABSl5TdrV3/3ELbHMiTFc0Q11wiw8WLIHpWGEEB57J2wTlc9BN1DpuCeUYTL8t6f2YGneSL5DhV49yrL5WHC77VKbD8tb/g+5bCAepuSrhL38Bfq35K/aIDlzySkMByP8p6lpywpzuXRvt1DeQXYbAK0=
+script: npm run build

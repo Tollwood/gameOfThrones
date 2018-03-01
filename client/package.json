@@ -1,5 +1,5 @@
 {
-  "name": "got-tollwood",
+  "name": "got-client",
   "productName": "got-tollwood",
   "version": "0.1.0",
   "author": "Tobias Manger <https://github.com/tollwood>",
@@ -13,8 +13,7 @@
     "test": "karma start karma.conf.js",
     "test-single": "karma start karma.conf.js --single-run",
     "lint": "tslint src/**/*.ts -t verbose",
-    "lint-fix": "tslint --fix **/*.ts -t verbose",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "lint-fix": "tslint --fix **/*.ts -t verbose"
   },
   "dependencies": {
     "@angular/animations": "^5.0.0",

@@ -1,4 +1,0 @@
-#!/bin/bash
-cd /Users/taamato1/pdev/gameOfThrones
-webpack --config webpack.dist.config.js
-aws s3 sync dist/ s3://aws-website-got-257fg

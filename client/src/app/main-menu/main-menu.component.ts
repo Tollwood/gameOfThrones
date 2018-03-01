@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Player} from '../../../../server/src/model/player';
+import {Player} from '../../../../server/model/player';
 import {WebSocketService} from '../web-socket.service';
 
 @Component({

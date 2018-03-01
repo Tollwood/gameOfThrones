@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import * as socketIo from 'socket.io-client';
 import {Observable} from 'rxjs/Observable';
-import {Message} from '../../../server/src/model/message';
-import {Player} from '../../../server/src/model/player';
-import {Events} from '../../../server/src/model/events';
-import {Game} from '../../../server/src/model/game';
+import {Message} from '../../../server/model/message';
+import {Player} from '../../../server/model/player';
+import {Events} from '../../../server/model/events';
+import {Game} from '../../../server/model/game';
 
 @Injectable()
 export class WebSocketService {
