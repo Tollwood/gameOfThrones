@@ -8,12 +8,11 @@ import {Game} from '../../../server/model/game';
 
 @Injectable()
 export class WebSocketService {
-  private SERVER_URL: string = 'http://localhost:3000';
   private socket: SocketIOClient.Socket;
   private localPlayer: Player;
 
   constructor() {
-    this.socket = socketIo(this.SERVER_URL);
+    this.socket = socketIo();
   }
 
   public connect(player: Player) {
