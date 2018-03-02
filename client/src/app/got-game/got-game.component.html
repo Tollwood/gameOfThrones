@@ -1,19 +1,19 @@
 <div class="topMenu wood-bg">
   <i class="fa fa-window-close" (click)="closeGame()"></i>
-  <div class="menu-item dropdown" (click)="displayPowerToken()">
+  <div class="menu-item dropdown">
     <div class="menu-item-value">{{localPlayer.powerToken}}</div>
     <div class="menu-img power-stark"></div>
-    <div ngClass="dropdown-content {{showPowerToken ? 'show':''}}">
+    <div ngClass="dropdown-content">
       <div class="menu-item wood-bg" *ngFor="let player  of localState.players">
         <div class="menu-item-value">{{player.powerToken}}</div>
         <div ngClass="menu-img power-{{player.house}}"></div>
       </div>
     </div>
   </div>
-  <div class="menu-item dropdown" (click)="displayVictoryPoints()">
+  <div class="menu-item dropdown">
     <div class="menu-item-value">{{getVictoryPosition(localPlayer)}}</div>
     <div class="menu-img castle"></div>
-    <div ngClass="dropdown-content {{showVicotryPoints ? 'show':''}}">
+    <div ngClass="dropdown-content">
       <div class="menu-item wood-bg" *ngFor="let player  of localState.players">
         <div class="menu-item-value">{{getVictoryPosition(player)}}</div>
         <div ngClass="menu-img castle-{{player.house}}"></div>

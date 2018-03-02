@@ -19,8 +19,6 @@ export class GotGameComponent implements OnInit {
   private id: string;
   localPlayer: Player;
   localState: State;
-  showVicotryPoints: boolean = false;
-  showPowerToken: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
@@ -42,14 +40,6 @@ export class GotGameComponent implements OnInit {
 
   getVictoryPosition(player: Player): number {
     return StateSelectorService.getVictoryPositionFor(this.localState, player.house);
-  }
-
-  displayVictoryPoints() {
-    this.showVicotryPoints = !this.showVicotryPoints;
-  }
-
-  displayPowerToken() {
-    this.showPowerToken = !this.showPowerToken;
   }
 
   private startGame() {
