@@ -1,4 +1,21 @@
 <div class="topMenu">
   <i class="fa fa-window-close" (click)="closeGame()"></i>
+  <div class="menu-item">
+    <div class="menu-item-value">{{localPlayer.powerToken}}</div>
+    <div class="menu-img power-stark"></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-value">{{castle}}</div>
+    <div class="menu-img castle"></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-value">{{gameRound}}</div>
+    <div class="menu-img game-round"></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-value">{{wildlingCount}}</div>
+    <div class="menu-img wildling-count"></div>
+  </div>
 </div>
+s
 <div id="gameHolder"></div>

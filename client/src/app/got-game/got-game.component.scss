@@ -1,8 +1,42 @@
 .topMenu {
   position: absolute;
-  right: 0px;
-  background-color: aqua;
-  border-style: solid;
-  border-width: 5px;
-  border-color: aqua;
+  background-image: url('../../../assets/images/woodTexture.png');
+  width: 100%;
+  height: 45px;
+  color: whitesmoke;
+
+  .menu-item {
+    width: 80px;
+    float: left;
+    .menu-img {
+      background-repeat: no-repeat;
+      background-size: 100%;
+      height: 45px;
+      width: 45px;
+
+      &.power-stark {
+        background-image: url('../../../assets/images/powerToken/StarkPowerToken.png');
+      }
+
+      &.game-round {
+        background-image: url('../../../assets/images/topMenu/gameRounds/gameRoundMarker.png');
+      }
+
+      &.castle {
+        background-image: url('../../../assets/images/topMenu/victory/castle_stark.png');
+      }
+      &.wildling-count {
+        background-image: url('../../../assets/images/WildlingMarker.png');
+      }
+    }
+    .menu-item-value {
+      font-size: 28px;
+      float: right;
+    }
+  }
+
+  .fa-window-close {
+    font-size: 45px;
+    float: right;
+  }
 }

@@ -8,6 +8,7 @@ import Preloader from './board/states/preloader';
 import {GameLogic, GameLogicFactory, House, PlayerSetup} from 'got-store';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
+import {Area, AreaStatsService, Player, State} from 'got-store/dist';
 
 @Component({
   selector: 'app-got-game',
@@ -16,13 +17,17 @@ import 'rxjs/add/operator/switchMap';
 })
 export class GotGameComponent implements OnInit {
   private id: string;
+  localPlayer: Player;
+  castle: number;
+  gameRound: number;
+  wildlingCount: number;
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log(this.id);
+    this.localPlayer = new Player(House.stark, 10);
     this.startGame();
   }
 
@@ -38,6 +43,10 @@ export class GotGameComponent implements OnInit {
   private startGame() {
     const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
     const gameLogic: GameLogic = GameLogicFactory.create(playerSetup, true);
+    this.updateTopMenu(gameLogic.getState());
+    gameLogic.subscribe(() => {
+      this.updateTopMenu(gameLogic.getState());
+    });
     const board = new Board(gameLogic);
 
     const game: Phaser.Game = new Phaser.Game('100%', '100%', Phaser.AUTO, 'gameHolder');
@@ -45,5 +54,18 @@ export class GotGameComponent implements OnInit {
     game.state.start('preloader');
     game.state.add('game', board);
     return game;
+  }
+
+  private updateTopMenu(state: State) {
+    this.gameRound = state.gameRound;
+    this.wildlingCount = state.wildlingsCount;
+    this.localPlayer = state.players.find((player) => this.localPlayer.house === player.house);
+    this.castle = Array.from(state.areas.values())
+      .filter((area: Area) => area.controllingHouse === this.localPlayer.house)
+      .map((area: Area) => {
+        const value: number = AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold() ? 1 : 0;
+        return value;
+      })
+      .reduce((a, b) => a + b);
   }
 }

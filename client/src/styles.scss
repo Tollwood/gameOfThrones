@@ -1,9 +1,16 @@
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~font-awesome/css/font-awesome.css";
+
+@font-face {
+  font-family: 'Celtic';
+  src: url('../assets/fonts/celtic.ttf');
+}
+
 /* You can add global styles to this file, and also import other style files */
 html, body {
   height: 100%;
   width: 100%;
+  font-family: Celtic;
 }
 
 .main-menu {
@@ -30,7 +37,7 @@ html, body {
   height: 100px;
 
   position: absolute;
-  top: -53px;
+  top: -120px;
   bottom: 0;
   left: 0;
   right: 0;
