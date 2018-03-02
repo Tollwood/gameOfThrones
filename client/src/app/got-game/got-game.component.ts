@@ -8,7 +8,7 @@ import Preloader from './board/states/preloader';
 import {GameLogic, GameLogicFactory, House, PlayerSetup} from 'got-store';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import {Area, AreaStatsService, Player, State} from 'got-store/dist';
+import {Player, State, StateSelectorService} from 'got-store/dist';
 
 @Component({
   selector: 'app-got-game',
@@ -18,9 +18,9 @@ import {Area, AreaStatsService, Player, State} from 'got-store/dist';
 export class GotGameComponent implements OnInit {
   private id: string;
   localPlayer: Player;
-  castle: number;
-  gameRound: number;
-  wildlingCount: number;
+  localState: State;
+  showVicotryPoints: boolean = false;
+  showPowerToken: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {
   }
@@ -40,10 +40,23 @@ export class GotGameComponent implements OnInit {
     this.router.navigate(['/lobby']);
   }
 
+  getVictoryPosition(player: Player): number {
+    return StateSelectorService.getVictoryPositionFor(this.localState, player.house);
+  }
+
+  displayVictoryPoints() {
+    this.showVicotryPoints = !this.showVicotryPoints;
+  }
+
+  displayPowerToken() {
+    this.showPowerToken = !this.showPowerToken;
+  }
+
   private startGame() {
     const playerSetup = [new PlayerSetup(House.stark, false), new PlayerSetup(House.lannister, true), new PlayerSetup(House.baratheon, true), new PlayerSetup(House.greyjoy, true), new PlayerSetup(House.tyrell, true), new PlayerSetup(House.martell, true)];
     const gameLogic: GameLogic = GameLogicFactory.create(playerSetup, true);
-    this.updateTopMenu(gameLogic.getState());
+    this.localState = gameLogic.getState();
+    this.updateTopMenu(this.localState);
     gameLogic.subscribe(() => {
       this.updateTopMenu(gameLogic.getState());
     });
@@ -57,15 +70,7 @@ export class GotGameComponent implements OnInit {
   }
 
   private updateTopMenu(state: State) {
-    this.gameRound = state.gameRound;
-    this.wildlingCount = state.wildlingsCount;
     this.localPlayer = state.players.find((player) => this.localPlayer.house === player.house);
-    this.castle = Array.from(state.areas.values())
-      .filter((area: Area) => area.controllingHouse === this.localPlayer.house)
-      .map((area: Area) => {
-        const value: number = AreaStatsService.getInstance().areaStats.get(area.key).hasCastleOrStronghold() ? 1 : 0;
-        return value;
-      })
-      .reduce((a, b) => a + b);
   }
 }
+

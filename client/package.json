@@ -8,7 +8,7 @@
     "url": "git+https://github.com/Tollwood/gameOfThrones.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --port=4200",
+    "start": "webpack-dev-server --port=3000",
     "build": "webpack",
     "test": "karma start karma.conf.js",
     "test-single": "karma start karma.conf.js --single-run",
@@ -28,7 +28,7 @@
     "core-js": "^2.4.1",
     "expose-loader": "^0.7.4",
     "font-awesome": "^4.7.0",
-    "got-store": "0.1.5",
+    "got-store": "0.1.7",
     "phaser-ce": "2.9.4",
     "socket.io-client": "^2.0.4",
     "zone.js": "^0.8.14",

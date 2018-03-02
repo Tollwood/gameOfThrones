@@ -5,7 +5,6 @@ import WinningModal from './board/winningModal';
 import {OrderTokenMenuRenderer} from './orderToken/orderTokenMenuRenderer';
 import AssetLoader from '../../utils/assetLoader';
 import RecruitingRenderer from './units/recruitingRenderer';
-import PowerTokenRenderer from './orderToken/powerTokenRenderer';
 import Renderer from '../../utils/renderer';
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {GameLogic} from 'got-store'
@@ -13,7 +12,6 @@ import {GameLogic} from 'got-store'
 class Board extends Phaser.State {
   private orderTokenRenderer: OrderTokenRenderer;
   private boardRenderer: BoardRenderer;
-  private powerTokenRenderer: PowerTokenRenderer;
   private currentGameWidth: number;
   private unitRenderer: UnitRenderer;
   private recruitingRenderer: RecruitingRenderer;
@@ -28,7 +26,6 @@ class Board extends Phaser.State {
     this.gameLogic = gameLogic;
     this.orderTokenRenderer = new OrderTokenRenderer();
     this.boardRenderer = new BoardRenderer();
-    this.powerTokenRenderer = new PowerTokenRenderer();
     this.unitRenderer = new UnitRenderer();
     this.recruitingRenderer = new RecruitingRenderer();
     this.orderTokenMenuRenderer = new OrderTokenMenuRenderer();
@@ -48,7 +45,6 @@ class Board extends Phaser.State {
     this.unitRenderer.init(this.gameLogic, this.game);
     this.orderTokenRenderer.init(this.gameLogic, renderer);
     this.recruitingRenderer.init(this.gameLogic, renderer);
-    this.powerTokenRenderer.init(this.gameLogic, renderer);
     this.orderTokenMenuRenderer.init(this.gameLogic, renderer);
     this.winningModal = new WinningModal(this.gameLogic, renderer);
 
