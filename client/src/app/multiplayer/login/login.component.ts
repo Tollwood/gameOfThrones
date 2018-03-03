@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Player} from '../../../../server/model/player';
+import {Player} from '../../../../../server/model/player';
 
 @Component({
   selector: 'app-login',

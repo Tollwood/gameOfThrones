@@ -1,9 +1,9 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {GotGameComponent} from './got-game/got-game.component';
+import {GotGameComponent} from './game/game.component';
 import {MainMenuComponent} from './main-menu/main-menu.component';
-import {GameOverviewComponent} from './game-overview/game-overview.component';
-import {LobbyComponent} from './lobby/lobby.component';
+import {GameOverviewComponent} from './multiplayer/game-overview/game-overview.component';
+import {LobbyComponent} from './multiplayer/lobby/lobby.component';
 
 const routes: Routes = [
   {path: '', component: MainMenuComponent, pathMatch: 'full'},

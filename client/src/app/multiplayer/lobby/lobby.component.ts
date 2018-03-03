@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Player} from '../../../../server/model/player';
-import {Game} from '../../../../server/model/game';
-import {Message} from '../../../../server/model/message';
-import {WebSocketService} from '../web-socket.service';
+import {Player} from '../../../../../server/model/player';
+import {Game} from '../../../../../server/model/game';
+import {Message} from '../../../../../server/model/message';
+import {WebSocketService} from '../../web-socket.service';
 import {Router} from '@angular/router';
 
 @Component({

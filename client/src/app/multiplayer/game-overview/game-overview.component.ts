@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Game} from '../../../../server/model/game';
-import {Player} from '../../../../server/model/player';
+import {Game} from '../../../../../server/model/game';
+import {Player} from '../../../../../server/model/player';
 
 @Component({
   selector: 'app-game-overview',

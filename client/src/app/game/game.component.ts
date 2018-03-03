@@ -8,8 +8,8 @@ import {Player, State} from 'got-store/dist';
 
 @Component({
   selector: 'app-got-game',
-  templateUrl: './got-game.component.html',
-  styleUrls: ['./got-game.component.scss']
+  templateUrl: './game.component.html',
+  styleUrls: ['./game.component.scss']
 })
 export class GotGameComponent implements OnInit {
   private id: string;
