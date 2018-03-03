@@ -13,7 +13,7 @@ export class OverviewMenuComponent implements OnInit {
   @Input()
   localState: State;
   @Output()
-  onCloseGame = new EventEmitter();
+  onCloseGame: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.updateTopMenu(this.localState);
@@ -26,6 +26,10 @@ export class OverviewMenuComponent implements OnInit {
 
   private updateTopMenu(state: State) {
     this.localPlayer = state.players.find((player) => this.localPlayer.house === player.house);
+  }
+
+  closeGame() {
+    this.onCloseGame.emit();
   }
 }
 

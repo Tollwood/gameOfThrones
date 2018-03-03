@@ -1,2 +1,2 @@
-<app-overview-menu [localState]="localState" [localPlayer]="localPlayer" (onCloseGame)="closeGame">
-<div id="gameHolder"></div>
+<app-overview-menu [localState]="localState" [localPlayer]="localPlayer" (onCloseGame)="closeGame()">
+  <app-board [gameLogic]="gameLogic"></app-board>

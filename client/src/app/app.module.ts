@@ -11,6 +11,7 @@ import {AppRoutingModule} from './app.routing.module';
 import {MainMenuComponent} from './main-menu/main-menu.component';
 import {LobbyComponent} from './lobby/lobby.component';
 import {OverviewMenuComponent} from './got-game/overviewMenu/overview-menu.component';
+import {BoardComponent} from './got-game/board/board.component';
 
 
 @NgModule({
@@ -19,10 +20,11 @@ import {OverviewMenuComponent} from './got-game/overviewMenu/overview-menu.compo
     ChatComponent,
     LoginComponent,
     GameOverviewComponent,
-    GotGameComponent,
     MainMenuComponent,
     LobbyComponent,
-    OverviewMenuComponent
+    GotGameComponent,
+    OverviewMenuComponent,
+    BoardComponent
   ],
   imports: [
     AppRoutingModule,
