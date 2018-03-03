@@ -10,6 +10,7 @@ import {GotGameComponent} from './got-game/got-game.component';
 import {AppRoutingModule} from './app.routing.module';
 import {MainMenuComponent} from './main-menu/main-menu.component';
 import {LobbyComponent} from './lobby/lobby.component';
+import {OverviewMenuComponent} from './got-game/overviewMenu/overview-menu.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {LobbyComponent} from './lobby/lobby.component';
     GameOverviewComponent,
     GotGameComponent,
     MainMenuComponent,
-    LobbyComponent
+    LobbyComponent,
+    OverviewMenuComponent
   ],
   imports: [
     AppRoutingModule,

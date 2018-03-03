@@ -1,0 +1,108 @@
+.wood-bg {
+  background-image: url('../../../../assets/images/woodTexture.png');
+}
+
+.topMenu {
+  position: absolute;
+  width: 100%;
+  height: 45px;
+  color: whitesmoke;
+
+  .menu-item {
+    width: 80px;
+    float: left;
+    padding-right: 5px;
+    .menu-img {
+      background-repeat: no-repeat;
+      background-size: 100%;
+      height: 45px;
+      width: 45px;
+
+      &.castle-stark {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_stark.png');
+      }
+
+      &.castle-lannister {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_lannister.png');
+      }
+
+      &.castle-martell {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_martell.png');
+      }
+
+      &.castle-greyjoy {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_greyjoy.png');
+      }
+
+      &.castle-baratheon {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_baratheon.png');
+      }
+
+      &.castle-tyrell {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_tyrell.png');
+      }
+
+      &.power-stark {
+        background-image: url('../../../../assets/images/powerToken/StarkPowerToken.png');
+      }
+
+      &.power-lannister {
+        background-image: url('../../../../assets/images/powerToken/LannisterPowerToken.png');
+      }
+
+      &.power-martell {
+        background-image: url('../../../../assets/images/powerToken/MartellPowerToken.png');
+      }
+
+      &.power-greyjoy {
+        background-image: url('../../../../assets/images/powerToken/GreyjoyPowerToken.png');
+      }
+
+      &.power-baratheon {
+        background-image: url('../../../../assets/images/powerToken/BaratheonPowerToken.png');
+      }
+
+      &.power-tyrell {
+        background-image: url('../../../../assets/images/powerToken/TyrellPowerToken.png');
+      }
+
+      &.game-round {
+        background-image: url('../../../../assets/images/topMenu/gameRounds/gameRoundMarker.png');
+      }
+
+      &.castle {
+        background-image: url('../../../../assets/images/topMenu/victory/castle_stark.png');
+      }
+      &.wildling-count {
+        background-image: url('../../../../assets/images/WildlingMarker.png');
+      }
+    }
+    .menu-item-value {
+      font-size: 28px;
+      float: right;
+    }
+  }
+
+  .fa-window-close {
+    font-size: 45px;
+    float: right;
+  }
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: black;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
