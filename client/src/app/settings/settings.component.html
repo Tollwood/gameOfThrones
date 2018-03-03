@@ -3,20 +3,20 @@
     <div class="container">
       <div class="row ">
         <div class="col-12" align="center">
-          <h1>Settings</h1>
+          <h1>{{'SETTINGS' | translate}}</h1>
         </div>
         <div class="col-12" align="center">
-          <label>language:</label>
-          <select>
-            <option value="de">Deutsch</option>
-            <option value="en">Englisch</option>
+          <label>{{'LANGUAGE' | translate}}:</label>
+          <select [(ngModel)]="selectedLanguage">
+            <option *ngFor="let langKey of languageKeys" [ngValue]="langKey">{{languages.get(langKey) | translate}}
+            </option>
           </select>
         </div>
         <div class="col-6" align="center">
-          <button routerLink="/" routerLinkActive="active">Zurück</button>
+          <button routerLink="/" routerLinkActive="active">{{'BACK' | translate}}</button>
         </div>
         <div class="col-6" align="center">
-          <button routerLink="/" routerLinkActive="active">Übernehmen</button>
+          <button routerLink="/" routerLinkActive="active" (click)="apply()">{{'APPLY' | translate}}</button>
         </div>
       </div>
     </div>

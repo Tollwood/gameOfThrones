@@ -13,7 +13,14 @@ import {LobbyComponent} from './multiplayer/lobby/lobby.component';
 import {OverviewMenuComponent} from './game/overviewMenu/overview-menu.component';
 import {BoardComponent} from './game/board/board.component';
 import {SettingsComponent} from './settings/settings.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -33,6 +40,14 @@ import {SettingsComponent} from './settings/settings.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     FormsModule
   ],
   providers: [],
