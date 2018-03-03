@@ -12,19 +12,23 @@ import {MainMenuComponent} from './main-menu/main-menu.component';
 import {LobbyComponent} from './multiplayer/lobby/lobby.component';
 import {OverviewMenuComponent} from './game/overviewMenu/overview-menu.component';
 import {BoardComponent} from './game/board/board.component';
+import {SettingsComponent} from './settings/settings.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,
-    LoginComponent,
-    GameOverviewComponent,
     MainMenuComponent,
-    LobbyComponent,
+    SettingsComponent,
+    // single Player
     GotGameComponent,
     OverviewMenuComponent,
-    BoardComponent
+    BoardComponent,
+    // multiplayer
+    LoginComponent,
+    ChatComponent,
+    GameOverviewComponent,
+    LobbyComponent
   ],
   imports: [
     AppRoutingModule,
