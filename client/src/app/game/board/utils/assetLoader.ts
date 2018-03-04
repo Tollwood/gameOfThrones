@@ -50,8 +50,20 @@ export default class AssetManager {
   }
 
   public static loadAssets(game: Phaser.Game) {
-    game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_1140.png');
+
+    if(window.innerWidth <= 570){
+      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_570.png');
+    }
+    if(window.innerWidth > 570 && window.innerWidth <= 1140 ){
+      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_1140.png');
+    }
+    if(window.innerWidth >1140){
+      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland.png');
+    }
+
     game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
+
+
     game.load.spritesheet(this.ORDER_TOKENS_FRONT, this.PATH_TO_IMAGE + 'orderToken/orderTokenFront45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
     game.load.tilemap(this.GOT_TILE_MAP, 'assets/tilemap/gameOfThrones.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image(this.ORDER_TOKEN_MENU_BACKGROUND, this.PATH_TO_IMAGE + 'orderToken/menubackground.png');
@@ -64,6 +76,7 @@ export default class AssetManager {
   public static createAssets(game: Phaser.Game) {
 
     let map = game.add.tilemap(this.GOT_TILE_MAP, 32, 32, 53, 94);
+
     this.areaNames = map.objects['areaNames'].map((area) => {
       return new UiArea(area.height, AreaKey[<string>area.name], area.width, area.x, area.y);
     });
