@@ -5,9 +5,11 @@
         <div class="col-12" align="center">
           <h1 class="bold">{{'GAME_SETTINGS' | translate}}</h1>
         </div>
-        <h2>{{'CHOOSE_YOUR_CLAN' | translate}}</h2>
-        <div class="col-lg-6 col-md-12" align="center" *ngFor="let clan of clans">
-          <div >{{ clan}}</div>
+        <div class="col-12" align="center">
+          <h2>{{'CHOOSE_YOUR_CLAN' | translate}}</h2>
+        </div>
+        <div class="col-6" align="center" *ngFor="let clan of clans">
+          <div>{{ clan}}</div>
         </div>
         <div class="col-12" align="center">
           <button>{{'BACK' | translate}}</button>
