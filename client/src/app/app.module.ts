@@ -16,7 +16,6 @@ import {SettingsComponent} from './settings/settings.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {GameSettingsComponent} from './gameSettings/game-settings.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,7 +28,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MainMenuComponent,
     SettingsComponent,
     // single Player
-    GameSettingsComponent,
     GotGameComponent,
     OverviewMenuComponent,
     BoardComponent,

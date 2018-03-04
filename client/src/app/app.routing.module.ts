@@ -8,7 +8,6 @@ import {SettingsComponent} from './settings/settings.component';
 
 const routes: Routes = [
   {path: '', component: MainMenuComponent, pathMatch: 'full'},
-  {path: 'game-settings', component: SettingsComponent, pathMatch: 'full'},
   {path: 'game/:id', component: GotGameComponent, pathMatch: 'full'},
   {path: 'lobby', component: LobbyComponent, pathMatch: 'full'},
   {path: 'settings', component: SettingsComponent, pathMatch: 'full'},
