@@ -50,7 +50,7 @@ export default class AssetManager {
   }
 
   public static loadAssets(game: Phaser.Game) {
-    game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapSmall.png');
+    game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_1140.png');
     game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
     game.load.spritesheet(this.ORDER_TOKENS_FRONT, this.PATH_TO_IMAGE + 'orderToken/orderTokenFront45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
     game.load.tilemap(this.GOT_TILE_MAP, 'assets/tilemap/gameOfThrones.json', null, Phaser.Tilemap.TILED_JSON);
