@@ -3,7 +3,7 @@ import AssetLoader from '../../../utils/assetLoader';
 
 export default class BoardRenderer {
 
-    private SCROLL_SPEED: number = 8;
+  private SCROLL_SPEED: number = 30;
     private zoom: number = 1;
     private zoomIncrement: number = 0.01;
     private origDragPoint: Phaser.Point = null;

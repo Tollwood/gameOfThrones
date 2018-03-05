@@ -51,14 +51,11 @@ export default class AssetManager {
 
   public static loadAssets(game: Phaser.Game) {
 
-    if(window.innerWidth <= 570){
-      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_570.png');
+    if (window.innerWidth <= 1024) {
+      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_1024.png');
     }
-    if(window.innerWidth > 570 && window.innerWidth <= 1140 ){
-      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_1140.png');
-    }
-    if(window.innerWidth >1140){
-      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland.png');
+    if (window.innerWidth > 1024) {
+      game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_2048.png');
     }
 
     game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
