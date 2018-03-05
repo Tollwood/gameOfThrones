@@ -61,8 +61,8 @@ export default class BoardRenderer {
         if (game.input.pointer2.isDown) {
             if (this.origDragPoint) {
                 // move the camera by the amount the mouse has moved since last update
-                game.camera.x += this.origDragPoint.x - game.input.pointer2.position.x;
-                game.camera.y += this.origDragPoint.y - game.input.pointer2.position.y;
+              game.camera.x += (this.origDragPoint.x - game.input.pointer2.position.x) * 1.5;
+              game.camera.y += (this.origDragPoint.y - game.input.pointer2.position.y) * 1.5;
             }
             // set new drag origin to current position
             this.origDragPoint = game.input.pointer2.position.clone();
