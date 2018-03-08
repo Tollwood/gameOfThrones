@@ -9,5 +9,11 @@ import {WebSocketService} from '../web-socket.service';
 })
 export class GameSettingsComponent {
 
-  private clans: string[] = ['Bruce','Wallace', 'MacKenzie','Clan4','Clan5','Clan6'];
+  private clans: string[] = [
+    'James Douglas, Lord of Douglas',
+    'Patrick V, Earl of March',
+    'Donnchadh IV, Earl of Fife',
+    'William de Moravia, 3rd Earl of Sutherland',
+    'MacDonald',
+    'John "the Red" Comyn'];
 }

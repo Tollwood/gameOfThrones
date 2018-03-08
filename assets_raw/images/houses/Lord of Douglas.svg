@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="600"
+   height="660"
+   id="svg2">
+  <desc
+     id="desc4">Flag of Canton of Valais (Wallis)</desc>
+  <defs
+     id="defs6">
+    <linearGradient
+       id="linearGradient2893">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.3137255"
+         offset="0"
+         id="stop2895" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.25098041"
+         offset="0.19"
+         id="stop2897" />
+      <stop
+         style="stop-color:#6b6b6b;stop-opacity:0.1254902"
+         offset="0.60000002"
+         id="stop2901" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0.1254902"
+         offset="1"
+         id="stop2899" />
+    </linearGradient>
+    <radialGradient
+       cx="221.44487"
+       cy="226.33101"
+       r="300"
+       fx="221.44487"
+       fy="226.33101"
+       id="radialGradient5678"
+       xlink:href="#linearGradient2893"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.353218,0,0,1.348928,-77.62935,-85.74693)" />
+  </defs>
+  <path
+     d="M 300,658.5 C 300,658.5 598.50001,546.17969 598.50001,260.72817 C 598.50001,-24.723354 598.50001,2.1764765 598.50001,2.1764765 L 1.5,2.1764765 L 1.5,260.72817 C 1.5,546.17969 300,658.5 300,658.5 z "
+     style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path2855" />
+  <g
+     transform="translate(865.50047,59.797396)"
+     id="g3780" />
+  <path
+     d="M 1.4224138,1.8600778 L 598.68218,1.8600778 L 598.68218,213.40495 L 1.5860668,213.40495 L 1.4224138,1.8600778 z "
+     style="fill:#2828ff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     id="path3553" />
+  <g
+     id="layer1">
+    <path
+       d="M 299.99999,658.50028 C 299.99999,658.50028 1.5,546.17992 1.5,260.72828 C 1.5,-24.723336 1.5,2.1764957 1.5,2.1764957 L 598.49999,2.1764957 L 598.49999,260.72828 C 598.49999,546.17992 299.99999,658.50028 299.99999,658.50028 z "
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.00000048;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path1411" />
+  </g>
+  <path
+     d="M -759.78777,-618.14648 L -688.33213,-376.7057 L -436.62729,-383.35664 L -644.17011,-240.78898 L -560.06362,-3.458702 L -759.78778,-156.78783 L -959.51195,-3.4587127 L -875.40545,-240.78898 L -1082.9483,-383.35665 L -831.24343,-376.7057 L -759.78777,-618.14648 z "
+     transform="matrix(0.293683,0,0,0.293683,324.00762,191.88067)"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4524" />
+  <path
+     d="M -759.78777,-618.14648 L -688.33213,-376.7057 L -436.62729,-383.35664 L -644.17011,-240.78898 L -560.06362,-3.458702 L -759.78778,-156.78783 L -959.51195,-3.4587127 L -875.40545,-240.78898 L -1082.9483,-383.35665 L -831.24343,-376.7057 L -759.78777,-618.14648 z "
+     transform="matrix(0.293683,0,0,0.293683,523.17924,192.04335)"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4526" />
+  <path
+     d="M -759.78777,-618.14648 L -688.33213,-376.7057 L -436.62729,-383.35664 L -644.17011,-240.78898 L -560.06362,-3.458702 L -759.78778,-156.78783 L -959.51195,-3.4587127 L -875.40545,-240.78898 L -1082.9483,-383.35665 L -831.24343,-376.7057 L -759.78777,-618.14648 z "
+     transform="matrix(0.293683,0,0,0.293683,722.41139,192.13484)"
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="path4532" />
+  <g
+     transform="translate(-0.2220044,0.6036966)"
+     id="layer2">
+    <path
+       d="M 300.00001,658.5 C 300.00001,658.5 598.50001,546.17969 598.50001,260.72817 C 598.50001,-24.723334 598.50001,2.1764865 598.50001,2.1764865 L 1.5,2.1764865 L 1.5,260.72817 C 1.5,546.17969 300.00001,658.5 300.00001,658.5 z "
+       style="opacity:1;fill:url(#radialGradient5678);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path2875" />
+  </g>
+</svg>
