@@ -1,16 +1,17 @@
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {Area, GameLogic, House, State, Unit, UnitType} from 'got-store';
 import AssetLoader from '../../../utils/assetLoader';
+import Renderer from '../../../utils/renderer';
 
 
 export default class UnitRenderer {
 
   private units: Phaser.Group;
-  private game: Phaser.Game;
+  private renderer: Renderer;
 
-  public init(store: GameLogic, game: Phaser.Game) {
-    this.game = game;
-    this.units = game.add.group();
+  public init(store: GameLogic, renderer: Renderer) {
+    this.renderer = renderer;
+    this.units = renderer.game.add.group();
     this.renderUnits(store.getState());
     store.subscribe(() => {
       this.renderUnits(store.getState());
@@ -29,7 +30,10 @@ export default class UnitRenderer {
         })[0];
         let nextX = field.x;
         area.units.map((unit: Unit) => {
-          this.units.add(new Phaser.Sprite(this.game, nextX, field.y, House[unit.getHouse()] + UnitType[unit.getType()]));
+          const houseNumnber = this.renderer.convertHouseToNumber(unit.getHouse());
+          const cal = (houseNumnber * 4) + this.renderer.convertUnitTypeToNumber(unit.getType());
+          const frame: number = cal < 4 ? cal : cal - 1;
+          this.renderer.game.add.sprite(nextX, field.y, AssetLoader.UNITS, frame, this.units);
           nextX += 20;
         });
       });

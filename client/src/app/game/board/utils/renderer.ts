@@ -4,6 +4,7 @@ import {Area, AreaKey, GameLogic, House, OrderTokenType} from 'got-store';
 import UiArea from './UiArea';
 import RecruitingModal from '../states/game/units/recruitingModal';
 import UiInteractionSupport from './uiInteractionSupport';
+import {UnitType} from 'got-store/dist';
 
 export default class Renderer {
 
@@ -101,7 +102,7 @@ export default class Renderer {
         return menu;
     }
 
-  convertHouseToNumber(house: House): number {
+  public convertHouseToNumber(house: House): number {
     switch (house) {
       case House.stark:
         return 0;
@@ -115,6 +116,19 @@ export default class Renderer {
         return 4;
       case House.tyrell:
         return 5;
+    }
+  }
+
+  public convertUnitTypeToNumber(unitType: UnitType): number {
+    switch (unitType) {
+      case UnitType.Footman:
+        return 1;
+      case UnitType.Horse:
+        return 2;
+      case UnitType.Siege:
+        return 3;
+      case UnitType.Ship:
+        return 4;
     }
   }
 }

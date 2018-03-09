@@ -4,17 +4,21 @@ import {AreaKey, House, UnitType} from 'got-store';
 
 export default class AssetManager {
 
+  static UNITS: string = 'units';
+  private static PATH_TO_IMAGE = 'assets/images/';
+  private static UNIT_WIDTH: number = 50;
+  private static UNIT_HEIGHT: number = 50;
+
   static ORDER_TOKENS = 'orderTokens';
   static ORDER_TOKENS_FRONT = 'orderTokensFront';
+  private static ORDER_TOKEN_WIDTH: number = 45;
+  private static ORDER_TOKEN_HEIGHT: number = 45;
+
   static ORDER_TOKEN_MENU_BACKGROUND = 'orderTokensMenuBackground';
   static GAME_BOARD: string = 'gameboard';
   static POWER_TOKEN = 'powerToken';
 
-  private static PATH_TO_IMAGE = 'assets/images/';
   private static GOT_TILE_MAP = 'gotTileMap';
-
-  private static ORDER_TOKEN_WIDTH: number = 45;
-  private static ORDER_TOKEN_HEIGHT: number = 45;
 
   private static areaNames: Array<UiArea>;
   private static areaTokens: Array<UiArea>;
@@ -59,12 +63,10 @@ export default class AssetManager {
     }
 
     game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
-
-
     game.load.spritesheet(this.ORDER_TOKENS_FRONT, this.PATH_TO_IMAGE + 'orderToken/orderTokenFront45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
     game.load.tilemap(this.GOT_TILE_MAP, 'assets/tilemap/gameOfThrones.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image(this.ORDER_TOKEN_MENU_BACKGROUND, this.PATH_TO_IMAGE + 'orderToken/menubackground.png');
-    this.loadUnits(game);
+    game.load.spritesheet(this.UNITS, this.PATH_TO_IMAGE + 'units.png', this.UNIT_WIDTH, this.UNIT_HEIGHT, 20);
     this.loadPowerToken(game);
     this.loadWesterosCards(game);
 
@@ -86,38 +88,6 @@ export default class AssetManager {
     this.units = map.objects['units'].map((area) => {
       return new UiArea(area.height, AreaKey[<string>area.name], area.height, area.x, area.y);
     });
-  }
-
-  private static loadUnits(game: Phaser.Game) {
-    game.load.image(House[House.stark] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/starkFootman.png');
-    game.load.image(House[House.stark] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/starkHorse.png');
-    game.load.image(House[House.stark] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/starkShip.png');
-    game.load.image(House[House.stark] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/starkSiege.png');
-
-    game.load.image(House[House.lannister] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/LannisterFootman.png');
-    game.load.image(House[House.lannister] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/LannisterHorse.png');
-    game.load.image(House[House.lannister] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/LannisterShip.png');
-    game.load.image(House[House.lannister] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/LannisterSiege.png');
-
-    game.load.image(House[House.greyjoy] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/greyjoyFootman.png');
-    game.load.image(House[House.greyjoy] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/greyjoyHorse.png');
-    game.load.image(House[House.greyjoy] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/greyjoyShip.png');
-    game.load.image(House[House.greyjoy] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/greyjoySiege.png');
-
-    game.load.image(House[House.baratheon] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/BaratheonFootman.png');
-    game.load.image(House[House.baratheon] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/BaratheonHorse.png');
-    game.load.image(House[House.baratheon] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/BaratheonShip.png');
-    game.load.image(House[House.baratheon] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/BaratheonSiege.png');
-
-    game.load.image(House[House.tyrell] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/TyrellFootman.png');
-    game.load.image(House[House.tyrell] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/TyrellHorse.png');
-    game.load.image(House[House.tyrell] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/TyrellShip.png');
-    game.load.image(House[House.tyrell] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/LannisterSiege.png');
-
-    game.load.image(House[House.martell] + UnitType[UnitType.Footman], this.PATH_TO_IMAGE + 'unit/MartellFootman.png');
-    game.load.image(House[House.martell] + UnitType[UnitType.Horse], this.PATH_TO_IMAGE + 'unit/MartellHorse.png');
-    game.load.image(House[House.martell] + UnitType[UnitType.Ship], this.PATH_TO_IMAGE + 'unit/MartellShip.png');
-    game.load.image(House[House.martell] + UnitType[UnitType.Siege], this.PATH_TO_IMAGE + 'unit/LannisterSiege.png');
   }
 
   private static loadPowerToken(game: Phaser.Game) {

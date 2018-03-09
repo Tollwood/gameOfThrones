@@ -42,7 +42,7 @@ class Board extends Phaser.State {
     AssetLoader.createAssets(this.game);
     BoardRenderer.renderBoard(this.game);
     renderer.initGameLayers();
-    this.unitRenderer.init(this.gameLogic, this.game);
+    this.unitRenderer.init(this.gameLogic, renderer);
     this.orderTokenRenderer.init(this.gameLogic, renderer);
     this.recruitingRenderer.init(this.gameLogic, renderer);
     this.orderTokenMenuRenderer.init(this.gameLogic, renderer);
