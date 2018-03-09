@@ -26,7 +26,10 @@ export default class OrderTokenRenderer {
     if (state.gamePhase === GamePhase.PLANNING) {
       AssetLoader.getAreaTokens()
         .filter(areaToken => StateSelectorService.isAllowedToPlaceOrderToken(state, state.localPlayersHouse, areaToken.name))
-        .forEach(areaToken => this.renderer.addSprite(areaToken.name, AssetLoader.ORDER_TOKENS_FRONT, this.renderer.convertHouseToNumber(state.localPlayersHouse), this.renderer.areasToPlaceToken));
+        .forEach(areaToken => {
+          const sprite = this.renderer.addSprite(areaToken.name, AssetLoader.ORDER_TOKENS_FRONT, this.renderer.convertHouseToNumber(state.localPlayersHouse), this.renderer.areasToPlaceToken);
+          sprite.scale.setTo(0.6, 0.6);
+        });
     }
   }
 

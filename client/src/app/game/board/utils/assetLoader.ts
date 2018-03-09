@@ -6,13 +6,9 @@ export default class AssetManager {
 
   static UNITS: string = 'units';
   private static PATH_TO_IMAGE = 'assets/images/';
-  private static UNIT_WIDTH: number = 50;
-  private static UNIT_HEIGHT: number = 50;
 
   static ORDER_TOKENS = 'orderTokens';
   static ORDER_TOKENS_FRONT = 'orderTokensFront';
-  private static ORDER_TOKEN_WIDTH: number = 45;
-  private static ORDER_TOKEN_HEIGHT: number = 45;
 
   static ORDER_TOKEN_MENU_BACKGROUND = 'orderTokensMenuBackground';
   static GAME_BOARD: string = 'gameboard';
@@ -62,11 +58,11 @@ export default class AssetManager {
       game.load.image(this.GAME_BOARD, this.PATH_TO_IMAGE + 'mapOfScotland_2048.png');
     }
 
-    game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT);
-    game.load.spritesheet(this.ORDER_TOKENS_FRONT, this.PATH_TO_IMAGE + 'orderToken/orderTokenFront45.png', this.ORDER_TOKEN_WIDTH, this.ORDER_TOKEN_HEIGHT, 6);
+    game.load.spritesheet(this.ORDER_TOKENS, this.PATH_TO_IMAGE + 'orderToken/ordertokens45.png', 45, 45);
+    game.load.spritesheet(this.ORDER_TOKENS_FRONT, this.PATH_TO_IMAGE + 'orderToken/house70.png', 70, 77, 6);
     game.load.tilemap(this.GOT_TILE_MAP, 'assets/tilemap/gameOfThrones.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image(this.ORDER_TOKEN_MENU_BACKGROUND, this.PATH_TO_IMAGE + 'orderToken/menubackground.png');
-    game.load.spritesheet(this.UNITS, this.PATH_TO_IMAGE + 'units.png', this.UNIT_WIDTH, this.UNIT_HEIGHT, 20);
+    game.load.spritesheet(this.UNITS, this.PATH_TO_IMAGE + 'units.png', 50, 50, 20);
     this.loadPowerToken(game);
     this.loadWesterosCards(game);
 
