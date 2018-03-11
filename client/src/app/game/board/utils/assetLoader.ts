@@ -20,6 +20,7 @@ export default class AssetManager {
   private static areaTokens: Array<UiArea>;
   private static controlMarker: Array<UiArea>;
   private static units: Array<UiArea>;
+  static HIGHLIGHT_3: string = "highlight_3";
 
   public static getAreaTokens(): Array<UiArea> {
     return this.areaTokens;
@@ -65,6 +66,7 @@ export default class AssetManager {
     game.load.spritesheet(this.UNITS, this.PATH_TO_IMAGE + 'units.png', 50, 50, 20);
     this.loadPowerToken(game);
     this.loadWesterosCards(game);
+    this.loadAreaHighligther(game);
 
   }
 
@@ -116,5 +118,9 @@ export default class AssetManager {
     game.load.image('wildlingsattack', this.PATH_TO_IMAGE + 'westerosCard/wildlingsattack.png');
     game.load.image('letTheSwordSpeak', this.PATH_TO_IMAGE + 'westerosCard/letTheSwordSpeak.png');
     game.load.image('liesAndIntrigue', this.PATH_TO_IMAGE + 'westerosCard/liesAndIntrigue.png');
+  }
+
+  private static loadAreaHighligther(game: Phaser.Game) {
+    game.load.image(this.HIGHLIGHT_3, this.PATH_TO_IMAGE + 'areas/3_highlight.png');
   }
 }

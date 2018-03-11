@@ -22,6 +22,8 @@ export default class Renderer {
     this._game = game;
   }
 
+  public map: Phaser.Group;
+  public areaOverlay: Phaser.Group;
   private placableOrderTokens: Phaser.Group;
   private selectedTokenMarker: Phaser.Group;
   private _placedTokens: Phaser.Group;
@@ -31,6 +33,8 @@ export default class Renderer {
   public orderTokenMenu: Phaser.TileSprite;
 
   public initGameLayers() {
+    this.map = this._game.add.group();
+    this.areaOverlay = this._game.add.group();
     this.areasToRecruit = this._game.add.group();
     this.areasToPlaceToken = this._game.add.group();
     this.selectedTokenMarker = this._game.add.group();

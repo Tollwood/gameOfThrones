@@ -8,6 +8,7 @@ import RecruitingRenderer from './units/recruitingRenderer';
 import Renderer from '../../utils/renderer';
 import * as Phaser from 'phaser-ce/build/custom/phaser-split';
 import {GameLogic} from 'got-store'
+import {OverlayRenderer} from './board/overlayRenderer';
 
 class Board extends Phaser.State {
   private orderTokenRenderer: OrderTokenRenderer;
@@ -19,6 +20,7 @@ class Board extends Phaser.State {
   private orderTokenMenuRenderer: OrderTokenMenuRenderer;
   private game: Phaser.Game;
   private gameLogic: GameLogic;
+  private overlayRender: OverlayRenderer;
 
   constructor(gameLogic: GameLogic) {
     super();
@@ -26,6 +28,7 @@ class Board extends Phaser.State {
     this.gameLogic = gameLogic;
     this.orderTokenRenderer = new OrderTokenRenderer();
     this.boardRenderer = new BoardRenderer();
+    this.overlayRender = new OverlayRenderer();
     this.unitRenderer = new UnitRenderer();
     this.recruitingRenderer = new RecruitingRenderer();
     this.orderTokenMenuRenderer = new OrderTokenMenuRenderer();
@@ -40,9 +43,10 @@ class Board extends Phaser.State {
     this.currentGameWidth = window.innerWidth;
     const renderer = new Renderer(this.game);
     AssetLoader.createAssets(this.game);
-    BoardRenderer.renderBoard(this.game);
     renderer.initGameLayers();
+    BoardRenderer.renderBoard(renderer);
     this.unitRenderer.init(this.gameLogic, renderer);
+    this.overlayRender.init(this.gameLogic, renderer);
     this.orderTokenRenderer.init(this.gameLogic, renderer);
     this.recruitingRenderer.init(this.gameLogic, renderer);
     this.orderTokenMenuRenderer.init(this.gameLogic, renderer);
