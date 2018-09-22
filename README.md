@@ -25,8 +25,7 @@ Completed Features:
         
     - Skip Order
    
-    
-- asdasd
+   
 
 Planned Features:
 -
